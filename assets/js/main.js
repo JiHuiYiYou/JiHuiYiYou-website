@@ -34,7 +34,8 @@
   document.querySelectorAll('.hero-title, .section-title, .cta-title').forEach((el) => ioLine.observe(el));
 
   // ---- 2. Cursor glass-shard crack effect --------------------
-  // 不再做触屏判断 —— 你这边环境把鼠标判定成触屏,直接全开
+  // DISABLED (user: 滚轮无特效 — wheel burst + mousemove shards 太花)
+  if (false) {
   {
     document.body.classList.add('has-cursor');
     // lastMouse 必须在外层作用域,follow 循环在外面要访问
@@ -202,6 +203,7 @@
       el.addEventListener('mouseleave', () => dot && dot.classList.remove('is-hover'));
     });
   }
+  } // end if(false) — DISABLED cursor effect
 
   // ---- 4. Magnetic button effect ----------------------------
   document.querySelectorAll('[data-magnetic]').forEach((btn) => {

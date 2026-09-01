@@ -112,21 +112,21 @@ code, pre { font-family: var(--f-mono); }
   left: -10%;
   width: 560px; height: 560px;
   background: radial-gradient(circle, rgba(251, 191, 36, 0.35), transparent 65%);
-  animation: orb-drift 28s var(--ease-soft) infinite alternate;
+  /* DISABLED: animation: orb-drift 28s var(--ease-soft) infinite alternate; */
 }
 .orb-2 {
   top: 30%;
   right: -8%;
   width: 480px; height: 480px;
   background: radial-gradient(circle, rgba(217, 119, 6, 0.30), transparent 65%);
-  animation: orb-drift 36s var(--ease-soft) infinite alternate-reverse;
+  /* DISABLED: animation: orb-drift 36s var(--ease-soft) infinite alternate-reverse; */
 }
 .orb-3 {
   bottom: -10%;
   left: 30%;
   width: 600px; height: 600px;
   background: radial-gradient(circle, rgba(252, 211, 77, 0.18), transparent 65%);
-  animation: orb-drift 44s var(--ease-soft) infinite alternate;
+  /* DISABLED: animation: orb-drift 44s var(--ease-soft) infinite alternate; */
 }
 @keyframes orb-drift {
   0% { transform: translate(0, 0) scale(1); }
@@ -303,7 +303,7 @@ code, pre { font-family: var(--f-mono); }
   border-radius: 50%;
   background: var(--brand-400);
   box-shadow: 0 0 12px var(--brand-glow);
-  animation: dot-pulse 2.4s var(--ease-fluid) infinite;
+  /* DISABLED: animation: dot-pulse 2.4s var(--ease-fluid) infinite; */
 }
 @keyframes dot-pulse {
   0%, 100% { transform: scale(1); opacity: 1; }
@@ -656,7 +656,7 @@ code, pre { font-family: var(--f-mono); }
   inset: -16px;
   border-radius: 50%;
   border: 1px dashed rgba(0, 212, 170, 0.22);
-  animation: ring-spin 36s linear infinite;
+  /* DISABLED: animation: ring-spin 36s linear infinite; */
   pointer-events: none;
 }
 .hero-icon-ring::after {
@@ -754,7 +754,7 @@ code, pre { font-family: var(--f-mono); }
   width: 1px;
   height: 36px;
   background: linear-gradient(to bottom, transparent, var(--text-3), transparent);
-  animation: scroll-cue 2.4s var(--ease-fluid) infinite;
+  /* DISABLED: animation: scroll-cue 2.4s var(--ease-fluid) infinite; */
 }
 @keyframes scroll-cue {
   0% { transform: scaleY(0.2); transform-origin: top; opacity: 0.2; }
@@ -884,7 +884,7 @@ code, pre { font-family: var(--f-mono); }
   border-radius: 50%;
   background: var(--ok);
   box-shadow: 0 0 8px rgba(52, 211, 153, 0.5);
-  animation: dot-pulse 2s var(--ease-fluid) infinite;
+  /* DISABLED: animation: dot-pulse 2s var(--ease-fluid) infinite; */
 }
 .status-out {
   margin-left: auto;
@@ -931,7 +931,7 @@ code, pre { font-family: var(--f-mono); }
   align-items: center;
   gap: 36px;
   white-space: nowrap;
-  animation: marquee 60s linear infinite;
+  /* DISABLED: animation: marquee 60s linear infinite; */
   font-family: var(--f-serif);
   font-style: italic;
   font-size: clamp(1.1rem, 1.8vw, 1.4rem);
@@ -1985,8 +1985,11 @@ code, pre { font-family: var(--f-mono); }
   body { cursor: auto; }
 }
 @media (hover: hover) {
-  body.has-cursor, body.has-cursor * { cursor: none; }
+  /* DISABLED cursor effect — keep default system cursor */
+  /* body.has-cursor, body.has-cursor * { cursor: none; } */
 }
+/* DISABLED: hide the cursor shards + spring-lag dot (滚轮无特效) */
+.cracks, .cursor-dot { display: none !important; }
 
 /* ============================================================
    ECOSYSTEM SECTION
