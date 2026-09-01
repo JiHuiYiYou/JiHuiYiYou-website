@@ -422,7 +422,7 @@ code, pre { font-family: var(--f-mono); }
   filter: drop-shadow(0 0 16px rgba(0, 212, 170, 0.32));
   transform: translateY(-1px);
 }
-.logo-img--foot { height: 56px; }
+.logo-img--foot { height: 80px; }
 .logo-img--hero {
   height: 44px;
   vertical-align: middle;
@@ -433,7 +433,7 @@ code, pre { font-family: var(--f-mono); }
 }
 @media (max-width: 720px) {
   .logo-img { height: 24px; }
-  .logo-img--foot { height: 40px; }
+  .logo-img--foot { height: 56px; }
   .logo-img--hero { height: 32px; }
 }
 
