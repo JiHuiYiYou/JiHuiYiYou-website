@@ -1983,3 +1983,184 @@ code, pre { font-family: var(--f-mono); }
 @media (hover: hover) {
   body.has-cursor, body.has-cursor * { cursor: none; }
 }
+
+/* ============================================================
+   ECOSYSTEM SECTION
+   ============================================================ */
+.section-ecosystem { padding-top: clamp(64px, 9vw, 120px); padding-bottom: clamp(64px, 9vw, 120px); }
+.eco-grid {
+  margin-top: clamp(28px, 4vw, 48px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 22px);
+}
+@media (max-width: 960px) { .eco-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .eco-grid { grid-template-columns: 1fr; } }
+
+.eco-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 18px;
+  border: 1px solid var(--hairline-2);
+  border-radius: 14px;
+  background: var(--bg-glass-weak);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 220ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.eco-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 212, 170, 0.06), rgba(0, 212, 170, 0));
+  opacity: 0;
+  transition: opacity 220ms ease;
+  pointer-events: none;
+}
+.eco-card:hover {
+  background: var(--bg-glass-strong);
+  border-color: var(--hairline-3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px -16px rgba(0, 212, 170, 0.35);
+}
+.eco-card:hover::before { opacity: 1; }
+.eco-card:active {
+  transform: translateY(0) scale(0.985);
+  background: rgba(0, 212, 170, 0.05);
+  border-color: var(--brand-300);
+  box-shadow: inset 0 0 0 1px rgba(0, 212, 170, 0.35);
+  transition-duration: 60ms;
+}
+.eco-icon {
+  flex: 0 0 auto;
+  width: 38px; height: 38px;
+  display: grid; place-items: center;
+  border-radius: 10px;
+  background: var(--bg-elev-2);
+  color: var(--brand-200);
+  border: 1px solid var(--hairline-2);
+}
+.eco-meta { flex: 1 1 auto; min-width: 0; }
+.eco-name {
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  color: var(--text-1);
+  margin-bottom: 4px;
+}
+.eco-desc {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+.eco-desc code {
+  font-size: 12px;
+  padding: 1px 5px;
+  background: var(--bg-elev-1);
+  border-radius: 4px;
+  border: 1px solid var(--hairline-2);
+}
+.eco-arrow {
+  flex: 0 0 auto;
+  font-size: 14px;
+  color: var(--brand-200);
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition: opacity 180ms ease, transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.eco-card:hover .eco-arrow {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* ============================================================
+   UNIVERSAL CLICK FEEDBACK (a / button / card)
+   ============================================================ */
+a, button {
+  -webkit-tap-highlight-color: rgba(0, 212, 170, 0.18);
+  transition: color 140ms ease, background-color 140ms ease, border-color 140ms ease, opacity 140ms ease;
+}
+.btn-primary:not(:disabled):active,
+.btn-ghost:not(:disabled):active {
+  transform: scale(0.97);
+  filter: brightness(1.08);
+  transition-duration: 60ms;
+}
+.nav-links a:active { color: var(--brand-200); }
+.nav-links a:active::before { opacity: 1; transform: scaleX(1); }
+
+.copy-btn:active,
+.ci-copy:active {
+  transform: scale(0.92);
+  background: var(--bg-glass-strong);
+}
+.ci-copy.copied:active { transform: scale(0.92); }
+
+.stab:active {
+  background: var(--bg-glass-strong);
+  color: var(--text-1);
+}
+.bento-card:active {
+  transform: translateY(0) scale(0.995);
+  transition-duration: 60ms;
+}
+.tool-card:active {
+  transform: translateY(0) scale(0.99);
+  transition-duration: 60ms;
+}
+.docs-link:active {
+  background: var(--bg-glass-strong);
+  color: var(--text-1);
+}
+.docs-link:active .docs-arrow {
+  transform: translate(2px, -2px);
+}
+.id-row:active { background: var(--bg-elev-2); }
+.foot-col a:active { color: var(--brand-300); }
+
+/* Ripple flash for any clickable that hasn't got a custom :active */
+a:not(.btn-primary):not(.btn-ghost):not(.bento-card):not(.tool-card):not(.eco-card):active,
+button:not(.btn-primary):not(.btn-ghost):not(.stab):not(.ci-copy):not(.copy-btn):active {
+  opacity: 0.7;
+  transition-duration: 50ms;
+}
+
+/* ============================================================
+   COMMUNITY HINT (no link, just text)
+   ============================================================ */
+.community-jump--hint {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-2);
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--bg-elev-1);
+  border: 1px solid var(--hairline-2);
+  user-select: none;
+}
+
+/* ============================================================
+   FOOTER: QQ inline copy button
+   ============================================================ */
+.foot-text-strong { font-weight: 600; color: var(--text-1); margin-right: 4px; }
+.ci-copy--foot {
+  width: 22px; height: 22px;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 5px;
+  background: transparent;
+  border: 1px solid var(--hairline-2);
+  color: var(--text-2);
+  vertical-align: middle;
+}
+.ci-copy--foot svg { width: 11px; height: 11px; }

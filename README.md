@@ -96,7 +96,7 @@ git push
 | Docs Preview · Workarounds | [`docs/internal/workarounds.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md) |
 | Docs Preview · Examples | [`compiler/tests/examples/`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/tests/examples) |
 | Footer · Build | [`JiHuiYiYou-compiler`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler) |
-| Footer · Community · QQ 群 | https://qun.qq.com/qqweb/qunsearch?keyword=429807125 |
+| Footer · Community · QQ 群 | 群号 `429807125`(一键复制,QQ 客户端搜索加入) |
 
 ## 内容更新规则
 

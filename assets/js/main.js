@@ -306,16 +306,29 @@
     });
   });
 
-  const ciCopy = document.querySelector('.ci-copy');
-  if (ciCopy) {
-    ciCopy.addEventListener('click', async () => {
-      const line = document.querySelector('.ci-line')?.innerText || '';
+  document.querySelectorAll('.ci-copy').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const text =
+        btn.dataset.copyText ||
+        btn.closest('.cta-install, .community-value')?.querySelector('.ci-line')?.innerText ||
+        '';
       try {
-        await navigator.clipboard.writeText(line);
-        setCopied(ciCopy, 'OK');
-      } catch { setCopied(ciCopy, 'No'); }
+        await navigator.clipboard.writeText(text);
+        setCopied(btn, 'OK');
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); setCopied(btn, 'OK'); }
+        catch { setCopied(btn, 'No'); }
+        ta.remove();
+      }
     });
-  }
+  });
 
   // ---- 9. Smooth scroll for in-page anchors -----------------
   document.querySelectorAll('a[href^="#"]').forEach((a) => {

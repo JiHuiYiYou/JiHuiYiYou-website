@@ -53,6 +53,7 @@
         <a href="#toolchain" data-nav-link>Toolchain</a>
         <a href="#roadmap" data-nav-link>Roadmap</a>
         <a href="#docs" data-nav-link>Docs</a>
+        <a href="#ecosystem" data-nav-link>Ecosystem</a>
       </div>
 
       <div class="nav-cta-group">
@@ -367,7 +368,7 @@ Hello, world!
 <span class="kw">$</span> ./foo.exe</code></pre>
                 </div>
                 <div class="card-foot-row">
-                  <a href="downloads/jhyy-installer-1.8.3.exe" class="btn-primary magnetic" data-magnetic>
+                  <a href="downloads/jhyy-installer-1.8.3.exe?v=1.8.3" class="btn-primary magnetic" data-magnetic>
                     <span class="btn-label">Download jhyy-installer-1.8.3.exe</span>
                     <span class="btn-icon-wrap">
                       <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -423,7 +424,7 @@ Hello, world!
                   No GUI, no .NET bootstrap, no first-run wizard. For managed deployments: SCCM, Intune, group policy. Installs only <code>jhyy.exe</code> + compiler runtime to <code>INSTALLDIR</code>.
                 </p>
                 <div class="card-foot-row">
-                  <a href="downloads/jhyy-compiler-1.8.3.msi" class="btn-primary magnetic" data-magnetic>
+                  <a href="downloads/jhyy-compiler-1.8.3.msi?v=1.8.3" class="btn-primary magnetic" data-magnetic>
                     <span class="btn-label">Download jhyy-compiler-1.8.3.msi</span>
                     <span class="btn-icon-wrap">
                       <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -439,7 +440,7 @@ Hello, world!
         </div>
 
         <p class="install-note reveal">
-          <strong>Windows x64 only for v1.x.</strong> Linux and macOS targets land with <code>v2.x</code> (<code>amd64_sysv</code> + freestanding). SHA256 checksums in <a href="downloads/SHA256SUMS.txt"><code>downloads/SHA256SUMS.txt</code></a>. VSIX package (TextMate grammar + problem matchers): <a href="downloads/jhyy-lang-1.8.3.vsix"><code>jhyy-lang-1.8.3.vsix</code></a>.
+          <strong>Windows x64 only for v1.x.</strong> Linux and macOS targets land with <code>v2.x</code> (<code>amd64_sysv</code> + freestanding). SHA256 checksums in <a href="downloads/SHA256SUMS.txt?v=1.8.3"><code>downloads/SHA256SUMS.txt?v=1.8.3</code></a>. VSIX package (TextMate grammar + problem matchers): <a href="downloads/jhyy-lang-1.8.3.vsix?v=1.8.3"><code>jhyy-lang-1.8.3.vsix</code></a>.
         </p>
       </div>
     </section>
@@ -867,9 +868,7 @@ Hello, world!
                           <path d="M5 15 H4 a2 2 0 0 1 -2 -2 V4 a2 2 0 0 1 2 -2 h9 a2 2 0 0 1 2 2 v1" />
                         </svg>
                       </button>
-                      <a href="https://qun.qq.com/qqweb/qunsearch?keyword=429807125" class="community-jump" target="_blank" rel="noopener">
-                        通过 QQ 搜索加入 ↗
-                      </a>
+                      <span class="community-jump community-jump--hint">QQ 搜索 “429807125” 加入 ↗</span>
                     </div>
                   </div>
                 </div>
@@ -988,6 +987,86 @@ Hello, world!
       </div>
     </section>
 
+    <!-- ============ RELATED TOOLS / ECOSYSTEM ============ -->
+    <section id="ecosystem" class="section section-ecosystem" aria-label="Related tools">
+      <div class="container">
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">09 / Ecosystem</span>
+        </div>
+        <h2 class="sec-title">Builds on trusted tools.</h2>
+        <p class="sec-sub">JHYY itself is a small compiler — most of what users touch is assembled from battle-tested open-source pieces. Here are the ones we'd be nothing without.</p>
+
+        <div class="eco-grid">
+          <a href="https://gcc.gnu.org/" target="_blank" rel="noopener" class="eco-card reveal">
+            <div class="eco-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-4-4"/><path d="M12 17l8-8"/><circle cx="6" cy="6" r="2"/></svg>
+            </div>
+            <div class="eco-meta">
+              <div class="eco-name">GCC</div>
+              <div class="eco-desc">The compiler behind the compiler — <code>mingw-w64-ucrt-x86_64-gcc</code> drives every source build on Windows.</div>
+            </div>
+            <span class="eco-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <a href="https://www.msys2.org/" target="_blank" rel="noopener" class="eco-card reveal" data-reveal-delay="60">
+            <div class="eco-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            </div>
+            <div class="eco-meta">
+              <div class="eco-name">MSYS2</div>
+              <div class="eco-desc">POSIX shell + package manager on Windows. Source build entry point — install once, <code>make</code> forever.</div>
+            </div>
+            <span class="eco-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <a href="https://mingw-w64.org/" target="_blank" rel="noopener" class="eco-card reveal" data-reveal-delay="120">
+            <div class="eco-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+            </div>
+            <div class="eco-meta">
+              <div class="eco-name">mingw-w64</div>
+              <div class="eco-desc">Windows port of GCC. The host C compiler for the v1.x self-hosting closure.</div>
+            </div>
+            <span class="eco-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <a href="https://dotnet.microsoft.com/" target="_blank" rel="noopener" class="eco-card reveal" data-reveal-delay="180">
+            <div class="eco-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+            </div>
+            <div class="eco-meta">
+              <div class="eco-name">.NET 8 Desktop Runtime</div>
+              <div class="eco-desc">Hosts the installer's first-run wizard + UCPD bypass helper. Auto-bundled by the WiX chainer.</div>
+            </div>
+            <span class="eco-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <a href="https://wixtoolset.org/" target="_blank" rel="noopener" class="eco-card reveal" data-reveal-delay="240">
+            <div class="eco-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 7v10l8 5 8-5V7l-8-5z"/><path d="M12 22V12"/><path d="M4 7l8 5 8-5"/></svg>
+            </div>
+            <div class="eco-meta">
+              <div class="eco-name">WiX Toolset 7.0</div>
+              <div class="eco-desc">The MSI builder. One click from <code>.wxs</code> to signed, SCCM-ready <code>.msi</code>.</div>
+            </div>
+            <span class="eco-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <a href="https://c9x.me/compile/" target="_blank" rel="noopener" class="eco-card reveal" data-reveal-delay="300">
+            <div class="eco-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <div class="eco-meta">
+              <div class="eco-name">QBE</div>
+              <div class="eco-desc">The IL backend. <code>.jhyy</code> → QBE IL → amd64 machine code. ~10 KLOC of pure elegance.</div>
+            </div>
+            <span class="eco-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ FINAL CTA ============ -->
     <section id="get-started" class="section section-cta" aria-label="Get started">
       <div class="container">
@@ -1001,7 +1080,7 @@ Hello, world!
             <p class="cta-sub">Five minutes from <code>git clone</code> to your first compiled binary — or download the Windows installer.</p>
 
             <div class="cta-row">
-              <a href="downloads/jhyy-installer-1.8.3.exe" class="btn-primary btn-primary--lg magnetic" data-magnetic>
+              <a href="downloads/jhyy-installer-1.8.3.exe?v=1.8.3" class="btn-primary btn-primary--lg magnetic" data-magnetic>
                 <span class="btn-label">Download jhyy-installer-1.8.3.exe</span>
                 <span class="btn-icon-wrap">
                   <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1009,7 +1088,7 @@ Hello, world!
                   </svg>
                 </span>
               </a>
-              <a href="downloads/jhyy-compiler-1.8.3.msi" class="btn-ghost btn-ghost--lg magnetic" data-magnetic>
+              <a href="downloads/jhyy-compiler-1.8.3.msi?v=1.8.3" class="btn-ghost btn-ghost--lg magnetic" data-magnetic>
                 <span class="btn-label">Silent MSI (SCCM)</span>
                 <span class="btn-icon-wrap">
                   <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1032,7 +1111,7 @@ Hello, world!
               <span class="cim-sep">·</span>
               <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/logs/v1/changelog-v1.8.0.md">Changelog</a></span>
               <span class="cim-sep">·</span>
-              <span class="cim-item"><a href="downloads/SHA256SUMS.txt">SHA256SUMS</a></span>
+              <span class="cim-item"><a href="downloads/SHA256SUMS.txt?v=1.8.3">SHA256SUMS</a></span>
               <span class="cim-sep">·</span>
               <span class="cim-item"><a href="#install">All install options</a></span>
             </div>
@@ -1099,10 +1178,10 @@ Hello, world!
         <div class="foot-col">
           <h4 class="foot-h">Community</h4>
           <ul>
-            <li><a href="https://qun.qq.com/qqweb/qunsearch?keyword=429807125" target="_blank" rel="noopener">QQ 群 429807125</a></li>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy QQ group number" data-copy-text="429807125"></button></li>
             <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases">Releases</a></li>
             <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
-            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/discussions">Discussions</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
           </ul>
         </div>
       </div>
