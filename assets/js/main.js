@@ -34,10 +34,9 @@
   document.querySelectorAll('.hero-title, .section-title, .cta-title').forEach((el) => ioLine.observe(el));
 
   // ---- 2. Cursor glass-shard crack effect --------------------
-  // DISABLED (user: 滚轮无特效 — wheel burst + mousemove shards 太花)
-  if (false) {
-  {
-    document.body.classList.add('has-cursor');
+  // Custom cursor: spring-lag dot + glass-shard trail on mousemove
+  // (wheel handler removed in e8fa2b4 — only mousemove bursts remain)
+  document.body.classList.add('has-cursor');
     // lastMouse 必须在外层作用域,follow 循环在外面要访问
     const lastMouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     const dot = document.querySelector('.cursor-dot');
@@ -190,8 +189,6 @@
       el.addEventListener('mouseenter', () => dot && dot.classList.add('is-hover'));
       el.addEventListener('mouseleave', () => dot && dot.classList.remove('is-hover'));
     });
-  }
-  } // end if(false) — DISABLED cursor effect
 
   // ---- 4. Magnetic button effect ----------------------------
   document.querySelectorAll('[data-magnetic]').forEach((btn) => {
