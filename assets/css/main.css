@@ -413,7 +413,7 @@ code, pre { font-family: var(--f-mono); }
 .nav-logo:hover { opacity: 0.8; }
 .logo-img {
   display: block;
-  height: 30px;
+  height: 38px;
   width: auto;
   filter: drop-shadow(0 0 12px rgba(0, 212, 170, 0.18));
   transition: filter 220ms ease, transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -424,7 +424,7 @@ code, pre { font-family: var(--f-mono); }
 }
 .logo-img--foot { height: 80px; }
 .logo-img--hero {
-  height: 44px;
+  height: 60px;
   vertical-align: middle;
   margin-right: 6px;
   margin-bottom: 4px;
@@ -432,9 +432,9 @@ code, pre { font-family: var(--f-mono); }
   filter: drop-shadow(0 0 18px rgba(220, 38, 38, 0.22));
 }
 @media (max-width: 720px) {
-  .logo-img { height: 24px; }
+  .logo-img { height: 30px; }
   .logo-img--foot { height: 56px; }
-  .logo-img--hero { height: 32px; }
+  .logo-img--hero { height: 42px; }
 }
 
 .nav-links {
