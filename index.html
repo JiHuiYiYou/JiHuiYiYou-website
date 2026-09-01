@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>JHYY — 机会翼游 · A Language That Compiles Itself</title>
+  <meta name="description" content="JHYY is a statically-typed, expression-oriented systems language. Compiles to native x86-64 via QBE. The compiler that will one day compile itself." />
+  <meta property="og:title" content="JHYY — 机会翼游" />
+  <meta property="og:description" content="A statically-typed systems language that will one day compile itself." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="assets/css/main.css" />
+
+  <link rel="icon" type="image/png" sizes="any" href="assets/img/jhyy-icon.png" />
+</head>
+<body class="bg-bg text-text font-sans antialiased">
+  <!-- Purple mist layer (mouse pushes blobs away with momentum, JS in main.js §11) -->
+  <div class="mist mist-1" aria-hidden="true"></div>
+  <div class="mist mist-2" aria-hidden="true"></div>
+  <div class="mist mist-3" aria-hidden="true"></div>
+  <div class="mist mist-4" aria-hidden="true"></div>
+
+  <!-- Cursor glass-shard crack field -->
+  <svg id="cracks" class="cracks" aria-hidden="true">
+    <g class="cracks-layer"></g>
+  </svg>
+
+  <!-- Cursor dot (3px sharp point, desktop only) -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+
+  <!-- ============ FLOATING NAV (Fluid Island) ============ -->
+  <nav class="floating-nav" aria-label="Primary">
+    <div class="nav-pill">
+      <a href="#top" class="nav-logo" aria-label="JHYY Home">
+        <span class="logo-mark">
+          <img src="assets/img/jhyy-icon.png" width="28" height="28" alt="JHYY" />
+        </span>
+        <span class="logo-text">JHYY</span>
+        <span class="logo-sub">机会翼游</span>
+      </a>
+
+      <div class="nav-links" role="navigation">
+        <a href="#language" data-nav-link>Language</a>
+        <a href="#install" data-nav-link>Install</a>
+        <a href="#toolchain" data-nav-link>Toolchain</a>
+        <a href="#roadmap" data-nav-link>Roadmap</a>
+        <a href="#docs" data-nav-link>Docs</a>
+      </div>
+
+      <div class="nav-cta-group">
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="nav-icon-btn" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+          </svg>
+        </a>
+        <a href="#get-started" class="nav-cta magnetic" data-magnetic>
+          <span>Compile now</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <!-- ============ HERO ============ -->
+    <section class="hero" aria-label="Hero">
+      <div class="container hero-inner">
+        <!-- Big icon centerpiece -->
+        <div class="hero-icon reveal" data-reveal-delay="0">
+          <div class="hero-icon-bezel">
+            <img src="assets/img/jhyy-icon.png" width="160" height="160" alt="JHYY" />
+          </div>
+          <div class="hero-icon-ring" aria-hidden="true"></div>
+        </div>
+
+        <!-- Eyebrow -->
+        <div class="eyebrow reveal" data-reveal-delay="100">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">v1.8.3 &nbsp;·&nbsp; v1.x FINAL &nbsp;·&nbsp; Stage 2 N=4 byte-equal closed loop</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="hero-title">
+          <span class="reveal-line"><span class="line-inner">A language</span></span>
+          <span class="reveal-line"><span class="line-inner">that <em>compiles</em></span></span>
+          <span class="reveal-line"><span class="line-inner accent">itself.</span></span>
+        </h1>
+
+        <!-- Sub -->
+        <p class="hero-sub reveal" data-reveal-delay="700">
+          <strong class="hero-sub-zh">机会翼游</strong>
+          <span class="hero-sub-en">— a statically-typed, expression-oriented systems language. The compiler now compiles itself: <code>v1.8.3</code> is tagged as <strong>v1.x FINAL</strong> (tag <code>98c8272</code>, 2026-08-29). Stage 2 produces byte-identical <code>.il</code> closure (N=4, sha <code>03a1cdd4…</code>). Native x86-64, via QBE.</span>
+        </p>
+
+        <!-- CTAs -->
+        <div class="cta-row reveal" data-reveal-delay="900">
+          <a href="#get-started" class="btn-primary magnetic" data-magnetic>
+            <span class="btn-label">Get started</span>
+            <span class="btn-icon-wrap">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12 L19 12 M13 5 L19 12 L13 19" />
+              </svg>
+            </span>
+          </a>
+          <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v1.3.0.md" class="btn-ghost magnetic" data-magnetic>
+            <span class="btn-label">Read the spec</span>
+            <span class="btn-icon-wrap">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <!-- Meta row -->
+        <div class="hero-meta reveal" data-reveal-delay="1100">
+          <div class="meta-item">
+            <span class="meta-dot meta-dot--ok"></span>
+            <span>Stage 2 byte-equal closed loop</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-dot meta-dot--brand"></span>
+            <span>MIT licensed</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-dot"></span>
+            <span>x86-64 &nbsp;·&nbsp; Windows</span>
+          </div>
+        </div>
+
+        <!-- Code window (centered, below) -->
+        <div class="hero-code reveal-scale" data-reveal-delay="400">
+          <div class="code-shell">
+            <div class="code-chrome">
+              <div class="window-dots">
+                <span class="dot dot-r"></span>
+                <span class="dot dot-y"></span>
+                <span class="dot dot-g"></span>
+              </div>
+              <div class="file-tab">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2 H6 a2 2 0 0 0 -2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2 -2 V8 z" />
+                  <path d="M14 2 v6 h6" />
+                </svg>
+                <span>hello.jhyy</span>
+              </div>
+              <div class="file-meta">
+                <span class="kbadge">v0.7.0</span>
+              </div>
+            </div>
+
+            <pre class="code-block"><code id="heroCode" data-src="type Point = struct { x: i32, y: i32 }
+
+fn dist_sq(a: Point, b: Point) -> i32 {
+    let dx = a.x - b.x;
+    let dy = a.y - b.y;
+    dx * dx + dy * dy
+}"></code></pre>
+
+            <div class="code-status">
+              <span class="status-led"></span>
+              <span class="status-text">$ jhyy run hello.jhyy</span>
+              <span class="status-out">d² = 25</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll cue -->
+      <div class="scroll-cue" aria-hidden="true">
+        <span class="scroll-cue-text">Scroll</span>
+        <span class="scroll-cue-line"></span>
+      </div>
+    </section>
+
+    <!-- ============ MARQUEE: principle strip ============ -->
+    <section class="principles" aria-label="Principles">
+      <div class="marquee">
+        <div class="marquee-track">
+          <span>Statically typed</span><span class="dot-sep">◆</span>
+          <span>Expression-oriented</span><span class="dot-sep">◆</span>
+          <span>Compiled to native</span><span class="dot-sep">◆</span>
+          <span>No garbage collector</span><span class="dot-sep">◆</span>
+          <span>First-class FFI to C</span><span class="dot-sep">◆</span>
+          <span>Exhaustive pattern match</span><span class="dot-sep">◆</span>
+          <span>Statically typed</span><span class="dot-sep">◆</span>
+          <span>Expression-oriented</span><span class="dot-sep">◆</span>
+          <span>Compiled to native</span><span class="dot-sep">◆</span>
+          <span>No garbage collector</span><span class="dot-sep">◆</span>
+          <span>First-class FFI to C</span><span class="dot-sep">◆</span>
+          <span>Exhaustive pattern match</span><span class="dot-sep">◆</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WHY JHYY (Bento) ============ -->
+    <section id="language" class="section section-why" aria-label="Why JHYY">
+      <div class="container">
+        <header class="section-head">
+          <div class="eyebrow reveal">
+            <span class="eyebrow-dot"></span>
+            <span class="eyebrow-text">01 / Why JHYY</span>
+          </div>
+          <h2 class="section-title">
+            <span class="reveal-line"><span class="line-inner">A language,</span></span>
+            <span class="reveal-line"><span class="line-inner">not a framework.</span></span>
+          </h2>
+          <p class="section-sub reveal">
+            Four opinions we won't compromise on. Each is a small, specific promise — not a marketing tagline.
+          </p>
+        </header>
+
+        <div class="bento">
+          <!-- Card 1: Statically typed -->
+          <article class="bento-card bento-card--lg reveal-card">
+            <div class="bezel-outer">
+              <div class="bezel-inner">
+                <div class="card-head">
+                  <span class="card-num">01</span>
+                  <span class="card-tag">Type system</span>
+                </div>
+                <h3 class="card-title">Static, not gradual.</h3>
+                <p class="card-body">
+                  Types are checked at compile time. There is no <code>any</code>, no implicit conversion, no escape hatch. If a value is <code>i32</code>, it is <code>i32</code> for the rest of the program.
+                </p>
+                <div class="card-snippet">
+<pre class="code-block code-block--mini"><code><span class="kw">type</span> Point = <span class="kw">struct</span> { x: <span class="ty">i32</span>, y: <span class="ty">i32</span> }
+<span class="kw">type</span> Shape = <span class="kw">enum</span> { Circle(<span class="ty">f32</span>), Rect(<span class="ty">f32</span>, <span class="ty">f32</span>) }
+
+<span class="kw">const</span> ORIGIN: Point = Point { x: <span class="num">0</span>, y: <span class="num">0</span> }
+
+<span class="kw">fn</span> area(s: Shape) -&gt; <span class="ty">f32</span> {
+    <span class="kw">match</span> s {
+        Circle(r) =&gt; <span class="num">3.14</span> * r * r,
+        Rect(w, h) =&gt; w * h,
+    }
+}</code></pre>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: Expressions -->
+          <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+            <div class="bezel-outer">
+              <div class="bezel-inner">
+                <div class="card-head">
+                  <span class="card-num">02</span>
+                  <span class="card-tag">Control flow</span>
+                </div>
+                <h3 class="card-title">Expressions, not statements.</h3>
+                <p class="card-body">
+                  <code>if</code>, <code>match</code>, and blocks return values. The last expression of a function is its return — no <code>return</code> keyword needed.
+                </p>
+                <div class="card-snippet">
+<pre class="code-block code-block--mini"><code><span class="kw">fn</span> dist_sq(a: Point, b: Point) -&gt; <span class="ty">i32</span> {
+    <span class="kw">let</span> dx = a.x - b.x;
+    <span class="kw">let</span> dy = a.y - b.y;
+    dx * dx + dy * dy   <span class="cmt">// ← the return value</span>
+}</code></pre>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3: Self-hosting -->
+          <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="200">
+            <div class="bezel-outer">
+              <div class="bezel-inner">
+                <div class="card-head">
+                  <span class="card-num">03</span>
+                  <span class="card-tag">Trajectory</span>
+                </div>
+                <h3 class="card-title">A compiler that compiles itself.</h3>
+                <p class="card-body">
+                  <code>v1.8.3</code> is tagged as <strong>v1.x FINAL</strong>. Stage 2 produces byte-identical <code>.il</code> output across N=4 closure iterations (sha <code>03a1cdd4…</code>). The compiler that ships today was built by a previous version of itself. No longer a roadmap — shipped.
+                </p>
+                <div class="card-visual">
+                  <div class="phase-pills">
+                    <span class="pp pp--done">C host</span>
+                    <span class="pp-arrow">→</span>
+                    <span class="pp pp--done">JHYY host</span>
+                    <span class="pp-arrow">→</span>
+                    <span class="pp pp--active">Stage 2 N=4 ✓</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4: ABI -->
+          <article class="bento-card bento-card--wide reveal-card" data-reveal-delay="300">
+            <div class="bezel-outer">
+              <div class="bezel-inner bezel-inner--row">
+                <div class="card-half">
+                  <div class="card-head">
+                    <span class="card-num">04</span>
+                    <span class="card-tag">Specification</span>
+                  </div>
+                  <h3 class="card-title">One ABI to rule them all.</h3>
+                  <p class="card-body">
+                    The language spec (<code>v1.3.0</code>) and the ABI (<code>v1.0.0</code>) are both locked. No drift between documentation and the compiler. What you read in the white paper is what runs on your machine.
+                  </p>
+                </div>
+                <div class="card-half card-half--visual">
+                  <div class="doc-stamp">
+                    <div class="doc-stamp-line"><span>SPEC</span><span class="stamp-val">v1.3.0</span></div>
+                    <div class="doc-stamp-line"><span>ABI</span><span class="stamp-val">v1.0.0 · locked</span></div>
+                    <div class="doc-stamp-line"><span>BACKEND</span><span class="stamp-val">QBE</span></div>
+                    <div class="doc-stamp-line"><span>TARGET</span><span class="stamp-val">amd64_win</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INSTALL ============ -->
+    <section id="install" class="section section-install" aria-label="Install">
+      <div class="container">
+        <header class="section-head">
+          <div class="eyebrow reveal">
+            <span class="eyebrow-dot"></span>
+            <span class="eyebrow-text">02 / Install</span>
+          </div>
+          <h2 class="section-title">
+            <span class="reveal-line"><span class="line-inner">Three minutes</span></span>
+            <span class="reveal-line"><span class="line-inner">from download to <em>hello.exe</em>.</span></span>
+          </h2>
+          <p class="section-sub reveal">
+            Pick one path. The MSI registers <code>.jhyy</code> file association, adds <code>jhyy.exe</code> to <code>PATH</code>, and installs the VS Code extension — first-run wizard optional. Source build needs MSYS2 + ucrt64 toolchain.
+          </p>
+        </header>
+
+        <div class="bento">
+          <!-- Card A: MSI one-click installer (recommended) -->
+          <article class="bento-card bento-card--lg reveal-card">
+            <div class="bezel-outer">
+              <div class="bezel-inner">
+                <div class="card-head">
+                  <span class="card-num">A</span>
+                  <span class="card-tag">Recommended · Windows</span>
+                </div>
+                <h3 class="card-title">One-click MSI bundle</h3>
+                <p class="card-body">
+                  WiX 7.0.0 MSI bundle with the .NET 8 Desktop Runtime bootstrap. Registers <code>.jhyy</code> file association (4-layer cleanup), adds <code>jhyy.exe</code> to user <code>PATH</code>, and installs the VS Code extension via RunOnce. UCPD.sys kernel filter bypass included.
+                </p>
+                <div class="card-snippet">
+<pre class="code-block code-block--mini"><code><span class="cmt"># After install, open a new terminal:</span>
+<span class="kw">$</span> jhyy run hello.jhyy
+Hello, world!
+<span class="kw">$</span> jhyy compile foo.jhyy -o foo.exe
+<span class="kw">$</span> ./foo.exe</code></pre>
+                </div>
+                <div class="card-foot-row">
+                  <a href="downloads/jhyy-installer-1.8.3.exe" class="btn-primary magnetic" data-magnetic>
+                    <span class="btn-label">Download jhyy-installer-1.8.3.exe</span>
+                    <span class="btn-icon-wrap">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
+                      </svg>
+                    </span>
+                  </a>
+                  <span class="card-meta">~28.5 MB · WiX 7.0.0 · .NET 8 chain · sha <code>03a1cdd4</code></span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card B: Source build -->
+          <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+            <div class="bezel-outer">
+              <div class="bezel-inner">
+                <div class="card-head">
+                  <span class="card-num">B</span>
+                  <span class="card-tag">Source · Makefile</span>
+                </div>
+                <h3 class="card-title">Build from source.</h3>
+                <p class="card-body">
+                  Requires MSYS2 + <code>mingw-w64-ucrt-x86_64-gcc</code> + <code>binutils</code>. One <code>make</code> produces <code>jhyy.exe</code>. Stage 2 byte-equal closure takes a few extra seconds via <code>make selfhost</code>.
+                </p>
+                <div class="cta-install reveal">
+                  <span class="ci-prompt">$</span>
+                  <code class="ci-line">git clone https://github.com/JiHuiYiYou/JiHuiYiYou-compiler.git &amp;&amp; cd JiHuiYiYou-compiler &amp;&amp; make</code>
+                  <button class="ci-copy" type="button" aria-label="Copy command">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" />
+                      <path d="M5 15 H4 a2 2 0 0 1 -2 -2 V4 a2 2 0 0 1 2 -2 h9 a2 2 0 0 1 2 2 v1" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="card-foot-row">
+                  <span class="card-meta">~9 000 LOC C host + ~14 400 LOC JHYY (stage1 / self-host) · Windows x64</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card C: Enterprise MSI -->
+          <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="200">
+            <div class="bezel-outer">
+              <div class="bezel-inner">
+                <div class="card-head">
+                  <span class="card-num">C</span>
+                  <span class="card-tag">Enterprise · Silent MSI</span>
+                </div>
+                <h3 class="card-title">SCCM-friendly MSI.</h3>
+                <p class="card-body">
+                  No GUI, no .NET bootstrap, no first-run wizard. For managed deployments: SCCM, Intune, group policy. Installs only <code>jhyy.exe</code> + compiler runtime to <code>INSTALLDIR</code>.
+                </p>
+                <div class="card-foot-row">
+                  <a href="downloads/jhyy-compiler-1.8.3.msi" class="btn-primary magnetic" data-magnetic>
+                    <span class="btn-label">Download jhyy-compiler-1.8.3.msi</span>
+                    <span class="btn-icon-wrap">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
+                      </svg>
+                    </span>
+                  </a>
+                  <span class="card-meta">~1.1 MB · silent install · sha <code>8446ba41…</code></span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <p class="install-note reveal">
+          <strong>Windows x64 only for v1.x.</strong> Linux and macOS targets land with <code>v2.x</code> (<code>amd64_sysv</code> + freestanding). SHA256 checksums in <a href="downloads/SHA256SUMS.txt"><code>downloads/SHA256SUMS.txt</code></a>. VSIX package (TextMate grammar + problem matchers): <a href="downloads/jhyy-lang-1.8.3.vsix"><code>jhyy-lang-1.8.3.vsix</code></a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ CODE SHOWCASE ============ -->
+    <section class="section section-code" aria-label="Code showcase">
+      <div class="container">
+        <header class="section-head">
+          <div class="eyebrow reveal">
+            <span class="eyebrow-dot"></span>
+            <span class="eyebrow-text">03 / A taste of the language</span>
+          </div>
+          <h2 class="section-title">
+            <span class="reveal-line"><span class="line-inner">Five files,</span></span>
+            <span class="reveal-line"><span class="line-inner">the whole grammar.</span></span>
+          </h2>
+        </header>
+
+        <div class="showcase">
+          <!-- Left: tabs -->
+          <div class="showcase-tabs reveal">
+            <button class="stab active" data-tab="01" type="button">
+              <span class="stab-num">01</span>
+              <span class="stab-name">hello.jhyy</span>
+              <span class="stab-sub">FFI · extern</span>
+            </button>
+            <button class="stab" data-tab="02" type="button">
+              <span class="stab-num">02</span>
+              <span class="stab-name">shapes.jhyy</span>
+              <span class="stab-sub">struct · match</span>
+            </button>
+            <button class="stab" data-tab="03" type="button">
+              <span class="stab-num">03</span>
+              <span class="stab-name">fib.jhyy</span>
+              <span class="stab-sub">recursion</span>
+            </button>
+            <button class="stab" data-tab="04" type="button">
+              <span class="stab-num">04</span>
+              <span class="stab-name">enum.jhyy</span>
+              <span class="stab-sub">enum + match</span>
+            </button>
+          </div>
+
+          <!-- Right: code panel -->
+          <div class="showcase-panel reveal">
+            <div class="code-shell code-shell--panel">
+              <div class="code-chrome">
+                <div class="window-dots">
+                  <span class="dot dot-r"></span>
+                  <span class="dot dot-y"></span>
+                  <span class="dot dot-g"></span>
+                </div>
+                <div class="file-tab">
+                  <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2 H6 a2 2 0 0 0 -2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2 -2 V8 z" />
+                    <path d="M14 2 v6 h6" />
+                  </svg>
+                  <span class="panel-filename">hello.jhyy</span>
+                </div>
+                <div class="file-meta">
+                  <button class="copy-btn" type="button" aria-label="Copy code">
+                    <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" />
+                      <path d="M5 15 H4 a2 2 0 0 1 -2 -2 V4 a2 2 0 0 1 2 -2 h9 a2 2 0 0 1 2 2 v1" />
+                    </svg>
+                    <span>Copy</span>
+                  </button>
+                </div>
+              </div>
+
+              <pre class="code-block code-block--lg panel-code active" data-tab="01"><code><span class="kw">extern</span> <span class="kw">fn</span> puts(s: <span class="ty">*u8</span>) -&gt; <span class="ty">i32</span>;
+
+<span class="kw">fn</span> main_jhyy() -&gt; <span class="ty">i32</span> {
+    puts(<span class="str">"Hello, world!"</span>);
+    <span class="num">0</span>
+}</code></pre>
+              <pre class="code-block code-block--lg panel-code" data-tab="02"><code><span class="kw">type</span> Point = <span class="kw">struct</span> { x: <span class="ty">i32</span>, y: <span class="ty">i32</span> }
+
+<span class="kw">fn</span> dist_sq(a: Point, b: Point) -&gt; <span class="ty">i32</span> {
+    <span class="kw">let</span> dx = a.x - b.x;
+    <span class="kw">let</span> dy = a.y - b.y;
+    dx * dx + dy * dy
+}</code></pre>
+              <pre class="code-block code-block--lg panel-code" data-tab="03"><code><span class="kw">fn</span> fib(n: <span class="ty">i32</span>) -&gt; <span class="ty">i32</span> {
+    <span class="kw">if</span> n &lt; <span class="num">2</span> { n }
+    <span class="kw">else</span> { fib(n - <span class="num">1</span>) + fib(n - <span class="num">2</span>) }
+}
+
+<span class="kw">fn</span> main_jhyy() -&gt; <span class="ty">i32</span> { fib(<span class="num">10</span>) }</code></pre>
+              <pre class="code-block code-block--lg panel-code" data-tab="04"><code><span class="kw">type</span> Option = <span class="kw">enum</span> {
+    Some(<span class="ty">i32</span>),
+    None,
+}
+
+<span class="kw">fn</span> unwrap(o: Option) -&gt; <span class="ty">i32</span> {
+    <span class="kw">match</span> o {
+        Some(v) =&gt; v,
+        None    =&gt; <span class="num">0</span>,
+    }
+}</code></pre>
+
+              <div class="code-status">
+                <span class="status-led"></span>
+                <span class="status-text" id="panelCmd">$ jhyy run hello.jhyy</span>
+                <span class="status-out" id="panelOut">Hello, world!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TOOLCHAIN ============ -->
+    <section id="toolchain" class="section section-toolchain" aria-label="Toolchain">
+      <div class="container">
+        <header class="section-head">
+          <div class="eyebrow reveal">
+            <span class="eyebrow-dot"></span>
+            <span class="eyebrow-text">04 / The toolchain</span>
+          </div>
+          <h2 class="section-title">
+            <span class="reveal-line"><span class="line-inner">A compiler,</span></span>
+            <span class="reveal-line"><span class="line-inner">and everything around it.</span></span>
+          </h2>
+          <p class="section-sub reveal">
+            You don't only get <code>jhyy.exe</code>. You get an editor extension, an MCP server for Claude Code, and an arena runtime — the four pieces a real language needs to be usable.
+          </p>
+        </header>
+
+        <div class="tool-grid">
+          <article class="tool-card reveal-card">
+            <div class="bezel-outer">
+              <div class="bezel-inner">
+                <div class="tool-icon">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 9 L4 12 L8 15" />
+                    <path d="M16 9 L20 12 L16 15" />
+                    <path d="M14 4 L10 20" />
+                  </svg>
+                </div>
+                <h3 class="tool-name">Compiler</h3>
+                <p class="tool-desc">
+                  <code>jhyy compile foo.jhyy -o foo.exe</code> runs the pipeline: <strong>Lex → Parse → Sema → QBE → native</strong>. Diagnostics carry line + column. Exit codes match <code>clang</code>. No GC, no malloc hot-path — one <code>arena_alloc</code>, one <code>arena_free</code> at the end.
+                </p>
+                <ul class="tool-meta">
+                  <li><span>~</span>9 000 LOC C host</li>
+                  <li><span>·</span>10 .c + 9 .h</li>
+                  <li><span>·</span>Wall · Wextra</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="tool-card reveal-card" data-reveal-delay="100">
+            <div class="bezel-outer">
+              <div class="bezel-inner">
+                <div class="tool-icon">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="14" rx="2" />
+                    <path d="M3 9 L21 9" />
+                    <path d="M8 21 L16 21" />
+                    <path d="M12 18 L12 21" />
+                  </svg>
+                </div>
+                <h3 class="tool-name">VS Code extension</h3>
+                <p class="tool-desc">
+                  First-class <code>.jhyy</code> language support: syntax highlighting, snippets, problem matchers, and a configured <strong>F6</strong> shortcut to compile &amp; run via Code Runner.
+                </p>
+                <ul class="tool-meta">
+                  <li><span>·</span>F6 run</li>
+                  <li><span>·</span>Ctrl+Shift+B</li>
+                  <li><span>·</span>Snippets</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="tool-card reveal-card" data-reveal-delay="200">
+            <div class="bezel-outer">
+              <div class="bezel-inner">
+                <div class="tool-icon">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2 L20 6 V14 L12 18 L4 14 V6 Z" />
+                    <path d="M8 10 L12 12 L16 10" />
+                    <path d="M12 12 V17" />
+                  </svg>
+                </div>
+                <h3 class="tool-name">MCP server</h3>
+                <p class="tool-desc">
+                  11 tools for AI agents: <code>jhyy_run</code>, <code>jhyy_check</code>, <code>jhyy_compile</code>, <code>jhyy_format</code>, <code>jhyy_get_il</code>, <code>jhyy_il_diff</code>, <code>jhyy_lang_ref</code>, <code>jhyy_abi_info</code>, <code>jhyy_regress</code>, <code>jhyy_selfhost_check</code>, <code>jhyy_workarounds</code>.
+                </p>
+                <ul class="tool-meta">
+                  <li><span>·</span>11 tools</li>
+                  <li><span>·</span>Selfhost verify</li>
+                  <li><span>·</span>Stdio</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="tool-card reveal-card" data-reveal-delay="300">
+            <div class="bezel-outer">
+              <div class="bezel-inner">
+                <div class="tool-icon">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 7 L12 3 L21 7 L12 11 Z" />
+                    <path d="M3 12 L12 16 L21 12" />
+                    <path d="M3 17 L12 21 L21 17" />
+                  </svg>
+                </div>
+                <h3 class="tool-name">Windows installer</h3>
+                <p class="tool-desc">
+                  WiX 7.0.0 MSI bundle. <strong>1.1 MB silent MSI</strong> for SCCM / enterprise; <strong>28.5 MB bundle</strong> with .NET 8 Desktop Runtime chain for one-click install. Registers <code>.jhyy</code> (4-layer cleanup), adds to <code>PATH</code>, auto-installs VS Code extension. UCPD.sys kernel filter bypass via <code>jhyy-setuc.exe</code> (Mozilla reverse-engineered Hash algorithm).
+                </p>
+                <ul class="tool-meta">
+                  <li><span>·</span>WiX 7.0.0</li>
+                  <li><span>·</span>.NET 8 chain</li>
+                  <li><span>·</span>UCPD bypass</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ROADMAP ============ -->
+    <section id="roadmap" class="section section-roadmap" aria-label="Roadmap">
+      <div class="container">
+        <header class="section-head">
+          <div class="eyebrow reveal">
+            <span class="eyebrow-dot"></span>
+            <span class="eyebrow-text">05 / The road so far</span>
+          </div>
+          <h2 class="section-title">
+            <span class="reveal-line"><span class="line-inner">Two axes,</span></span>
+            <span class="reveal-line"><span class="line-inner">one compiler.</span></span>
+          </h2>
+          <p class="section-sub reveal">
+            A single version axis (<code>v0.x</code> → <code>v3.x</code>) replaces the older phase-N numbering. <code>v1.8.3</code> closed the byte-equal loop and is <strong>v1.x FINAL</strong>; <code>v2.x</code> and <code>v3.x</code> now run in parallel toward the OS.
+          </p>
+        </header>
+
+        <ol class="timeline">
+          <li class="tl-step tl-done reveal-card">
+            <div class="tl-marker">
+              <span class="tl-dot"></span>
+              <span class="tl-line"></span>
+            </div>
+            <div class="tl-body">
+              <div class="tl-head">
+                <span class="tl-phase">v0.x</span>
+                <span class="tl-status tl-status--done">Shipped</span>
+              </div>
+              <h3 class="tl-title">C host compiler</h3>
+              <p class="tl-desc">A complete C compiler for the full language. Single-pass lex → parse → sema → QBE → native. Sets the self-hosting threshold: <code>v0.6</code> + spec + ABI all locked before the rewrite begins.</p>
+              <ul class="tl-chips">
+                <li>Build &amp; CI</li>
+                <li>Vendored QBE</li>
+                <li>Hello world</li>
+                <li>Enum + match</li>
+                <li>Slice <code>[*]T</code></li>
+                <li>Module ns</li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="tl-step tl-done reveal-card" data-reveal-delay="100">
+            <div class="tl-marker">
+              <span class="tl-dot"></span>
+              <span class="tl-line"></span>
+            </div>
+            <div class="tl-body">
+              <div class="tl-head">
+                <span class="tl-phase">v1.x</span>
+                <span class="tl-status tl-status--done">Shipped · v1.8.3 FINAL</span>
+              </div>
+              <h3 class="tl-title">Self-hosting</h3>
+              <p class="tl-desc">Rewrite the compiler in JHYY, run it on the C compiler to produce a JHYY compiler. N=4 byte-equal closure stable at <code>v1.8.3</code> (tag <code>98c8272</code>, sha <code>03a1cdd4…</code>). 102/102 regress PASS + 4 SKIP. ACTIVE workarounds → 0; DEFERRED to v2.x → 2 (<code>W-057</code> UTF-8 3/4-byte, <code>W-058</code> fmod).</p>
+              <ul class="tl-chips">
+                <li>Translate C → JHYY</li>
+                <li>Stage 0/1/2 verify</li>
+                <li>Byte-equal ✓</li>
+                <li>Bootstrap ✓</li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="tl-step tl-active reveal-card" data-reveal-delay="200">
+            <div class="tl-marker">
+              <span class="tl-dot tl-dot--active"></span>
+              <span class="tl-line"></span>
+            </div>
+            <div class="tl-body">
+              <div class="tl-head">
+                <span class="tl-phase">v2.x</span>
+                <span class="tl-status tl-status--active">Next · OS prep</span>
+              </div>
+              <h3 class="tl-title">QBE rewrite + multi-target</h3>
+              <p class="tl-desc">Replace vendored QBE with a fully-owned backend, add <code>amd64_sysv</code> and freestanding targets. M1–M11 milestones drive <code>jhyy_OS</code> startup. Plan locked in <code>docs/plans/v2/v2.0.0-os-prep.md</code>.</p>
+              <ul class="tl-chips">
+                <li>Owned QBE</li>
+                <li>amd64_sysv</li>
+                <li>Freestanding</li>
+                <li>UEFI+PE/COFF</li>
+                <li>Debug ABI</li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="tl-step reveal-card" data-reveal-delay="300">
+            <div class="tl-marker">
+              <span class="tl-dot"></span>
+            </div>
+            <div class="tl-body">
+              <div class="tl-head">
+                <span class="tl-phase">v3.x</span>
+                <span class="tl-status">Parallel · OS features</span>
+              </div>
+              <h3 class="tl-title">Language for an OS</h3>
+              <p class="tl-desc">Run alongside v2.x. Adds the language surface the kernel needs: inline asm, volatile, naked, <code>no_std</code>, and a real <code>&amp;mut</code> + lifetime story. The compiler that built the OS compiles itself.</p>
+              <ul class="tl-chips">
+                <li>Inline asm</li>
+                <li>volatile / naked</li>
+                <li><code>no_std</code></li>
+                <li><code>&amp;mut</code> lifetime</li>
+                <li>LSP / IDE</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ PERFORMANCE ============ -->
+    <section class="section section-perf" aria-label="Performance">
+      <div class="container">
+        <header class="section-head">
+          <div class="eyebrow reveal">
+            <span class="eyebrow-dot"></span>
+            <span class="eyebrow-text">06 / By the numbers</span>
+          </div>
+          <h2 class="section-title">
+            <span class="reveal-line"><span class="line-inner">No VM.</span></span>
+            <span class="reveal-line"><span class="line-inner">No JIT. No runtime.</span></span>
+          </h2>
+          <p class="section-sub reveal">
+            QBE compiles to <code>amd64_win</code> machine code at build time. The only runtime is the arena allocator — and you can disable even that. ACTIVE workarounds → <strong>0</strong>; DEFERRED to v2.x → 2 (<code>W-057</code> UTF-8 3/4-byte, <code>W-058</code> fmod).
+          </p>
+        </header>
+
+        <div class="perf-grid">
+          <div class="perf-cell reveal-card">
+            <div class="bezel-outer">
+              <div class="bezel-inner">
+                <div class="perf-label">Time to <code>hello.exe</code></div>
+                <div class="perf-value" data-counter data-target="120" data-suffix="ms">&nbsp;</div>
+                <div class="perf-foot">On a modest laptop. Lex + parse + sema + QBE + link, end-to-end.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="perf-cell reveal-card" data-reveal-delay="100">
+            <div class="bezel-outer">
+              <div class="bezel-inner">
+                <div class="perf-label">Minimal binary size</div>
+                <div class="perf-value" data-counter data-target="12" data-suffix="KB">&nbsp;</div>
+                <div class="perf-foot">After linker dead-strip. The C runtime isn't dragged in by default.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="perf-cell reveal-card" data-reveal-delay="200">
+            <div class="bezel-outer">
+              <div class="bezel-inner">
+                <div class="perf-label">Regress baseline</div>
+                <div class="perf-value">102 / 102</div>
+                <div class="perf-foot">All <code>.jhyy</code> integration tests pass + 4 SKIP (across 106 total). Parity hold between <code>jhyy.exe</code> and <code>jhyy_v1.exe.exe</code>.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="perf-cell reveal-card" data-reveal-delay="300">
+            <div class="bezel-outer">
+              <div class="bezel-inner">
+                <div class="perf-label">Stage 2 closure sha</div>
+                <div class="perf-value" style="font-family: var(--font-mono); font-size: 1.8rem;">03a1cdd4</div>
+                <div class="perf-foot">Stage 0 → 1 → 2 → 3 → 4 all produce byte-equal <code>.il</code>. The compiler builds itself. Run <code>jhyy_selfhost_check</code> via MCP.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT THE AUTHOR (snippet) ============ -->
+    <section id="about" class="section section-about" aria-label="About">
+      <div class="container">
+        <div class="about-shell reveal">
+          <div class="bezel-outer">
+            <div class="bezel-inner bezel-inner--row about-inner">
+              <div class="about-left">
+                <div class="eyebrow">
+                  <span class="eyebrow-dot"></span>
+                  <span class="eyebrow-text">07 / About</span>
+                </div>
+                <h2 class="about-title">两年,从一个火花,<br/>到一个会编自己的编译器。</h2>
+                <p class="about-body">
+                  两年前在 B 站看到朝歌大佬的 <strong>z 语言</strong>,受了点启发,就开始了 JHYY(机会翼游)。一开始没什么方向,甚至不知道做下去会是什么样。后来慢慢成形:rust-like + arena allocator,再后来确定了自举优先的方针 —— 截止 <code>v1.8.3</code>(tag <code>98c8272</code>, 2026-08-29)都在朝着这个方向走。<br/><br/>自举之后做什么?借强类型 + 编译快的优势,我们开始构想自研 OS。先后确定了 <strong>Cap&lt;T&gt;</strong> capability、<strong>lang-debug</strong> ABI、以及 GUI 三个方向。<strong>v2.x</strong>(QBE 自研 + 多 target)和 <strong>v3.x</strong>(OS 语言扩展)并行启动。<br/><br/>项目初创不久,目前还只是一个草台班子(只有我一个人)。欢迎大家提建议、参与讨论、共同进步。
+                </p>
+
+                <div class="community-row reveal">
+                  <div class="community-block">
+                    <div class="community-label">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                      </svg>
+                      <span>QQ 社区群</span>
+                    </div>
+                    <div class="community-value">
+                      <code>429807125</code>
+                      <button class="ci-copy ci-copy--inline" type="button" aria-label="Copy QQ group number" data-copy-text="429807125">
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" />
+                          <path d="M5 15 H4 a2 2 0 0 1 -2 -2 V4 a2 2 0 0 1 2 -2 h9 a2 2 0 0 1 2 2 v1" />
+                        </svg>
+                      </button>
+                      <a href="https://qun.qq.com/qqweb/qunsearch?keyword=429807125" class="community-jump" target="_blank" rel="noopener">
+                        通过 QQ 搜索加入 ↗
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <a href="#get-started" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
+                  <span class="btn-label">More about the project</span>
+                  <span class="btn-icon-wrap">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12 L19 12 M13 5 L19 12 L13 19" />
+                    </svg>
+                  </span>
+                </a>
+              </div>
+
+              <div class="about-right">
+                <div class="id-card">
+                  <div class="id-row"><span>Project</span><span>JHYY</span></div>
+                  <div class="id-row"><span>Chinese</span><span>机会翼游</span></div>
+                  <div class="id-row"><span>Author</span><span>JHYY</span></div>
+                  <div class="id-row"><span>Email</span><span>15901598712@163.com</span></div>
+                  <div class="id-row"><span>Community</span><span>QQ 429807125</span></div>
+                  <div class="id-row"><span>License</span><span>MIT</span></div>
+                  <div class="id-row"><span>Backend</span><span>QBE · amd64_win</span></div>
+                  <div class="id-row"><span>Started</span><span>2024</span></div>
+                  <div class="id-row id-row--accent"><span>Current</span><span>v1.8.3</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DOCS PREVIEW (placeholder landing for #docs) ============ -->
+    <section id="docs" class="section section-docs-preview" aria-label="Docs preview">
+      <div class="container">
+        <header class="section-head">
+          <div class="eyebrow reveal">
+            <span class="eyebrow-dot"></span>
+            <span class="eyebrow-text">08 / Documentation</span>
+          </div>
+          <h2 class="section-title">
+            <span class="reveal-line"><span class="line-inner">Read the spec,</span></span>
+            <span class="reveal-line"><span class="line-inner">not the marketing.</span></span>
+          </h2>
+          <p class="section-sub reveal">
+            JHYY is documented the way compilers should be: the spec is locked at <code>v1.3.0</code>, the ABI at <code>v1.0.0</code>, and the GitHub docs are authoritative. ACTIVE workarounds → <strong>0</strong>; DEFERRED to v2.x → 2 (<code>W-057</code>, <code>W-058</code>).
+          </p>
+        </header>
+
+        <div class="docs-grid">
+          <article class="docs-card reveal-card">
+            <div class="bezel-outer"><div class="bezel-inner">
+              <div class="docs-card-head">
+                <span class="docs-tag">Spec</span>
+                <span class="docs-tag-version">v1.3.0</span>
+              </div>
+              <h3 class="docs-card-title">Language specification</h3>
+              <p class="docs-card-body">Grammar, type system, semantics, and the locked surface area. Every form a <code>.jhyy</code> file can take.</p>
+              <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v1.3.0.md">
+                Open <code>jhyy-lang-spec-v1.3.0.md</code>
+                <span class="docs-link-arrow">↗</span>
+              </a>
+            </div></div>
+          </article>
+
+          <article class="docs-card reveal-card" data-reveal-delay="100">
+            <div class="bezel-outer"><div class="bezel-inner">
+              <div class="docs-card-head">
+                <span class="docs-tag">ABI</span>
+                <span class="docs-tag-version">v1.0.0 · locked</span>
+              </div>
+              <h3 class="docs-card-title">Application Binary Interface</h3>
+              <p class="docs-card-body">Type layouts, calling convention, struct passing rules. The contract between the compiler and anything that links against it.</p>
+              <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v1.0.0.md">
+                Open <code>jhyy-abi-v1.0.0.md</code>
+                <span class="docs-link-arrow">↗</span>
+              </a>
+            </div></div>
+          </article>
+
+          <article class="docs-card reveal-card" data-reveal-delay="200">
+            <div class="bezel-outer"><div class="bezel-inner">
+              <div class="docs-card-head">
+                <span class="docs-tag">Workarounds</span>
+                <span class="docs-tag-version">0 ACTIVE</span>
+              </div>
+              <h3 class="docs-card-title">Known limitations</h3>
+              <p class="docs-card-body">Every <code>W-NNN</code> entry with reproduction steps, root cause, and the sprint that closes it. ACTIVE → 0; DEFERRED to v2.x → 2 (<code>W-057</code> UTF-8 3/4-byte, <code>W-058</code> fmod). Transparency over silence.</p>
+              <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md">
+                Open <code>workarounds.md</code>
+                <span class="docs-link-arrow">↗</span>
+              </a>
+            </div></div>
+          </article>
+
+          <article class="docs-card reveal-card" data-reveal-delay="300">
+            <div class="bezel-outer"><div class="bezel-inner">
+              <div class="docs-card-head">
+                <span class="docs-tag">Examples</span>
+                <span class="docs-tag-version">85+ files</span>
+              </div>
+              <h3 class="docs-card-title">Run, don't read</h3>
+              <p class="docs-card-body">Every example in <code>compiler/tests/examples/</code> compiles and runs. Copy one, change one line, see what breaks. The fastest way to learn the language.</p>
+              <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/tests/examples">
+                Browse examples
+                <span class="docs-link-arrow">↗</span>
+              </a>
+            </div></div>
+          </article>
+        </div>
+
+        <p class="docs-note reveal">
+          The full docs site (tutorials, reference, search) is on the v2 roadmap. For now the GitHub docs are authoritative — every doc page is a Markdown file you can <code>curl</code> directly.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ FINAL CTA ============ -->
+    <section id="get-started" class="section section-cta" aria-label="Get started">
+      <div class="container">
+        <div class="cta-shell reveal">
+          <div class="cta-inner">
+            <div class="cta-glow" aria-hidden="true"></div>
+            <h2 class="cta-title">
+              <span class="reveal-line"><span class="line-inner">Write the next</span></span>
+              <span class="reveal-line"><span class="line-inner"><em>hello.jhyy</em>.</span></span>
+            </h2>
+            <p class="cta-sub">Five minutes from <code>git clone</code> to your first compiled binary — or download the Windows installer.</p>
+
+            <div class="cta-row">
+              <a href="downloads/jhyy-installer-1.8.3.exe" class="btn-primary btn-primary--lg magnetic" data-magnetic>
+                <span class="btn-label">Download jhyy-installer-1.8.3.exe</span>
+                <span class="btn-icon-wrap">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
+                  </svg>
+                </span>
+              </a>
+              <a href="downloads/jhyy-compiler-1.8.3.msi" class="btn-ghost btn-ghost--lg magnetic" data-magnetic>
+                <span class="btn-label">Silent MSI (SCCM)</span>
+                <span class="btn-icon-wrap">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
+                  </svg>
+                </span>
+              </a>
+              <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="btn-ghost btn-ghost--lg magnetic" data-magnetic>
+                <span class="btn-label">Build from source</span>
+                <span class="btn-icon-wrap">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                  </svg>
+                </span>
+              </a>
+            </div>
+
+            <div class="cta-install-meta">
+              <span class="cim-item"><strong>v1.8.3</strong> · stable · amd64_win · 102 / 102 PASS</span>
+              <span class="cim-sep">·</span>
+              <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/logs/v1/changelog-v1.8.0.md">Changelog</a></span>
+              <span class="cim-sep">·</span>
+              <span class="cim-item"><a href="downloads/SHA256SUMS.txt">SHA256SUMS</a></span>
+              <span class="cim-sep">·</span>
+              <span class="cim-item"><a href="#install">All install options</a></span>
+            </div>
+
+            <div class="cta-install reveal">
+              <span class="ci-prompt">$</span>
+              <code class="ci-line">git clone https://github.com/JiHuiYiYou/JiHuiYiYou-compiler && cd JiHuiYiYou-compiler</code>
+              <button class="ci-copy" type="button" aria-label="Copy command">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" />
+                  <path d="M5 15 H4 a2 2 0 0 1 -2 -2 V4 a2 2 0 0 1 2 -2 h9 a2 2 0 0 1 2 2 v1" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="#top" class="nav-logo foot-logo">
+          <span class="logo-mark">
+            <img src="assets/img/jhyy-icon.png" width="28" height="28" alt="JHYY" />
+          </span>
+          <span class="logo-text">JHYY</span>
+          <span class="logo-sub">机会翼游</span>
+        </a>
+        <p class="foot-tag">A statically-typed systems language.<br/>One compiler, writing itself.</p>
+      </div>
+
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Language</h4>
+          <ul>
+            <li><a href="#language">Why JHYY</a></li>
+            <li><a href="#toolchain">Toolchain</a></li>
+            <li><a href="#roadmap">Roadmap</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v1.3.0.md">Spec v1.3.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v1.0.0.md">ABI v1.0.0</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Build</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">GitHub</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases">Releases</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contribute</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Tools</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/vscode-ext">VS Code ext</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/mcp-jhyy">MCP server</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/runtime">Arena runtime</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/tests/examples">Example tests</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><a href="https://qun.qq.com/qqweb/qunsearch?keyword=429807125" target="_blank" rel="noopener">QQ 群 429807125</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases">Releases</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/discussions">Discussions</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 JHYY · MIT License · Built with JHYY + MiniMax-M3</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v1.8.3 · main · green</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

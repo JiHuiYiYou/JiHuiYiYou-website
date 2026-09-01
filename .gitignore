@@ -1,0 +1,24 @@
+# GH Pages 部署无关文件
+.playwright-cli/
+tmp/
+*.log
+
+# 散落的截图 / 调试产物
+hero.png
+icon-check.png
+snap-v4.png
+v4-rest.png
+
+# OS / 编辑器
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# 不要跟踪根目录的 build artifact 散落文件(本仓库应该是纯静态)
+# downloads/ 里的 installer artifacts 必须跟踪(GH Pages 直 host)
+/*.exe
+/*.msi
+/*.vsix
+/*.dll
+/*.zip
