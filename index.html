@@ -513,6 +513,10 @@ Hello, world!
     <span class="kw">let</span> dx = a.x - b.x;
     <span class="kw">let</span> dy = a.y - b.y;
     dx * dx + dy * dy
+}
+
+<span class="kw">fn</span> main_jhyy() -&gt; <span class="ty">i32</span> {
+    dist_sq(Point { x: <span class="num">3</span>, y: <span class="num">4</span> }, Point { x: <span class="num">0</span>, y: <span class="num">0</span> })
 }</code></pre>
               <pre class="code-block code-block--lg panel-code" data-tab="03"><code><span class="kw">fn</span> fib(n: <span class="ty">i32</span>) -&gt; <span class="ty">i32</span> {
     <span class="kw">if</span> n &lt; <span class="num">2</span> { n }
@@ -530,6 +534,10 @@ Hello, world!
         Some(v) =&gt; v,
         None    =&gt; <span class="num">0</span>,
     }
+}
+
+<span class="kw">fn</span> main_jhyy() -&gt; <span class="ty">i32</span> {
+    unwrap(Option::Some(<span class="num">99</span>))
 }</code></pre>
 
               <div class="code-status">

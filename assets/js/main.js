@@ -251,11 +251,14 @@
       if (fnameEl) fnameEl.textContent = fname;
       if (cmdEl) cmdEl.textContent = '$ jhyy run ' + fname;
       // Out strings keyed by tab id (kept in HTML data attrs)
+      // v1.8.3.2 sync: tab 04 wrapper now calls `unwrap(Option::Some(99))`,
+      // so the displayed exit value is 99 not 7. (Tab 02 wrapper uses
+      // `dist_sq(Point { x: 3, y: 4 }, Point { x: 0, y: 0 })` = 25 — unchanged.)
       const outs = {
         '01': 'Hello, world!',
         '02': 'point · dist² = 25',
         '03': 'fib(10) = 55',
-        '04': 'unwrap(Some(7)) = 7',
+        '04': 'unwrap(Some(99)) = 99',
       };
       if (outEl) outEl.textContent = outs[id] || '';
     });
