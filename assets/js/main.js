@@ -338,7 +338,7 @@
       const target = document.querySelector(href);
       if (!target) return;
       e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      target.scrollIntoView({ behavior: 'auto', block: 'start' });
     });
   });
 
