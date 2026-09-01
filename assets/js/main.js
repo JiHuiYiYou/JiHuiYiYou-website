@@ -63,7 +63,6 @@
       const MAX_SHARDS = 80;
       const SHARD_LIFE = 1200; // ms (与 CSS --shard-life 一致)
       const SAMPLE_STEP = 22;  // px — 鼠标每 22 像素扎 1 个
-      const WHEEL_BURST = 3;
 
       const shards = [];
       let lastSampleX = -9999, lastSampleY = -9999;
@@ -156,17 +155,6 @@
         burstBetween(lastSampleX, lastSampleY, e.clientX, e.clientY);
         lastSampleX = e.clientX;
         lastSampleY = e.clientY;
-      }, { passive: true });
-
-      window.addEventListener('wheel', () => {
-        for (let i = 0; i < WHEEL_BURST; i++) {
-          spawnShard(
-            lastMouse.x + (Math.random() - 0.5) * 70,
-            lastMouse.y + (Math.random() - 0.5) * 70,
-          );
-        }
-        lastSampleX = lastMouse.x;
-        lastSampleY = lastMouse.y;
       }, { passive: true });
 
       // 每帧清理过期的 shard
