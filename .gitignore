@@ -22,3 +22,6 @@ Thumbs.db
 /*.vsix
 /*.dll
 /*.zip
+
+# Rollback safety backups (per rollback convention: never delete before user verifies new)
+/.old-*/
