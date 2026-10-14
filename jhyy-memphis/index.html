@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JHYY · 机会翼游 — 自举编译器 × QBE × 自研 OS</title>
+<link rel="icon" type="image/png" href="favicon.png" />
+<style>
+  :root {
+    --pink:    #FF3D7F;
+    --hot-pink:#FF1493;
+    --cyan:    #00D4AA;
+    --yellow:  #FFD60A;
+    --blue:    #2D5BFF;
+    --purple:  #9D4EDD;
+    --orange:  #FF6B35;
+    --black:   #111111;
+    --white:   #FFFFFF;
+    --cream:   #FFF4E0;
+    --ink:     #1A1A1A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  code, pre { font-family: 'JetBrains Mono', 'Consolas', 'Menlo', monospace; }
+
+  /* ---------- 通用工具 ---------- */
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; position: relative; }
+
+  .tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border: 3px solid var(--black);
+    background: var(--white);
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transform: rotate(-2deg);
+  }
+
+  .hard {
+    border: 4px solid var(--black);
+    box-shadow: 10px 10px 0 var(--black);
+  }
+
+  .hard-soft {
+    border: 4px solid var(--black);
+    box-shadow: 8px 8px 0 var(--cyan);
+  }
+
+  /* ---------- 顶部导航条 ---------- */
+  nav.top {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--white);
+    border-bottom: 4px solid var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+  }
+  nav.top .logo {
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  nav.top .logo .dot {
+    width: 14px; height: 14px;
+    background: var(--pink);
+    border: 3px solid var(--black);
+    border-radius: 50%;
+    display: inline-block;
+  }
+  nav.top ul {
+    display: flex;
+    gap: 22px;
+    list-style: none;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  nav.top ul a:hover { color: var(--pink); }
+  nav.top ul a span {
+    display: inline-block;
+    padding: 2px 8px;
+    border: 2px solid var(--black);
+    background: var(--yellow);
+    margin-right: 4px;
+    font-size: 11px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    padding: 80px 0 100px;
+    background:
+      radial-gradient(circle, var(--black) 1.6px, transparent 1.8px) 0 0 / 26px 26px,
+      var(--cream);
+    border-bottom: 4px solid var(--black);
+    overflow: hidden;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 40px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .hero h1 {
+    font-size: clamp(56px, 11vw, 160px);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 14px 0 18px;
+  }
+  .hero h1 .accent1 { color: var(--pink); display: inline-block; transform: rotate(-3deg); }
+  .hero h1 .accent2 {
+    background: var(--yellow);
+    border: 4px solid var(--black);
+    padding: 0 14px;
+    display: inline-block;
+    transform: rotate(2deg);
+  }
+  .hero .lead {
+    font-size: clamp(16px, 1.5vw, 20px);
+    max-width: 560px;
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+  .hero .lead b { background: var(--cyan); padding: 0 6px; }
+
+  .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 14px 22px;
+    border: 4px solid var(--black);
+    background: var(--white);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    box-shadow: 6px 6px 0 var(--black);
+    transition: transform 0.1s, box-shadow 0.1s;
+    cursor: pointer;
+  }
+  .btn:hover { transform: translate(-2px, -2px); box-shadow: 10px 10px 0 var(--black); }
+  .btn:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 var(--black); }
+  .btn.pink { background: var(--pink); color: var(--white); }
+  .btn.cyan { background: var(--cyan); }
+  .btn.yellow { background: var(--yellow); }
+
+  /* HERO 右侧几何拼贴 */
+  .hero-art {
+    position: relative;
+    height: 460px;
+  }
+  .shape {
+    position: absolute;
+    border: 4px solid var(--black);
+  }
+  .s-tri {
+    width: 0; height: 0;
+    border-left: 80px solid transparent;
+    border-right: 80px solid transparent;
+    border-bottom: 140px solid var(--pink);
+    border-top: 0;
+    background: transparent;
+    filter: drop-shadow(6px 6px 0 var(--black));
+  }
+  .s-cir {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 10px 10px 0 var(--black);
+  }
+  .s-sq {
+    width: 140px; height: 140px;
+    background: var(--yellow);
+    transform: rotate(8deg);
+    box-shadow: 8px 8px 0 var(--black);
+  }
+  .s-stripe {
+    width: 180px; height: 100px;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--blue),
+      var(--blue) 12px,
+      var(--white) 12px,
+      var(--white) 24px
+    );
+    transform: rotate(-12deg);
+  }
+  .s-zigzag {
+    width: 200px; height: 60px;
+    background:
+      linear-gradient(135deg, var(--orange) 25%, transparent 25%) 0 0/20px 20px,
+      linear-gradient(225deg, var(--orange) 25%, transparent 25%) 0 10px/20px 20px;
+    background-color: transparent;
+    transform: rotate(6deg);
+  }
+  .s-grid {
+    width: 130px; height: 130px;
+    background:
+      linear-gradient(var(--black) 3px, transparent 3px) 0 0/16px 16px,
+      linear-gradient(90deg, var(--black) 3px, transparent 3px) 0 0/16px 16px,
+      var(--purple);
+    box-shadow: 8px 8px 0 var(--black);
+  }
+
+  /* ---------- 通用 section ---------- */
+  section { padding: 90px 0; position: relative; }
+  section h2 {
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  section h2 .mark {
+    display: inline-block;
+    background: var(--yellow);
+    padding: 0 10px;
+    border: 4px solid var(--black);
+    transform: rotate(-1.5deg);
+  }
+  section h2 .mark-pink { background: var(--pink); color: var(--white); }
+  section h2 .mark-cyan { background: var(--cyan); }
+  .sub {
+    max-width: 720px;
+    margin-bottom: 40px;
+    font-size: 17px;
+    color: #333;
+  }
+
+  /* ---------- About ---------- */
+  .about { background: var(--white); border-bottom: 4px solid var(--black); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 20px;
+  }
+  .about-card {
+    padding: 32px;
+    border: 4px solid var(--black);
+    box-shadow: 10px 10px 0 var(--black);
+    position: relative;
+  }
+  .about-card.pink { background: var(--pink); color: var(--white); }
+  .about-card.cyan { background: var(--cyan); }
+  .about-card h3 {
+    font-size: 26px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .about-card ul { list-style: none; padding-left: 0; }
+  .about-card li {
+    padding: 8px 0 8px 28px;
+    position: relative;
+    font-weight: 600;
+  }
+  .about-card li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 14px;
+    height: 14px;
+    border: 3px solid currentColor;
+    background: var(--yellow);
+  }
+  .about-card.pink li::before { background: var(--yellow); border-color: var(--black); }
+  .about-card.cyan li::before { background: var(--pink); border-color: var(--black); }
+
+  /* ---------- Features ---------- */
+  .features { background: var(--cream); border-bottom: 4px solid var(--black); }
+  .feat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .feat {
+    background: var(--white);
+    border: 4px solid var(--black);
+    padding: 26px;
+    box-shadow: 8px 8px 0 var(--black);
+    transition: transform 0.15s;
+    position: relative;
+  }
+  .feat:hover { transform: translate(-3px, -3px) rotate(0.5deg); }
+  .feat:nth-child(1) { background: var(--yellow); }
+  .feat:nth-child(2) { background: var(--cyan); }
+  .feat:nth-child(3) { background: var(--pink); color: var(--white); }
+  .feat:nth-child(4) { background: var(--white); }
+  .feat:nth-child(5) { background: var(--orange); color: var(--white); }
+  .feat:nth-child(6) { background: var(--purple); color: var(--white); }
+  .feat .icon {
+    width: 48px; height: 48px;
+    border: 4px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 22px;
+    margin-bottom: 14px;
+    background: var(--black);
+    color: var(--white);
+  }
+  .feat:nth-child(2) .icon { background: var(--yellow); color: var(--black); border-color: var(--black); }
+  .feat:nth-child(4) .icon { background: var(--cyan); color: var(--black); border-color: var(--black); }
+  .feat h3 {
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .feat p { font-size: 15px; }
+
+  /* ---------- Architecture ---------- */
+  .arch { background: var(--blue); color: var(--white); border-bottom: 4px solid var(--black); }
+  .arch h2 .mark { background: var(--yellow); }
+  .arch .sub { color: rgba(255,255,255,0.85); }
+  .pipeline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    align-items: stretch;
+    margin-top: 20px;
+  }
+  .stage {
+    flex: 1 1 180px;
+    min-width: 180px;
+    background: var(--white);
+    color: var(--black);
+    border: 4px solid var(--black);
+    padding: 18px;
+    font-weight: 800;
+    text-align: center;
+    position: relative;
+  }
+  .stage small {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .stage.highlight {
+    background: var(--yellow);
+  }
+  .stage.highlight2 { background: var(--pink); color: var(--white); }
+  .arrow {
+    align-self: center;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--yellow);
+  }
+  .arch-note {
+    margin-top: 28px;
+    padding: 22px;
+    background: var(--black);
+    color: var(--cyan);
+    border: 4px solid var(--black);
+    box-shadow: 8px 8px 0 var(--yellow);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+  }
+  .arch-note b { color: var(--yellow); }
+
+  /* ---------- Status ---------- */
+  .status { background: var(--white); border-bottom: 4px solid var(--black); }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .stat {
+    border: 4px solid var(--black);
+    padding: 22px;
+    text-align: center;
+    box-shadow: 8px 8px 0 var(--black);
+    background: var(--cream);
+  }
+  .stat:nth-child(1) { background: var(--cyan); }
+  .stat:nth-child(2) { background: var(--yellow); }
+  .stat:nth-child(3) { background: var(--pink); color: var(--white); }
+  .stat:nth-child(4) { background: var(--orange); color: var(--white); }
+  .stat .num {
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .stat .lbl {
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .ver-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 4px solid var(--black);
+    background: var(--white);
+    box-shadow: 10px 10px 0 var(--black);
+    font-size: 15px;
+  }
+  .ver-table th, .ver-table td {
+    border-bottom: 3px solid var(--black);
+    padding: 14px 16px;
+    text-align: left;
+  }
+  .ver-table th {
+    background: var(--black);
+    color: var(--yellow);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .ver-table tr:last-child td { border-bottom: 0; }
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border: 2px solid var(--black);
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .pill.green { background: var(--cyan); }
+  .pill.yellow { background: var(--yellow); }
+  .pill.blue { background: var(--blue); color: var(--white); }
+  .pill.gray { background: #ddd; }
+
+  /* ---------- Code ---------- */
+  .code-section {
+    background: var(--black);
+    color: var(--white);
+    border-bottom: 4px solid var(--black);
+    padding: 80px 0;
+    position: relative;
+  }
+  .code-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle, var(--pink) 2px, transparent 2.5px) 0 0/30px 30px;
+    opacity: 0.18;
+    pointer-events: none;
+  }
+  .code-section h2 .mark { background: var(--cyan); }
+  .code-section .sub { color: rgba(255,255,255,0.8); position: relative; z-index: 2; }
+  .code-section h2 { position: relative; z-index: 2; }
+  .code-wrap {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .code-card {
+    background: var(--cream);
+    border: 4px solid var(--yellow);
+    box-shadow: 12px 12px 0 var(--pink);
+  }
+  .code-card .head {
+    background: var(--yellow);
+    border-bottom: 4px solid var(--yellow);
+    padding: 10px 16px;
+    font-weight: 900;
+    color: var(--black);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+  }
+  .code-card .head .dots { display: flex; gap: 6px; }
+  .code-card .head .dots span {
+    width: 12px; height: 12px;
+    border: 2px solid var(--black);
+    border-radius: 50%;
+    background: var(--white);
+  }
+  .code-card .head .dots span:nth-child(1) { background: var(--pink); }
+  .code-card .head .dots span:nth-child(2) { background: var(--yellow); }
+  .code-card .head .dots span:nth-child(3) { background: var(--cyan); }
+  .code-card pre {
+    margin: 0;
+    padding: 22px;
+    overflow-x: auto;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--black);
+    background: var(--cream);
+  }
+  .tk-kw  { color: var(--hot-pink); font-weight: 700; }
+  .tk-fn  { color: var(--blue);    font-weight: 700; }
+  .tk-ty  { color: var(--purple);  font-weight: 700; }
+  .tk-cm  { color: #888;          font-style: italic; }
+  .tk-num { color: var(--orange);  font-weight: 700; }
+  .tk-st  { color: var(--cyan);    font-weight: 700; }
+
+  .build-cmds {
+    background: var(--ink);
+    color: var(--cyan);
+    border: 4px solid var(--yellow);
+    padding: 22px;
+    font-size: 14px;
+    box-shadow: 10px 10px 0 var(--blue);
+  }
+  .build-cmds h4 {
+    color: var(--yellow);
+    font-weight: 900;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 14px;
+  }
+  .build-cmds .cmd {
+    background: var(--black);
+    border: 2px solid var(--ink);
+    padding: 10px 14px;
+    margin: 8px 0;
+    color: var(--white);
+    font-weight: 600;
+    overflow-x: auto;
+  }
+  .build-cmds .cmd b { color: var(--yellow); }
+
+  /* ---------- Roadmap ---------- */
+  .roadmap { background: var(--cream); border-bottom: 4px solid var(--black); }
+  .rm-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .rm {
+    background: var(--white);
+    border: 4px solid var(--black);
+    padding: 24px;
+    box-shadow: 8px 8px 0 var(--black);
+    position: relative;
+  }
+  .rm .vx {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+  .rm .badge {
+    position: absolute;
+    top: -14px;
+    right: 16px;
+    padding: 4px 12px;
+    border: 3px solid var(--black);
+    background: var(--cyan);
+    font-weight: 900;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transform: rotate(3deg);
+  }
+  .rm.done .badge    { background: var(--cyan); }
+  .rm.live .badge    { background: var(--yellow); }
+  .rm.next .badge    { background: var(--pink); color: var(--white); }
+  .rm.future .badge  { background: var(--purple); color: var(--white); }
+  .rm h4 { font-size: 16px; margin: 10px 0 8px; font-weight: 900; text-transform: uppercase; }
+  .rm p { font-size: 13px; color: #444; }
+  .rm ul { list-style: none; margin-top: 8px; padding-left: 0; }
+  .rm li {
+    font-size: 13px;
+    padding: 3px 0 3px 16px;
+    position: relative;
+  }
+  .rm li::before {
+    content: "▸";
+    color: var(--pink);
+    position: absolute;
+    left: 0;
+    font-weight: 900;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--black);
+    color: var(--white);
+    padding: 60px 0 40px;
+    border-top: 4px solid var(--black);
+    position: relative;
+    overflow: hidden;
+  }
+  footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 24px,
+      rgba(255,255,255,0.04) 24px,
+      rgba(255,255,255,0.04) 48px
+    );
+  }
+  footer .ft-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 32px;
+    position: relative;
+    z-index: 2;
+  }
+  footer h5 {
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--yellow);
+    margin-bottom: 14px;
+  }
+  footer ul { list-style: none; }
+  footer li { padding: 4px 0; font-size: 14px; }
+  footer .stamp {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+  footer .stamp .a { color: var(--pink); }
+  footer .stamp .b { color: var(--cyan); }
+  footer .stamp .c { color: var(--yellow); }
+  footer .small { font-size: 12px; opacity: 0.6; margin-top: 16px; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .hero-inner, .about-grid, .feat-grid, .stats, .rm-grid, .code-wrap, footer .ft-grid {
+      grid-template-columns: 1fr;
+    }
+    .stats, .rm-grid { grid-template-columns: 1fr 1fr; }
+    .hero-art { height: 320px; }
+    nav.top ul { display: none; }
+  }
+  @media (max-width: 540px) {
+    .stats, .rm-grid { grid-template-columns: 1fr; }
+    section { padding: 60px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- =================== NAV =================== -->
+<nav class="top">
+  <div class="logo">
+    <span class="dot"></span>
+    JHYY · 机会翼游
+  </div>
+  <ul>
+    <li><a href="#about"><span>01</span>关于</a></li>
+    <li><a href="#features"><span>02</span>特性</a></li>
+    <li><a href="#arch"><span>03</span>架构</a></li>
+    <li><a href="#status"><span>04</span>状态</a></li>
+    <li><a href="#code"><span>05</span>代码</a></li>
+    <li><a href="#roadmap"><span>06</span>路线</a></li>
+    <li><a href="https://jihuiyiyou.github.io/JiHuiYiYou-website/" target="_blank" rel="noopener"><span>↩</span>官网</a></li>
+  </ul>
+</nav>
+
+<!-- =================== HERO =================== -->
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <span class="tag">v1.8.3 · v2.0 stage shipped · 2026</span>
+      <h1>
+        <span class="accent1">自举</span>
+        编译器<br />
+        <span class="accent2">自研 OS</span>
+      </h1>
+      <p class="lead">
+        JHYY (机会翼游) 是一个 <b>自研</b>、<b>静态类型</b>、表达式导向的系统编程语言。
+        编译器用自己编译自己,产出 <b>byte-equal</b> 的 QBE 中间表示,
+        最终生成原生 x86-64 PE 二进制。下一个里程碑:<b>自研操作系统</b>。
+      </p>
+      <div class="hero-cta">
+        <a class="btn pink" href="#code">▶ 看代码</a>
+        <a class="btn cyan" href="#arch">⛓ 架构</a>
+        <a class="btn yellow" href="#status">★ 当前状态</a>
+      </div>
+    </div>
+
+    <!-- 右侧 Memphis 几何拼贴 -->
+    <div class="hero-art" aria-hidden="true">
+      <div class="shape s-cir"  style="left: 30%;  top: 4%;"></div>
+      <div class="shape s-tri"  style="left: 70%;  top: 12%; border-left-color: transparent; border-right-color: transparent; border-bottom-color: var(--yellow);"></div>
+      <div class="shape s-sq"   style="left: 8%;   top: 38%;"></div>
+      <div class="shape s-stripe" style="left: 60%; top: 48%;"></div>
+      <div class="shape s-grid" style="left: 38%;  top: 60%;"></div>
+      <div class="shape s-zigzag" style="left: 8%;  top: 70%; background-color: var(--orange);"></div>
+    </div>
+  </div>
+</header>
+
+<!-- =================== ABOUT =================== -->
+<section class="about" id="about">
+  <div class="wrap">
+    <span class="tag" style="background: var(--pink); color: var(--white);">关于 / About</span>
+    <h2 style="margin-top: 16px;">
+      <span class="mark">为什么</span>是 JHYY?
+    </h2>
+    <p class="sub">
+      大多数编程语言只是别人的工具。JHYY 是工具链的<strong>每一层</strong>——从 lexer 到 codegen,
+      从汇编到 ABI——都从零写起,然后让这门语言自己重新实现自己,直到 byte-equal 闭环。
+      这不是演示项目:它能编译、链接、跑通,也能跑自己。
+    </p>
+
+    <div class="about-grid">
+      <div class="about-card pink">
+        <h3>🎯 设计目标</h3>
+        <ul>
+          <li>自举编译器 — jhyy 编 jhyy, byte-equal `.il` 闭环</li>
+          <li>原生性能 — QBE 后端,无 runtime / 无 GC,直产 PE/COFF</li>
+          <li>OS 友好 — 服务于 jhyy_OS 的语言扩展</li>
+          <li>工程化 — 完整 spec / ABI 白皮书 / 回归套件</li>
+        </ul>
+      </div>
+
+      <div class="about-card cyan">
+        <h3>🧬 与众不同</h3>
+        <ul>
+          <li>两套等价的编译器实现 — C-side 与 jhyy-side</li>
+          <li>Stage 2 N=4 byte-equal 闭环 — 5 个世代输出同 sha256</li>
+          <li>多 ABI 多调用约定 — Windows x64 / System V / freestanding EFI</li>
+          <li>11 个 MCP 工具 + VSCode 扩展 + 一键安装包</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== FEATURES =================== -->
+<section class="features" id="features">
+  <div class="wrap">
+    <span class="tag" style="background: var(--cyan);">语言特性 / Features</span>
+    <h2 style="margin-top: 16px;">
+      一个 <span class="mark mark-cyan">现代系统语言</span><br/>该有的样子
+    </h2>
+    <p class="sub">
+      静态类型 + 表达式导向 + 一等公民的函数。结构体、枚举、模式匹配、切片、命名空间、C FFI、模块系统——都有,但没有 GC,没有运行时垃圾。
+    </p>
+
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="icon">T</div>
+        <h3>静态类型</h3>
+        <p>i8/i16/i32/i64,u*/f*/bool,指针 <code>*T</code>,定长数组 <code>[T; N]</code>,切片 <code>[*]T</code>,struct / enum 全套。</p>
+      </div>
+      <div class="feat">
+        <div class="icon">{ }</div>
+        <h3>表达式导向</h3>
+        <p><code>if</code> 是表达式、<code>match</code> 是表达式、块也是值。<code>while</code> / <code>for i in start..end</code> / <code>break</code> / <code>continue</code> 全员。</p>
+      </div>
+      <div class="feat">
+        <div class="icon">⇆</div>
+        <h3>match + 穷尽</h3>
+        <p>字面量 / 范围 / 枚举 / 通配符全支持,带穷尽性检查。<code>0 | 1..10 =&gt; ...</code> 区间 or-pattern 写法。</p>
+      </div>
+      <div class="feat">
+        <div class="icon">⇄</div>
+        <h3>C FFI</h3>
+        <p><code>extern fn printf(...)</code> 直接调 C。多文件链接、结构体按值传参、命名空间 <code>mod::fn()</code> 一气呵成。</p>
+      </div>
+      <div class="feat">
+        <div class="icon">M</div>
+        <h3>模块系统</h3>
+        <p><code>import</code> + 传递性导入,多文件 CLI 编译,<code>mod::fn()</code> 命名空间访问。运行时 Arena 分配器也可经 FFI 调。</p>
+      </div>
+      <div class="feat">
+        <div class="icon">∅</div>
+        <h3>零 runtime</h3>
+        <p>无 GC、无垃圾回收、无运行时反射。直接 QBE → <code>as</code> → <code>ld</code> → 原生 <code>.exe</code>。想跑哪跑哪。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== ARCH =================== -->
+<section class="arch" id="arch">
+  <div class="wrap">
+    <span class="tag" style="background: var(--yellow);">架构 / Architecture</span>
+    <h2 style="margin-top: 16px;">
+      一条 <span class="mark">流水线</span>,两条 <span class="mark">路径</span>
+    </h2>
+    <p class="sub">
+      同一个 `.jhyy` 源文件,既能由 C-side 编译器编译,也能由 jhyy-side 编译器编译。
+      两条路径产出的 QBE 中间表示 <b style="color: var(--yellow);">byte-equal</b>——
+      这就是 Stage 2 N=4 自举闭环的事实基础。
+    </p>
+
+    <div class="pipeline">
+      <div class="stage highlight">
+        .jhyy 源文件
+        <small>src0/main.jhyy</small>
+      </div>
+      <div class="arrow">→</div>
+      <div class="stage">
+        lexer
+        <small>词法分析</small>
+      </div>
+      <div class="arrow">→</div>
+      <div class="stage">
+        parser
+        <small>→ AST</small>
+      </div>
+      <div class="arrow">→</div>
+      <div class="stage">
+        sema
+        <small>类型检查</small>
+      </div>
+      <div class="arrow">→</div>
+      <div class="stage highlight2">
+        codegen
+        <small>→ QBE IL</small>
+      </div>
+      <div class="arrow">→</div>
+      <div class="stage">
+        qbe.exe
+        <small>→ .s</small>
+      </div>
+      <div class="arrow">→</div>
+      <div class="stage">
+        as / ld
+        <small>→ .exe</small>
+      </div>
+    </div>
+
+    <div class="arch-note">
+      <b>// 两套等价实现</b><br/>
+      compiler/src/    · C-side  · v0.x — production<br/>
+      compiler/src0/   · jhyy-side · v1.x — self-host<br/>
+      <br/>
+      <b>// Stage 2 N=4 byte-equal 闭环</b> (v1.0.0 tag 9b05c0f, re-baselined v2.4.0 tag v2.4.0)<br/>
+      jhyy_v1 → src0 → jhyy_v2.il ┐<br/>
+      jhyy_v2 → src0 → jhyy_v3.il ├─ sha256 一致<br/>
+      jhyy_v3 → src0 → jhyy_v4.il │  (1.378 MB,<br/>
+      jhyy_v4 → src0 → jhyy_v5.il ┘   无 post-fix)
+    </div>
+  </div>
+</section>
+
+<!-- =================== STATUS =================== -->
+<section class="status" id="status">
+  <div class="wrap">
+    <span class="tag">状态 / Status</span>
+    <h2 style="margin-top: 16px;">
+      <span class="mark mark-pink">v1.x 已 ship</span> · v2.0 阶段 ship · v3.x next
+    </h2>
+    <p class="sub">
+      单一版本轴 — 没有 phase-N。每个版本的发布都意味着前一阶段的工作已经被 byte-equal 闭环吞掉。
+    </p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="num">104</div>
+        <div class="lbl">regress 测试 / 通过</div>
+      </div>
+      <div class="stat">
+        <div class="num">5</div>
+        <div class="lbl">自举世代 / byte-equal</div>
+      </div>
+      <div class="stat">
+        <div class="num">11</div>
+        <div class="lbl">MCP 工具 / for Claude</div>
+      </div>
+      <div class="stat">
+        <div class="num">3</div>
+        <div class="lbl">目标 ABI / Win·SysV·EFI</div>
+      </div>
+    </div>
+
+    <table class="ver-table">
+      <thead>
+        <tr>
+          <th>轴</th>
+          <th>范围</th>
+          <th>目标</th>
+          <th>状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>v0.x</b></td>
+          <td>C 编译器自身</td>
+          <td>达成自举门槛</td>
+          <td><span class="pill green">🟢 frozen at v1.0.0 baseline</span></td>
+        </tr>
+        <tr>
+          <td><b>v1.x</b></td>
+          <td>jhyy 自举 (src0/*.jhyy)</td>
+          <td>真自举闭环, byte-equal .il</td>
+          <td><span class="pill green">🟢 v1.8.3 shipped — FINAL</span></td>
+        </tr>
+        <tr>
+          <td><b>v2.0</b></td>
+          <td>QBE 重写 + 多目标 / freestanding</td>
+          <td>amd64_sysv / EFI .efi</td>
+          <td><span class="pill yellow">✅ v2.0 阶段 ship (v2.0.0 → v2.4.0, 2026-09-04)</span></td>
+        </tr>
+        <tr>
+          <td><b>v2.x 中/末</b></td>
+          <td>QBE 自写 / amd64_sysv 实 impl / N 代 fixed point</td>
+          <td>丢掉 vendored QBE</td>
+          <td><span class="pill gray">⏳ 未启动</span></td>
+        </tr>
+        <tr>
+          <td><b>v3.x</b></td>
+          <td>语言扩展 (asm / volatile / naked / no_std / &mut + lifetime)</td>
+          <td>服务 jhyy_OS</td>
+          <td><span class="pill blue">▶ next — 3a-3f 等 user 启动</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- =================== CODE =================== -->
+<section class="code-section" id="code">
+  <div class="wrap">
+    <span class="tag" style="background: var(--pink); color: var(--white); border-color: var(--white);">代码 / A tour of the syntax</span>
+    <h2 style="margin-top: 16px;">
+      <span class="mark">看一眼</span> 就懂了
+    </h2>
+    <p class="sub">
+      函数、变量、控制流、struct、match、enum、FFI——全部一气呵成。
+    </p>
+
+    <div class="code-wrap">
+      <div class="code-card">
+        <div class="head">
+          <span>hello.jhyy</span>
+          <div class="dots"><span></span><span></span><span></span></div>
+        </div>
+<pre><span class="tk-cm">// 类型 / 函数 / 控制流 / struct / match / enum / FFI</span>
+<span class="tk-kw">type</span> <span class="tk-ty">Point</span> = <span class="tk-kw">struct</span> { x: <span class="tk-ty">i32</span>, y: <span class="tk-ty">i32</span> }
+
+<span class="tk-kw">fn</span> <span class="tk-fn">dist_sq</span>(a: <span class="tk-ty">Point</span>, b: <span class="tk-ty">Point</span>) -&gt; <span class="tk-ty">i32</span> {
+    <span class="tk-kw">let</span> dx = a.x - b.x;
+    <span class="tk-kw">let</span> dy = b.y - a.y;
+    dx * dx + dy * dy
+}
+
+<span class="tk-kw">fn</span> <span class="tk-fn">classify</span>(n: <span class="tk-ty">i32</span>) -&gt; *<span class="tk-ty">u8</span> {
+    <span class="tk-kw">match</span> n {
+        <span class="tk-num">0</span>        =&gt; <span class="tk-st">"zero"</span>,
+        <span class="tk-num">1</span>..<span class="tk-num">10</span>    =&gt; <span class="tk-st">"single digit"</span>,
+        <span class="tk-num">10</span> | <span class="tk-num">20</span>  =&gt; <span class="tk-st">"round number"</span>,
+        _        =&gt; <span class="tk-st">"other"</span>,
+    }
+}
+
+<span class="tk-kw">extern fn</span> <span class="tk-fn">printf</span>(fmt: *<span class="tk-ty">u8</span>, val: <span class="tk-ty">i32</span>) -&gt; <span class="tk-ty">i32</span>;
+
+<span class="tk-kw">fn</span> <span class="tk-fn">main_jhyy</span>() -&gt; <span class="tk-ty">i32</span> {
+    <span class="tk-kw">let</span> p = <span class="tk-ty">Point</span> { x: <span class="tk-num">3</span>, y: <span class="tk-num">4</span> };
+    <span class="tk-kw">let</span> q = <span class="tk-ty">Point</span> { x: <span class="tk-num">0</span>, y: <span class="tk-num">0</span> };
+    <span class="tk-fn">printf</span>(<span class="tk-st">"d² = %d\n"</span>, <span class="tk-fn">dist_sq</span>(p, q));
+    <span class="tk-fn">printf</span>(<span class="tk-st">"%s\n"</span>, <span class="tk-fn">classify</span>(<span class="tk-num">42</span>));
+    <span class="tk-num">0</span>
+}</pre>
+      </div>
+
+      <div class="build-cmds">
+        <h4>⛓ Build / Run</h4>
+        <div class="cmd"><b>$</b> make</div>
+        <div class="cmd" style="color: var(--pink);">// → compiler/build/bin/jhyy.exe (~5MB)</div>
+
+        <h4 style="margin-top: 18px;">▶ 一行运行</h4>
+        <div class="cmd"><b>$</b> ./compiler/build/bin/jhyy.exe <span style="color: var(--cyan);">run</span> hello.jhyy</div>
+        <div class="cmd" style="color: var(--yellow);">d² = 25<br/>other</div>
+
+        <h4 style="margin-top: 18px;">✓ 自举验证</h4>
+        <div class="cmd"><b>$</b> python compiler/build/bin/regress.py</div>
+        <div class="cmd" style="color: var(--cyan);">// 104/104 passed, 0 failed, 4 skipped</div>
+
+        <h4 style="margin-top: 18px;">📦 一键安装</h4>
+        <div class="cmd"><b>$</b> installer/jhyy-installer-1.8.3.exe</div>
+        <div class="cmd" style="color: var(--pink);">// jhyy.exe + .jhyy 关联 + VSCode 扩展 + PATH</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== ROADMAP =================== -->
+<section class="roadmap" id="roadmap">
+  <div class="wrap">
+    <span class="tag" style="background: var(--orange); color: var(--white); border-color: var(--black);">路线 / Roadmap</span>
+    <h2 style="margin-top: 16px;">
+      <span class="mark mark-pink">下一步</span> = jhyy_OS
+    </h2>
+    <p class="sub">
+      v0.x 冻结,v1.x 已 ship,v2.0 阶段已 ship。下一步是 v3.x 的语言扩展,服务于自研 OS。
+      v2.x 中/末(QBE 自写 / amd64_sysv / N 代 fixed point)与 v3.x 异步并行。
+    </p>
+
+    <div class="rm-grid">
+      <div class="rm done">
+        <span class="badge">DONE</span>
+        <div class="vx">v0.x</div>
+        <h4>C 编译器自身</h4>
+        <p>达成自举门槛。</p>
+        <ul>
+          <li>v0.0.1 → v0.9.0</li>
+          <li>frozen at v1.0.0 baseline</li>
+        </ul>
+      </div>
+
+      <div class="rm done">
+        <span class="badge">DONE</span>
+        <div class="vx">v1.x</div>
+        <h4>jhyy 自举</h4>
+        <p>byte-equal `.il` 闭环。</p>
+        <ul>
+          <li>v1.0.0 tag 9b05c0f</li>
+          <li>v1.8.3 tag 98c8272 FINAL</li>
+          <li>Stage 2 N=4 closure</li>
+        </ul>
+      </div>
+
+      <div class="rm done">
+        <span class="badge">SHIPPED</span>
+        <div class="vx">v2.0</div>
+        <h4>多目标 + freestanding</h4>
+        <p>5 个版本串行 ship。</p>
+        <ul>
+          <li>amd64_win / amd64_sysv</li>
+          <li>freestanding .efi (OVMF E2E 5/5)</li>
+          <li>hello-freestanding.efi 跑通</li>
+        </ul>
+      </div>
+
+      <div class="rm next">
+        <span class="badge">NEXT</span>
+        <div class="vx">v3.x</div>
+        <h4>OS-required 扩展</h4>
+        <p>服务 jhyy_OS。</p>
+        <ul>
+          <li>inline asm / #[naked]</li>
+          <li>volatile / #[link_section]</li>
+          <li>memory barrier / #[no_std] (软)</li>
+          <li>&mut lifetime</li>
+        </ul>
+      </div>
+
+      <div class="rm future">
+        <span class="badge">PLANNED</span>
+        <div class="vx">v2.x 末</div>
+        <h4>自写 QBE</h4>
+        <p>去掉 vendored QBE。</p>
+        <ul>
+          <li>QBE 自写</li>
+          <li>amd64_sysv 实 impl</li>
+          <li>N 代 fixed point</li>
+          <li>M5: 删 src/*.c + qbe/ + runtime.c</li>
+        </ul>
+      </div>
+
+      <div class="rm future">
+        <span class="badge">PLANNED</span>
+        <div class="vx">jhyy_OS</div>
+        <h4>自研操作系统</h4>
+        <p>UEFI + PE/COFF boot。</p>
+        <ul>
+          <li>M1-M11 milestones</li>
+          <li>capability spec</li>
+          <li>Debug ABI locked</li>
+        </ul>
+      </div>
+
+      <div class="rm future" style="grid-column: span 2; background: var(--black); color: var(--white);">
+        <span class="badge" style="background: var(--yellow);">VISION</span>
+        <div class="vx" style="color: var(--yellow);">最终闭环</div>
+        <h4>jhyy 编 jhyy · jhyy_OS 跑 jhyy</h4>
+        <p style="color: rgba(255,255,255,0.85);">
+          编译器 0 C 依赖、OS 自举、调试 ABI 完整——从语法到 ABI 到运行时,
+          每一层都是自己写的。这就是机会翼游。
+        </p>
+        <ul>
+          <li>Stage 0: jhyy 编 src0 → byte-equal</li>
+          <li>Stage 1: jhyy 编 jhyy → byte-equal</li>
+          <li>Stage 2: N 代 fixed point attractor</li>
+          <li>M5: 0 C 依赖 + 自研 OS 跑自研编译器</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== FOOTER =================== -->
+<footer>
+  <div class="wrap ft-grid">
+    <div>
+      <div class="stamp">
+        <span class="a">机</span><span class="b">会</span><span class="c">翼</span>游
+      </div>
+      <p style="margin-top: 12px; font-size: 14px; opacity: 0.8;">
+        JHYY — 自举 × 静态类型 × QBE × 自研 OS。<br/>
+        用自己写自己,用自己跑自己。
+      </p>
+    </div>
+    <div>
+      <h5>权威文档</h5>
+      <ul>
+        <li>jhyy-lang-spec-v1.3.0 (🔒 locked)</li>
+        <li>jhyy-abi-v1.0.0 (🔒 locked)</li>
+        <li>v2.0.0-os-prep (M1-M11)</li>
+        <li>workarounds.md (W-NNN index)</li>
+      </ul>
+    </div>
+    <div>
+      <h5>工具链</h5>
+      <ul>
+        <li>11 MCP tools · 7 production-ready</li>
+        <li>VSCode 扩展 · jhyy-lang-1.8.3.vsix</li>
+        <li>installer · .exe / .msi</li>
+        <li>104/104 regression passing</li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap" style="position: relative; z-index: 2;">
+    <p class="small">
+      © 机会翼游 / JHYY · MIT · Human author: JHYY · AI collaborator: MiniMax-M3 (Claude Code workflow)
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

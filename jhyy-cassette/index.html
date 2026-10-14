@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>机会翼游 JHYY — 用自身语言编译自身的系统编程语言</title>
+<link rel="icon" type="image/png" href="favicon.png" />
+<meta name="description" content="JHYY 是一门自研的静态类型、表达式导向的编译型系统编程语言。编译器用自身语言写自身，达成 v1→v5 字节相同的不动点闭环。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<noscript><style>[data-reveal]{opacity:1}</style></noscript>
+</head>
+<body>
+
+<!-- ══ 显像管表面：扫描线 / 暗角 / 噪点 ══ -->
+<div class="tube-surface" aria-hidden="true">
+  <div class="tube-surface__scan"></div>
+  <div class="tube-surface__noise"></div>
+  <div class="tube-surface__vignette"></div>
+</div>
+
+<!-- ══════════ 顶部状态条 ══════════ -->
+<header class="statusbar">
+  <div class="statusbar__row">
+    <span class="statusbar__brand">机会翼游&nbsp;<b>JHYY</b></span>
+    <span class="statusbar__item"><i class="led led--on led--blink"></i>SELF-HOST&nbsp;CLOSURE</span>
+    <span class="statusbar__item"><i class="led led--on"></i>REGRESS&nbsp;158/158</span>
+    <span class="statusbar__item"><i class="led led--amber"></i>TARGET&nbsp;amd64_win</span>
+    <span class="statusbar__spacer"></span>
+    <span class="statusbar__item statusbar__item--dim">VER&nbsp;4.0.6</span>
+    <span class="statusbar__item statusbar__item--dim">MIT</span>
+    <a class="statusbar__item statusbar__back" href="https://jihuiyiyou.github.io/JiHuiYiYou-website/" target="_blank" rel="noopener">←&nbsp;官网</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" id="top">
+  <div class="hero__text">
+    <div class="plate plate--lg" data-reveal>
+      <span class="plate__no">SYS · JHYY</span>
+      <span class="plate__label">机会翼游</span>
+    </div>
+
+    <h1 class="hero__title" data-reveal>
+      <span class="hero__title-l1">用自身语言</span>
+      <span class="hero__title-l2">编译<em>自身</em></span>
+    </h1>
+
+    <p class="hero__lede" data-reveal>
+      自研的静态类型、表达式导向、编译型<strong>系统编程语言</strong>。
+      编译器用 JHYY 写 JHYY —— 从 v1 编到 v5，五份中间表示<strong>字节完全相同</strong>，
+      并且这件事在第 10 代仍然成立。
+    </p>
+
+    <div class="hero__metrics" data-reveal>
+      <div class="metric">
+        <div class="metric__val">158</div>
+        <div class="metric__key">REGRESSION TESTS</div>
+      </div>
+      <div class="metric">
+        <div class="metric__val">N≥10</div>
+        <div class="metric__key">SELF-HOST GENERATIONS</div>
+      </div>
+      <div class="metric">
+        <div class="metric__val">0</div>
+        <div class="metric__key">GC · RUNTIME OVERHEAD</div>
+      </div>
+      <div class="metric">
+        <div class="metric__val">29</div>
+        <div class="metric__key">SELF-HOSTED MODULES</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 显像管 + 频道选择 ══ -->
+  <div class="hero__tube" data-reveal>
+    <div class="crt">
+      <div class="crt__bezel">
+        <span class="screw screw--tl"></span>
+        <span class="screw screw--tr"></span>
+        <span class="screw screw--bl"></span>
+        <span class="screw screw--br"></span>
+
+        <div class="crt__brandplate">JHYV</div>
+
+        <div class="crt__screen">
+          <div class="crt__glass"></div>
+          <div class="crt__content" id="crtContent">
+            <!-- 频道 01 -->
+            <div class="chan is-active" data-chan="1">
+              <div class="chan__head">
+                <span class="chan__no">CH-01</span>
+                <span class="chan__title">自举闭环 / SELF-HOST</span>
+                <span class="chan__stamp">LIVE</span>
+              </div>
+              <pre class="term">JHYV 4.0.6  (self-hosted)
+
+GEN 1  jhyy_v1.exe  --compile-->  main.jhyy
+GEN 2  jhyy_v2.exe  --compile-->  main.jhyy   <b>byte-equal</b>
+GEN 3  jhyy_v3.exe  --compile-->  main.jhyy   <b>byte-equal</b>
+GEN 4  jhyy_v4.exe  --compile-->  main.jhyy   <b>byte-equal</b>
+GEN 5  jhyy_v5.exe  --compile-->  main.jhyy   <b>byte-equal</b>
+
+  IL   1,378 MB    sha256 v2/v3/v4/v5  IDENTICAL
+  N    >=10        fixed point  HELD
+<span class="term__ok">>> 不动点是吸引子，不是暂态。CLOSED.</span></pre>
+            </div>
+
+            <!-- 频道 02 -->
+            <div class="chan" data-chan="2">
+              <div class="chan__head">
+                <span class="chan__no">CH-02</span>
+                <span class="chan__title">一段源码 / SOURCE</span>
+                <span class="chan__stamp">READ</span>
+              </div>
+<pre class="term term--code"><span class="k">type</span> Point = <span class="k">struct</span> { x: i32, y: i32 }
+
+<span class="k">fn</span> dist_sq(a: Point, b: Point) -&gt; i32 {
+    <span class="k">let</span> dx = a.x - b.x;
+    <span class="k">let</span> dy = b.y - a.y;
+    dx * dx + dy * dy          <span class="c">// 无分号，末行即返回值</span>
+}
+
+<span class="k">fn</span> classify(n: i32) -&gt; *u8 {
+    <span class="k">match</span> n {                       <span class="c">// 带穷尽性检查</span>
+        <span class="n">0</span>       =&gt; <span class="s">"zero"</span>,
+        <span class="n">1</span>..<span class="n">10</span>   =&gt; <span class="s">"single digit"</span>,
+        <span class="n">10</span> | <span class="n">20</span> =&gt; <span class="s">"round number"</span>,
+        _        =&gt; <span class="s">"other"</span>,
+    }
+}
+
+<span class="k">extern fn</span> printf(fmt: *u8, val: i32) -&gt; i32;   <span class="c">// FFI 到 C</span>
+
+<span class="k">fn</span> main_jhyy() -&gt; i32 {
+    <span class="k">let</span> p = Point { x: 3, y: 4 };
+    printf(<span class="s">"d² = %d\n"</span>, dist_sq(p, Point { x: 0, y: 0 }));
+    <span class="k">let</span> s = <span class="s">"机会翼游"</span>;              <span class="c">// UTF-8 原生字面量</span>
+    0
+}</pre>
+            </div>
+
+            <!-- 频道 03 -->
+            <div class="chan" data-chan="3">
+              <div class="chan__head">
+                <span class="chan__no">CH-03</span>
+                <span class="chan__title">编译器产物 / IR</span>
+                <span class="chan__stamp">DUMP</span>
+              </div>
+              <pre class="term term--code term--dim">$ cat compiler/tests/examples/hello.jhyy
+<span class="k">fn</span> main_jhyy() -&gt; i32 {
+    <span class="n">42</span>
+}
+
+$ jhyy build hello.jhyy          <span class="c"># 第 2 代自举编译器</span>
+dbgfile <span class="s">"hello.jhyy"</span>
+<span class="k">export function</span> w $main_jhyy() {
+@start0
+    dbgloc 1
+    dbgloc 2
+    %t1 =w copy 42
+    ret %t1
+}
+<span class="term__ok">$ ./hello.exe ; echo $?
+42</span></pre>
+            </div>
+
+            <!-- 频道 04 -->
+            <div class="chan" data-chan="4">
+              <div class="chan__head">
+                <span class="chan__no">CH-04</span>
+                <span class="chan__title">回归 / REGRESSION</span>
+                <span class="chan__stamp">PASS</span>
+              </div>
+              <pre class="term">$ python regress.py --all
+<span class="term__warn">W-097  multi-field access emit     ..... 22 skipped</span>
+<span class="term__ok">  1   exit code semantics            ...... ok</span>
+<span class="term__ok">  2   struct pass-by-value           ...... ok</span>
+<span class="term__ok">  3   float cast / fmod / signed zero  ...... ok</span>
+<span class="term__ok">  4   arena alloc + reset            ...... ok</span>
+<span class="term__ok">  5   match exhaustiveness           ...... ok</span>
+  ...
+<span class="term__ok">158 passed, 22 skipped, 0 failed</span>
+
+$ jhyy_selfhost_check
+<span class="term__ok">all_byte_equal = true</span></pre>
+            </div>
+          </div>
+
+          <div class="crt__snow" id="crtSnow" aria-hidden="true"></div>
+        </div>
+
+        <!-- 频道选择按钮排 -->
+        <div class="crt__controls">
+          <div class="crt__chanbank" role="tablist" aria-label="显像管频道">
+            <button class="chanbtn is-on" role="tab" aria-selected="true"  data-goto="1"><b>01</b> 自举</button>
+            <button class="chanbtn"       role="tab" aria-selected="false" data-goto="2"><b>02</b> 源码</button>
+            <button class="chanbtn"       role="tab" aria-selected="false" data-goto="3"><b>03</b> 产物</button>
+            <button class="chanbtn"       role="tab" aria-selected="false" data-goto="4"><b>04</b> 回归</button>
+          </div>
+          <div class="crt__knobs" aria-hidden="true">
+            <span class="knob"><i></i></span>
+            <span class="knob"><i></i></span>
+            <span class="led led--on"></span>
+          </div>
+        </div>
+
+        <div class="crt__nameplate">JHYV-MONITOR · 14″ · 1979</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 01 · 这是什么 ══════════ -->
+<section class="section" id="nav">
+  <div class="sec-head" data-reveal>
+    <span class="sec-no">01</span>
+    <h2 class="sec-title">这是什么 / WHAT</h2>
+    <span class="sec-tag">NAV</span>
+  </div>
+
+  <div class="grid grid--2">
+    <div class="module" data-reveal>
+      <div class="module__label">DESCRIPTION</div>
+      <p>
+        JHYY（机会翼游）是一门<strong>自研</strong>的、静态类型的、表达式导向的<strong>编译型系统编程语言</strong>。
+        源码 <code>.jhyy</code> 进，自研后端出 x86-64 原生二进制出，
+        中间没有解释器、没有虚拟机、没有垃圾回收。
+      </p>
+      <p class="dim">
+        它不为上生产而写。它存在的第一理由是：<strong>能不能用一门语言，把这门语言的编译器写出来</strong>，
+        并且第二遍第三遍一直编下去，结果分毫不差。
+      </p>
+    </div>
+
+    <div class="module" data-reveal>
+      <div class="module__label">THREE OBJECTIVES</div>
+      <ul class="checklist">
+        <li><i class="led led--on"></i><span><b>自举能力</b> —— 编译器用自身语言写自身，达成字节相同闭环（v1.0.0 达成）</span></li>
+        <li><i class="led led--amber"></i><span><b>原生性能</b> —— 无运行时 / 无 GC，直接产出机器码</span></li>
+        <li><i class="led led--on"></i><span><b>系统级能力</b> —— inline asm / volatile / naked / <code>no_std</code> / <code>&amp;mut</code> + lifetime，为写操作系统准备</span></li>
+      </ul>
+      <div class="readouts">
+        <div class="readout">
+          <span class="readout__key">SELF-HOST</span>
+          <span class="readout__bar" style="--v:100%"></span>
+          <span class="readout__val">100%</span>
+        </div>
+        <div class="readout">
+          <span class="readout__key">GC / RUNTIME</span>
+          <span class="readout__bar" style="--v:0%"></span>
+          <span class="readout__val">NONE</span>
+        </div>
+        <div class="readout">
+          <span class="readout__key">EXTERNAL BACKEND</span>
+          <span class="readout__bar" style="--v:0%"></span>
+          <span class="readout__val">REMOVED</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 02 · 自举闭环 ══════════ -->
+<section class="section" id="selfhost">
+  <div class="sec-head" data-reveal>
+    <span class="sec-no">02</span>
+    <h2 class="sec-title">自举闭环 / SELF-HOST</h2>
+    <span class="sec-tag">BOOT</span>
+  </div>
+
+  <p class="lede" data-reveal>
+    第 1 代编译器编出第 2 代，第 2 代编出第 3 代……一直编下去。
+    关键是：<strong>从第 2 代起，产物字节完全相同</strong>。它落在了一个不动点上。
+  </p>
+
+  <div class="chain" data-reveal>
+    <div class="chain__stage">
+      <div class="chain__badge">GEN 1</div>
+      <div class="chain__box chain__box--seed">jhyy.exe<span>C 端 · 种子</span></div>
+      <div class="chain__led"><i class="led led--amber"></i></div>
+    </div>
+    <div class="chain__arrow">→</div>
+    <div class="chain__stage">
+      <div class="chain__badge">GEN 2</div>
+      <div class="chain__box">jhyy_v1<span>首代自举</span></div>
+      <div class="chain__led"><i class="led led--on"></i></div>
+    </div>
+    <div class="chain__arrow">→</div>
+    <div class="chain__stage">
+      <div class="chain__badge">GEN 3</div>
+      <div class="chain__box">jhyy_v2<span>IL 基准</span></div>
+      <div class="chain__led"><i class="led led--on"></i></div>
+    </div>
+    <div class="chain__arrow">→</div>
+    <div class="chain__stage">
+      <div class="chain__badge">GEN 4</div>
+      <div class="chain__box">jhyy_v3<span>byte-equal</span></div>
+      <div class="chain__led"><i class="led led--on"></i></div>
+    </div>
+    <div class="chain__arrow">→</div>
+    <div class="chain__stage">
+      <div class="chain__badge">GEN 5</div>
+      <div class="chain__box">jhyy_v4<span>byte-equal</span></div>
+      <div class="chain__led"><i class="led led--on"></i></div>
+    </div>
+    <div class="chain__arrow chain__arrow--inf">→∞</div>
+    <div class="chain__stage">
+      <div class="chain__badge">GEN N≥10</div>
+      <div class="chain__box chain__box--ok">FIXED POINT<span>10 代仍然相同</span></div>
+      <div class="chain__led"><i class="led led--on led--blink"></i></div>
+    </div>
+  </div>
+
+  <div class="grid grid--3">
+    <div class="module module--tight" data-reveal>
+      <div class="module__label">STAGE 2 · BYTE-EQUAL</div>
+      <div class="statline"><span class="statline__n">5</span><span class="statline__u">代产物 sha256 完全一致 · 1.378 MB IL</span></div>
+      <p class="dim">没有 fix-up 后处理。编译器对自己说的话，和它对别人说的话，是同一句。</p>
+    </div>
+    <div class="module module--tight" data-reveal>
+      <div class="module__label">ATTEMPT #7 · W-101</div>
+      <div class="statline"><span class="statline__n statline__n--warn">7</span><span class="statline__u">次尝试后，gdb 一轮 RCA 抓到真根因</span></div>
+      <p class="dim">前 6 次都改错了地方，全被回滚。见 <a href="#ledger">工程账本</a>。</p>
+    </div>
+    <div class="module module--tight" data-reveal>
+      <div class="module__label">TWO IMPLEMENTATIONS</div>
+      <div class="statline"><span class="statline__n">2</span><span class="statline__u">份编译器，字节相同</span></div>
+      <p class="dim">C 端 <code>src/*.c</code> 与 JHYY 端 <code>src0/*.jhyy</code> 共存，互相校验。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 03 · 语言 ══════════ -->
+<section class="section" id="lang">
+  <div class="sec-head" data-reveal>
+    <span class="sec-no">03</span>
+    <h2 class="sec-title">语言 / THE LANGUAGE</h2>
+    <span class="sec-tag">SPEC</span>
+  </div>
+
+  <div class="modules-row">
+    <div class="hw" data-reveal>
+      <div class="hw__head"><span class="hw__no">A-01</span><span class="hw__name">类型</span></div>
+      <ul>
+        <li><code>i8 i16 i32 i64</code> / <code>u8 u16 u32 u64</code></li>
+        <li><code>f32 f64</code> / <code>bool</code> / <code>*T</code></li>
+        <li><code>[T; N]</code> 定长数组 / <code>[*]T</code> 切片</li>
+        <li><code>struct</code> / <code>enum</code></li>
+        <li><code>as</code> 显式转换，含 <code>*T ↔ i64</code></li>
+      </ul>
+      <div class="hw__leds"><i class="led led--on"></i></div>
+    </div>
+
+    <div class="hw" data-reveal>
+      <div class="hw__head"><span class="hw__no">A-02</span><span class="hw__name">控制流</span></div>
+      <ul>
+        <li><code>if</code> / <code>else</code>，本身是表达式</li>
+        <li><code>while</code> / <code>for i in a..b</code></li>
+        <li><code>break</code> / <code>continue</code></li>
+        <li><code>match</code>：字面量 / 区间 / 或模式 / 通配</li>
+        <li>分支<strong>穷尽性检查</strong>，漏一条编译期报错</li>
+      </ul>
+      <div class="hw__leds"><i class="led led--on"></i></div>
+    </div>
+
+    <div class="hw" data-reveal>
+      <div class="hw__head"><span class="hw__no">A-03</span><span class="hw__name">互操作</span></div>
+      <ul>
+        <li><code>extern fn</code> 直接调 C 函数</li>
+        <li><code>import</code> + 多文件编译</li>
+        <li><code>mod::fn()</code> 命名空间</li>
+        <li><code>const NAME: [T; N]</code> 编译期进 <code>.data</code></li>
+        <li>Arena 分配器经 FFI 接入</li>
+      </ul>
+      <div class="hw__leds"><i class="led led--amber"></i></div>
+    </div>
+
+    <div class="hw" data-reveal>
+      <div class="hw__head"><span class="hw__no">A-04</span><span class="hw__name">系统级</span></div>
+      <ul>
+        <li>inline asm</li>
+        <li><code>#[naked]</code> / <code>volatile</code></li>
+        <li><code>#[link_section]</code> / 内存屏障</li>
+        <li><code>#[no_std]</code> 免标准库</li>
+        <li><code>&amp;mut</code> + lifetime</li>
+      </ul>
+      <div class="hw__leds"><i class="led led--on led--blink"></i></div>
+    </div>
+  </div>
+
+  <div class="module module--code" data-reveal>
+    <div class="module__label">STDLIB · <code>src0/std/</code></div>
+    <div class="chips">
+      <span class="chip">arena</span><span class="chip">fmt</span><span class="chip">io</span>
+      <span class="chip">math</span><span class="chip">mem</span><span class="chip">os</span>
+      <span class="chip">string</span><span class="chip">vec</span>
+    </div>
+    <p class="dim">
+      标准库也是 JHYY 写的 —— 这是自举必须吞掉的那块最硬的骨头。
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ 04 · 命令行 ══════════ -->
+<section class="section" id="cli">
+  <div class="sec-head" data-reveal>
+    <span class="sec-no">04</span>
+    <h2 class="sec-title">命令行 / COMMAND LINE</h2>
+    <span class="sec-tag">CLI</span>
+  </div>
+
+  <div class="grid grid--2">
+    <div class="module module--code" data-reveal>
+      <div class="module__label">TERMINAL</div>
+      <pre class="term term--code term--dim"><span class="p">$</span> jhyy --help
+jhyy [--target=&lt;triple&gt;] [--help] &lt;command&gt; [args]
+
+commands:
+  compile &lt;file.jhyy&gt; [-o output]   compile to .obj
+  build   &lt;file.jhyy&gt; [-o output]   compile + link to .exe
+  run     &lt;file.jhyy&gt;              compile + link + execute
+  dump    &lt;file.jhyy&gt;              print AST / typed IR
+
+flags:
+  --target=&lt;triple&gt;  default amd64_win
+  --no-link          compile to .s only
+  --help             show this message</pre>
+    </div>
+
+    <div class="module" data-reveal>
+      <div class="module__label">TARGETS</div>
+      <div class="targets">
+        <div class="target target--on"><b>amd64_win</b><span>Windows x64 · 默认</span></div>
+        <div class="target"><b>amd64_sysv</b><span>Linux / macOS · SysV ABI</span></div>
+        <div class="target"><b>freestanding</b><span>无 OS · 写内核用</span></div>
+      </div>
+      <div class="module__label module__label--gap">ENTRY</div>
+      <p class="dim">
+        入口函数叫 <code>main_jhyy</code> 而不是 <code>main</code> —— 名字里带着这门语言，
+        免得和 C 的运行时抢。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 05 · 工具链 ══════════ -->
+<section class="section" id="tools">
+  <div class="sec-head" data-reveal>
+    <span class="sec-no">05</span>
+    <h2 class="sec-title">工具链 / TOOLCHAIN</h2>
+    <span class="sec-tag">TOOLS</span>
+  </div>
+
+  <div class="grid grid--3">
+    <div class="module" data-reveal>
+      <div class="module__label">MCP SERVER · 11 工具</div>
+      <p class="dim">编译器自带一个 Claude Code MCP 服务，把「跑回归、看 IL、验自举」变成一句话。</p>
+      <div class="switches">
+        <span class="switch"><i class="led led--on"></i>jhyy_run</span>
+        <span class="switch"><i class="led led--on"></i>jhyy_compile</span>
+        <span class="switch"><i class="led led--on"></i>jhyy_check</span>
+        <span class="switch"><i class="led led--on"></i>jhyy_get_il</span>
+        <span class="switch"><i class="led led--on"></i>jhyy_regress</span>
+        <span class="switch"><i class="led led--on"></i>jhyy_selfhost_check</span>
+        <span class="switch"><i class="led led--on"></i>jhyy_il_diff</span>
+        <span class="switch"><i class="led led--on"></i>jhyy_workarounds</span>
+        <span class="switch"><i class="led led--on"></i>jhyy_lang_ref</span>
+        <span class="switch"><i class="led led--on"></i>jhyy_abi_info</span>
+        <span class="switch"><i class="led led--on"></i>jhyy_format</span>
+      </div>
+    </div>
+
+    <div class="module" data-reveal>
+      <div class="module__label">EDITOR</div>
+      <p class="dim">
+        VS Code 扩展：语法高亮、文件图标、原生 <code>Ctrl+F5</code> 编译并运行。
+        仓库自带 <code>.vscode/tasks.json</code>，打开就配好终端 PATH。
+      </p>
+      <div class="keyline">
+        <span class="key">Ctrl</span><span class="key">Shift</span><span class="key">B</span>
+        <span class="dim">编译 + 运行</span>
+      </div>
+      <div class="keyline">
+        <span class="key">Ctrl</span><span class="key">F5</span>
+        <span class="dim">扩展命令：Run JHYY File</span>
+      </div>
+    </div>
+
+    <div class="module" data-reveal>
+      <div class="module__label">DISTRIBUTION</div>
+      <ul class="ticks">
+        <li><span>One-shot 安装器 <code>.exe</code>：编译器 + 文件关联 + 扩展 + PATH 一步到位</span></li>
+        <li><span>MSI <code>~995 KB</code>：企业 / SCCM 无人值守分发</span></li>
+        <li><span>VSIX <code>~13 KB</code>：编辑器扩展</span></li>
+        <li><span>MIT 协议 · Windows x64 为当前主目标</span></li>
+      </ul>
+      <a class="btn" href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" target="_blank" rel="noopener">GITHUB ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 06 · 版本轴 ══════════ -->
+<section class="section" id="axes">
+  <div class="sec-head" data-reveal>
+    <span class="sec-no">06</span>
+    <h2 class="sec-title">版本轴 / RELEASE AXES</h2>
+    <span class="sec-tag">HISTORY</span>
+  </div>
+
+  <div class="axes" data-reveal>
+    <div class="axis">
+      <div class="axis__mark"><i class="led led--on"></i></div>
+      <div class="axis__ver">v0.x</div>
+      <div class="axis__what">C 端编译器自身 —— 造出编译器，拿到自举门槛</div>
+      <div class="axis__meta"><span class="tag tag--done">完成</span><span class="dim">冻结于 v1.0.0 baseline</span></div>
+    </div>
+    <div class="axis">
+      <div class="axis__mark"><i class="led led--on"></i></div>
+      <div class="axis__ver">v1.x</div>
+      <div class="axis__what">自举 —— 用 JHYY 重写 JHYY，字节相同 <code>.il</code> 闭环</div>
+      <div class="axis__meta"><span class="tag tag--done">完成</span><span class="dim">v1.8.3 · 2026-08-29 · 终结</span></div>
+    </div>
+    <div class="axis">
+      <div class="axis__mark"><i class="led led--on"></i></div>
+      <div class="axis__ver">v2.x</div>
+      <div class="axis__what">自研后端 —— 砍掉 QBE，直接在内存里 emit x86-64；多目标 / freestanding</div>
+      <div class="axis__meta"><span class="tag tag--done">完成</span><span class="dim">v2.16.0 · 2026-09-22 · 终结</span></div>
+    </div>
+    <div class="axis">
+      <div class="axis__mark"><i class="led led--on"></i></div>
+      <div class="axis__ver">v3.x</div>
+      <div class="axis__what">语言扩展 —— 为写 OS 铺路：inline asm / naked / volatile / no_std / lifetime</div>
+      <div class="axis__meta"><span class="tag tag--done">完成</span><span class="dim">v3.4.2 · 2026-09-29 · 终结</span></div>
+    </div>
+    <div class="axis axis--now">
+      <div class="axis__mark"><i class="led led--amber led--blink"></i></div>
+      <div class="axis__ver">v4.x</div>
+      <div class="axis__what">合流 —— 标准库 / 0-C 闭环 / async / trait / 包管理 / 多架构 / <code>.jhyynb</code></div>
+      <div class="axis__meta"><span class="tag tag--now">进行中</span><span class="dim">当前 v4.0.6 · v4.0.7 计划中</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 07 · 工程账本 ══════════ -->
+<section class="section" id="ledger">
+  <div class="sec-head" data-reveal>
+    <span class="sec-no">07</span>
+    <h2 class="sec-title">工程账本 / WORKAROUND LEDGER</h2>
+    <span class="sec-tag">LEDGER</span>
+  </div>
+
+  <p class="lede" data-reveal>
+    每个已知缺陷编一个号（W-NNN），修不好就写进账本、写清状态、留证据。
+    <strong>修错了就回滚，把回滚也记下来。</strong>下面这段是账本上的真实一页。
+  </p>
+
+  <div class="module module--tight module--warn" data-reveal>
+    <div class="module__label">W-101 · derived address tracking</div>
+    <table class="ledger">
+      <tbody>
+        <tr class="ledger__row"><td class="ledger__no">#1</td><td><i class="led led--warn"></i>REVERTED</td><td class="dim">bitmap 方案错方向</td></tr>
+        <tr class="ledger__row"><td class="ledger__no">#2</td><td><i class="led led--warn"></i>REVERTED</td><td class="dim">alloc pool disjoint 假设错</td></tr>
+        <tr class="ledger__row"><td class="ledger__no">#3</td><td><i class="led led--warn"></i>REVERTED</td><td class="dim">深审计 checklist 后仍是错的</td></tr>
+        <tr class="ledger__row"><td class="ledger__no">#4</td><td><i class="led led--warn"></i>REVERTED</td><td class="dim">plan 方向被审计推翻</td></tr>
+        <tr class="ledger__row"><td class="ledger__no">#5–6</td><td><i class="led led--warn"></i>REVERTED</td><td class="dim">改对了方向，写错了参数个数</td></tr>
+        <tr class="ledger__row ledger__row--ok"><td class="ledger__no">#7</td><td><i class="led led--on"></i>SUCCESS</td><td class="dim">gdb 一轮 RCA 拿到冒烟枪：少传了 state 指针</td></tr>
+      </tbody>
+    </table>
+    <p class="dim">
+      第七次成功的原因不是更聪明，是<strong>不再猜</strong>：先用 gdb 抓到
+      <code>rcx=NULL</code> 的那一行，再回头改。三行调用点改成三参数形式，歧义消失。
+    </p>
+  </div>
+
+  <div class="grid grid--2">
+    <div class="module module--tight" data-reveal>
+      <div class="module__label">WHY IT MATTERS</div>
+      <p>
+        大多数项目的 bug 列表读起来像功能缺陷清单。这个项目的账本读起来像
+        <strong>推理失败记录</strong>：哪一次假设错了、为什么错、拿什么证据推翻的。
+        对一个宣称自举的编译器来说，这比任何一处代码都更能说明它是不是真的。
+      </p>
+    </div>
+    <div class="module module--tight" data-reveal>
+      <div class="module__label">OPEN ITEMS</div>
+      <ul class="ticks">
+        <li><i class="led led--amber led--blink"></i><span>W-097 —— 25 处多字段访问 emit 待真修（跨 10 个模块）</span></li>
+        <li><i class="led led--warn"></i><span>W-072 —— 多字段访问 emit</span></li>
+        <li><span class="dim">规则：正式版发布前，活跃与延期项必须清零。</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 08 · 上手 ══════════ -->
+<section class="section" id="start">
+  <div class="sec-head" data-reveal>
+    <span class="sec-no">08</span>
+    <h2 class="sec-title">上手 / GET STARTED</h2>
+    <span class="sec-tag">START</span>
+  </div>
+
+  <div class="grid grid--2">
+    <div class="module module--code" data-reveal>
+      <div class="module__label">BUILD</div>
+      <pre class="term term--code"><span class="p">$</span> git clone https://github.com/JiHuiYiYou/JiHuiYiYou-compiler.git
+<span class="p">$</span> cd JiHuiYiYou-compiler
+<span class="p">$</span> make          <span class="c"># -Wall -Wextra，0 warning</span>
+<span class="p">$</span> ./compiler/build/bin/jhyy.exe run hello.jhyy</pre>
+      <p class="dim">前置：MSYS2 + ucrt64 工具链（GCC / binutils）。别用 Git Bash 自带的 MinGW，链不上 PE。</p>
+    </div>
+
+    <div class="module module--code" data-reveal>
+      <div class="module__label">HELLO.JHYY</div>
+      <pre class="term term--code"><span class="k">fn</span> main_jhyy() -&gt; i32 {
+    <span class="n">42</span>
+}</pre>
+      <pre class="term term--code term--dim"><span class="p">$</span> jhyy build hello.jhyy
+<span class="p">$</span> ./hello.exe
+<span class="p">$</span> echo $?
+<span class="term__ok">42</span></pre>
+    </div>
+  </div>
+
+  <div class="final-plate" data-reveal>
+    <div class="final-plate__row">
+      <span class="plate plate--invert">机会翼游 JHYY</span>
+      <a class="btn btn--big" href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" target="_blank" rel="noopener">SOURCE ↗</a>
+      <a class="btn" href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS" target="_blank" rel="noopener">OS PROJECT ↗</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════ 页脚：风格卡 ══════════ -->
+<footer class="footer">
+  <div class="footer__card" data-reveal>
+    <div class="module__label">STYLE CARD · 风格卡</div>
+    <div class="footer__grid">
+      <div><b>名字</b><span>卡带未来主义 Cassette Futurism</span></div>
+      <div><b>一句话</b><span>七八十年代科幻片里的飞船控制台</span></div>
+      <div><b>字体</b><span>JetBrains Mono / Noto Sans SC</span></div>
+      <div><b>配色</b><span>黑底 + 荧光绿 #74FF9A + 琥珀 #FFB23E，红色只给警示灯</span></div>
+      <div><b>版面</b><span>仪表盘式硬件模块，标签贴控件旁</span></div>
+      <div><b>主角物件</b><span>显像管、指示灯、旋钮、螺丝、拨杆</span></div>
+      <div><b>质感</b><span>扫描线、辉光、噪点、暗角、米色塑料</span></div>
+      <div><b>动效</b><span>打字机、12 帧步进、开机闪烁、换台雪花</span></div>
+    </div>
+    <p class="footer__note dim">
+      风格取自「震惊瘫坐！Opus 5.5 做的设计科普」系列 —— 瑞士风格与卡带未来主义两集。
+      一个用得上的道理：<strong>叫得出名字、说得清规则，才能把想要的感觉交代清楚。</strong>
+    </p>
+  </div>
+  <p class="footer__line dim">
+    内容取自 JiHuiYiYou-compiler 仓库 v4.0.6 现状（README / CLAUDE.md / changelog / regress 记录）。
+    · 机会翼游 + AI 协作开发 · MIT 协议
+  </p>
+</footer>
+
+<script src="assets/main.js"></script>
+</body>
+</html>
