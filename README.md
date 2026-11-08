@@ -17,7 +17,7 @@
 
 ## 本站
 
-- 在线：`https://ji-hui-yi-you.github.io/JiHuiYiYou-website/`
+- 在线：`https://jihuiyiyou.github.io/JiHuiYiYou-website/`
 - 部署：GitHub Pages，`main` 分支根目录
 - 本地预览：`python -m http.server 8000`
 
