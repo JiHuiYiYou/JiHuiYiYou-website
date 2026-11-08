@@ -1,0 +1,10 @@
+# 生成的 HTML / JSON 必须跨平台字节一致。
+#
+# CI（ubuntu）重建一遍，Windows 本地也重建一遍，CI 再拿「重建结果」和「仓库里
+# 提交的产物」做字节比对（.github/workflows/site.yml 的同步门）。只要两边的行尾
+# 不一样（Windows 的 write_text 默认写 CRLF，Linux 写 LF），整站每一行都会被判成
+# 差异 —— 那道门就永远红，而且红的原因跟内容改动毫无关系。
+#
+# 所以这里把文本钉死在 LF：仓库里存 LF，checkout 出来也是 LF，生成器写 LF。
+*.html text eol=lf
+*.json text eol=lf

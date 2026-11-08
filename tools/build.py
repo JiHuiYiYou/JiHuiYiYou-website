@@ -555,11 +555,13 @@ def build() -> int:
 
         page = rewrite_links(page, prefix)
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(page, encoding="utf-8")
+        out.write_text(page, encoding="utf-8", newline="\n")
 
     # 搜索索引
     idx_path = ROOT / "search-index.json"
-    idx_path.write_text(json.dumps(search_index, ensure_ascii=False, indent=1), encoding="utf-8")
+    idx_path.write_text(
+        json.dumps(search_index, ensure_ascii=False, indent=1), encoding="utf-8", newline="\n"
+    )
 
     print(f"✓ 生成 {len(written)} 页 + search-index.json")
     for w in sorted(written):
