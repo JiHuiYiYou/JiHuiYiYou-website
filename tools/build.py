@@ -447,7 +447,7 @@ def check_links() -> int:
     broken: list[str] = []
     checked = 0
 
-    SKIP_DIRS = ("content/", "tools/", "jhyy-cassette/", "jhyy-memphis/", "downloads/")
+    SKIP_DIRS = ("content/", "tools/", "downloads/")
 
     for path in sorted(ROOT.rglob("*.html")):
         rel = path.relative_to(ROOT).as_posix()
