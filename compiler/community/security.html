@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>安全披露</title>
+  <meta name="description" content="怎么报告安全问题，以及已知的信任边界" />
+  <meta property="og:title" content="安全披露" />
+  <meta property="og:description" content="怎么报告安全问题，以及已知的信任边界" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY 首页">
+        <img src="../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>编译器<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item is-active" href="../../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="主导航"><a class="" href="../../compiler/index.html">首页</a><a class="" href="../../compiler/docs/index.html">文档</a><a class="" href="../../compiler/download/index.html">下载</a><a class="is-active" href="../../compiler/community/index.html">社区</a><a class="" href="../../compiler/governance/index.html">治理</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../search-index.json" aria-label="搜索文档">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>搜索文档</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="最新稳定版">v4.1.4</span>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="文档目录">
+    <div class="doc-nav-group"><h4>社区</h4><ul><li><a class="" href="../../compiler/community/index.html">社区首页</a></li><li><a class="" href="../../compiler/community/conduct.html">行为准则</a></li><li><a class="" href="../../compiler/community/contributing.html">贡献指南</a></li><li><a class="is-active" href="../../compiler/community/security.html">安全披露</a></li></ul></div><div class="doc-nav-group"><h4>参与方式</h4><ul><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues" target="_blank" rel="noopener">提 Issue ↗</a></li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/pulls" target="_blank" rel="noopener">提 PR ↗</a></li><li><span class="doc-nav-text">QQ 群 429807125</span></li><li><a class="" href="../../compiler/governance/repo-map.html">代码所有权</a></li></ul></div>
+    
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="安全披露">安全披露</h1>
+<p>这一页讲两件事：<strong>怎么报告一个安全问题</strong>（不把它变成公开 exploit），以及<strong>这个项目已知的信任边界</strong>（哪些地方编译器不给你保证）。</p>
+<p>原文是仓库的 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer"><code>SECURITY.md</code></a>，这一页是它的导读。</p>
+<hr />
+<h2 id="一句话版本">一句话版本</h2>
+<blockquote class="callout"><p><strong>不要为疑似漏洞开公开 issue。</strong> 用 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/security/advisories/new" target="_blank" rel="noopener noreferrer">私有 advisory 表单</a>。</p></blockquote>
+<p>公开 issue 会被索引、被镜像、被缓存——<strong>几分钟之内</strong>。一份公开报告可以在补丁存在之前就把修复变成 exploit。</p>
+<hr />
+<h2 id="报告渠道">报告渠道</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>优先级</th><th>渠道</th></tr></thead><tbody><tr><td>首选</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/security/advisories/new" target="_blank" rel="noopener noreferrer">GitHub 私有 advisory</a>——只有你和维护者看得见</td></tr><tr><td>备选</td><td>邮件 <strong>15901598712@163.com</strong>，写同样的信息，并<strong>要求回执确认</strong></td></tr></tbody></table></div>
+<h3 id="报告里要包含什么">报告里要包含什么</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>项</th><th>为什么重要</th></tr></thead><tbody><tr><td><strong>版本</strong>——仓库根的 <code>VERSION</code> 文件，或 <code>jhyy --help</code> 的第一行</td><td>修复先落在最新的 release 上</td></tr><tr><td><strong>复现</strong>——完整的 <code>.jhyy</code> 源码，或者准确的命令行</td><td>一行 diff 是「当天修复」和「一周来回提问」的区别</td></tr><tr><td><strong>实际 vs 预期</strong></td><td>发生了什么，应该发生什么</td></tr><tr><td><strong>退出码</strong></td><td>见下面那个坑</td></tr><tr><td><strong>来源</strong>——发布二进制，还是自举构建</td><td>两者可能表现不同</td></tr><tr><td><strong>影响</strong>——攻击者能拿到什么，以及他必须先有什么</td><td>决定严重性，严重性决定时限</td></tr></tbody></table></div>
+<blockquote class="callout warn"><p><strong>用 harness 或 Python <code>subprocess</code> 取退出码，不要读 MSYS2 bash 的 <code>$?</code>。</strong> bash 把退出码截成 8 位（<code>value &amp; 0xFF</code>），所以 ≥ 256 的期望码要先约减：827 → 59、501 → 245、300 → 44、1000 → 232。很多「退出码不对」其实只是这个。</p></blockquote>
+<p><strong>不需要证明可利用性。</strong> 源码级的演示就够了——「这是那个让编译器写出缓冲区边界的 <code>.jhyy</code> 文件」就是一份完整报告。</p>
+<hr />
+<h2 id="什么算漏洞">什么算漏洞</h2>
+<p><strong>算：</strong></p>
+<ul class='md-list'><li><strong>生成代码里的内存安全违规</strong>——对于<strong>程序自己没有做</strong>这些事的程序：编译器发出越界写、读写未初始化内存、破坏栈、算错地址。</li><li><strong>编译器内部的内存安全</strong>——一个构造好的 <code>.jhyy</code> 源文件（或编译器读到的任何其他输入文件）让编译器自己破坏内存、越界写、或者执行攻击者控制的字节。编译器解析不可信输入，而那个输入不该能接管进程。</li><li><strong>通过工具链实现代码执行</strong>——让编译器运行用户没打算运行的代码：一个解析到意外文件的 import、一个未经清洗就传给外部程序的参数、一个内容能把构建导向别处的构建目录。</li><li><strong>安装器或发布产物里的路径穿越</strong>——写到它本该触碰的目录之外。</li><li><strong>发布完整性</strong>——公布的 <code>SHA256.txt</code> 没覆盖它随包发布的那份产物，或发布产物与 tag 出来的源码产出的东西对不上。</li></ul>
+<p><strong>不算：</strong></p>
+<ul class='md-list'><li><strong>误用文档里写明的不安全特性</strong>——未检查的 slice 下标、声明成错误 C 签名的 <code>extern fn</code>、手写的 <code>asm!</code>、<code>#[naked]</code> 函数。文档写清楚了这些是带刃的工具。</li><li><strong>语言层面的缺口</strong>——还没有借用检查、没有浮点格式化、<code>Vec&lt;T&gt;</code> 还不是元素泛型。这些记在语言规范的<strong>附录 B</strong> 和公开的<a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener noreferrer">问题台账</a>里，不是漏洞。</li><li><strong>在你可控的输入上崩溃，且没有内存安全影响</strong>——那是 bug，用 issue 报。（除非这个崩溃可以从<strong>你没写的源文件</strong>触发。）</li><li><strong>生成的程序自己的逻辑有 bug。</strong></li><li><strong>Windows 安装器里打包的第三方工具链自身的漏洞</strong>——报给上游；如果你认为<strong>打包这个动作本身</strong>引入了它自己的问题，也告诉我们。</li></ul>
+<hr />
+<h2 id="支持哪些版本">支持哪些版本</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>线</th><th>支持情况</th></tr></thead><tbody><tr><td><strong>最新 release</strong></td><td>有安全修复</td></tr><tr><td>更早的 release</td><td>没有——请升级到最新</td></tr><tr><td><code>main</code>（未发布）</td><td>尽力而为，修复随下个 release</td></tr></tbody></table></div>
+<p>这一页<strong>故意不写版本号</strong>：永远只有「最新的那个 release」是被支持的那个。版本事实由<a href="../../compiler/download/index.html">下载页</a>承担。</p>
+<hr />
+<h2 id="报告之后会发生什么">报告之后会发生什么</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>阶段</th><th>目标</th></tr></thead><tbody><tr><td>确认报告已收到</td><td><strong>7 天</strong></td></tr><tr><td>分诊——是不是漏洞、有多严重</td><td><strong>14 天</strong></td></tr><tr><td>严重 / 高危的修复发布</td><td>CI 一绿就发——<strong>没有固定日期</strong>，但不会故意压着不发</td></tr><tr><td>中危 / 低危的修复发布</td><td>下一个 release</td></tr></tbody></table></div>
+<p><strong>这些是目标，不是保证</strong>——这是一个一人项目，对方还有一份正职。如果超过窗口期没有确认，<strong>这本身就是这个流程的缺陷</strong>：在同一 thread 里说出来，并且认为这种沉默值得升级。</p>
+<p><strong>即使结论是「不是漏洞」，你也会拿到分诊结果</strong>——一个有理由的「不」是真实答案，比沉默有用。</p>
+<h3 id="公开披露">公开披露</h3>
+<ul class='md-list'><li><strong>给维护者一个合理的窗口期再公开。</strong> 默认期望是<strong>首次报告起 90 天</strong>。需要更多时间可以商量，显式延期也可以。</li><li><strong>如果修复之前就有缓解措施</strong>（比如「别用你不信任的构建去编译不信任的 <code>.jhyy</code> 文件」），它会<strong>立刻</strong>在 advisory 里公布——<strong>不会要求你保密</strong>。</li><li><strong>署名</strong>由你决定，用哪个名字或 handle 都可以；不想署名也行。</li><li><strong>已经公开了的</strong>，在报告里说一声——这改变披露时间线，不影响它是否会被修。</li></ul>
+<hr />
+<h2 id="已知的信任边界">已知的信任边界</h2>
+<p>下面这些是从项目现状能确认的事实。它们的用处是让你知道<strong>「vulnerable」在这个项目里意味着什么</strong>。</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>边界</th><th>事实</th><th>对使用者的含义</th></tr></thead><tbody><tr><td><strong>安装器与 MSI 未签名</strong></td><td>没有代码签名</td><td>Windows SmartScreen 首次运行会拦；<strong>供应链信任只能靠手动核对 SHA256</strong>——见<a href="../../compiler/download/verify.html">校验与签名</a>。未签名二进制也更容易被第三方杀软拦</td></tr><tr><td><strong>没有 GC，没有托管运行时</strong></td><td>内存安全靠 <strong>arena 的生命周期纪律 + 有限的借用检查</strong></td><td><strong>不是 Rust 级别的保证</strong>。借用检查目前只覆盖「同一作用域内重复 <code>&amp;mut</code> 同一变量」；完整 NLL / Polonius 借用检查、生命周期标注 <code>&#x27;a</code>、reborrow、跨函数借用都未实装（规范附录 B）</td></tr><tr><td><strong>不可变绑定的写保护未实装</strong></td><td>编译器不检查取地址的对象是否可变</td><td><code>&amp;x</code> 对不可变绑定合法；通过这样的指针写入<strong>不报错也不生效</strong></td></tr><tr><td><strong><code>extern fn</code> 的 C 侧参数类型不做检查</strong></td><td>参数 / 返回类型不做限制</td><td>声明 <code>extern fn takes(s: MyStruct) -&gt; i32;</code> 能编译通过，而且<strong>实际按地址传 struct</strong>，与 C ABI 不符。函数实参类型也不检查——<code>f(5)</code> 传给 struct 形参能编译，运行时按 struct 布局读寄存器</td></tr><tr><td><strong>生成的代码不带额外加固</strong></td><td>编译器不插 stack canary，不插 guard page</td><td>链接器施加什么，你就得到什么</td></tr><tr><td><strong>编译器没有沙箱</strong></td><td>它以你的用户权限运行，解析不可信输入</td><td>未知来源的 <code>.jhyy</code> 源文件就是不可信输入，和交给任何别的解析器一样</td></tr><tr><td><strong>编译器会 shell out 到外部 C 工具链</strong></td><td>解析顺序：<code>JHY_GCC</code> 环境变量 → <code>env.txt</code> → 内置工具链 → <code>C:\msys64</code> → <code>PATH</code> → 裸 <code>gcc</code></td><td>把这个覆盖指向一个不可信的二进制，等于运行那个二进制。<strong>环境变量是信任边界的一部分</strong></td></tr><tr><td><strong><code>jhyy run</code> 会执行刚编出来的程序</strong></td><td>编译并运行不可信源码 = 运行不可信代码</td><td>编译器不提供任何隔离</td></tr><tr><td><strong>没有网络访问，没有遥测</strong></td><td>不开 socket，不发送任何东西，不读任何凭据</td><td>只读工具链路径覆盖和两个调试开关</td></tr><tr><td><strong>安装器打包了第三方原生工具链</strong></td><td>那是它自己的供应链面</td><td>由每次发布随附的校验和覆盖，<strong>不是</strong>把一份 vendored 副本放在仓库里</td></tr></tbody></table></div>
+<blockquote class="callout"><p>arena <strong>不是</strong>「只有 arena 没有 free」：JHYY 的 arena 同时提供 <code>arena_reset</code>（复用内存，块不释放）和 <code>arena_free</code>（整块释放）。别照抄别的语言的 arena 模型。</p></blockquote>
+<hr />
+<h2 id="编译器-bug-还是用户程序-bug">编译器 bug 还是用户程序 bug？</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>情形</th><th>该去哪报</th></tr></thead><tbody><tr><td><strong>编译器做错了</strong>——输出错、崩溃、诊断说不通</td><td>普通 issue，按<a href="../../compiler/community/contributing.html">贡献指南</a>的复现格式写</td></tr><tr><td><strong>你的 <code>.jhyy</code> 程序自己算错了</strong></td><td>不是编译器 bug。<strong>回归套件覆盖的是编译器自身的行为，不等于你的程序没有未定义行为</strong>——先按语言规范查语义</td></tr><tr><td><strong>语言层面的缺口</strong>（没借用检查、没浮点格式化、<code>Vec</code> 不是泛型）</td><td>规范附录 B 与公开台账里都有记录，不是安全 issue</td></tr><tr><td><strong>一个已知限制，你想动手做</strong></td><td>路线图是公开的，见 <code>FACTS.md</code> § 4；开 issue 说明思路</td></tr><tr><td><strong>一个 workaround 应该进台账</strong></td><td>台账公开维护，<code>docs/internal/workarounds.md</code>，<strong>只增不删</strong></td></tr><tr><td><strong>安全问题</strong></td><td>走上面的私有 advisory 通道，<strong>不要</strong>开公开 issue</td></tr><tr><td><strong>第三方工具链的漏洞</strong></td><td>报给上游；但如果你认为<strong>打包方式本身</strong>有问题，也告诉我们</td></tr></tbody></table></div>
+<hr />
+<h2 id="目前还缺的">目前还缺的</h2>
+<ul class='md-list'><li><strong>没有明文规定的安全公告归档页 / 致谢名单页 / 安全邮件列表。</strong> advisory 目前只在 GitHub 上，没有第二份归档。这一条我们正在补。</li><li><strong>没有 CVE 编号流程的明文规定。</strong></li><li><strong>没有对旧版本的安全回补承诺</strong>——策略是「升级到最新 release」。</li></ul>
+<hr />
+<h2 id="接下来">接下来</h2>
+<ul class='md-list'><li><a href="../../compiler/community/contributing.html">贡献指南</a> —— 普通 bug 怎么报。</li><li><a href="../../compiler/community/conduct.html">行为准则</a> —— 举报渠道与处置阶梯。</li><li>原文：<a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer"><code>SECURITY.md</code></a></li></ul>
+      <div class="doc-foot-row">
+        
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">报告问题 ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="本页目录"><h4>本页</h4><a class="anchor-l1" href="#安全披露">安全披露</a><a class="anchor-l2" href="#一句话版本">一句话版本</a><a class="anchor-l2" href="#报告渠道">报告渠道</a><a class="anchor-l3" href="#报告里要包含什么">报告里要包含什么</a><a class="anchor-l2" href="#什么算漏洞">什么算漏洞</a><a class="anchor-l2" href="#支持哪些版本">支持哪些版本</a><a class="anchor-l2" href="#报告之后会发生什么">报告之后会发生什么</a><a class="anchor-l3" href="#公开披露">公开披露</a><a class="anchor-l2" href="#已知的信任边界">已知的信任边界</a><a class="anchor-l2" href="#编译器-bug-还是用户程序-bug">编译器 bug 还是用户程序 bug？</a><a class="anchor-l2" href="#目前还缺的">目前还缺的</a><a class="anchor-l2" href="#接下来">接下来</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../index.html" class="nav-logo foot-logo">
+          <img src="../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../../compiler/docs/index.html">文档</a></li>
+            <li><a href="../../compiler/download/index.html">下载</a></li>
+            <li><a href="../../compiler/community/index.html">社区</a></li>
+            <li><a href="../../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

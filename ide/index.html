@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>JHYY IDE</title>
+  <meta name="description" content="拖块编程与文本编辑共享同一棵 AST 的桌面工作台" />
+  <meta property="og:title" content="JHYY IDE" />
+  <meta property="og:description" content="拖块编程与文本编辑共享同一棵 AST 的桌面工作台" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  
+  <link rel="icon" type="image/png" sizes="any" href="../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="bg-bg text-text font-sans antialiased">
+
+  <div class="mist mist-1" aria-hidden="true"></div>
+  <div class="mist mist-2" aria-hidden="true"></div>
+  <div class="mist mist-3" aria-hidden="true"></div>
+  <div class="mist mist-4" aria-hidden="true"></div>
+  <svg id="cracks" class="cracks" aria-hidden="true"><g class="cracks-layer"></g></svg>
+  <div class="cursor-dot" aria-hidden="true"></div>
+
+
+  <nav class="floating-nav" aria-label="Primary">
+    <div class="nav-pill">
+      <a href="../index.html" class="nav-logo" aria-label="机会翼游 · JHYY 首页">
+        <img src="../assets/img/jhyy-logo.png" class="logo-img" height="30" alt="机会翼游 · JHYY" />
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>IDE<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item" href="../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item is-active" href="../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <div class="nav-links" role="navigation"><a class="" href="../ide/index.html">概览</a><a class="" href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/tree/main/docs/wiki">文档</a><a class="" href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/releases">Releases</a></div>
+      <div class="nav-cta-group">
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE" class="nav-icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+        <a href="../compiler/download/index.html" class="nav-cta magnetic" data-magnetic>
+          <span>下载 v4.1.4</span>
+          <span class="btn-icon-wrap"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 L17 7 M9 7 L17 7 L17 15"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+<main id="top" class="page-main">
+<p>给 JHYY（机会翼游）做的桌面 IDE：<strong>拖块写、写代码、跟本机的 Claude Code 聊</strong>。 一个 VS Code 式的工作台，两个写代码的视图共享同一棵 AST，诊断永远来自真实的 <code>jhyy.exe</code>。</p>
+<h2 id="三个面板">三个面板</h2>
+<ul class='md-list'><li><strong>文本视图</strong> —— CodeMirror 6，正常写代码。语法高亮、括号匹配、自动闭合、缩进、补全（关键字、类型、8 个标准库模块），悬停提示能给出<strong>规范章节号</strong>。文件开在标签页里，开第二个不会把第一个顶掉；小黑点按内容算，撤销回上次保存的版本就自动消失。</li><li><strong>块视图</strong> —— Blockly 13，拖块写程序。工具箱第一屏是「入门」：函数、打印、调用、数字/字符串、变量、返回，另有现成的 <strong>C 函数声明</strong>块（<code>printf</code> / <code>puts</code> / <code>malloc</code> / <code>free</code> / <code>exit</code>，参数表自动填好）—— 每个 JHYY 程序的第一行不用再靠「原始代码」逃生舱手打。</li><li><strong>Claude Code</strong> —— 右侧栏里的内嵌对话面板，驱动你机器上<strong>已经装好的 <code>claude</code> CLI</strong>（走 stdin 的流式模式，多轮上下文是连着的）。Claude 挂上了 jhyy MCP server，能调 <code>jhyy_check</code> 拿<strong>真实编译器</strong>的诊断，而不是靠猜。侧栏还有个「只读」开关，打开后系统提示里会写明「用户要求你不要修改任何文件」。</li></ul>
+<p>底部还有一块<strong>默认收起</strong>的面板：点「检查」弹到<strong>问题</strong>页，点「运行」弹到<strong>终端</strong>页。</p>
+<h2 id="最有说服力的一条积木和文本共享同一棵-ast">最有说服力的一条：积木和文本共享同一棵 AST</h2>
+<p>两个写代码的视图是<strong>同一棵树的两个投影</strong>，不是两套代码生成器：</p>
+<ul class='md-list'><li><strong>改块 → 文本</strong> 实时跟着变（重新生成整份源码并替换文本视图，光标按最长公共前缀/后缀映射回原位）。</li><li><strong>改文本 → 积木</strong> 在你切回块视图时重建（每敲一个键就重建块，画布会抖到没法用）。</li></ul>
+<p>AST 在 <code>src/lang/</code> 里，是<strong>纯 TypeScript</strong> —— 不依赖 Electron / Node / Blockly，所以解析器、打印器、块转换器都能在纯 Node 里跑单测。IDE 自己的词法（73 个 token 种类）和语法（57 个节点种类）照着编译器仓库的 <code>compiler/src0/</code> 写。</p>
+<p><strong>积木表达不了的语法不会静默消失。</strong> 泛型、turbofish、闭包、指针、借用、切片、<code>defer</code>、<code>asm!</code>、属性 —— 这些落进一个<strong>不透明块</strong>，里面装着原始源码文本。挪它、删它都行；只要<strong>你</strong>不动它，那部分代码逐字节往返无损。</p>
+<p>还有一条：<strong>裁判永远是真实编译器</strong>。IDE 从不猜程序对不对，它去跑 <code>jhyy.exe</code>，解析它的 <code>file:line:col: error: …</code> 输出，把编译器自己的诊断显示给你。仓库 README 记的一次「检查」约 185ms（用 <code>--no-link</code> 跳过链接）。</p>
+<h2 id="积木和文本从不同时占屏">积木和文本从不同时占屏</h2>
+<p>块画布满整个编辑区，代码编辑器整个消失 —— 用标题栏的积木按钮、<code>Ctrl+Shift+B</code> 或命令面板切过去。切换时两边都<strong>保留状态</strong>：画布的缩放和平移留着，编辑器的撤销历史和光标位置也留着。</p>
+<h2 id="底部面板问题-终端">底部面板：问题 + 终端</h2>
+<ul class='md-list'><li><strong>问题</strong> —— 编译器的诊断，点一条直接跳到那一行那一列。</li><li><strong>终端</strong> —— 一个真 shell（默认 MSYS2 的 bash，PowerShell 和 <code>cmd</code> 也能切），能开多个。终端优先走<strong>真 PTY</strong>（node-pty / Windows ConPTY）；node-pty 装不上时退到管道，这时 <code>vim</code>、<code>top</code> 这类全屏 TUI 跑不了 —— 而且退的时候状态栏会显示徽章，不静默变假。「运行」跑在你<strong>正在看的那个终端</strong>里，跑完终端还活着，提示符回来。</li></ul>
+<blockquote class="callout"><p>README 里记的还是「问题 / 输出 / 终端」三个页签。<strong>「输出」页签已经在开发中的版本里删掉了</strong> —— 编译器和程序的输出现在都进终端，跟 VS Code 一个路子。</p></blockquote>
+<h2 id="快捷键">快捷键</h2>
+<p>菜单栏、命令面板、快捷键是<strong>同一张命令表</strong>的三种看法（<code>src/renderer/commands/registry.ts</code>），所以菜单里标出来的快捷键一定就是真能按的那个。</p>
+<ul class='md-list'><li><code>Ctrl+Shift+P</code> —— 命令面板</li><li><code>Ctrl+Shift+B</code> —— 切换块视图 / 文本视图</li><li><code>Ctrl+Shift+D</code> —— 检查</li><li><code>F5</code> / <code>Shift+F5</code> —— 运行 / 停止</li><li><code>Ctrl+J</code> —— 显示/隐藏底部面板</li><li><code>Ctrl+Shift+M</code> —— 问题</li><li>终端 —— <code>Ctrl</code> 加反引号；新建终端 —— <code>Ctrl+Shift+Backquote</code></li><li><code>Ctrl+Alt+B</code> —— 显示/隐藏聊天侧栏；<code>Ctrl+Alt+I</code> —— 聚焦聊天</li><li><code>Ctrl+S</code> / <code>Ctrl+O</code> / <code>Ctrl+Shift+S</code> —— 保存 / 打开 / 另存为</li><li><code>Ctrl+,</code> —— 设置</li></ul>
+<h2 id="一致性门277277">一致性门：277/277</h2>
+<p>IDE 的解析器和打印器必须跟<strong>真实编译器</strong>说同样的话。这靠编译器仓库自己的示例程序来保证 —— 语料是 <code>compiler/tests/examples/</code>（当前 299 个 <code>.jhyy</code> 文件；去掉 14 个没有入口函数的库文件、8 个带 <code>SKIP</code> / <code>XFAIL</code> 指令的，正好 <strong>277</strong> 个进 gate）。</p>
+<p>两道门：</p>
+<ol class='md-list'><li>IDE 解析 → IDE 打印 → <strong>真实 <code>jhyy.exe</code></strong> 编译（用 <code>--no-link</code>，跳过链接）；</li><li>再<strong>真跑一遍</strong>，跟源码里的 <code>// EXPECT:</code> 指令比对。</li></ol>
+<p>语料口径跟语言仓库自己的规则一致：<strong>以 <code>_</code> 开头的文件不进语料</strong> —— 那批是环境相关 / 需手工准备的复现件。全量 277 个要跑约 25 分钟，默认只跑一个代表性子集。</p>
+<h2 id="版本现状这里有个不一致如实说">版本现状（这里有个不一致，如实说）</h2>
+<ul class='md-list'><li><code>package.json</code> 写的是 <strong>0.2.1</strong>；</li><li>仓库 README 顶部的<strong>徽章还写着 v0.1.0</strong> —— 徽章没跟上；</li><li>本地 <code>release/</code> 目录里留着的安装包也还是 <strong>0.1.0</strong> 那一份（是构建残留，不是发布渠道）。</li></ul>
+<p>GitHub Releases 上 <strong>v0.1.0、v0.2.0、v0.2.1 都已发布</strong>，每个带一个 NSIS 安装包和一份 <code>SHA256.txt</code>。所以：<strong>已发布的是 v0.2.1</strong>；而 <code>CHANGELOG.md</code> 顶部还有一节「未发布」（终端大改、设置对话框等），<strong>源码树已经领先于任何一个已发布版本</strong>。</p>
+<p>要装，去仓库的 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/releases" target="_blank" rel="noopener noreferrer">Releases 页</a>。</p>
+<h2 id="平台与前置条件">平台与前置条件</h2>
+<ul class='md-list'><li><strong>Windows x64</strong> —— 目前只构建和验证了这一个平台；Linux / macOS 未构建。</li><li><strong>Node.js 20+</strong>（开发用的是 24）。</li><li><strong>一个 JHYY 编译器</strong> —— IDE <strong>不含</strong>编译器，每次编译、每条诊断都由真实的 <code>jhyy.exe</code> 出。它按这个顺序自动找：IDE 设置里配的路径 → 环境变量 <code>JHY_EXE</code> → <code>../JiHuiYiYou/compiler/build/bin/jhyy.exe</code>（仓库旁边那个开发构建）→ <code>C:\Program Files\JHYY\bin\jhyy.exe</code>（官方安装版）→ <code>PATH</code> 上的 <code>jhyy.exe</code>。</li></ul>
+<p>安装包<strong>没有代码签名</strong>，Windows SmartScreen 会拦一下，选「更多信息 → 仍要运行」。</p>
+<h2 id="文档">文档</h2>
+<ul class='md-list'><li><strong><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/wiki" target="_blank" rel="noopener noreferrer">Wiki</a></strong> —— 长文版指南：快速上手、架构、块子集、Claude Code、疑难排查、怎么加一个新块、怎么贡献（中英双语，7 个页面）。</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/blob/main/docs/blocks-subset.md" target="_blank" rel="noopener noreferrer"><code>docs/blocks-subset.md</code></a> —— 哪些语法有块，哪些没有，为什么。</li><li>仓库：<a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE" target="_blank" rel="noopener noreferrer">https://github.com/JiHuiYiYou/JiHuiYiYou-IDE</a>（MIT 协议）</li></ul>
+</main>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../index.html" class="nav-logo foot-logo">
+          <img src="../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../compiler/docs/index.html">文档</a></li>
+            <li><a href="../compiler/download/index.html">下载</a></li>
+            <li><a href="../compiler/community/index.html">社区</a></li>
+            <li><a href="../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>

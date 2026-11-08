@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>常见问题</title>
+  <meta name="description" content="反复被问到的问题与它们的答案" />
+  <meta property="og:title" content="常见问题" />
+  <meta property="og:description" content="反复被问到的问题与它们的答案" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY 首页">
+        <img src="../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>编译器<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item is-active" href="../../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="主导航"><a class="" href="../../compiler/index.html">首页</a><a class="is-active" href="../../compiler/docs/index.html">文档</a><a class="" href="../../compiler/download/index.html">下载</a><a class="" href="../../compiler/community/index.html">社区</a><a class="" href="../../compiler/governance/index.html">治理</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../search-index.json" aria-label="搜索文档">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>搜索文档</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="最新稳定版">v4.1.4</span>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="文档目录">
+    <div class="doc-nav-group"><h4>上手</h4><ul><li><a class="" href="../../compiler/docs/getting-started.html">快速上手</a></li><li><a class="" href="../../compiler/docs/tour.html">语言导览</a></li></ul></div><div class="doc-nav-group"><h4>语言参考</h4><ul><li><a class="" href="../../compiler/docs/reference.html">参考总览</a></li><li><a class="" href="../../compiler/docs/spec.html">语言规范 v4.0.0</a></li><li><a class="" href="../../compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../compiler/docs/stdlib.html">标准库</a></li></ul></div><div class="doc-nav-group"><h4>专项指南</h4><ul><li><a class="" href="../../compiler/docs/arena.html">Arena 内存管理</a></li><li><a class="" href="../../compiler/docs/osdev.html">裸机与内核开发</a></li></ul></div><div class="doc-nav-group"><h4>工具与实现</h4><ul><li><a class="" href="../../compiler/docs/cli.html">CLI 参考</a></li><li><a class="" href="../../compiler/docs/compiler.html">编译器实现</a></li><li><a class="" href="../../compiler/docs/build-and-test.html">构建与测试</a></li><li><a class="is-active" href="../../compiler/docs/faq.html">常见问题</a></li></ul></div>
+    
+    <div class="doc-nav-group doc-nav-external">
+      <h4>规范原文</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">语言规范 v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">问题台账 ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="常见问题">常见问题</h1>
+<p>反复被问到的问题，以及当下为真的答案。答案变了就是仓库说了算——见 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">语言规范</a> 和 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer">FACTS.md</a> 里的权威版本。</p>
+<hr />
+<h2 id="用编译器">用编译器</h2>
+<h3 id="能在-linux-或-macos-上跑编译器吗">能在 Linux 或 macOS 上跑编译器吗？</h3>
+<p>不能直接跑。<strong>编译器是个 Windows 程序</strong>——<code>jhyy.exe</code> 是 PE 可执行文件，宿主必须是 Windows（或 Wine）。这是刻意的设计决定，不是疏漏。</p>
+<p><strong>可移植的是产出</strong>：SysV 目标产出 Linux ELF 汇编，CI 会在 Linux 上链接并运行它。 所以「JHYY 程序能在 Linux 上跑」成立，「JHYY 编译器能在 Linux 上跑」目前不成立。</p>
+<h3 id="怎么查版本">怎么查版本？</h3>
+<p><strong><code>jhyy --help</code> 的第一行</strong>就是版本横幅。没有 <code>jhyy --version</code> 这个选项——它从来没 存在过，这么写会打印 <code>jhyy: unknown option --version</code> 然后以 1 退出。</p>
+<h3 id="为什么入口是-main-jhyy-而不是-main">为什么入口是 <code>main_jhyy</code> 而不是 <code>main</code>？</h3>
+<p>因为托管入口的签名不一样：<code>main_jhyy(argc: i32, argv: *u8) -&gt; i32</code>，其中 <code>argc</code> / <code>argv</code> 可省略。C 运行时的 <code>main</code> 负责桥接。在 freestanding 的 Linux 运行时 上是同一个约定——<code>crt0.S</code> 调 <code>main_jhyy</code>，并以它的返回值退出。</p>
+<h3 id="为什么-jhyy-compile-ajhyy-bjhyy-把-bjhyy-忽略了">为什么 <code>jhyy compile a.jhyy b.jhyy</code> 把 <code>b.jhyy</code> 忽略了？</h3>
+<p>因为编译器<strong>只接受一个输入文件</strong>，多余的 <code>.jhyy</code> 参数被静默忽略——不报错、不警告。 要编译多个文件就用 <code>import</code>：在 <code>main.jhyy</code> 里写 <code>import lib;</code>，编译器会顺着导入 图把 <code>lib.jhyy</code> 一起拉进来。</p>
+<h3 id="为什么我的退出码看起来不对">为什么我的退出码看起来不对？</h3>
+<p>如果是用 MSYS2 bash 读 <code>$?</code> 取的，它被截成了 8 位（<code>值 &amp; 0xFF</code>）。请改用 harness 或 Python <code>subprocess</code> 取退出码。期望值 827 读回来是 59，501 是 245，300 是 44， 1000 是 232。</p>
+<h3 id="为什么编译器不给我链-linux-程序">为什么编译器不给我链 Linux 程序？</h3>
+<p><strong>这份构建链不了交叉目标</strong>——自带的链接器永远产出 Windows <code>.exe</code>。加 <code>--no-link</code>， 自己用匹配的工具链链 <code>.s</code>；三步流程见 <a href="../../compiler/docs/build-and-test.html">构建与测试</a>。</p>
+<h3 id="用-jhyy-需要-msys2-吗">用 JHYY 需要 MSYS2 吗？</h3>
+<p>不需要。安装器自带一份最小原生工具链，终端用户只要有 Windows 就行。只有<strong>从源码 构建编译器</strong>才需要 MSYS2。</p>
+<hr />
+<h2 id="语言">语言</h2>
+<h3 id="有垃圾回收吗有分配器吗有-raii-吗">有垃圾回收吗？有分配器吗？有 RAII 吗？</h3>
+<p><strong>没有 GC，没有自动所有权，没有 RAII。</strong> 内存是显式的：裸指针、手动分配，以及—— 如果你想要——标准库里的 arena 分配器，加上 <code>defer</code> 做作用域退出清理。<code>defer</code> 按 LIFO 在作用域退出时执行，但<strong>隐式尾返回时不执行</strong>。</p>
+<h3 id="为什么没有-std-前缀">为什么没有 <code>std::</code> 前缀？</h3>
+<p>因为 <code>import</code> 直接接模块名：<code>import vec;</code>，而不是 <code>import std::vec;</code>。写带前缀的 形式是编译错误。</p>
+<h3 id="能调-c-库吗">能调 C 库吗？</h3>
+<p>能——<code>extern fn</code> 按 C ABI 调 C 函数。两个提醒：<strong>没有可变参数形式</strong>（每个参数都得 一个一个写出来），而且<strong>参数类型不会跟 C 签名对拍</strong>，写错了照样编译通过，运行时 才出问题。</p>
+<h3 id="能写捕获变量的闭包吗">能写捕获变量的闭包吗？</h3>
+<p>还不能——今天捕获是<strong>编译错误</strong>。块表达式闭包是有的，只是不能捕获。</p>
+<h3 id="泛型和-trait-有了吗">泛型和 trait 有了吗？</h3>
+<p>泛型有一部分；<strong>trait 还没实现</strong>。两者都在公开的路线图上——当前排期见 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer">FACTS.md</a>。</p>
+<h3 id="浮点数呢">浮点数呢？</h3>
+<p><code>f32</code> 和 <code>f64</code> 作为类型存在，但标准库<strong>还没有浮点格式化器</strong>——所以今天没法打印浮点数。</p>
+<h3 id="jhyy-能上生产吗">JHYY 能上生产吗？</h3>
+<p><strong>还不行。</strong> 项目是 pre-1.0：自举闭环能跑，回归套件是绿的，但语言规范还在动， 不承诺版本之间的语义稳定性。哪些能用、哪些不能，README 的状态表里有一张表。</p>
+<hr />
+<h2 id="项目">项目</h2>
+<h3 id="中间表示既然是qbe-风格那为什么没有-qbe">中间表示既然是「QBE 风格」，那为什么没有 QBE？</h3>
+<p>因为借的是 QBE 的<strong>语法</strong>，它简洁又可读。QBE 本身已经从项目里移除：amd64 后端是 JHYY 自己写的代码，IL 文本也是 JHYY 自己的格式。没有任何 QBE 代码被 vendored、 被链接或被执行。</p>
+<h3 id="编译器把自己编译得逐字节相同是不是就说明编译器是对的">「编译器把自己编译得逐字节相同」是不是就说明编译器是对的？</h3>
+<p><strong>不是。</strong> 它说明编译器<strong>精确地复现自己</strong>——这是关于生成确定性的陈述。一个确定性的 错误编译器也能完美闭环。这就是经典的 "trusting trust" 缺口，由另一道门覆盖： 回归套件。</p>
+<h3 id="为什么仓库公开维护一份已知缺陷台账">为什么仓库公开维护一份已知缺陷台账？</h3>
+<p>因为一个偷偷绕开自身缺陷的编译器，比一个公开承认缺陷的编译器更糟。台账 （<a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener noreferrer">workarounds.md</a>） 是公开维护的：每一条都写清楚问题是什么、什么时候触发、怎么绕、什么能取代这个绕法。 条目只关闭、不删除——它是一条审计轨迹。</p>
+<h3 id="怎么报-bug">怎么报 bug？</h3>
+<p>带上<strong>最小复现</strong>、期望输出与实际输出、版本、退出码。细节见 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">贡献指南</a>， issue 模板问的就是这几个字段。</p>
+<h3 id="怎么报安全问题">怎么报安全问题？</h3>
+<p><strong>不要开公开 issue。</strong> 请用私有 advisory 表单——流程、范围、响应时间表都在 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">SECURITY.md</a>里。</p>
+<h3 id="路线图在哪">路线图在哪？</h3>
+<p>权威排期在 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer">FACTS.md</a>， 每个版本格一份计划在 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/docs/plans/v4" target="_blank" rel="noopener noreferrer"><code>docs/plans/v4/</code></a>。 预留版本号上的数字是占位——每份计划都自带一份「启动时复核清单」，领用那一格时按 当时的实际情况重新核对。</p>
+<hr />
+<h2 id="还是卡住了">还是卡住了？</h2>
+<ul class='md-list'><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/discussions" target="_blank" rel="noopener noreferrer">Discussions</a> —— 提问与设计讨论。</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues" target="_blank" rel="noopener noreferrer">Issues</a> —— bug 与功能请求。</li><li><a href="../../compiler/docs/index.html">首页</a> —— 回到起点。</li></ul>
+      <div class="doc-foot-row">
+        
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">报告问题 ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="本页目录"><h4>本页</h4><a class="anchor-l1" href="#常见问题">常见问题</a><a class="anchor-l2" href="#用编译器">用编译器</a><a class="anchor-l3" href="#能在-linux-或-macos-上跑编译器吗">能在 Linux 或 macOS 上跑编译器吗？</a><a class="anchor-l3" href="#怎么查版本">怎么查版本？</a><a class="anchor-l3" href="#为什么入口是-main-jhyy-而不是-main">为什么入口是 main_jhyy 而不是 main？</a><a class="anchor-l3" href="#为什么-jhyy-compile-ajhyy-bjhyy-把-bjhyy-忽略了">为什么 jhyy compile a.jhyy b.jhyy 把 b.jhyy 忽略了？</a><a class="anchor-l3" href="#为什么我的退出码看起来不对">为什么我的退出码看起来不对？</a><a class="anchor-l3" href="#为什么编译器不给我链-linux-程序">为什么编译器不给我链 Linux 程序？</a><a class="anchor-l3" href="#用-jhyy-需要-msys2-吗">用 JHYY 需要 MSYS2 吗？</a><a class="anchor-l2" href="#语言">语言</a><a class="anchor-l3" href="#有垃圾回收吗有分配器吗有-raii-吗">有垃圾回收吗？有分配器吗？有 RAII 吗？</a><a class="anchor-l3" href="#为什么没有-std-前缀">为什么没有 std:: 前缀？</a><a class="anchor-l3" href="#能调-c-库吗">能调 C 库吗？</a><a class="anchor-l3" href="#能写捕获变量的闭包吗">能写捕获变量的闭包吗？</a><a class="anchor-l3" href="#泛型和-trait-有了吗">泛型和 trait 有了吗？</a><a class="anchor-l3" href="#浮点数呢">浮点数呢？</a><a class="anchor-l3" href="#jhyy-能上生产吗">JHYY 能上生产吗？</a><a class="anchor-l2" href="#项目">项目</a><a class="anchor-l3" href="#中间表示既然是qbe-风格那为什么没有-qbe">中间表示既然是「QBE 风格」，那为什么没有 QBE？</a><a class="anchor-l3" href="#编译器把自己编译得逐字节相同是不是就说明编译器是对的">「编译器把自己编译得逐字节相同」是不是就说明编译器是对的？</a><a class="anchor-l3" href="#为什么仓库公开维护一份已知缺陷台账">为什么仓库公开维护一份已知缺陷台账？</a><a class="anchor-l3" href="#怎么报-bug">怎么报 bug？</a><a class="anchor-l3" href="#怎么报安全问题">怎么报安全问题？</a><a class="anchor-l3" href="#路线图在哪">路线图在哪？</a><a class="anchor-l2" href="#还是卡住了">还是卡住了？</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../index.html" class="nav-logo foot-logo">
+          <img src="../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../../compiler/docs/index.html">文档</a></li>
+            <li><a href="../../compiler/download/index.html">下载</a></li>
+            <li><a href="../../compiler/community/index.html">社区</a></li>
+            <li><a href="../../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

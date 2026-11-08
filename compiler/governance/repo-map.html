@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>仓库地图</title>
+  <meta name="description" content="四个仓库各管什么，编译器仓库内部每个目录干什么" />
+  <meta property="og:title" content="仓库地图" />
+  <meta property="og:description" content="四个仓库各管什么，编译器仓库内部每个目录干什么" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY 首页">
+        <img src="../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>编译器<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item is-active" href="../../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="主导航"><a class="" href="../../compiler/index.html">首页</a><a class="" href="../../compiler/docs/index.html">文档</a><a class="" href="../../compiler/download/index.html">下载</a><a class="" href="../../compiler/community/index.html">社区</a><a class="is-active" href="../../compiler/governance/index.html">治理</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../search-index.json" aria-label="搜索文档">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>搜索文档</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="最新稳定版">v4.1.4</span>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="文档目录">
+    <div class="doc-nav-group"><h4>治理</h4><ul><li><a class="" href="../../compiler/governance/index.html">治理总览</a></li><li><a class="" href="../../compiler/governance/license.html">许可证</a></li><li><a class="is-active" href="../../compiler/governance/repo-map.html">仓库地图</a></li></ul></div><div class="doc-nav-group"><h4>流程</h4><ul><li><a class="" href="../../compiler/governance/index.html#rfc">RFC 流程</a></li><li><a class="" href="../../compiler/governance/index.html#release">发布节奏</a></li><li><a class="" href="../../compiler/community/contributing.html">贡献指南</a></li></ul></div>
+    
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="仓库地图">仓库地图</h1>
+<p>四个仓库，一件事一件分开。这一页先说四个仓库的边界，再逐个目录说明编译器仓库的 内部结构，最后给一张「我想改 X → 先读 Y」的对照表。</p>
+<hr />
+<h2 id="四个仓库的职责边界">四个仓库的职责边界</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>仓库</th><th>干什么</th><th>当前状态</th><th>GitHub</th><th>相关文档在哪</th></tr></thead><tbody><tr><td><strong>Compiler</strong></td><td>语言 + 编译器 + 标准库。编译器唯一实现在 <code>compiler/src0/</code>，后端是自研 amd64 发射器</td><td>稳定（自举成立，回归全绿）</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" target="_blank" rel="noopener noreferrer">JiHuiYiYou-compiler</a></td><td>仓内 <code>docs/</code>：<code>abis/</code> 三份契约、<code>internal/FACTS.md</code>、<code>plans/v4/</code></td></tr><tr><td><strong>IDE</strong></td><td>桌面工作台。Blockly 拖块与 CodeMirror 文本共用同一棵 AST，右侧栏接本机的 Claude Code</td><td>测试中</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE" target="_blank" rel="noopener noreferrer">JiHuiYiYou-IDE</a></td><td>IDE 仓 <code>docs/wiki/*.zh-CN.md</code></td></tr><tr><td><strong>OS</strong></td><td>用 JHYY 写的操作系统。仓里目前只有引导 spike（<code>boot.s</code> + <code>BOOTX64.EFI</code> + <code>esp_root/</code> + <code>wrap_gpt.py</code>），原设计文档已随一次重整清空</td><td>孵化中</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS" target="_blank" rel="noopener noreferrer">JiHuiYiYou-OS</a></td><td>编译器仓 <code>docs/coordination/JHYY_OS侧设计终版.md</code></td></tr><tr><td><strong>for-VEX</strong></td><td>VEX V5 Brain 嵌入式目标（Xilinx Zynq / Cortex-A9）。路线是 JHYY 直出 ARM 机器码，链官方 SDK 出 <code>.bin</code></td><td>孵化中（第 0 步实测阶段）</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX" target="_blank" rel="noopener noreferrer">JiHuiYiYou-for-VEX</a></td><td>for-VEX 仓 <code>docs/00-事实基线.md</code>、<code>docs/第0步-验收线.md</code></td></tr></tbody></table></div>
+<p>四者之间只有两条耦合：<strong>IDE 与 for-VEX 依赖编译器</strong>；<strong>OS 与编译器共享 ABI</strong> （所以跨项目设计基线放在编译器仓的 <code>docs/coordination/</code>，而不是各仓各一份）。</p>
+<hr />
+<h2 id="编译器仓库的目录地图">编译器仓库的目录地图</h2>
+<h3 id="编译器本体">编译器本体</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>目录</th><th>管什么</th></tr></thead><tbody><tr><td><code>compiler/src0/</code></td><td><strong>编译器唯一实现</strong>，<code>.jhyy</code> 源码。前端（<code>lexer</code> / <code>parser</code> / <code>ast</code> / <code>sema</code> / <code>types</code> / <code>symtab</code> / <code>mono</code> / <code>ir</code> / <code>ffi</code>）到后端（<code>codegen</code> / <code>codegen_amd64_*</code>）到 ABI 实现（<code>abi_amd64_*</code>）到 CLI（<code>main.jhyy</code>）都在这里。<strong>仓里没有 C 端</strong>（旧 <code>compiler/src/*.c</code> 已删除）⇒ 不存在「双实现 parity」这回事</td></tr><tr><td><code>compiler/src0/std/</code></td><td>用户侧标准库，<strong>8 个模块</strong>：<code>mem</code> <code>fmt</code> <code>io</code> <code>math</code> <code>string</code> <code>vec</code> <code>os</code> <code>arena</code>。模块名就是模块名，<strong>没有 <code>std::</code> 前缀</strong></td></tr><tr><td><code>compiler/src0/jhyy_helpers.c</code></td><td>编译器与 libc 之间的 C 桥。其中 4 个必需 FFI 符号只在 <code>#ifdef _WIN32</code> 内定义且没有 <code>#else</code> ⇒ <strong>宿主只能是 Windows</strong></td></tr><tr><td><code>compiler/src0/bootstrap/v1.0/</code></td><td>早期自举阶段的历史材料，不是当前路径</td></tr><tr><td><code>compiler/src0/scripts/dev/</code></td><td>源码树内的开发脚本</td></tr><tr><td><code>compiler/src0/main_run.s</code></td><td>生成的汇编产物，不是手写的</td></tr></tbody></table></div>
+<h3 id="运行时">运行时</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>目录</th><th>管什么</th></tr></thead><tbody><tr><td><code>compiler/runtime/</code></td><td><strong>C 支撑运行时</strong>：<code>runtime.c</code>（用户程序链接时链进去的那一份）+ <code>runtime.h</code>。<code>no_std_core/</code> 是 <code>#[no_std]</code> 时的替代实现（memcpy / memset / panic_handler / <code>__start_kernel</code>，全是 <code>.jhyy</code> 写的）——那种情况下 <code>runtime.c</code> <strong>不参与链接</strong></td></tr><tr><td><code>runtime/linux_elf/</code></td><td>仓库根的另一个 <code>runtime</code>：<strong><code>amd64_sysv_freestanding</code> 目标的静态无 libc Linux ELF64 运行时</strong>（<code>crt0.S</code> + <code>link.ld</code>）。跟 <code>compiler/runtime/</code> 不是一回事，名字撞了而已</td></tr></tbody></table></div>
+<h3 id="测试与产物">测试与产物</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>目录</th><th>管什么</th></tr></thead><tbody><tr><td><code>compiler/tests/examples/</code></td><td>回归用例源（<code>.jhyy</code>），下划线开头的是辅助 fixture 不是用例</td></tr><tr><td><code>compiler/tests/golden/</code></td><td>AST 黄金文件（<code>*.ast.txt</code>）</td></tr><tr><td><code>compiler/tests/bootstrap/</code></td><td>自举与交叉验证脚本：<code>closure_check.sh</code>（跨代闭环）、<code>fixed_point.sh</code>（跨代不动点）、<code>byte_equal.sh</code>、<code>artifact_checks.sh</code>（产物级断言）、<code>artifact_fresh_check.sh</code>（提交产物 vs 现编产物）、<code>sysv_*.sh</code>（SysV ABI 门）、<code>bench.sh</code>、<code>mutation_test.py</code></td></tr><tr><td><code>compiler/build/</code></td><td>构建产物：<code>bin/</code>（<code>jhyy.exe</code> 是<strong>git 跟踪的自举锚点</strong>）、<code>obj/</code>、<code>regalloc/</code>。改了 <code>src0</code> 不提交新二进制，CI 的 <code>artifact-fresh</code> 门会红</td></tr><tr><td><code>regress.py</code></td><td>仓库根的回归驱动</td></tr><tr><td><code>Makefile</code></td><td>仓库根。<code>make</code> = 编 C 桥 + 自举闭环迭代到不动点</td></tr></tbody></table></div>
+<h3 id="文档">文档</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>目录</th><th>管什么</th></tr></thead><tbody><tr><td><code>docs/abis/</code></td><td><strong>三份契约</strong>：语言规范 v4.0.0（锁定）、ABI v4.0.0（锁定）、二进制格式 v1.0.0（<strong>设计稿，未实装</strong>）</td></tr><tr><td><code>docs/internal/</code></td><td>内部文档：<code>FACTS.md</code>（事实单一真相源）、<code>workarounds.md</code>（问题台账，<strong>永不归档</strong>）、<code>architecture.md</code>、<code>build.md</code>、<code>feedback-codes.md</code>、<code>README.md</code>（文档索引）</td></tr><tr><td><code>docs/archive/</code></td><td>历史归档：<code>logs/</code>（各轴 changelog + sprint 日志）、<code>plans/</code>（各轴 sprint 计划）、<code>perf/</code>（已被取代的性能测量）、<code>audit/</code>（codegen 深审 + RCA）。<strong>归档不改</strong> —— 它描述的是当时的世界</td></tr><tr><td><code>docs/plans/v4/</code></td><td>当前计划线，一格一个版本槽一份 <code>vX.Y.Z-plan.md</code></td></tr><tr><td><code>docs/coordination/</code></td><td>跨项目设计基线（编译器侧 / OS 侧各一份终版）</td></tr><tr><td><code>docs/perf/</code></td><td>现行性能基线（帧尺寸 / 访存占比 / 回归比）</td></tr></tbody></table></div>
+<h3 id="工具与分发">工具与分发</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>目录</th><th>管什么</th></tr></thead><tbody><tr><td><code>vscode-ext/</code></td><td>VS Code 扩展 <code>jhyy-lang</code>：TextMate 语法高亮 + 原生 run / compile 命令 + 终端 profile 探测。<code>jhyy-lang-*.vsix</code> 是已构建产物</td></tr><tr><td><code>mcp-jhyy/</code></td><td>Claude Code 的 MCP 服务（编译 / 运行 / 看 IL / 查台账 / 跑回归），Python 实现，门 <code>mcp-pytest</code></td></tr><tr><td><code>installer/</code></td><td>Windows 装机：WiX（Burn bundle EXE + MSI）+ 内置 ucrt64 工具链 + <code>release-notes/</code>（每版 release note 正文）+ <code>distribution/</code>（scoop / winget manifest）+ <code>GUIDS.md</code>（安装器 GUID 登记）</td></tr><tr><td><code>scripts/dev/</code></td><td>门脚本与开发工具：<code>bump_version.py</code>（版本自动化）、<code>check_arch_claims.py</code>、<code>check_spec_consistency.py</code>、<code>check_binary_format_layout.py</code>、<code>check_regalloc_parity.py</code>、<code>docs_facts_check.py</code>、<code>audit_test_assertions.py</code>、<code>check_regress_facts.py</code>、<code>test_docs_gate_mutations.py</code>、<code>bench/runtime_perf.py</code>、<code>regalloc_reference.py</code></td></tr><tr><td><code>bench/</code></td><td>基准套件：<code>tasks/</code>（题目）、<code>bench.py</code>（驱动）、<code>difftest.py</code>（随机程序差分）、<code>METHODOLOGY.md</code>（口径）、<code>seeds/</code>、<code>baseline/</code></td></tr></tbody></table></div>
+<p>仓库根还有几个文件各管一件事：<code>VERSION</code>（版本号唯一真相源）、<code>CHANGELOG.md</code>、 <code>CONTRIBUTING.md</code>、<code>SECURITY.md</code>、<code>CODE_OF_CONDUCT.md</code>。</p>
+<hr />
+<h2 id="我想改-x先读-y">我想改 X，先读 Y</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>我想改…</th><th>先读</th><th>再读</th></tr></thead><tbody><tr><td>语言语法或语义</td><td><code>docs/abis/jhyy-lang-spec-v4.0.0.md</code>（正文 + 附录 B）</td><td><code>compiler/src0/parser.jhyy</code> / <code>sema.jhyy</code>；契约变更走提案</td></tr><tr><td>FFI、struct 传参、调用约定</td><td><code>docs/abis/jhyy-abi-v4.0.0.md</code></td><td><code>compiler/src0/abi_amd64_*.jhyy</code></td></tr><tr><td>后端（codegen / 发射）</td><td><code>docs/internal/architecture.md</code></td><td><code>compiler/src0/codegen_amd64_*.jhyy</code>；动 <code>src0</code> ⇒ 发版级流程</td></tr><tr><td>诊断信息、报错文案</td><td><code>docs/internal/workarounds.md</code>（先查是不是已知问题）</td><td><code>compiler/src0/lexer.jhyy</code> / <code>sema.jhyy</code></td></tr><tr><td>标准库</td><td><code>compiler/src0/std/*.jhyy</code>（真实 API 在这里，不在文档里）</td><td><code>docs/internal/workarounds.md</code>；改稳定 API 走提案</td></tr><tr><td>构建、工具链、门</td><td><code>docs/internal/build.md</code></td><td><code>Makefile</code>、<code>scripts/dev/</code>、<code>.github/workflows/</code></td></tr><tr><td>二进制格式 <code>.jhyynb</code></td><td><code>docs/abis/jhyy-binary-format-v1.0.0.md</code>（<strong>设计稿，未实装</strong>）</td><td><code>scripts/dev/check_binary_format_layout.py</code></td></tr><tr><td>安装器与分发</td><td><code>installer/README.md</code></td><td><code>installer/build.ps1</code>、<code>installer/wix/</code>、<code>installer/distribution/</code></td></tr><tr><td>VS Code 扩展</td><td><code>vscode-ext/README.md</code></td><td><code>vscode-ext/src/</code>、<code>syntaxes/</code></td></tr><tr><td>MCP 服务</td><td><code>mcp-jhyy/README.md</code></td><td><code>mcp-jhyy/server.py</code></td></tr><tr><td>基准与口径</td><td><code>bench/METHODOLOGY.md</code></td><td><code>bench/tasks/</code>、<code>bench/bench.py</code></td></tr><tr><td>OS 相关设计</td><td><code>docs/coordination/JHYY_OS侧设计终版.md</code></td><td><code>docs/coordination/JHYY_编译器侧设计终版.md</code></td></tr><tr><td>引用一个「会变的数字」</td><td><code>docs/internal/FACTS.md</code></td><td>—（别在别处复述，复制即漂移）</td></tr><tr><td>想知道「这行代码当初为什么这么写」</td><td><code>docs/archive/</code>（按轴查 changelog 与 RCA）</td><td>—</td></tr></tbody></table></div>
+<hr />
+<h2 id="相关">相关</h2>
+<ul class='md-list'><li><a href="../../compiler/docs/compiler.html">编译器实现</a>——流水线与后端怎么走</li><li><a href="../../compiler/docs/build-and-test.html">构建与测试</a>——怎么把它跑起来</li><li><a href="../../compiler/community/contributing.html">贡献指南</a>——提 issue 与开 PR 的步骤</li><li><a href="../../compiler/governance/license.html">许可证</a>——各仓的许可现状</li></ul>
+      <div class="doc-foot-row">
+        
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">报告问题 ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="本页目录"><h4>本页</h4><a class="anchor-l1" href="#仓库地图">仓库地图</a><a class="anchor-l2" href="#四个仓库的职责边界">四个仓库的职责边界</a><a class="anchor-l2" href="#编译器仓库的目录地图">编译器仓库的目录地图</a><a class="anchor-l3" href="#编译器本体">编译器本体</a><a class="anchor-l3" href="#运行时">运行时</a><a class="anchor-l3" href="#测试与产物">测试与产物</a><a class="anchor-l3" href="#文档">文档</a><a class="anchor-l3" href="#工具与分发">工具与分发</a><a class="anchor-l2" href="#我想改-x先读-y">我想改 X，先读 Y</a><a class="anchor-l2" href="#相关">相关</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../index.html" class="nav-logo foot-logo">
+          <img src="../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../../compiler/docs/index.html">文档</a></li>
+            <li><a href="../../compiler/download/index.html">下载</a></li>
+            <li><a href="../../compiler/community/index.html">社区</a></li>
+            <li><a href="../../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

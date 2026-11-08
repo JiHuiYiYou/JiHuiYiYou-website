@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>贡献指南</title>
+  <meta name="description" content="从提 issue 到 PR 合并的完整路径" />
+  <meta property="og:title" content="贡献指南" />
+  <meta property="og:description" content="从提 issue 到 PR 合并的完整路径" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY 首页">
+        <img src="../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>编译器<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item is-active" href="../../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="主导航"><a class="" href="../../compiler/index.html">首页</a><a class="" href="../../compiler/docs/index.html">文档</a><a class="" href="../../compiler/download/index.html">下载</a><a class="is-active" href="../../compiler/community/index.html">社区</a><a class="" href="../../compiler/governance/index.html">治理</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../search-index.json" aria-label="搜索文档">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>搜索文档</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="最新稳定版">v4.1.4</span>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="文档目录">
+    <div class="doc-nav-group"><h4>社区</h4><ul><li><a class="" href="../../compiler/community/index.html">社区首页</a></li><li><a class="" href="../../compiler/community/conduct.html">行为准则</a></li><li><a class="is-active" href="../../compiler/community/contributing.html">贡献指南</a></li><li><a class="" href="../../compiler/community/security.html">安全披露</a></li></ul></div><div class="doc-nav-group"><h4>参与方式</h4><ul><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues" target="_blank" rel="noopener">提 Issue ↗</a></li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/pulls" target="_blank" rel="noopener">提 PR ↗</a></li><li><span class="doc-nav-text">QQ 群 429807125</span></li><li><a class="" href="../../compiler/governance/repo-map.html">代码所有权</a></li></ul></div>
+    
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="贡献指南">贡献指南</h1>
+<p>这一页是仓库 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer"><code>CONTRIBUTING.md</code></a> 的完整路径版：提 issue、跑门、写 PR。<strong>动手前先确认你改的东西落在哪一档</strong>。</p>
+<hr />
+<h2 id="仓库地图简短版">仓库地图（简短版）</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>你要改的东西</th><th>在哪</th></tr></thead><tbody><tr><td>编译器源码 + C 桥</td><td><code>compiler/src0/</code>（31 个 <code>.jhyy</code> 模块 + <code>jhyy_helpers.c</code>）——<strong>唯一的实现</strong>，没有第二份</td></tr><tr><td>后端</td><td><code>compiler/src0/codegen_amd64_*.jhyy</code>（自研 amd64 发射器）</td></tr><tr><td>标准库</td><td><code>compiler/src0/std/</code>（8 个模块：<code>mem</code> / <code>fmt</code> / <code>io</code> / <code>math</code> / <code>string</code> / <code>vec</code> / <code>os</code> / <code>arena</code>）</td></tr><tr><td>测试</td><td><code>compiler/tests/examples/</code> + 仓库根的 <code>regress.py</code></td></tr><tr><td>自举与门脚本</td><td><code>compiler/tests/bootstrap/</code></td></tr><tr><td>语言 / ABI / 二进制格式契约</td><td><code>docs/abis/</code></td></tr><tr><td>问题台账</td><td><code>docs/internal/workarounds.md</code>（<strong>永不归档</strong>，条目只关不删）</td></tr><tr><td>会变的数字</td><td><code>docs/internal/FACTS.md</code>（<strong>唯一真相源</strong>）</td></tr><tr><td>计划线</td><td><code>docs/plans/v4/</code>（一格一份 plan）</td></tr><tr><td>跨项目设计基线</td><td><code>docs/coordination/</code>（编译器侧与 OS 侧各一份终版）</td></tr></tbody></table></div>
+<p>完整版见<a href="../../compiler/governance/repo-map.html">仓库地图</a>。</p>
+<hr />
+<h2 id="构建与测试">构建与测试</h2>
+<p>宿主是 <strong>Windows 10 + MSYS2</strong>（<code>C:\msys64\mingw64\bin\bash.exe</code>）。</p>
+<pre><code class="language-bash"># 依赖
+pacman -S --needed mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-binutils
+
+# 构建（jhyy 编译自己；make 会把自举闭环迭代到不动点）
+make all           # → compiler/build/bin/jhyy.exe
+
+# 回归
+python regress.py                       # 全量
+python regress.py --tests=hello.jhyy    # 单个用例
+python regress.py --all                 # 带上受门控的用例
+</code></pre>
+<blockquote class="callout warn"><p><strong>不要</strong>用 Git Bash 自带的那个 MinGW <code>gcc</code>——它不支持 PE+ 链接，会在链接阶段失败。 <strong>所有门都要从仓库根目录跑</strong>：脚本按当前目录解析路径，在子目录里跑会把所有文件报成缺失，看起来像漂移，其实不是。</p></blockquote>
+<h3 id="各道门分别管什么">各道门分别管什么</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>门</th><th>它管什么</th><th>什么时候跑</th></tr></thead><tbody><tr><td><code>make</code>（自举闭环）</td><td>跨代产出的 <code>.s</code> <strong>逐字节相同</strong></td><td>改了 <code>compiler/src0/*.jhyy</code> 之后</td></tr><tr><td><code>python regress.py</code></td><td>每个用例的退出码 / stdout 断言</td><td>任何行为改动之后</td></tr><tr><td><code>python scripts/dev/audit_test_assertions.py --strict</code></td><td>每个用例都有<strong>能失败</strong>的断言（零信号即红）+ 指令与读点对照</td><td>改测试之后</td></tr><tr><td><code>bash compiler/tests/bootstrap/artifact_checks.sh</code></td><td>19 道<strong>产物级</strong>断言——失效模式在字节布局里，不在程序返回值里，写 <code>.jhyy</code> 测试抓不到</td><td>动了 codegen 之后</td></tr><tr><td><code>bash compiler/tests/bootstrap/closure_check.sh</code></td><td>Stage 2 的 <code>.s</code> == Stage 3 的 <code>.s</code>（<strong>本地门</strong>，不接 CI）</td><td>改了 <code>src0</code> 之后</td></tr><tr><td><code>python regress.py --fixed-point</code></td><td>N=10 跨代 <code>.il</code> + <code>.s</code> 逐字节相同（<strong>本地门</strong>）</td><td>发版级流程</td></tr><tr><td><code>bash compiler/tests/bootstrap/artifact_fresh_check.sh</code></td><td>提交进仓的那份 <code>jhyy.exe</code> 与现编产物行为一致</td><td>改了 <code>src0</code> 之后——否则它会红</td></tr><tr><td><code>python scripts/dev/bump_version.py check</code></td><td><code>VERSION</code> == 全仓每一处版本串</td><td>动了版本号或版本串</td></tr></tbody></table></div>
+<h3 id="提交前该跑哪个">提交前该跑哪个</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>你改了什么</th><th>至少要跑</th></tr></thead><tbody><tr><td>只改文档 / 只改测试</td><td>文档要事实核对（限制还在吗？修它的 sprint 发布了吗？），CI 跑事实门；测试要 <code>python regress.py</code> + 断言强度审计</td></tr><tr><td>改了 <code>compiler/src0/*.jhyy</code></td><td><code>make</code> + <code>python regress.py</code> + <code>artifact_checks.sh</code>，并更新提交进仓的自举产物；动版本号或发版流程再加 <code>--fixed-point</code></td></tr></tbody></table></div>
+<p>细节见<a href="../../compiler/docs/build-and-test.html">构建与测试</a>与<a href="../../compiler/download/bootstrap.html">源码构建与自举</a>。</p>
+<hr />
+<h2 id="改动分类与对应门槛">改动分类与对应门槛</h2>
+<h3 id="这几类必须先设计后动手">这几类必须先设计、后动手</h3>
+<p><strong>语言语法 / 语义 · ABI 与内存布局 · 内存模型 · 标准库稳定 API · 错误码语义 · 自举边界。</strong></p>
+<p>理由：语言规范 v4.0.0 与 ABI 白皮书 v4.0.0 都是<strong>已锁定</strong>的契约，附录 B 是已知限制的正式清单，诊断码也在规范里成表——一动就影响所有已发布的程序。</p>
+<blockquote class="callout"><p><strong>目前还没有明文规定的 RFC 流程。</strong> 仓库里没有 RFC 模板、编号规则或评审期——<code>RFC</code> 这个词在仓内只出现在两个互联网标准里（RFC 3629、RFC 4122）。现有的替代物是：锁定中的规范 + 附录 B、<code>docs/plans/v4/</code> 一格一份 plan（结构固定，含 Goal / Scope / 验收门 / 复核清单 / Risks）、以及 <code>FACTS.md</code> § 4 这份排期真相源。官网的 <a href="../../compiler/governance/index.html#rfc">RFC 流程</a> 一节是这块规则正在补的位置。</p>
+<p><strong>在规则补齐之前的实际做法</strong>：先开一个 issue 说明动机、范围、对现有代码的影响，等维护者拍板再动手；不要直接改规范文本。落在 <code>docs/plans/v4/</code> 哪一格、验收门是什么，写在 plan 里。</p></blockquote>
+<h3 id="小改动">小改动</h3>
+<p>issue（说明问题）+ 设计说明 + PR，<strong>设计说明自包含在 PR 里</strong>——不要让 reviewer 自己去翻 issue。</p>
+<hr />
+<h2 id="提交与-pr-规范">提交与 PR 规范</h2>
+<p>以下四条是 <code>CONTRIBUTING.md</code> 的原文要求：</p>
+<ol class='md-list'><li><strong>一个 PR 只做一件事。</strong> 描述里需要出现「并且」的时候，它大概是两个 PR。</li><li><strong>门必须跑。</strong> <strong>没跑过的门等于没过的门。</strong> PR 上每个 CI job 都得绿——包括 <strong>SysV ABI</strong> 那道 job：它是唯一能真正<strong>执行</strong>那六个用例的 runner（<code>windows-latest</code> 会跳过它们），所以它绿了不代表覆盖了它们。</li><li><strong>提交信息里总结这次改动</strong>；<strong>任何 AI 助手参与了代码编写，都要加 <code>Co-Authored-By</code> trailer</strong>。</li><li><strong>动了文档就把事实保持同步</strong>。</li></ol>
+<h3 id="改编译器源码-发版级流程">改编译器源码 = 发版级流程</h3>
+<p>改 <code>compiler/src0/*.jhyy</code> 的成本比改文档高得多：<strong>加一个局部变量就会移位模块级 temp 编号</strong>，自举构建随之漂移。于是要：</p>
+<ul class='md-list'><li>跑全量回归；</li><li>刷新自举锚点（<code>make</code>，它会迭代到不动点并装上新二进制）；</li><li><strong>提交新的 <code>compiler/build/bin/jhyy.exe</code></strong>——它是 git 跟踪的产物，CI 的 <code>artifact-fresh</code> 门会拿它跟现编产物对拍，陈旧的会被抓出来。</li></ul>
+<p><strong>只改注释是免费的</strong>：lexer 在 codegen 之前把注释剥掉，编译器二进制保持逐字节相同。</p>
+<h3 id="代码风格">代码风格</h3>
+<ul class='md-list'><li><code>.editorconfig</code>：UTF-8 / LF / 末尾换行 / 去尾空格；缩进 <strong>4 空格</strong>（<code>.jhyy</code> / <code>.c</code> / <code>.h</code> / <code>.py</code> / <code>.sh</code> / <code>.ps1</code>）、<strong>2 空格</strong>（<code>.md</code> / <code>.json</code> / <code>.yml</code>），<strong>Makefile 用 tab</strong>。</li><li>C 侧 <code>-Wall -Wextra</code> <strong>零警告</strong>。</li><li><strong>一份文档一种语言</strong>：对外门面（<code>README.md</code> / <code>CONTRIBUTING.md</code> / <code>CHANGELOG.md</code>）英文，中文门面只有 <code>README.zh-CN.md</code>，仓内 <code>docs/**</code> 中文；同一份文档里不许中英混写。中文只用简体。</li><li><strong>两份 README 必须一起改</strong>——门面分叉比门面过期更糟。</li><li>文档里的路径引用按「相对当前文件」写；改完跑 <code>python scripts/dev/docs_facts_check.py</code>（含断链检查）。</li></ul>
+<h3 id="测试分层">测试分层</h3>
+<p>回归套件共 299 条，按<strong>信号来源</strong>分三层：</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>层</th><th>判定方式</th><th>条数</th></tr></thead><tbody><tr><td>真断言</td><td>断言写在用例源码里</td><td>215</td></tr><tr><td>harness 判定 · 期望编译错误</td><td>用例声明 <code>// EXPECT-ERROR: &quot;...&quot;</code></td><td>56</td></tr><tr><td>harness 判定 · 比对退出码</td><td>用例声明 <code>// EXPECT: N</code></td><td>8</td></tr><tr><td>SKIP · 用例主动跳过</td><td>用例带 <code>// SKIP:</code> 指令</td><td>6</td></tr><tr><td>SKIP · 库模块</td><td>没有入口点的库模块</td><td>14</td></tr></tbody></table></div>
+<p>215 + 56 + 8 = <strong>279</strong>（可跑），加 6 + 14 = <strong>299</strong>（总数）。</p>
+<p>测试指令集是固定的一组：<code>EXPECT</code> / <code>EXPECT-ERROR</code> / <code>EXPECT-OUT</code> / <code>XFAIL</code> / <code>SKIP</code> / <code>SETENV</code>，新增用例只用这几个。</p>
+<p>断言强度审计会报出<strong>零信号用例数</strong>——一个不可能失败的测试比没有测试更糟，它什么都没查却报成功。</p>
+<h3 id="签名要求与反向移植">签名要求与反向移植</h3>
+<ul class='md-list'><li><strong>签名要求：没有。</strong> 仓库没有 DCO、没有 GPG 签名要求，GitHub 侧的 <code>web_commit_signoff_required</code> 也是关的。</li><li><strong>反向移植（backport）规则：目前还没有明文规定。</strong> 仓库只有一条主线（<code>main</code>），没有 release 分支矩阵，也没有 backport 政策。</li></ul>
+<hr />
+<h2 id="两类贡献模板">两类贡献模板</h2>
+<blockquote class="callout"><p><strong>这两张表还没写进仓内的 <code>CONTRIBUTING.md</code></strong>——原文只规定了 PR 流程与门。表里的要求是项目现行的做法，先在官网发布成模板，写回仓内文档正在补。</p></blockquote>
+<h3 id="教学贡献教程-讲义-示例">教学贡献（教程 / 讲义 / 示例）</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>必附</th><th>说明</th></tr></thead><tbody><tr><td><strong>可运行的完整 <code>.jhyy</code> 文件</strong></td><td>不是片段，不能省略 import 与 <code>main_jhyy</code></td></tr><tr><td><strong>预期输出</strong></td><td>stdout <strong>与</strong>退出码，两者都要</td></tr></tbody></table></div>
+<p>放得进 <code>compiler/tests/examples/</code> 的示例最好——那样它同时是教学材料，也是回归用例。</p>
+<blockquote class="callout"><p><strong>目前还没有明文规定的「教学材料目录」。</strong> 仓库里没有 <code>docs/tutorials/</code> 之类的位置，长文目前放 Wiki。「教学材料必须带可运行示例」是从回归套件的既有纪律推出来的，不是成文条款——我们正在补。</p></blockquote>
+<h3 id="编译器贡献">编译器贡献</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>必附</th><th>说明</th></tr></thead><tbody><tr><td><strong>IR 示例</strong></td><td><code>JHY_WRITE_IL=1</code> 出的 <code>.il</code>，让 reviewer 能看中间表示而不是猜</td></tr><tr><td><strong>回归测试</strong></td><td>新增 <code>.jhyy</code> 用例进 <code>compiler/tests/examples/</code>；修 bug 的话，<strong>先写能复现的用例</strong></td></tr><tr><td><strong>性能 / 正确性影响</strong></td><td>帧尺寸、访存、指令数这些静态指标，以及「有没有可能改变已有行为」</td></tr></tbody></table></div>
+<p>改了 <code>compiler/src0/*.jhyy</code> 还要额外声明<strong>这是发版级改动</strong>——PR 模板里有一项专门问这个。</p>
+<hr />
+<h2 id="提-issue-的格式">提 issue 的格式</h2>
+<p>两个 issue 模板（<em>Compiler bug report</em> / <em>Feature request</em>），也允许空白 issue。报 bug 时这四样缺一不可：</p>
+<ol class='md-list'><li><strong>最小复现</strong>——完整的 <code>.jhyy</code> 源码；</li><li><strong>实际 vs 预期输出</strong>，<strong>含退出码</strong>；</li><li><strong>版本</strong>——<code>jhyy --help</code> 的第一行（<strong>没有 <code>jhyy --version</code> 这个 flag</strong>，它从来没存在过）；</li><li><strong>编译器来源</strong>——发布二进制，还是自举构建？</li></ol>
+<blockquote class="callout warn"><p><strong>退出码要用 harness 或 Python <code>subprocess</code> 取，不要读 MSYS2 bash 的 <code>$?</code>。</strong> bash 把退出码截成 8 位（<code>value &amp; 0xFF</code>），所以 ≥ 256 的期望码要先约减：827 → 59、501 → 245、300 → 44、1000 → 232。很多「退出码不对」的报告其实只是这个。</p></blockquote>
+<hr />
+<h2 id="issue-标签体系">issue 标签体系</h2>
+<p>仓库里<strong>实际存在</strong>的标签是下面这十三个：</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>标签</th><th>含义</th><th>来源</th></tr></thead><tbody><tr><td><code>bug</code></td><td>编译器做错了</td><td><em>Compiler bug report</em> 模板默认</td></tr><tr><td><code>enhancement</code></td><td>功能请求</td><td><em>Feature request</em> 模板默认</td></tr><tr><td><code>documentation</code></td><td>文档改动</td><td>手工</td></tr><tr><td><code>question</code></td><td>提问</td><td>手工</td></tr><tr><td><code>good first issue</code></td><td>适合新人</td><td>手工</td></tr><tr><td><code>help wanted</code></td><td>需要额外关注</td><td>手工</td></tr><tr><td><code>duplicate</code></td><td>重复</td><td>GitHub 默认</td></tr><tr><td><code>invalid</code></td><td>不成立</td><td>GitHub 默认</td></tr><tr><td><code>wontfix</code></td><td>不会做</td><td>GitHub 默认</td></tr><tr><td><code>roadmap</code></td><td>已排进路线图</td><td>手工</td></tr><tr><td><code>短期</code> / <code>中期</code> / <code>长期</code></td><td>排期档位</td><td>手工，对应 <code>FACTS.md</code> § 4 的时间轴</td></tr></tbody></table></div>
+<blockquote class="callout"><p><strong>目前还没有 <code>RFC</code>、<code>OS</code>、<code>backend</code>、<code>arena</code>、<code>breaking</code>、<code>needs-decision</code> 这些标签</strong>——它们不存在于仓库。计划中的分域标签体系正在补。 另外两点现状：<code>good first issue</code> 标签存在，但当前<strong>没有挂着它的开放任务</strong>（开放 issue 数为 0）；Discussions 侧<strong>没有单独的标签体系</strong>。</p></blockquote>
+<hr />
+<h2 id="接下来">接下来</h2>
+<ul class='md-list'><li><a href="../../compiler/community/index.html">社区首页</a> —— 渠道与当前数字。</li><li><a href="../../compiler/community/conduct.html">行为准则</a> —— 参与这个项目的最低约定。</li><li><a href="../../compiler/community/security.html">安全披露</a> —— 不要把安全问题发到公开 issue。</li><li>原文：<a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer"><code>CONTRIBUTING.md</code></a></li></ul>
+      <div class="doc-foot-row">
+        
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">报告问题 ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="本页目录"><h4>本页</h4><a class="anchor-l1" href="#贡献指南">贡献指南</a><a class="anchor-l2" href="#仓库地图简短版">仓库地图（简短版）</a><a class="anchor-l2" href="#构建与测试">构建与测试</a><a class="anchor-l3" href="#各道门分别管什么">各道门分别管什么</a><a class="anchor-l3" href="#提交前该跑哪个">提交前该跑哪个</a><a class="anchor-l2" href="#改动分类与对应门槛">改动分类与对应门槛</a><a class="anchor-l3" href="#这几类必须先设计后动手">这几类必须先设计、后动手</a><a class="anchor-l3" href="#小改动">小改动</a><a class="anchor-l2" href="#提交与-pr-规范">提交与 PR 规范</a><a class="anchor-l3" href="#改编译器源码-发版级流程">改编译器源码 = 发版级流程</a><a class="anchor-l3" href="#代码风格">代码风格</a><a class="anchor-l3" href="#测试分层">测试分层</a><a class="anchor-l3" href="#签名要求与反向移植">签名要求与反向移植</a><a class="anchor-l2" href="#两类贡献模板">两类贡献模板</a><a class="anchor-l3" href="#教学贡献教程-讲义-示例">教学贡献（教程 / 讲义 / 示例）</a><a class="anchor-l3" href="#编译器贡献">编译器贡献</a><a class="anchor-l2" href="#提-issue-的格式">提 issue 的格式</a><a class="anchor-l2" href="#issue-标签体系">issue 标签体系</a><a class="anchor-l2" href="#接下来">接下来</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../index.html" class="nav-logo foot-logo">
+          <img src="../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../../compiler/docs/index.html">文档</a></li>
+            <li><a href="../../compiler/download/index.html">下载</a></li>
+            <li><a href="../../compiler/community/index.html">社区</a></li>
+            <li><a href="../../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

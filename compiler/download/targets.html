@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>目标与交叉编译</title>
+  <meta name="description" content="四个 target 的取舍、freestanding 的含义与裸机工具链最小组合" />
+  <meta property="og:title" content="目标与交叉编译" />
+  <meta property="og:description" content="四个 target 的取舍、freestanding 的含义与裸机工具链最小组合" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY 首页">
+        <img src="../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>编译器<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item is-active" href="../../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="主导航"><a class="" href="../../compiler/index.html">首页</a><a class="" href="../../compiler/docs/index.html">文档</a><a class="is-active" href="../../compiler/download/index.html">下载</a><a class="" href="../../compiler/community/index.html">社区</a><a class="" href="../../compiler/governance/index.html">治理</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../search-index.json" aria-label="搜索文档">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>搜索文档</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="最新稳定版">v4.1.4</span>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="文档目录">
+    <div class="doc-nav-group"><h4>下载</h4><ul><li><a class="" href="../../compiler/download/index.html">下载首页</a></li><li><a class="is-active" href="../../compiler/download/targets.html">目标与交叉编译</a></li><li><a class="" href="../../compiler/download/bootstrap.html">源码构建与自举</a></li><li><a class="" href="../../compiler/download/verify.html">校验与签名</a></li></ul></div><div class="doc-nav-group"><h4>产物</h4><ul><li><a class="" href="../../compiler/download/index.html#installer">安装器（GUI）</a></li><li><a class="" href="../../compiler/download/index.html#msi">MSI（企业分发）</a></li><li><a class="" href="../../compiler/download/index.html#vsix">VS Code 扩展</a></li><li><a class="" href="../../compiler/download/index.html#pkgmgr">包管理器</a></li></ul></div><div class="doc-nav-group"><h4>版本</h4><ul><li><a class="" href="../../compiler/download/index.html#current">v4.1.4（当前稳定）</a></li><li><a class="" href="../../compiler/download/index.html#archive">历史归档</a></li></ul></div>
+    
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="目标与交叉编译">目标与交叉编译</h1>
+<p>这一页回答四个问题：<strong>目标只有哪几个</strong>、每个目标产出什么、<strong>freestanding 到底 改了什么</strong>、以及裸机构建最少需要哪些工具。</p>
+<hr />
+<h2 id="目标边界只有-amd64">目标边界：只有 amd64</h2>
+<p>当前只有四个目标，全部是 x86-64。<strong>没有 aarch64、没有 riscv64、没有 wasm。</strong></p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>目标三元组</th><th>ABI</th><th>产物</th><th>状态</th><th>说明</th></tr></thead><tbody><tr><td><code>amd64_win</code></td><td>MS x64</td><td>PE/COFF 可执行文件（<code>.exe</code>）</td><td>稳定</td><td>宿主默认目标。编译器自身就跑在这个目标上</td></tr><tr><td><code>amd64_sysv</code></td><td>SysV AMD64</td><td>SysV 汇编（<code>.s</code>）→ 外部 ld 链成 ELF</td><td>稳定</td><td>产物是汇编文本，链接由外部 linker 完成</td></tr><tr><td><code>amd64_win_freestanding</code></td><td>MS x64</td><td>UEFI 可执行映像（<code>.efi</code>）</td><td>测试中</td><td>调用约定与 <code>amd64_win</code> 逐字节相同；UEFI 入口路径尚未完工（ABI § 12.8）</td></tr><tr><td><code>amd64_sysv_freestanding</code></td><td>SysV AMD64</td><td>freestanding 汇编（<code>.s</code>）</td><td>测试中</td><td>裸机内核的主要入口目标；同样存在 UEFI 入口缺口</td></tr></tbody></table></div>
+<p>四个目标<strong>全部</strong>走自研的 amd64 后端（<code>target_backend_mode</code> 一律返回 <code>BACKEND_SELF</code>），没有 QBE 回退路径——QBE 早已从构建链里移除。</p>
+<blockquote class="callout warn"><p>这是<strong>当前的边界</strong>：编译器本体只有 amd64 后端。ARM 目标在另一个项目里推进—— <a href="../../vex/index.html">for-VEX</a> 走的是 JHYY 直出 ARM 机器码（<code>.o</code>）再链官方 SDK 出 <code>.bin</code>，那条路线目前停在事实基线阶段，ARM 后端还没动手。 「多架构 ABI」在发行计划里是 v4.16 之后的未排期项。</p></blockquote>
+<p>ABI 侧对此有明确登记：§ 12.10「无 aarch64 / riscv64」，<code>.jhyynb</code> 原生二进制格式 至今仍是设计稿。</p>
+<hr />
+<h2 id="freestanding-改了什么">freestanding 改了什么</h2>
+<p>这是最容易读错的一条。<strong>freestanding 只切换「调用约定归属 + 入口钩子」， 不切换链接方式。</strong></p>
+<p>链接行到底怎么走，判据是<strong>源文件里有没有 <code>#[no_std]</code></strong>，跟 <code>--target</code> 无关 （ABI § 7）：</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>源文件</th><th>链接行</th></tr></thead><tbody><tr><td>没有 <code>#[no_std]</code></td><td>链 <code>runtime.o</code> + <code>helpers.o</code>（C 运行时 bridge）</td></tr><tr><td>有 <code>#[no_std]</code></td><td>不链上面两个，加 <code>-nostartfiles -nodefaultlibs -Wl,--entry=main -lgcc</code></td></tr></tbody></table></div>
+<p>两条分支都带同一串链接标志：</p>
+<pre><code class="language-text">-g0 -Wl,--build-id=none -Wl,--stack,67108864 … -lm -lkernel32 -luser32 -lshell32 -ladvapi32
+</code></pre>
+<p><strong>Windows 系统库与 <code>-lm</code> 是无条件加的</strong>，<code>#[no_std]</code> 也不例外。所以真正的 freestanding 镜像得自己用 <code>lld-link</code> 或自定义链接行完成。</p>
+<p>由此推出两条实操结论：</p>
+<ul class='md-list'><li><strong>输出容器格式不由 <code>--target</code> 决定</strong>，而由宿主机工具链的 <code>ld</code> 决定 （<code>link_with_gcc</code> 没有 target 参数，ABI § 12.9）。表里的 PE / ELF 只是各目标的 惯例产出。</li><li><strong>非 <code>amd64_win</code> 的目标必须显式加 <code>--no-link</code>。</strong> 不加的话编译器会直接拒绝：</li></ul>
+<pre><code class="language-text">  jhyy: refusing to link a cross target - this build's linker always emits a Windows .exe (via the bundled toolchain).
+        Use --no-link, then link the .s with a toolchain that matches the target.
+</code></pre>
+<p>这道守卫是有来由的：拿 Windows 链接器去链 SysV 汇编，编出来的东西<strong>编译期 零告警、运行时段错误</strong>。</p>
+<hr />
+<h2 id="交叉到-linux">交叉到 Linux</h2>
+<p><code>amd64_sysv*</code> 目标产出 SysV 汇编，在 Linux 上链接并运行。一共三步：</p>
+<pre><code class="language-bash"># 1. 在 Windows 上 —— 只产出 .s（交叉目标不能链接）
+./compiler/build/bin/jhyy.exe compile --target=amd64_sysv_freestanding --no-link prog.jhyy -o prog
+#    ⇒ prog.s
+
+# 2. 在 Linux 上 —— 链成静态 ELF
+gcc -nostdlib -static -T runtime/linux_elf/link.ld -o prog.elf \
+    runtime/linux_elf/crt0.S prog.s
+
+# 3. 跑起来
+./prog.elf
+</code></pre>
+<p>Linux 运行时调的是 <code>main_jhyy</code>（不是 <code>main</code>），并以它的返回值退出，所以入口 约定与托管侧一致——但链接是 <code>-nostdlib</code>，所以 freestanding 程序不能调 libc。</p>
+<p>CI 在 <code>ubuntu-latest</code> 上跑的就是这条链。</p>
+<blockquote class="callout"><p><strong>编译器本身只在 Windows 上跑。</strong> <code>jhyy.exe</code> 是 PE 可执行文件，自举闭环必须 执行它；C 端编译器已删除，不存在「用 Linux gcc 编出原生 ELF 版 jhyy」这条路。 不受此限的是<strong>产物</strong>。</p></blockquote>
+<hr />
+<h2 id="裸机工具链最小组合">裸机工具链最小组合</h2>
+<p>要真正编出一个裸机镜像，最少需要下面这些。逐条对照 JHYY 的现状：</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>环节</th><th>需要什么</th><th>JHYY 现状</th></tr></thead><tbody><tr><td>编译器本体</td><td><code>jhyy.exe</code></td><td>自举锚点，<code>compiler/build/bin/jhyy.exe</code>（仓库里就有一份）</td></tr><tr><td>汇编器</td><td><strong>自研 amd64 发射器</strong></td><td>后端直接吐 GAS / AT&T 语法的 <code>.s</code>，没有独立的汇编器二进制</td></tr><tr><td>系统汇编器</td><td>GNU <code>as</code>（经 <code>gcc -c</code> 调用）</td><td>只有在把 <code>.s</code> 变成目标文件时才用得上</td></tr><tr><td>目标链接器</td><td>见下</td><td>外部 <code>ld</code>，由宿主工具链决定容器格式</td></tr><tr><td><code>objcopy</code> / <code>objdump</code></td><td>binutils</td><td>编译本身<strong>不需要</strong>：<code>objdump</code> 只在产物级门里用来反汇编核对，<code>objcopy</code> 出现在 for-VEX 的 ARM 路线（官方 SDK 自带）</td></tr><tr><td>QEMU</td><td><code>qemu-system-x86_64</code></td><td>跑 UEFI 镜像用，<strong>不是</strong>编译环节</td></tr><tr><td>UEFI 固件</td><td>OVMF（<code>edk2-x86_64-code.fd</code> + <code>edk2-vars.fd</code>）</td><td>仓库里的 <code>scripts/dev/install/install-freestanding-toolchain.sh</code> 从 MSYS2 的 QEMU share 里拷进来</td></tr><tr><td>GRUB / limine</td><td>无</td><td><strong>仓库里没有</strong>，主线走 OVMF + QEMU；OS 项目的 spike 用的是自己那份 <code>BOOTX64.EFI</code></td></tr></tbody></table></div>
+<p><strong>裸机构建仍然需要外部 ld。</strong> ABI § 7 写得很直白：链接行是 gcc 的 as + ld， <code>link_with_gcc</code> 没有 target 参数，输出容器由宿主机 <code>ld</code> 决定。JHYY 自己只负责 「把源码变成 <code>.s</code>」，从 <code>.s</code> 到可执行映像这一段全部是外部工具链的活。</p>
+<p>三种目标各自需要哪个链接器：</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>目标</th><th>链接器</th><th>命令形态</th></tr></thead><tbody><tr><td><code>amd64_win</code></td><td>宿主 gcc → ld（PE）</td><td>编译器自己链，产出 <code>.exe</code></td></tr><tr><td><code>amd64_win_freestanding</code></td><td><code>lld-link</code></td><td><code>lld-link /SUBSYSTEM:EFI_APPLICATION /ENTRY:efi_main /MACHINE:X64</code></td></tr><tr><td><code>amd64_sysv*</code></td><td>外部 gcc / ld（ELF）</td><td>在 Linux 上用 <code>-nostdlib -static</code> + 自己的 <code>link.ld</code></td></tr></tbody></table></div>
+<p>UEFI 那条路的完整四步，仓库里已经写成脚本：</p>
+<pre><code class="language-bash"># 1. jhyy compile → .s
+scripts/dev/build/build-efi.sh compiler/tests/examples/hello-freestanding/efi.jhyy
+# 2. gcc -c .s → .obj     3. gcc -c efi_helpers.s → .obj
+# 4. lld-link → .efi
+# 然后：
+scripts/dev/test/run-ovmf.sh hello-freestanding.efi
+</code></pre>
+<p><code>lld-link</code> 来自 MSYS2 的 <code>mingw-w64-x86_64-lld</code> 包；<code>run-ovmf.sh</code> 用 QEMU 起 EDK2，靠 debugcon 抓 ConOut。</p>
+<hr />
+<h2 id="已知缺口">已知缺口</h2>
+<p>freestanding 侧还没完工的部分，ABI § 12 都登记着：</p>
+<ul class='md-list'><li><strong>§ 12.8 · UEFI EFIAPI wrapper 未实装</strong>：freestanding 的两个钩子 （<code>emit_entry_point</code> / <code>no_crt_init</code>）<strong>都是空实现</strong>——编译器不生成 EFIAPI wrapper，也不自动抑制 CRT / runtime 链接。entry 符号由用户自行提供 （<code>efi_main</code> / <code>_start</code>）。</li><li><strong>§ 12.9 · 无交叉编译容器后端</strong>：<code>--target</code> 不切换 PE / ELF 产出。</li><li><strong>§ 12.10 · 无 aarch64 / riscv64</strong>。</li><li><strong>§ 12.1 · struct / enum 返回值在所有目标无条件走 sret</strong>，无大小阈值； 跨语言互操作时与 SysV 标准不符。</li><li><strong>§ 12.6 · 栈槽只保证 8 字节对齐</strong>（当前没有 16 字节对齐的类型，未触发）。</li></ul>
+<hr />
+<h2 id="接下来">接下来</h2>
+<ul class='md-list'><li><a href="../../compiler/docs/abi.html">ABI v4.0.0</a>——契约原文。</li><li><a href="../../compiler/docs/osdev.html">裸机与内核开发</a>——写裸机程序时的实际做法。</li><li><a href="../../compiler/download/bootstrap.html">源码构建与自举</a>——从源码编编译器。</li></ul>
+      <div class="doc-foot-row">
+        
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">报告问题 ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="本页目录"><h4>本页</h4><a class="anchor-l1" href="#目标与交叉编译">目标与交叉编译</a><a class="anchor-l2" href="#目标边界只有-amd64">目标边界：只有 amd64</a><a class="anchor-l2" href="#freestanding-改了什么">freestanding 改了什么</a><a class="anchor-l2" href="#交叉到-linux">交叉到 Linux</a><a class="anchor-l2" href="#裸机工具链最小组合">裸机工具链最小组合</a><a class="anchor-l2" href="#已知缺口">已知缺口</a><a class="anchor-l2" href="#接下来">接下来</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../index.html" class="nav-logo foot-logo">
+          <img src="../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../../compiler/docs/index.html">文档</a></li>
+            <li><a href="../../compiler/download/index.html">下载</a></li>
+            <li><a href="../../compiler/community/index.html">社区</a></li>
+            <li><a href="../../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

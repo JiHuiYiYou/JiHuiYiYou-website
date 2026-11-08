@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>JiHuiYiYou-OS</title>
+  <meta name="description" content="用 JHYY 写的操作系统——从 UEFI 引导 spike 开始的实测路线" />
+  <meta property="og:title" content="JiHuiYiYou-OS" />
+  <meta property="og:description" content="用 JHYY 写的操作系统——从 UEFI 引导 spike 开始的实测路线" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  
+  <link rel="icon" type="image/png" sizes="any" href="../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="bg-bg text-text font-sans antialiased">
+
+  <div class="mist mist-1" aria-hidden="true"></div>
+  <div class="mist mist-2" aria-hidden="true"></div>
+  <div class="mist mist-3" aria-hidden="true"></div>
+  <div class="mist mist-4" aria-hidden="true"></div>
+  <svg id="cracks" class="cracks" aria-hidden="true"><g class="cracks-layer"></g></svg>
+  <div class="cursor-dot" aria-hidden="true"></div>
+
+
+  <nav class="floating-nav" aria-label="Primary">
+    <div class="nav-pill">
+      <a href="../index.html" class="nav-logo" aria-label="机会翼游 · JHYY 首页">
+        <img src="../assets/img/jhyy-logo.png" class="logo-img" height="30" alt="机会翼游 · JHYY" />
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>OS<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item" href="../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item is-active" href="../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <div class="nav-links" role="navigation"><a class="" href="../os/index.html">概览</a><a class="" href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/tree/main/spike">Spike</a></div>
+      <div class="nav-cta-group">
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS" class="nav-icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+        <a href="../compiler/download/index.html" class="nav-cta magnetic" data-magnetic>
+          <span>下载 v4.1.4</span>
+          <span class="btn-icon-wrap"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 L17 7 M9 7 L17 7 L17 15"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+<main id="top" class="page-main">
+<p>用 JHYY（机会翼游）写的操作系统。<strong>它现在处在极早期</strong> —— 仓库里只有一个 UEFI x64 引导 spike， 设计基线正在重整。这一页写的是<strong>现状</strong>，不是蓝图。</p>
+<h2 id="仓库里现在有什么">仓库里现在有什么</h2>
+<p>仓库当前只有一个目录 <code>spike/</code>（外加一份 MIT 协议的 <code>LICENSE</code>）：</p>
+<ul class='md-list'><li><code>spike/boot.s</code> —— UEFI x64 引导程序，Intel 语法。</li><li><code>spike/BOOTX64.EFI</code> —— 上面那个源文件的编译产物。</li><li><code>spike/esp_root/EFI/BOOT/BOOTX64.EFI</code> —— EFI 分区镜像里的引导文件。</li><li><code>spike/wrap_gpt.py</code> —— 把一份裸 FAT 镜像包进带<strong>一个 EFI System Partition</strong> 的 GPT 磁盘镜像（自己写保护 MBR、主/备 GPT 头和 CRC32，还会把 FAT 的 BPB 隐藏扇区数改成分区起始 LBA）。</li></ul>
+<p>最近一次提交（2026-10-30）就是 <strong>「清空原有设计文档 —— 重整设计基线」</strong>：一次性删掉了 <code>docs/</code> 下 17 份 v0.0.x 设计文档、<code>deep_research/</code> 下 9 份外部调研存档，外加 <code>README.md</code> 和 <code>CLAUDE.md</code>。那批文档写于编译器 v1.8.3 时代（C 宿主 + QBE + ABI v1.0.0）， 里面大量结论已被推翻或过时。</p>
+<p>内容没丢，<strong>全在 git 历史里</strong>：<code>24589bd</code> 是删除前的最后状态，<code>git show 24589bd:docs/&lt;file&gt;</code> 可以考古。 跨项目的设计基线现在单点落在编译器仓的 <code>docs/coordination/</code>。</p>
+<h2 id="spike-已经实测到的四件事">spike 已经实测到的四件事</h2>
+<p><code>spike/boot.s</code> 的头注释里列的就是这个 spike 要验证的四件事：</p>
+<ol class='md-list'><li><strong>UEFI x64 直接以 long mode 交接</strong>，不需要模式切换汇编。</li><li><strong>EFI 调用约定是 MS x64</strong>：入口处 <code>RCX</code> = 第一个参数（ImageHandle），<code>RDX</code> = SystemTable。</li><li><strong>ConOut 函数指针按 <code>[protocol + offset]</code> 访问可用</strong> —— 但偏移是 <strong>+64，不是 +80</strong>。 +80 是 <strong>StdErr</strong>；OVMF 的 ConSplitter 没给图形控制台注册 StdErr，写进去只到串口， 在 GOP framebuffer 上<strong>看不见</strong>。这个 +64 / +80 是实测踩出来的，代码注释里专门标了 CRITICAL。</li><li><strong><code>isa-debug-exit</code> 端口 <code>0xf4</code> 能把退出码传给 QEMU</strong>。</li></ol>
+<blockquote class="callout"><p>诚实补充：当前提交的 <code>boot.s</code> 最后是一个 <code>hlt</code> 死循环 —— 屏幕上打出 <code>HELLO</code> / <code>OK</code> 给人看， 注释里写明「自动化验证时把它换成 <code>out 0xf4, al</code>」。也就是说第四条在代码里<strong>留了位置</strong>， 但这份提交走的是给人看的那条路。</p></blockquote>
+<p>spike 里做的事其实只有三步，全是对着 ConOut 协议打函数指针：<strong>ClearScreen</strong>（偏移 48， 先擦掉 TianoCore 的启动画面）、<strong>SetAttribute</strong>（偏移 40，白字亮红底 <code>0xCF</code>）、 <strong>OutputString</strong>（偏移 8，打 <code>HELLO</code> 和 <code>OK</code>）。头注释把这个 spike 标成 <strong>P0-1</strong> —— 它是 OS 线的第一个待验证点，不是产品的一小块。</p>
+<h2 id="构建">构建</h2>
+<p><code>boot.s</code> 注释里给的就是这条（可粘贴）：</p>
+<pre><code class="language-bash">x86_64-w64-mingw32-gcc -nostdlib -Wl,--subsystem,10 \
+  -Wl,-e,efi_main -Wl,--image-base=0x10000 -o BOOTX64.EFI boot.s
+</code></pre>
+<p><code>--subsystem,10</code> 是 EFI application，<code>-e,efi_main</code> 指定入口。</p>
+<p>打出来的 <code>BOOTX64.EFI</code> 放进 <code>esp_root/EFI/BOOT/</code>，再由 <code>wrap_gpt.py</code> 把分区内容包成 一张可启动的 GPT 磁盘镜像。</p>
+<h2 id="方向尚未成文为-os-仓自己的设计文档">方向（尚未成文为 OS 仓自己的设计文档）</h2>
+<p>下面这些是<strong>方向</strong>，不是已冻结的实现方案：</p>
+<ul class='md-list'><li><strong>能力微内核 + <code>Cap&lt;T&gt;</code> capability</strong> —— 编译器仓的<a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/coordination/JHYY_OS%E4%BE%A7%E8%AE%BE%E8%AE%A1%E7%BB%88%E7%89%88.md" target="_blank" rel="noopener noreferrer">《JHYY OS 侧设计终版》</a>把内核身份锁定成 「能力微内核（长期）+ 特权分层（首版）」，理由是三份规范（语言规范 v4.0.0 / ABI v4.0.0 / 二进制格式 v1.0.0）已经提供对象分类 <code>type_tag</code>、cap 授权 <code>rights</code>/<code>depth</code>、IPC 原地 cap 传输 这套完整授权链条 —— 走传统混合内核，这套二进制格式会退化成装饰。</li><li><strong>lang-debug ABI</strong> —— <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">语言规范 § 19</a>的「Debug ABI」是跨项目契约：尺寸定案、<code>jhyy</code> 侧的 类型表达、编译器不生成 DWARF debug info、FFI 边界提醒。</li><li><strong>GUI</strong> —— 对象骨架（<code>compositor</code> / <code>surface</code> / <code>seat</code> / <code>buffer</code>）足以搭一条双缓冲显示管线， 但<strong>完整的桌面还没被规范定义</strong>。</li></ul>
+<p>那份设计文档同时把该由首次架构冻结回答的问题<strong>列了出来</strong>（线程与地址空间是否分离、内核对象是否统一 header、revoke 是否同步、中断是不是 capability、page fault 归内核还是用户 pager……）—— 它们现在还没有答案。<code>.jhyynb</code> 这个 capability 启动格式本身也还是<strong>设计稿、未实装</strong>。</p>
+<p>排期上，整条 OS 线（编译器 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer"><code>docs/internal/FACTS.md</code></a> § 4.3 里的 <strong>OS-1 … OS-16</strong> 十六个版本槽） 排在编译器的 v4.6 → v4.15，<strong>一个都还没开始</strong>。</p>
+<p>想看旧的那批设计稿（v0.0.x 时代写的，C 宿主 + QBE + ABI v1.0.0 背景，多数结论已被推翻）， 考古命令：</p>
+<pre><code class="language-bash">git show 24589bd:docs/README.md
+</code></pre>
+<h2 id="语言面">语言面</h2>
+<p>写内核需要的语言特性，JHYY 这一侧已经在了：<code>#[no_std]</code>、freestanding 目标、<code>#[naked]</code>、 <code>#[link_section]</code>、<code>volatile</code>、内联 <code>asm!</code>、内存屏障。 怎么用它们写裸机代码，见<a href="../compiler/docs/osdev.html">裸机与内核开发</a>。</p>
+<h2 id="现状小结">现状小结</h2>
+<ul class='md-list'><li>仓库里<strong>只有</strong> <code>spike/</code> 一个目录 —— 一个能打出 <code>HELLO</code> 的 UEFI 引导程序。</li><li>设计文档已被清空重整，路线图待重写。</li><li>没有可安装、可运行的东西，也没有任何发布渠道。</li></ul>
+<p>仓库：<a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS" target="_blank" rel="noopener noreferrer">https://github.com/JiHuiYiYou/JiHuiYiYou-OS</a></p>
+</main>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../index.html" class="nav-logo foot-logo">
+          <img src="../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../compiler/docs/index.html">文档</a></li>
+            <li><a href="../compiler/download/index.html">下载</a></li>
+            <li><a href="../compiler/community/index.html">社区</a></li>
+            <li><a href="../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>

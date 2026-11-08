@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>行为准则</title>
+  <meta name="description" content="参与这个项目的最低约定" />
+  <meta property="og:title" content="行为准则" />
+  <meta property="og:description" content="参与这个项目的最低约定" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY 首页">
+        <img src="../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>编译器<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item is-active" href="../../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="主导航"><a class="" href="../../compiler/index.html">首页</a><a class="" href="../../compiler/docs/index.html">文档</a><a class="" href="../../compiler/download/index.html">下载</a><a class="is-active" href="../../compiler/community/index.html">社区</a><a class="" href="../../compiler/governance/index.html">治理</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../search-index.json" aria-label="搜索文档">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>搜索文档</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="最新稳定版">v4.1.4</span>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="文档目录">
+    <div class="doc-nav-group"><h4>社区</h4><ul><li><a class="" href="../../compiler/community/index.html">社区首页</a></li><li><a class="is-active" href="../../compiler/community/conduct.html">行为准则</a></li><li><a class="" href="../../compiler/community/contributing.html">贡献指南</a></li><li><a class="" href="../../compiler/community/security.html">安全披露</a></li></ul></div><div class="doc-nav-group"><h4>参与方式</h4><ul><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues" target="_blank" rel="noopener">提 Issue ↗</a></li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/pulls" target="_blank" rel="noopener">提 PR ↗</a></li><li><span class="doc-nav-text">QQ 群 429807125</span></li><li><a class="" href="../../compiler/governance/repo-map.html">代码所有权</a></li></ul></div>
+    
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="行为准则">行为准则</h1>
+<p>这一页是仓库里 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer"><code>CODE_OF_CONDUCT.md</code></a> 的<strong>导读</strong>，不是它的副本。原文是英文的、条款式的；这里把它重写成能一眼读完的版本，遇到分歧以原文为准。</p>
+<p>适用范围：仓库、issue、PR、review、discussion、wiki、release，以及<strong>代表本项目在公开场合发言</strong>的时候。</p>
+<hr />
+<h2 id="核心约定">核心约定</h2>
+<p>这四条是从原文里抽出来的实际要求：</p>
+<p><strong>1. 尊重 + 善意推定。</strong> 默认对方是在帮忙，哪怕效果是错的。</p>
+<p><strong>2. 区分「作品错了」和「人错了」。</strong> 给出并接受有建设性的技术反馈。这是编译器项目，几乎所有分歧都在于作品本身。</p>
+<p><strong>3. 分歧要有实质。</strong> 给理由、给证据、说清楚<strong>什么能改变你的想法</strong>。这是原文明确写的技术讨论标准——「这个设计是错的」永远没问题，「我要赢这个论辩」不是。</p>
+<p><strong>4. 报问题要精确具体。</strong> 原文的判断是：模糊的报告花掉维护者的时间比省下的多。</p>
+<p>另外两条原文也写明的：把责任担起来、向受影响的人道歉并从错误里学；把重点放在对项目和使用者更好上，而不是赢一场争论。</p>
+<hr />
+<h2 id="不可接受的行为">不可接受的行为</h2>
+<p>原文列得很短，这里照实列：</p>
+<ul class='md-list'><li>性化的语言或图像，以及任何形式的性关注或性追求。</li><li>挑衅、侮辱或贬损的言论，人身攻击或政治攻击。</li><li>公开或私下的骚扰。</li><li>未经明确许可，公开他人的私人信息——例如住址或邮箱。</li><li>在专业场合中其他被认为不恰当的行为。</li></ul>
+<blockquote class="callout"><p>这不是一份「社区宣言」。它是一份<strong>最低约定</strong>：上面五条就是全部，没有更多隐藏条款。</p></blockquote>
+<hr />
+<h2 id="怎么举报">怎么举报</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>渠道</th><th>用途</th></tr></thead><tbody><tr><td>邮件 <strong>15901598712@163.com</strong></td><td>首选。写清发生了什么、在哪里发生（issue / PR / 群聊）、你希望怎么处理</td></tr><tr><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/security/advisories/new" target="_blank" rel="noopener noreferrer">私有 advisory</a></td><td>与安全报告共用同一条私密通道；只有你和维护者看得见</td></tr></tbody></table></div>
+<p>维护者有义务<strong>保护举报人的隐私与安全</strong>。</p>
+<h3 id="处置阶梯">处置阶梯</h3>
+<p>原文给的是四级，由维护者按情况选用：</p>
+<ol class='md-list'><li><strong>Correction</strong>——私下的书面警告，说明行为性质与为什么不当；也可以要求公开道歉。</li><li><strong>Warning</strong>——警告并说明继续的后果，包括一段不与相关人员互动的时期。</li><li><strong>Temporary ban</strong>——暂时禁止任何形式的互动或公开交流。</li><li><strong>Permanent ban</strong>——永久禁止在本项目内的任何公开互动。</li></ol>
+<hr />
+<h2 id="维护者的回应承诺">维护者的回应承诺</h2>
+<p><strong>已写明的</strong>：所有举报会被「及时且公正地复核与调查」（原文：reviewed and investigated promptly and fairly），举报人隐私受保护。</p>
+<p><strong>目前还没有明文规定的</strong>：</p>
+<ul class='md-list'><li>处理时限。原文用的是定性措辞，<strong>没有给出具体天数</strong>。这和<a href="../../compiler/community/security.html">安全披露</a>那一页不同——那一页有明确的 7 天 / 14 天目标。行为准则这边目前没有对应数字，我们正在补。</li><li>举报结果是否回告举报人、以什么形式回告。</li><li>是否设立第二个人（仲裁人 / 委员会）来处理针对维护者本人的举报。</li></ul>
+<hr />
+<h2 id="单维护者的局限原文明说了">单维护者的局限（原文明说了）</h2>
+<p>这个项目<strong>只有一个维护者</strong>，所以执行行为准则的人，就是被要求处理举报的人——如果举报对象恰好是维护者本人。</p>
+<p>原文没有回避这一点，官网也不回避。原文给出的出路是：走 GitHub 自己的<a href="https://support.github.com/contact/report-abuse" target="_blank" rel="noopener noreferrer">滥用举报渠道</a>，或者不再继续往来。</p>
+<p>我们把这条摆在这里，是因为把它藏起来只会在真正需要的时候伤害举报人。</p>
+<hr />
+<h2 id="与上游标准的关系">与上游标准的关系</h2>
+<p>仓库的 <code>CODE_OF_CONDUCT.md</code> <strong>改编自 <a href="https://www.contributor-covenant.org/version/2/1/code_of_conduct.html" target="_blank" rel="noopener noreferrer">Contributor Covenant</a> 2.1 版</strong>，处置阶梯的思路来自 <a href="https://github.com/mozilla/diversity" target="_blank" rel="noopener noreferrer">Mozilla 的 code of conduct enforcement ladder</a>。</p>
+<p>这是<strong>改编</strong>，不是逐字采用。逐条对下来有两处实质差别和一处小差别：</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th></th><th>Contributor Covenant 2.1</th><th>仓库原文</th></tr></thead><tbody><tr><td><strong>Enforcement Responsibilities</strong> 一节（社区负责人有义务澄清标准、删改不合规内容、说明处理理由）</td><td>有</td><td><strong>没有</strong>——从 Scope 直接跳到 Enforcement</td></tr><tr><td>技术分歧专段</td><td>没有</td><td><strong>有</strong>——一整段讲「分歧要给理由、给证据、说清什么能改变你的想法」</td></tr><tr><td>「有助于社区的行为」清单</td><td>5 条</td><td>同样 5 条，但第 1 条多了「善意推定」，第 5 条<strong>新增</strong>了「报告问题要精确具体」</td></tr></tbody></table></div>
+<p>另外一处小差别：「Our pledge」那段，CC 2.1 列举了 <code>caste</code> 与 <code>color</code>，仓库原文没有这两项。</p>
+<p>两边不一致时，以仓库原文为准。</p>
+<hr />
+<h2 id="接下来">接下来</h2>
+<ul class='md-list'><li><a href="../../compiler/community/contributing.html">贡献指南</a> —— 提 issue 与 PR 的具体路径。</li><li><a href="../../compiler/community/security.html">安全披露</a> —— 安全问题走私密通道，与这里分开。</li><li>原文：<a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer"><code>CODE_OF_CONDUCT.md</code></a></li></ul>
+      <div class="doc-foot-row">
+        
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">报告问题 ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="本页目录"><h4>本页</h4><a class="anchor-l1" href="#行为准则">行为准则</a><a class="anchor-l2" href="#核心约定">核心约定</a><a class="anchor-l2" href="#不可接受的行为">不可接受的行为</a><a class="anchor-l2" href="#怎么举报">怎么举报</a><a class="anchor-l3" href="#处置阶梯">处置阶梯</a><a class="anchor-l2" href="#维护者的回应承诺">维护者的回应承诺</a><a class="anchor-l2" href="#单维护者的局限原文明说了">单维护者的局限（原文明说了）</a><a class="anchor-l2" href="#与上游标准的关系">与上游标准的关系</a><a class="anchor-l2" href="#接下来">接下来</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../index.html" class="nav-logo foot-logo">
+          <img src="../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../../compiler/docs/index.html">文档</a></li>
+            <li><a href="../../compiler/download/index.html">下载</a></li>
+            <li><a href="../../compiler/community/index.html">社区</a></li>
+            <li><a href="../../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

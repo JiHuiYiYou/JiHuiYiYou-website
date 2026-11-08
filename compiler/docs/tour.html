@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>语言导览</title>
+  <meta name="description" content="语言形态速览：类型、过程、模块、FFI" />
+  <meta property="og:title" content="语言导览" />
+  <meta property="og:description" content="语言形态速览：类型、过程、模块、FFI" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY 首页">
+        <img src="../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>编译器<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item is-active" href="../../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="主导航"><a class="" href="../../compiler/index.html">首页</a><a class="is-active" href="../../compiler/docs/index.html">文档</a><a class="" href="../../compiler/download/index.html">下载</a><a class="" href="../../compiler/community/index.html">社区</a><a class="" href="../../compiler/governance/index.html">治理</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../search-index.json" aria-label="搜索文档">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>搜索文档</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="最新稳定版">v4.1.4</span>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="文档目录">
+    <div class="doc-nav-group"><h4>上手</h4><ul><li><a class="" href="../../compiler/docs/getting-started.html">快速上手</a></li><li><a class="is-active" href="../../compiler/docs/tour.html">语言导览</a></li></ul></div><div class="doc-nav-group"><h4>语言参考</h4><ul><li><a class="" href="../../compiler/docs/reference.html">参考总览</a></li><li><a class="" href="../../compiler/docs/spec.html">语言规范 v4.0.0</a></li><li><a class="" href="../../compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../compiler/docs/stdlib.html">标准库</a></li></ul></div><div class="doc-nav-group"><h4>专项指南</h4><ul><li><a class="" href="../../compiler/docs/arena.html">Arena 内存管理</a></li><li><a class="" href="../../compiler/docs/osdev.html">裸机与内核开发</a></li></ul></div><div class="doc-nav-group"><h4>工具与实现</h4><ul><li><a class="" href="../../compiler/docs/cli.html">CLI 参考</a></li><li><a class="" href="../../compiler/docs/compiler.html">编译器实现</a></li><li><a class="" href="../../compiler/docs/build-and-test.html">构建与测试</a></li><li><a class="" href="../../compiler/docs/faq.html">常见问题</a></li></ul></div>
+    
+    <div class="doc-nav-group doc-nav-external">
+      <h4>规范原文</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">语言规范 v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">问题台账 ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="语言导览">语言导览</h1>
+<p>这是导览，不是规范。<strong>语言规范</strong>才是权威——它已锁定，已知限制集中在它的附录 B： <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">规范</a>。</p>
+<hr />
+<h2 id="语言的整体形状">语言的整体形状</h2>
+<p><strong>静态类型。面向表达式。编译成原生代码。</strong></p>
+<pre><code class="language-jhyy">type Point = struct { x: i32, y: i32 }
+
+fn dist_sq(a: Point, b: Point) -&gt; i32 {
+    let dx = a.x - b.x;
+    let dy = a.y - b.y;
+    dx * dx + dy * dy
+}
+
+fn classify(n: i32) -&gt; *u8 {
+    match n {
+        0        =&gt; "zero",
+        1..10    =&gt; "single digit",
+        10 | 20  =&gt; "round number",
+        _        =&gt; "other",
+    }
+}
+
+extern fn printf(fmt: *u8, val: i32) -&gt; i32;
+
+fn main_jhyy() -&gt; i32 {
+    let p = Point { x: 3, y: 4 };
+    let q = Point { x: 0, y: 0 };
+    printf("d² = %d\n", dist_sq(p, q));
+    printf("%s\n", classify(42));
+    0
+}
+</code></pre>
+<p>三处值得注意：</p>
+<ul class='md-list'><li>函数体是<strong>表达式</strong>——最后一个表达式就是返回值。</li><li><code>if</code>、<code>match</code> 和块本身也是值，不只是语句。</li><li>字符串字面量<strong>就是</strong> <code>*u8</code>（<code>.data</code> 段里以 NUL 结尾的 UTF-8 字节），不需要转换。</li></ul>
+<hr />
+<h2 id="支持什么">支持什么</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>类别</th><th>支持</th></tr></thead><tbody><tr><td><strong>类型</strong></td><td><code>i8/i16/i32/i64</code>、<code>u8/u16/u32/u64</code>、<code>f32/f64</code>、<code>bool</code>、<code>*T</code>、<code>[T; N]</code>、<code>[*]T</code>（切片）、<code>struct</code>、<code>enum</code>、<code>Cap&lt;T&gt;</code>、<code>PhantomData&lt;T&gt;</code></td></tr><tr><td><strong>尺寸</strong></td><td><code>sizeof(T)</code> / <code>alignof(T)</code> —— 编译期常量</td></tr><tr><td><strong>转换</strong></td><td><code>as</code> —— 整数/浮点互转、加宽/收窄、<code>*T ↔ i64/u64</code></td></tr><tr><td><strong>控制流</strong></td><td><code>if</code>/<code>else</code>（有值）、<code>while</code>、<code>for i in start..end</code>、<code>break</code>、<code>continue</code>、<code>match</code>（字面量/区间/枚举/通配，带穷尽性检查）</td></tr><tr><td><strong>清理</strong></td><td><code>defer</code> —— 作用域退出时按 LIFO 执行；隐式尾返回时不执行</td></tr><tr><td><strong>顶层常量</strong></td><td><code>const NAME: [T; N] = [...]</code> —— 编译期落到 <code>.data</code> 段</td></tr><tr><td><strong>逻辑</strong></td><td><code>&amp;&amp;</code> / `\</td></tr><tr><td><strong>函数</strong></td><td>一等函数、递归、复合赋值（<code>+=</code> <code>-=</code> <code>*=</code> <code>/=</code> <code>%=</code>）、块表达式闭包（不能捕获——捕获是编译错误）</td></tr><tr><td><strong>模块</strong></td><td><code>import</code> + 传递导入、多文件 CLI、<code>mod::fn()</code> 命名空间</td></tr><tr><td><strong>FFI</strong></td><td><code>extern fn</code> 调 C（printf、文件 I/O、多参数）</td></tr><tr><td><strong>OS / 嵌入式</strong></td><td><code>#[no_std]</code>、<code>#[naked]</code>、<code>#[link_section]</code>、<code>volatile</code>、内联 <code>asm!</code>、内存屏障</td></tr><tr><td><strong>标准库</strong></td><td><code>import mem;</code> / <code>fmt</code> / <code>io</code> / <code>math</code> / <code>string</code> / <code>vec</code> / <code>os</code> / <code>arena</code> —— <strong>注意：没有 <code>std::</code> 前缀</strong></td></tr></tbody></table></div>
+<h3 id="四条最容易被误读的能力">四条最容易被误读的能力</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>能力</th><th>状态</th><th>实际意味着什么</th></tr></thead><tbody><tr><td><code>[*]T</code>（切片）</td><td>可用</td><td>它是数组之上的一个<strong>视图</strong>——写会写回原数组，而且索引<strong>不做越界检查</strong></td></tr><tr><td><code>PhantomData&lt;T&gt;</code></td><td>仅类型层</td><td>作为 struct 字段合法；但实例化它是编译错误</td></tr><tr><td><code>asm!</code></td><td>受限</td><td><strong>只能是一个字符串字面量</strong>——没有操作数约束、没有 clobber；AT&T 语法，仅 x86-64</td></tr><tr><td><code>Cap&lt;T&gt;</code></td><td>仅布局</td><td>8 字节布局是定死且可测的，但目前还造不出值——真正的 capability 语义在路线图上</td></tr></tbody></table></div>
+<hr />
+<h2 id="模块与标准库">模块与标准库</h2>
+<p><code>import</code> 拉进来一个模块。<strong>没有 <code>std::</code> 前缀</strong>——<code>import std::vec;</code> 是编译错误。</p>
+<pre><code class="language-jhyy">import io;
+
+extern fn puts(s: *u8) -&gt; i32;
+
+fn main_jhyy() -&gt; i32 {
+    io::std_io_print("hello from the JHYY stdlib\n");
+    puts("and from libc, through extern fn");
+    0
+}
+</code></pre>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>模块</th><th>提供什么</th></tr></thead><tbody><tr><td><code>mem</code></td><td><code>mem_copy</code> / <code>mem_set</code> / <code>mem_zero</code> / <code>mem_compare</code> / <code>mem_find_byte</code></td></tr><tr><td><code>fmt</code></td><td><code>fmt_i32</code> / <code>fmt_i64</code> / <code>fmt_str</code> / <code>fmt_hex_u32</code> —— 格式化进字节缓冲区</td></tr><tr><td><code>io</code></td><td>文件 I/O（<code>std_io_open</code> / <code>std_io_read</code> / <code>std_io_write</code> / <code>std_io_close</code>）+ <code>std_io_print</code> / <code>std_io_print_err</code></td></tr><tr><td><code>math</code></td><td><code>std_math_sin</code> / <code>std_math_cos</code> / <code>std_math_sqrt</code> / <code>std_math_pow</code></td></tr><tr><td><code>string</code></td><td>带长度前缀的字符串：<code>str_from_cstr</code> / <code>str_concat</code> / <code>str_find</code> / <code>str_len</code></td></tr><tr><td><code>vec</code></td><td><code>std_vec_new</code> / <code>std_vec_push</code> / <code>std_vec_get</code> —— 字节向量，<strong>还做不到泛型元素</strong></td></tr><tr><td><code>os</code></td><td>裸的 POSIX / Win32 文件描述符 + <code>getenv</code></td></tr><tr><td><code>arena</code></td><td>bump 分配器：<code>arena_init</code> / <code>arena_alloc</code> / <code>arena_reset</code></td></tr></tbody></table></div>
+<hr />
+<h2 id="和-c-打交道">和 C 打交道</h2>
+<pre><code class="language-jhyy">extern fn printf(fmt: *u8, val: i32) -&gt; i32;
+</code></pre>
+<p><code>extern fn</code> 按 C ABI 调 C 函数。两条要记住：</p>
+<ul class='md-list'><li><strong>没有可变参数形式。</strong> 每个 C 参数都得一个一个写出来。</li><li><strong>参数类型不会跟 C 签名对拍。</strong> 写错了照样编译通过，运行时才出问题。</li></ul>
+<p>struct 布局与调用约定见 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener noreferrer">ABI 白皮书</a>。</p>
+<hr />
+<h2 id="内存">内存</h2>
+<p><strong>没有垃圾回收，也没有 RAII。</strong> 内存归你自己管：</p>
+<ul class='md-list'><li>显式指针（<code>*T</code>）、通过运行时的 arena 或你自己的分配器手动分配；</li><li>想要的话可以用 <code>defer</code> 做作用域退出清理——按 LIFO 执行（但隐式尾返回时不执行）；</li><li>标准库里有 <code>arena</code>，适合的场景直接用。</li></ul>
+<p>这是刻意的选择：这门语言面向系统级工作，那里一个可预期的内存模型比便利更重要。</p>
+<hr />
+<h2 id="现在还没有的东西">现在还<strong>没有</strong>的东西</h2>
+<p>老实列出来——项目是 pre-1.0 的，它自己就这么说：</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>你想……</th><th>当下</th></tr></thead><tbody><tr><td>用带 trait 的泛型</td><td>还没有 —— 在 OS 线上排着</td></tr><tr><td>用能捕获变量的闭包</td><td>还没有 —— 今天捕获是编译错误</td></tr><tr><td>打印浮点数</td><td>还没有 —— <code>fmt</code> 里没有浮点格式化</td></tr><tr><td>目标 aarch64 / riscv64</td><td>还没有 —— 只有 x86-64</td></tr><tr><td>拿它上生产</td><td>还没有 —— 规范还在动</td></tr></tbody></table></div>
+<p>权威清单（带版本）在仓库的 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer">FACTS.md</a>； 逐条限制在规范附录 B。</p>
+<hr />
+<h2 id="接下来">接下来</h2>
+<ul class='md-list'><li><a href="../../compiler/docs/build-and-test.html">构建与测试</a> —— 写点东西并验证它。</li><li><a href="../../compiler/docs/faq.html">常见问题</a> —— 关于这门语言的高频问题。</li><li><a href="../../compiler/docs/compiler.html">架构</a> —— 源码过了解析器之后会去哪里。</li></ul>
+      <div class="doc-foot-row">
+        
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">报告问题 ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="本页目录"><h4>本页</h4><a class="anchor-l1" href="#语言导览">语言导览</a><a class="anchor-l2" href="#语言的整体形状">语言的整体形状</a><a class="anchor-l2" href="#支持什么">支持什么</a><a class="anchor-l3" href="#四条最容易被误读的能力">四条最容易被误读的能力</a><a class="anchor-l2" href="#模块与标准库">模块与标准库</a><a class="anchor-l2" href="#和-c-打交道">和 C 打交道</a><a class="anchor-l2" href="#内存">内存</a><a class="anchor-l2" href="#现在还没有的东西">现在还没有的东西</a><a class="anchor-l2" href="#接下来">接下来</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../index.html" class="nav-logo foot-logo">
+          <img src="../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../../compiler/docs/index.html">文档</a></li>
+            <li><a href="../../compiler/download/index.html">下载</a></li>
+            <li><a href="../../compiler/community/index.html">社区</a></li>
+            <li><a href="../../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

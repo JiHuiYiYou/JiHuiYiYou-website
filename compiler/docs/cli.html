@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>CLI 参考</title>
+  <meta name="description" content="jhyy 编译器的命令、子命令、选项与退出码" />
+  <meta property="og:title" content="CLI 参考" />
+  <meta property="og:description" content="jhyy 编译器的命令、子命令、选项与退出码" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY 首页">
+        <img src="../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>编译器<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item is-active" href="../../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="主导航"><a class="" href="../../compiler/index.html">首页</a><a class="is-active" href="../../compiler/docs/index.html">文档</a><a class="" href="../../compiler/download/index.html">下载</a><a class="" href="../../compiler/community/index.html">社区</a><a class="" href="../../compiler/governance/index.html">治理</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../search-index.json" aria-label="搜索文档">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>搜索文档</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="最新稳定版">v4.1.4</span>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="文档目录">
+    <div class="doc-nav-group"><h4>上手</h4><ul><li><a class="" href="../../compiler/docs/getting-started.html">快速上手</a></li><li><a class="" href="../../compiler/docs/tour.html">语言导览</a></li></ul></div><div class="doc-nav-group"><h4>语言参考</h4><ul><li><a class="" href="../../compiler/docs/reference.html">参考总览</a></li><li><a class="" href="../../compiler/docs/spec.html">语言规范 v4.0.0</a></li><li><a class="" href="../../compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../compiler/docs/stdlib.html">标准库</a></li></ul></div><div class="doc-nav-group"><h4>专项指南</h4><ul><li><a class="" href="../../compiler/docs/arena.html">Arena 内存管理</a></li><li><a class="" href="../../compiler/docs/osdev.html">裸机与内核开发</a></li></ul></div><div class="doc-nav-group"><h4>工具与实现</h4><ul><li><a class="is-active" href="../../compiler/docs/cli.html">CLI 参考</a></li><li><a class="" href="../../compiler/docs/compiler.html">编译器实现</a></li><li><a class="" href="../../compiler/docs/build-and-test.html">构建与测试</a></li><li><a class="" href="../../compiler/docs/faq.html">常见问题</a></li></ul></div>
+    
+    <div class="doc-nav-group doc-nav-external">
+      <h4>规范原文</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">语言规范 v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">问题台账 ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <p><code>jhyy</code> 只有一个二进制、四个子命令、两个全局选项。下面是逐条核实过的行为表 —— 含产物名和退出码 —— 以及三个会咬人的命令行怪癖。</p>
+<hr />
+<h2 id="1-命令表">1. 命令表</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>命令</th><th>用途</th><th>产物</th></tr></thead><tbody><tr><td><code>jhyy compile &lt;file.jhyy&gt; [-o output]</code></td><td>编译 + 链接</td><td><code>&lt;output&gt;.exe</code>；中间的汇编（<code>&lt;output&gt;</code> + <code>.s</code>）也留在盘上</td></tr><tr><td><code>jhyy build &lt;file.jhyy&gt; [-o base]</code></td><td>只编译，<strong>不</strong>链接</td><td><code>&lt;base&gt;.s</code></td></tr><tr><td><code>jhyy run &lt;file.jhyy&gt;</code></td><td>编译 + 链接 + 执行</td><td>临时产物 <code>&lt;name&gt;_run.exe</code>（跑完留在盘上）</td></tr><tr><td><code>jhyy dump &lt;file.jhyy&gt;</code></td><td>只解析，打印 AST 树</td><td>打到 stdout</td></tr></tbody></table></div>
+<p>不带 <code>-o</code> 时，输出名取输入文件的基名：<code>jhyy compile hello.jhyy</code> ⇒ <code>hello.exe</code>， <code>jhyy build hello.jhyy</code> ⇒ <code>hello.s</code>。</p>
+<p><code>-o</code> 是<strong>基名</strong>，后缀自动补：<code>-o foo</code> ⇒ <code>foo.s</code> / <code>foo.exe</code>；<code>-o foo.s</code> ⇒ 仍是 <code>foo.s</code>（不会变成 <code>foo.s.s</code>），<code>-o foo.exe</code> ⇒ <code>foo.exe</code>（旁边的汇编是 <code>foo.exe.s</code>）。</p>
+<hr />
+<h2 id="2-三个子命令的差别重点">2. 三个子命令的差别（重点）</h2>
+<p><code>compile</code> / <code>build</code> / <code>run</code> 是同一条流水线的三个切点：</p>
+<pre><code class="language-text">.jhyy → lex → parse → sema → IL → 自研 amd64 后端 → .s → gcc + ld → .exe
+                             └── build   = 到 .s 为止
+                                        └── compile = 再走 gcc + ld
+                                                     └── run = 再执行
+</code></pre>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th></th><th><code>build</code></th><th><code>compile</code></th><th><code>run</code></th></tr></thead><tbody><tr><td>解析 + 语义分析</td><td>是</td><td>是</td><td>是</td></tr><tr><td>生成 <code>.s</code></td><td>是</td><td>是</td><td>是</td></tr><tr><td>调 gcc / ld 链接</td><td>否</td><td>是</td><td>是</td></tr><tr><td>执行</td><td>否</td><td>否</td><td>是</td></tr></tbody></table></div>
+<h3 id="两条等价路径">两条等价路径</h3>
+<pre><code class="language-bash">jhyy build   x.jhyy -o out            # ⇒ out.s
+jhyy compile --no-link x.jhyy -o out  # ⇒ out.s
+</code></pre>
+<p>两条产出的 <code>.s</code> <strong>逐字节相同</strong> —— 包括 <code>#[link_section]</code> 生成的 <code>.section</code> 指令 （两条路径都套用同一段 section 处理）。仓库里有一条 artifact check （<code>link_section_build</code>）钉住这个等价关系。</p>
+<p>实测：对一个同时带 <code>#[link_section]</code> 和 <code>#[naked]</code> 的文件，两条路径的 <code>.s</code> <code>cmp</code> 结果是完全一致。</p>
+<h3 id="一个和帮助文案不一致的地方">一个和帮助文案不一致的地方</h3>
+<p><code>jhyy --help</code> 里写的是 <code>compile ... (a lib without main is compiled only)</code>。 实测：拿一个<strong>没有 <code>main_jhyy</code></strong> 的文件跑 <code>jhyy compile</code>，<code>.s</code> 确实产出了，但链接 步骤照样会跑并失败（<code>collect2.exe: error: ld returned 1 exit status</code>），退出码 1。 ⇒ 想只拿汇编，用 <code>jhyy build</code> 或 <code>jhyy compile --no-link</code>。</p>
+<hr />
+<h2 id="3-选项">3. 选项</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>选项</th><th>作用</th></tr></thead><tbody><tr><td><code>--target=&lt;triple&gt;</code></td><td>选目标，默认 <code>amd64_win</code>。<strong>位置任意</strong>（子命令前后都行）；给多个时<strong>最后一个生效</strong></td></tr><tr><td><code>--no-link</code></td><td>只产出 <code>.s</code>，跳过链接。<strong>位置任意</strong>（子命令前后都行）</td></tr><tr><td><code>--help</code></td><td>打印完整帮助并退出 0。<strong>任意位置</strong>都能触发 —— <code>jhyy --help</code> 和 <code>jhyy compile --help</code> 打的是同一份</td></tr></tbody></table></div>
+<p>不带任何参数跑 <code>jhyy</code> 打的也是<strong>同一份</strong>完整帮助。</p>
+<h3 id="四个目标">四个目标</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>三元组</th><th>调用约定</th><th>运行时</th><th>这份构建能链接吗</th></tr></thead><tbody><tr><td><code>amd64_win</code></td><td>MS x64</td><td>hosted（链 C 运行时）</td><td>能（唯一能链的）</td></tr><tr><td><code>amd64_sysv</code></td><td>SysV AMD64</td><td>hosted</td><td>不能，必须 <code>--no-link</code></td></tr><tr><td><code>amd64_win_freestanding</code></td><td>MS x64</td><td>freestanding（UEFI）</td><td>不能，必须 <code>--no-link</code></td></tr><tr><td><code>amd64_sysv_freestanding</code></td><td>SysV AMD64</td><td>freestanding</td><td>不能，必须 <code>--no-link</code></td></tr></tbody></table></div>
+<p>freestanding 相关的三点：</p>
+<ol class='md-list'><li><strong>freestanding 只切「调用约定归属 + 入口钩子」，不切链接方式。</strong> 链接行由源文件里有没有 <code>#[no_std]</code> 决定 —— 详见 <a href="../../compiler/docs/osdev.html">裸机与内核开发</a>。</li><li><strong>交叉目标故意拒绝链接</strong>。不带 <code>--no-link</code> 直接报错、退出 1：</li></ol>
+<pre><code class="language-text">   jhyy: refusing to link a cross target - this build's linker always emits a Windows .exe (via the bundled toolchain).
+         Use --no-link, then link the .s with a toolchain that matches the target.
+</code></pre>
+<ol class='md-list'><li><code>--target</code> <strong>不切换 PE / ELF 产出</strong> —— 容器格式由宿主 <code>ld</code> 决定（ABI § 12.9）。</li></ol>
+<h3 id="完整的交叉编译三步">完整的交叉编译三步</h3>
+<pre><code class="language-bash"># 1. 在 Windows 上出 .s（交叉目标必须带 --no-link）
+jhyy compile --target=amd64_sysv_freestanding --no-link prog.jhyy -o prog
+#    ⇒ prog.s
+
+# 2. 在 Linux 上链成静态 ELF
+gcc -nostdlib -static -T runtime/linux_elf/link.ld -o prog.elf \
+    runtime/linux_elf/crt0.S prog.s
+
+# 3. 跑
+./prog.elf
+</code></pre>
+<hr />
+<h2 id="4-三个必须知道的怪癖">4. 三个必须知道的怪癖</h2>
+<h3 id="41-没有-jhyy---version">4.1 没有 <code>jhyy --version</code></h3>
+<p>它从来就不存在。跑它会打：</p>
+<pre><code class="language-text">jhyy: unknown option --version
+(try `jhyy --help`)
+</code></pre>
+<p>然后<strong>退出 1</strong>。版本横幅在 <strong><code>jhyy --help</code> 的第一行</strong> —— 不带参数跑 <code>jhyy</code> 打的是 同一份帮助，banner 也在第一行。</p>
+<h3 id="42-命令行只接受一个输入文件">4.2 命令行只接受一个输入文件</h3>
+<p>多余的 <code>.jhyy</code> 参数被<strong>静默忽略</strong> —— 不报错、不警告。实测 <code>jhyy compile --no-link main.jhyy lib.jhyy -o multi</code> 退出码 0，产出的 <code>multi.s</code> 里只有 <code>main_jhyy</code> 的符号，<code>lib.jhyy</code> 定义的 <code>lib_helper</code> 一个字都没有。</p>
+<p>多文件请用 <code>import</code> 组合：在 <code>main.jhyy</code> 里写 <code>import lib;</code>，编译器沿 import 图 把 <code>lib.jhyy</code> 一起编进来。</p>
+<h3 id="43-不认识的选项会被拒绝">4.3 不认识的选项会被拒绝</h3>
+<pre><code class="language-text">$ jhyy compile --foo main.jhyy
+compile: unknown option --foo
+(try `jhyy --help`)
+</code></pre>
+<p>退出 1。它<strong>不会</strong>把这个 flag 当成文件名去打开。<code>build</code> 和 <code>run</code> 各有自己的前缀 （<code>build: unknown option --foo</code> / <code>run: unknown option --foo</code>）。</p>
+<hr />
+<h2 id="5-退出码">5. 退出码</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>情形</th><th>退出码</th></tr></thead><tbody><tr><td><code>--help</code> / 无参数</td><td>0</td></tr><tr><td><code>build</code> / <code>compile</code> 成功</td><td>0</td></tr><tr><td><code>run</code> 成功</td><td><strong>被运行程序的退出码</strong></td></tr><tr><td>未知选项 / 未知命令 / 未知 target</td><td>1</td></tr><tr><td>语法错误 / 语义错误</td><td>1（诊断打到 stderr，带 <code>file:line:col</code>）</td></tr><tr><td>文件打不开</td><td>1</td></tr><tr><td>交叉目标拒绝链接</td><td>1</td></tr><tr><td>链接失败</td><td>1</td></tr></tbody></table></div>
+<p><code>jhyy run</code> 会把被运行程序的退出码原样传出来：程序 <code>return 42</code> ⇒ <code>jhyy run</code> 退出 42。</p>
+<p>诊断长这样：</p>
+<pre><code class="language-text">bad.jhyy:1:33: error: unexpected token ';' in expression
+bad.jhyy:1:29: error: expected ;, got return
+parse errors
+</code></pre>
+<p>另外两条错误路径的措辞：</p>
+<pre><code class="language-text">$ jhyy compile                        # 没给输入文件
+usage: jhyy compile &lt;file.jhyy&gt; [-o output] [--no-link]
+
+$ jhyy frobnicate x.jhyy             # 未知子命令
+jhyy: unknown command 'frobnicate'
+(commands: compile / build / run / dump - try `jhyy --help`)
+</code></pre>
+<blockquote class="callout"><p><strong>关于「退出码和 clang 一致」</strong>：README、README.zh-CN、CHANGELOG 和两份规范里 <strong>都没有</strong>这条表述。实测出来的语义就是上面这张表 —— 成功 0、失败 1，<code>run</code> 额外 透传被运行程序的退出码。</p>
+<p><strong>在 MSYS2 bash 里取退出码要小心</strong>：bash 会把退出码截成 8 位（<code>值 &amp; 0xFF</code>）。 要精确的退出码，用 harness 或 Python <code>subprocess</code>，别读 <code>$?</code>。</p></blockquote>
+<hr />
+<h2 id="6-速查">6. 速查</h2>
+<pre><code class="language-bash"># 编译并链接成 exe
+jhyy compile hello.jhyy
+
+# 只出汇编（交叉目标必须走这条）
+jhyy build hello.jhyy -o hello
+jhyy compile --no-link --target=amd64_sysv_freestanding hello.jhyy -o hello
+
+# 编译 + 链接 + 跑
+jhyy run hello.jhyy
+
+# 只看语法树
+jhyy dump hello.jhyy
+
+# 看编译器自己的帮助（版本横幅在第一行）
+jhyy --help
+</code></pre>
+<hr />
+<h2 id="7-相关页面">7. 相关页面</h2>
+<ul class='md-list'><li><a href="../../compiler/docs/getting-started.html">快速上手</a> —— 装好之后的第一个程序。</li><li><a href="../../compiler/docs/osdev.html">裸机与内核开发</a> —— <code>--target=</code> 的四个取值、<code>#[no_std]</code> 与 freestanding。</li><li><a href="../../compiler/download/targets.html">目标与交叉编译</a> —— 四个目标的产物形态。</li><li><a href="../../compiler/docs/compiler.html">编译器实现</a> —— 命令行之后，编译器自己是怎么搭的。</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">语言规范 v4.0.0</a> —— § 16 是命令行的权威定义。</li></ul>
+      <div class="doc-foot-row">
+        
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">报告问题 ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="本页目录"><h4>本页</h4><a class="anchor-l2" href="#1-命令表">1. 命令表</a><a class="anchor-l2" href="#2-三个子命令的差别重点">2. 三个子命令的差别（重点）</a><a class="anchor-l3" href="#两条等价路径">两条等价路径</a><a class="anchor-l3" href="#一个和帮助文案不一致的地方">一个和帮助文案不一致的地方</a><a class="anchor-l2" href="#3-选项">3. 选项</a><a class="anchor-l3" href="#四个目标">四个目标</a><a class="anchor-l3" href="#完整的交叉编译三步">完整的交叉编译三步</a><a class="anchor-l2" href="#4-三个必须知道的怪癖">4. 三个必须知道的怪癖</a><a class="anchor-l3" href="#41-没有-jhyy---version">4.1 没有 jhyy --version</a><a class="anchor-l3" href="#42-命令行只接受一个输入文件">4.2 命令行只接受一个输入文件</a><a class="anchor-l3" href="#43-不认识的选项会被拒绝">4.3 不认识的选项会被拒绝</a><a class="anchor-l2" href="#5-退出码">5. 退出码</a><a class="anchor-l2" href="#6-速查">6. 速查</a><a class="anchor-l2" href="#7-相关页面">7. 相关页面</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../index.html" class="nav-logo foot-logo">
+          <img src="../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../../compiler/docs/index.html">文档</a></li>
+            <li><a href="../../compiler/download/index.html">下载</a></li>
+            <li><a href="../../compiler/community/index.html">社区</a></li>
+            <li><a href="../../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

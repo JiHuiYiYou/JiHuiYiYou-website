@@ -25,3 +25,7 @@ Thumbs.db
 
 # Rollback safety backups (per rollback convention: never delete before user verifies new)
 /.old-*/
+
+# Python 工具链的缓存
+__pycache__/
+*.pyc

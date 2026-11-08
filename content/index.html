@@ -1,0 +1,465 @@
+---
+title: 机会翼游 · JHYY — 一门语言，四个项目
+description: JHYY 家族：自举的系统编程语言编译器、桌面 IDE、用这门语言写的 OS、以及 VEX V5 Brain 嵌入式目标。
+layout: page
+project: home
+zone: home
+search: false
+---
+
+<main id="top">
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-label="机会翼游家族">
+    <div class="container hero-inner">
+      <div class="hero-icon reveal" data-reveal-delay="0">
+        <div class="hero-icon-bezel">
+          <object type="image/svg+xml" data="assets/img/jhyy-icon-animated.svg" width="160" height="160" aria-label="JHYY"></object>
+        </div>
+        <div class="hero-icon-ring" aria-hidden="true"></div>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="reveal-line"><span class="line-inner">一门语言，</span></span>
+        <span class="reveal-line"><span class="line-inner">四个项目，</span></span>
+        <span class="reveal-line"><span class="line-inner accent">一个闭环。</span></span>
+      </h1>
+
+      <p class="hero-sub reveal" data-reveal-delay="700">
+        <img src="assets/img/jhyy-logo.png" class="logo-img logo-img--hero" height="44" alt="机会翼游" />
+        <span class="hero-sub-en">— JHYY（机会翼游）是一门自举的、静态类型、面向表达式的系统编程语言。<strong>编译器用自己写的</strong>，后端是<strong>自研的 amd64 发射器</strong>（没有 LLVM，也没有 vendor 进来的 QBE）。这个家族有四个项目：编译器、IDE、操作系统，以及把语言带到 VEX V5 Brain 上的嵌入式目标。</span>
+      </p>
+
+      <div class="cta-row reveal" data-reveal-delay="900">
+        <a href="/compiler/download/" class="btn-primary magnetic" data-magnetic>
+          <span class="btn-label">下载编译器 v4.1.4</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
+            </svg>
+          </span>
+        </a>
+        <a href="/compiler/docs/" class="btn-ghost magnetic" data-magnetic>
+          <span class="btn-label">读文档</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <div class="hero-meta reveal" data-reveal-delay="1100">
+        <div class="meta-item">
+          <span class="meta-dot meta-dot--ok"></span>
+          <span>自举闭环 · 两代汇编逐字节相同</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot meta-dot--brand"></span>
+          <span>回归 279 PASS / 0 FAIL</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot"></span>
+          <span>amd64 only &nbsp;·&nbsp; 宿主 Windows x64</span>
+        </div>
+      </div>
+
+      <div class="hero-code reveal-scale" data-reveal-delay="400">
+        <div class="code-shell">
+          <div class="code-chrome">
+            <div class="window-dots">
+              <span class="dot dot-r"></span>
+              <span class="dot dot-y"></span>
+              <span class="dot dot-g"></span>
+            </div>
+            <div class="file-tab">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2 H6 a2 2 0 0 0 -2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2 -2 V8 z" />
+                <path d="M14 2 v6 h6" />
+              </svg>
+              <span>hello.jhyy</span>
+            </div>
+            <div class="file-meta">
+              <span class="kbadge">v4.1.4</span>
+            </div>
+          </div>
+
+          <pre class="code-block"><code id="heroCode" data-src="type Point = struct { x: i32, y: i32 }
+
+fn dist_sq(a: Point, b: Point) -> i32 {
+    let dx = a.x - b.x;
+    let dy = a.y - b.y;
+    dx * dx + dy * dy
+}"></code></pre>
+
+          <div class="code-status">
+            <span class="status-led"></span>
+            <span class="status-text">$ jhyy run hello.jhyy</span>
+            <span class="status-out">d² = 25</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-cue" aria-hidden="true">
+      <span class="scroll-cue-text">Scroll</span>
+      <span class="scroll-cue-line"></span>
+    </div>
+  </section>
+
+  <!-- ============ VERSION GATE ============ -->
+  <section class="version-gate" aria-label="版本闸门">
+    <div class="container version-gate-inner">
+      <div class="vg-item vg-strong">
+        <span class="vg-k">编译器</span>
+        <span class="vg-v">v4.1.4</span>
+        <span class="vg-d">2026-11-07</span>
+      </div>
+      <span class="vg-div" aria-hidden="true"></span>
+      <div class="vg-item">
+        <span class="vg-k">语言规范</span>
+        <span class="vg-v">v4.0.0</span>
+        <span class="vg-d">locked</span>
+      </div>
+      <span class="vg-div" aria-hidden="true"></span>
+      <div class="vg-item">
+        <span class="vg-k">ABI</span>
+        <span class="vg-v">v4.0.0</span>
+        <span class="vg-d">locked</span>
+      </div>
+      <span class="vg-div" aria-hidden="true"></span>
+      <div class="vg-item">
+        <span class="vg-k">宿主</span>
+        <span class="vg-v">Windows x64</span>
+        <span class="vg-d">amd64 only</span>
+      </div>
+      <a class="vg-cta" href="/compiler/download/">下载与校验 →</a>
+    </div>
+  </section>
+
+  <!-- ============ PRINCIPLES MARQUEE ============ -->
+  <section class="principles" aria-label="Principles">
+    <div class="marquee">
+      <div class="marquee-track">
+        <span>Self-hosted</span><span class="dot-sep">◆</span>
+        <span>Statically typed</span><span class="dot-sep">◆</span>
+        <span>Expression-oriented</span><span class="dot-sep">◆</span>
+        <span>Self-written amd64 backend</span><span class="dot-sep">◆</span>
+        <span>No garbage collector</span><span class="dot-sep">◆</span>
+        <span>First-class C FFI</span><span class="dot-sep">◆</span>
+        <span>Self-hosted</span><span class="dot-sep">◆</span>
+        <span>Statically typed</span><span class="dot-sep">◆</span>
+        <span>Expression-oriented</span><span class="dot-sep">◆</span>
+        <span>Self-written amd64 backend</span><span class="dot-sep">◆</span>
+        <span>No garbage collector</span><span class="dot-sep">◆</span>
+        <span>First-class C FFI</span><span class="dot-sep">◆</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE FOUR PROJECTS ============ -->
+  <section id="projects" class="section section-why" aria-label="四个项目">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">01 / 四个项目</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">编译器是地基，</span></span>
+          <span class="reveal-line"><span class="line-inner">其余三个站在上面。</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          它们共享同一门语言和同一套工具链。下面每个卡片写的是项目<strong>现在真的做到哪一步</strong>——不含计划中的部分。
+        </p>
+      </header>
+
+      <div class="bento">
+        <!-- 编译器 -->
+        <article class="bento-card bento-card--lg reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">01</span>
+                <span class="card-tag">稳定 · v4.1.4</span>
+              </div>
+              <h3 class="card-title">JHYY 编译器</h3>
+              <p class="card-body">
+                编译器唯一的实现是 <code>compiler/src0/*.jhyy</code>——树里没有 bootstrap 的 C 编译器，也没有 vendored 的后端。它编译自己，再让编译出来的自己编译自己，而门要求这两代产出的汇编<strong>逐字节相同</strong>。不动点是跑出来的，不是假设的。
+              </p>
+              <p class="card-body">
+                后端是自研的内存内 amd64 代码发射器，产出 Windows 的 PE/COFF 与 Linux 的 SysV 汇编。标准库八个模块，arena 是一等公民。
+              </p>
+              <div class="card-foot-row">
+                <a href="/compiler/" class="btn-primary magnetic" data-magnetic>
+                  <span class="btn-label">进入编译器</span>
+                  <span class="btn-icon-wrap">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                    </svg>
+                  </span>
+                </a>
+                <span class="card-meta">回归 279 PASS · artifact 19 PASS · ACTIVE 问题 0</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- IDE -->
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">02</span>
+                <span class="card-tag">测试中 · v0.2.1</span>
+              </div>
+              <h3 class="card-title">JHYY IDE</h3>
+              <p class="card-body">
+                桌面工作台。Blockly 积木和 CodeMirror 文本<strong>共享同一棵 AST</strong>——改一边，另一边跟着重建。积木表达不了的语法以不透明积木保留原始源码，不会静默丢失。右侧是能直接对话本机 <code>claude</code> CLI 的面板。
+              </p>
+              <div class="card-foot-row">
+                <a href="/ide/" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
+                  <span class="btn-label">IDE 概览</span>
+                  <span class="btn-icon-wrap">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                    </svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- OS -->
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">03</span>
+                <span class="card-tag">孵化中 · 重整设计基线</span>
+              </div>
+              <h3 class="card-title">JiHuiYiYou-OS</h3>
+              <p class="card-body">
+                用这门语言写的 microkernel。方向是 <code>Cap&lt;T&gt;</code> capability、lang-debug ABI 和 GUI 三条线。仓库目前只有一份 UEFI x64 引导 spike——它已经实测出 EFI 调用约定、<code>ConOut</code> 的协议偏移和 <code>isa-debug-exit</code> 的退出码通路。设计文档正在重整。
+              </p>
+              <div class="card-foot-row">
+                <a href="/os/" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
+                  <span class="btn-label">OS 概览</span>
+                  <span class="btn-icon-wrap">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                    </svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- VEX -->
+        <article class="bento-card bento-card--wide reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">04</span>
+                <span class="card-tag">孵化中 · Day 0 已完成</span>
+              </div>
+              <h3 class="card-title">JiHuiYiYou-for-VEX</h3>
+              <p class="card-body">
+                让 JHYY 直接跑在 VEX V5 Brain（Xilinx Zynq / Cortex-A9）上。路线是 <strong>JHYY 直出 ARM 机器码</strong>，不是转译成 C++——但换掉的只是 clang 的位置，<code>ld</code> 及以下原样不动，链官方 SDK 出 <code>.bin</code>。第 0 步已完成：VEX 侧的未知数全部变成实测值，写成了事实基线。
+              </p>
+              <p class="card-body">
+                实测也踩出了三个必须记住的坑：MSYS2 自带的 <code>objdump</code> 是 x86-only，SDK 的 clang 是 8.0.0，而「指令集 = ARM 态 4 字节定长」这条结论依赖具体 clang 版本。
+              </p>
+              <div class="card-foot-row">
+                <a href="/vex/" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
+                  <span class="btn-label">for-VEX 概览</span>
+                  <span class="btn-icon-wrap">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                    </svg>
+                  </span>
+                </a>
+                <span class="card-meta">事实基线测量日期 2026-11-08</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMPILER: THREE AUDIENCES ============ -->
+  <section id="compiler" class="section section-code" aria-label="编译器三张领域卡">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">02 / 编译器</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">三种人，</span></span>
+          <span class="reveal-line"><span class="line-inner">三种入口。</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          同一个编译器，新手、OS 开发者、研究者要找的东西不一样。所以文档也分三层。
+        </p>
+      </header>
+
+      <div class="bento">
+        <article class="bento-card bento-card--sm reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">A</span>
+                <span class="card-tag">OS 与裸机</span>
+              </div>
+              <h3 class="card-title">写内核要什么</h3>
+              <p class="card-body">
+                <code>#[no_std]</code>、<code>#[naked]</code>、<code>#[link_section]</code>、内联 <code>asm!</code>、<code>volatile</code> 与内存屏障、<code>defer</code>。四个 target，其中两个是 freestanding。UEFI 入口路径尚未完工——这一条写在明面上。
+              </p>
+              <div class="card-foot-row">
+                <a href="/compiler/docs/osdev.html" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
+                  <span class="btn-label">裸机与内核开发</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">B</span>
+                <span class="card-tag">语言设计与自举</span>
+              </div>
+              <h3 class="card-title">编译器怎么搭的</h3>
+              <p class="card-body">
+                前端 → IL 文本 → 自研 amd64 发射器 → PE/COFF 或 ELF。自举闭环的门在本地跑：N=10 代的 <code>.il</code> 与 <code>.s</code> 逐字节相等。语言规范与 ABI 锁在 v4.0.0，是可引用的契约。
+              </p>
+              <div class="card-foot-row">
+                <a href="/compiler/docs/compiler.html" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
+                  <span class="btn-label">编译器实现</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">C</span>
+                <span class="card-tag">教学与课程</span>
+              </div>
+              <h3 class="card-title">拿来教和拿来学</h3>
+              <p class="card-body">
+                回归套件 299 条、示例集全部可编译可运行、问题台账 217 条公开维护（ACTIVE = 0）。语言贴近 C：显式指针、可预测的 C ABI、没有隐藏运行时——照着读源码就能讲清一遍编译流程。
+              </p>
+              <div class="card-foot-row">
+                <a href="/compiler/docs/tour.html" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
+                  <span class="btn-label">语言导览</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">D</span>
+                <span class="card-tag">Arena</span>
+              </div>
+              <h3 class="card-title">内存怎么管</h3>
+              <p class="card-body">
+                没有 GC，没有托管运行时。arena 既是分配器也是生命周期工具：<code>arena_reset</code> 复位复用，<code>arena_free</code> 整块释放。对齐保证、失败返回、销毁顺序都写进文档，不靠猜。
+              </p>
+              <div class="card-foot-row">
+                <a href="/compiler/docs/arena.html" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
+                  <span class="btn-label">Arena 指南</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FIVE EXITS ============ -->
+  <section id="exits" class="section section-cta" aria-label="常用入口">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">03 / 常用入口</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">五个地方，</span></span>
+          <span class="reveal-line"><span class="line-inner">覆盖绝大多数访问。</span></span>
+        </h2>
+      </header>
+
+      <div class="eco-grid">
+        <a href="/compiler/download/" class="eco-card reveal">
+          <div class="eco-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3"/></svg>
+          </div>
+          <div class="eco-meta">
+            <div class="eco-name">下载</div>
+            <div class="eco-desc">产物矩阵、SHA256 校验、安装器与 MSI、无签名说明。</div>
+          </div>
+          <span class="eco-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a href="/compiler/docs/" class="eco-card reveal" data-reveal-delay="60">
+          <div class="eco-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <div class="eco-meta">
+            <div class="eco-name">文档</div>
+            <div class="eco-desc">教程、语言参考、ABI 契约、arena 与裸机专项、CLI 与实现。</div>
+          </div>
+          <span class="eco-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a href="/compiler/docs/stdlib.html" class="eco-card reveal" data-reveal-delay="120">
+          <div class="eco-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+          </div>
+          <div class="eco-meta">
+            <div class="eco-name">标准库</div>
+            <div class="eco-desc">arena / mem / string / vec / fmt / io / math / os——签名从源码逐字抄来。</div>
+          </div>
+          <span class="eco-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="eco-card reveal" data-reveal-delay="180">
+          <div class="eco-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </div>
+          <div class="eco-meta">
+            <div class="eco-name">源码仓库</div>
+            <div class="eco-desc">编译器唯一实现、规范原文、问题台账、回归套件与发版产物。</div>
+          </div>
+          <span class="eco-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a href="/compiler/community/" class="eco-card reveal" data-reveal-delay="240">
+          <div class="eco-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="eco-meta">
+            <div class="eco-name">社区规则</div>
+            <div class="eco-desc">行为准则、贡献指南、安全披露，以及当前哪些治理条款还没有成文。</div>
+          </div>
+          <span class="eco-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>

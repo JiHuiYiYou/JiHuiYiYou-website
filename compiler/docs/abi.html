@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>ABI v4.0.0</title>
+  <meta name="description" content="类型布局、调用约定与链接规则——产物之间互认的契约" />
+  <meta property="og:title" content="ABI v4.0.0" />
+  <meta property="og:description" content="类型布局、调用约定与链接规则——产物之间互认的契约" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY 首页">
+        <img src="../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>编译器<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item is-active" href="../../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="主导航"><a class="" href="../../compiler/index.html">首页</a><a class="is-active" href="../../compiler/docs/index.html">文档</a><a class="" href="../../compiler/download/index.html">下载</a><a class="" href="../../compiler/community/index.html">社区</a><a class="" href="../../compiler/governance/index.html">治理</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../search-index.json" aria-label="搜索文档">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>搜索文档</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="最新稳定版">v4.1.4</span>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="文档目录">
+    <div class="doc-nav-group"><h4>上手</h4><ul><li><a class="" href="../../compiler/docs/getting-started.html">快速上手</a></li><li><a class="" href="../../compiler/docs/tour.html">语言导览</a></li></ul></div><div class="doc-nav-group"><h4>语言参考</h4><ul><li><a class="" href="../../compiler/docs/reference.html">参考总览</a></li><li><a class="" href="../../compiler/docs/spec.html">语言规范 v4.0.0</a></li><li><a class="is-active" href="../../compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../compiler/docs/stdlib.html">标准库</a></li></ul></div><div class="doc-nav-group"><h4>专项指南</h4><ul><li><a class="" href="../../compiler/docs/arena.html">Arena 内存管理</a></li><li><a class="" href="../../compiler/docs/osdev.html">裸机与内核开发</a></li></ul></div><div class="doc-nav-group"><h4>工具与实现</h4><ul><li><a class="" href="../../compiler/docs/cli.html">CLI 参考</a></li><li><a class="" href="../../compiler/docs/compiler.html">编译器实现</a></li><li><a class="" href="../../compiler/docs/build-and-test.html">构建与测试</a></li><li><a class="" href="../../compiler/docs/faq.html">常见问题</a></li></ul></div>
+    
+    <div class="doc-nav-group doc-nav-external">
+      <h4>规范原文</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">语言规范 v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">问题台账 ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="abi-v400">ABI v4.0.0</h1>
+<p><strong>ABI 原文在仓库里，不在这里。</strong> 原文：<a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener noreferrer"><code>docs/abis/jhyy-abi-v4.0.0.md</code></a></p>
+<p>本页是那份 ABI 的<strong>导读</strong>：目标与调用约定、类型布局、聚合类型传参、链接规则， 以及一份<strong>已知偏离与未实装项</strong>的摘要。<strong>冲突时以仓库原文为准。</strong></p>
+<p>ABI 锁在 v4.0.0（2026-10-24 随 <code>v4.0.0 final</code> 一同锁版），与语言规范同代。 工具链版本是另一回事，见<a href="../../compiler/docs/reference.html">参考总览</a>。</p>
+<hr />
+<h2 id="目标与调用约定">目标与调用约定</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>目标三元组</th><th>调用约定</th><th>运行时</th><th>状态</th></tr></thead><tbody><tr><td><code>amd64_win</code>（默认）</td><td>MS x64</td><td>hosted（链 C 运行时）</td><td>stable</td></tr><tr><td><code>amd64_sysv</code></td><td>SysV AMD64</td><td>hosted</td><td>stable</td></tr><tr><td><code>amd64_win_freestanding</code></td><td>MS x64</td><td>freestanding</td><td>beta</td></tr><tr><td><code>amd64_sysv_freestanding</code></td><td>SysV AMD64</td><td>freestanding</td><td>beta</td></tr></tbody></table></div>
+<ul class='md-list'><li><strong>架构只有 x86-64。</strong> aarch64 / riscv64 未实装（ABI § 12.10）。</li><li>四个目标<strong>全部</strong>走自托管 amd64 后端，没有 QBE 回退路径。</li><li><code>amd64_win</code> 与 <code>amd64_win_freestanding</code> 的<strong>调用约定逐字节相同</strong>； <code>amd64_sysv</code> 与 <code>amd64_sysv_freestanding</code> 同理。</li></ul>
+<h3 id="ms-x64amd64-win-amd64-win-freestanding">MS x64（<code>amd64_win</code> / <code>amd64_win_freestanding</code>）</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>规则</th><th>内容</th></tr></thead><tbody><tr><td>整型 / 指针参数</td><td>前 4 个走 <code>RCX</code> <code>RDX</code> <code>R8</code> <code>R9</code>，其余走栈</td></tr><tr><td>浮点参数</td><td>前 4 个走 <code>XMM0</code>–<code>XMM3</code>，其余走栈</td></tr><tr><td>返回值</td><td>整型 / 指针 → <code>RAX</code>；浮点 → <code>XMM0</code></td></tr><tr><td>Shadow space</td><td>调用者在栈上预留 32 字节</td></tr><tr><td>栈对齐</td><td><code>call</code> 前 16 字节对齐</td></tr></tbody></table></div>
+<p><strong>整数与浮点实参共享同一个位置计数器</strong>——这是 MS x64 的核心规则：</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>槽位</th><th>整数寄存器</th><th>浮点寄存器</th></tr></thead><tbody><tr><td>1</td><td><code>RCX</code></td><td><code>XMM0</code></td></tr><tr><td>2</td><td><code>RDX</code></td><td><code>XMM1</code></td></tr><tr><td>3</td><td><code>R8</code></td><td><code>XMM2</code></td></tr><tr><td>4</td><td><code>R9</code></td><td><code>XMM3</code></td></tr><tr><td>≥ 5</td><td>栈</td><td>栈</td></tr></tbody></table></div>
+<p>⇒ <code>fn f(a: f64, b: i32)</code> 里 <code>a</code> 在 <code>XMM0</code>、<code>b</code> 在 <strong><code>EDX</code></strong>（不是 <code>ECX</code>）。</p>
+<h3 id="sysv-amd64amd64-sysv-amd64-sysv-freestanding">SysV AMD64（<code>amd64_sysv</code> / <code>amd64_sysv_freestanding</code>）</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>规则</th><th>内容</th></tr></thead><tbody><tr><td>整型 / 指针参数</td><td>前 6 个走 <code>RDI</code> <code>RSI</code> <code>RDX</code> <code>RCX</code> <code>R8</code> <code>R9</code>，其余走栈</td></tr><tr><td>浮点参数</td><td>前 8 个走 <code>XMM0</code>–<code>XMM7</code>，其余走栈</td></tr><tr><td>Shadow space</td><td><strong>无</strong></td></tr><tr><td>栈对齐</td><td><code>call</code> 前 16 字节对齐</td></tr></tbody></table></div>
+<p><strong>整数与浮点是两个独立 bank</strong>——整数按出现顺序占 <code>rdi</code>/<code>rsi</code>/…， 浮点按出现顺序占 <code>xmm0</code>–<code>xmm7</code>，各自编号、互不影响。 这与 MS x64 的共享计数器<strong>正好相反</strong>：同一个 <code>fn f(a: f64, b: i32)</code>， 在 SysV 下 <code>b</code> 落在 <strong><code>RDI</code></strong>。</p>
+<blockquote class="callout"><p>写混合 int / float 参数的函数时，这条差异是最容易出错的地方—— 纯 JHYY 代码跨目标行为一致（返回值规则相同），但<strong>手写汇编对接</strong>时会踩。</p></blockquote>
+<hr />
+<h2 id="类型布局">类型布局</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>类型</th><th>sizeof</th><th>alignof</th><th>备注</th></tr></thead><tbody><tr><td><code>i8</code> / <code>u8</code></td><td>1</td><td>1</td><td>加载到 32 位后符号 / 零扩展</td></tr><tr><td><code>i16</code> / <code>u16</code></td><td>2</td><td>2</td><td>同上</td></tr><tr><td><code>i32</code> / <code>u32</code></td><td>4</td><td>4</td><td></td></tr><tr><td><code>i64</code> / <code>u64</code></td><td>8</td><td>8</td><td></td></tr><tr><td><code>f32</code></td><td>4</td><td>4</td><td>IEEE 754 binary32</td></tr><tr><td><code>f64</code></td><td>8</td><td>8</td><td>IEEE 754 binary64</td></tr><tr><td><code>bool</code></td><td>1</td><td>1</td><td>⚠️ 编译器<strong>不做 0/1 归一化</strong></td></tr><tr><td><code>()</code></td><td>0</td><td>1</td><td>零大小类型</td></tr><tr><td><code>*T</code></td><td>8</td><td>8</td><td>空指针是整数 0；步长 <code>sizeof(T)</code></td></tr><tr><td><code>fn(...)</code> 函数指针</td><td>8</td><td>8</td><td>⚠️ 类型位置不认这个语法（语言规范附录 B）</td></tr><tr><td><code>[*]T</code> 切片</td><td>16</td><td>8</td><td><code>{ data: *T @0, len: i64 @8 }</code></td></tr><tr><td><code>[T; N]</code></td><td><code>N × sizeof(T)</code></td><td><code>alignof(T)</code></td><td>元素连续，无 padding</td></tr><tr><td><code>&amp;T</code> / <code>&amp;mut T</code></td><td>8</td><td>8</td><td>单指针；<code>is_mut</code> 是编译期标记</td></tr><tr><td><code>Cap&lt;T&gt;</code></td><td>8</td><td>8</td><td></td></tr><tr><td><code>PhantomData&lt;T&gt;</code></td><td>0</td><td>1</td><td>ZST，不占 struct 槽位</td></tr></tbody></table></div>
+<ul class='md-list'><li><strong>有符号整数溢出是定义行为</strong>：二进制补码环绕，无运行时检查。</li><li><strong>没有独立的 <code>char</code> 类型</strong>——字符字面量的类型是 <code>i32</code>，值是 Unicode codepoint。</li><li><code>struct</code> 按声明顺序排列、<strong>自然对齐</strong>；嵌套 struct 内联展开为单层布局。</li><li><code>enum</code> 的 tag 是 <code>i32</code>，offset 0；payload 从 <code>align_up(4, max_payload_align)</code> 开始。</li><li>⚠️ <code>alignof(enum)</code> 硬编码返回 <strong>4</strong>，与 enum 布局算出的自然对齐不一致（ABI § 12.2）。</li></ul>
+<hr />
+<h2 id="聚合类型传参">聚合类型传参</h2>
+<h3 id="win">Win</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>参数类型</th><th>传递方式</th></tr></thead><tbody><tr><td><code>struct</code></td><td>调用者在栈上<strong>建副本</strong>，逐字段复制（含嵌套 struct 递归），传副本地址（一个 <code>l</code> 参数）</td></tr><tr><td><code>enum</code></td><td>传<strong>一个 <code>l</code></strong>（enum 值自身槽的地址），<strong>不建副本</strong></td></tr><tr><td><code>[T; N]</code></td><td>传<strong>一个 <code>l</code></strong>（数组自身地址），<strong>不建副本</strong>（实质按引用）</td></tr><tr><td><code>[*]T</code> 切片</td><td>16 字节槽 <code>{data, len}</code>，但<strong>只传一个 <code>l</code> 指针</strong>指向该槽</td></tr></tbody></table></div>
+<p>⚠️ <strong>只有 <code>struct</code> 真正建副本。</strong> <code>enum</code> / <code>[T; N]</code> / 切片是按地址传递—— 所以在 callee 里改数组会改到调用方的数组。</p>
+<h3 id="sysv">SysV</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>条件</th><th>传递方式</th></tr></thead><tbody><tr><td><code>sizeof ≤ 16</code></td><td>按 eightbyte 切分分类（INTEGER / SSE），最多 2 个 eightbyte 进寄存器</td></tr><tr><td><code>sizeof &gt; 16</code></td><td><strong>MEMORY class</strong> —— 整体落在栈上</td></tr></tbody></table></div>
+<h3 id="返回值">返回值</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>返回类型</th><th>约定</th></tr></thead><tbody><tr><td>整型 / 指针 / <code>&amp;T</code></td><td><code>RAX</code></td></tr><tr><td><code>f32</code> / <code>f64</code></td><td><code>XMM0</code></td></tr><tr><td><code>struct</code> / <code>enum</code></td><td><strong>隐式 sret</strong>：调用者分配返回槽，作为<strong>隐藏的第 0 个参数</strong>在寄存器里传入（Win <code>%rcx</code> / SysV <code>%rdi</code>）</td></tr><tr><td><code>[T; N]</code></td><td>⚠️ <strong>不走 sret</strong>：callee 自建 16 字节槽，<code>RAX</code> 返回其地址</td></tr><tr><td><code>()</code></td><td>无返回值，函数尾部裸 <code>ret</code></td></tr></tbody></table></div>
+<h3 id="名称修饰">名称修饰</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>情形</th><th>符号形式</th></tr></thead><tbody><tr><td>普通函数</td><td><code>&lt;name&gt;</code></td></tr><tr><td>模块内函数</td><td><code>&lt;mod&gt;__&lt;name&gt;</code>（调用侧写 <code>mod::fn()</code>）</td></tr><tr><td>泛型实例</td><td><code>&lt;Base&gt;$&lt;T1&gt;$&lt;T2&gt;</code>（例如 <code>max$i32</code>）</td></tr><tr><td>模块内泛型实例</td><td><code>&lt;mod&gt;__&lt;Base&gt;$&lt;T1&gt;$&lt;T2&gt;</code>（模块前缀优先）</td></tr><tr><td>闭包</td><td><code>__closure_&lt;N&gt;</code>（合成名，N 每次编译单调递增 ⇒ 产物可复现）</td></tr><tr><td><code>extern fn</code></td><td><strong>原样</strong>，不加前缀、不加修饰</td></tr></tbody></table></div>
+<p>泛型修饰名由 parser 按源码顺序拼出，<strong>不含指针地址或哈希</strong> ⇒ 确定性。 无重载支持。</p>
+<hr />
+<h2 id="程序入口与链接">程序入口与链接</h2>
+<p><strong>这一节是最容易搞错的地方。</strong></p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>模式</th><th>入口符号</th><th>说明</th></tr></thead><tbody><tr><td>hosted</td><td><code>main_jhyy</code></td><td>C 运行时的 <code>main</code> 调用 <code>main_jhyy(argc, argv)</code>，其返回值作为进程退出码</td></tr><tr><td><code>#[no_std]</code></td><td><code>main</code></td><td>链接行 <code>-nostartfiles -nodefaultlibs -Wl,--entry=main -lgcc</code></td></tr></tbody></table></div>
+<ul class='md-list'><li><code>#[no_std]</code> <strong>不链接 C 运行时启动文件</strong>；<code>-lgcc</code> 只提供 <code>___chkstk_ms</code> 这类编译器内建。</li><li><code>#[no_std]</code> 模式下 <code>fn main</code> <strong>必须存在</strong>，否则编译错误： <code>error: #[no_std] module must define &#x27;fn main()&#x27;</code>。</li></ul>
+<h3 id="freestanding-不切换链接方式">freestanding 不切换链接方式</h3>
+<blockquote class="callout"><p>⚠️ <strong>两个 freestanding 目标只切换「调用约定归属 + 入口钩子」，不切换链接方式。</strong></p>
+<p><strong>链接行是按源文件里有没有 <code>#[no_std]</code> 分支的，跟 <code>--target</code> 无关。</strong></p></blockquote>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>源文件里有 <code>#[no_std]</code> 吗</th><th>链接行</th></tr></thead><tbody><tr><td><strong>没有</strong></td><td>链 <code>runtime.o</code> + <code>helpers.o</code>（C 运行时 bridge）+ Windows 系统库 + <code>-lm</code></td></tr><tr><td><strong>有</strong></td><td><strong>不链</strong>上面两个，改加 <code>-nostartfiles -nodefaultlibs -Wl,--entry=main -lgcc</code></td></tr></tbody></table></div>
+<p>也就是说：<code>--target=amd64_win_freestanding</code> 本身<strong>不会</strong>让你不链 C 运行时。 要得到纯 freestanding 产物，<strong>源文件里还得写 <code>#[no_std]</code></strong>。</p>
+<p>两条分支都带 <code>-g0 -Wl,--build-id=none -Wl,--stack,67108864 … -lm -lkernel32 -luser32 -lshell32 -ladvapi32</code> —— <strong>Windows 系统库与 <code>-lm</code> 是无条件加的</strong>（<code>#[no_std]</code> 也加）。 真正的 UEFI / 裸机镜像需要自行用 lld-link（<code>/SUBSYSTEM:EFI_APPLICATION /ENTRY:efi_main</code>） 或自定义链接行完成。</p>
+<h3 id="目标-abi-链接方式">目标 → ABI → 链接方式</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>目标</th><th>ABI（调用约定）</th><th>入口符号</th><th>链接方式</th></tr></thead><tbody><tr><td><code>amd64_win</code></td><td>MS x64</td><td><code>main_jhyy</code></td><td>hosted：链 C 运行时 + Windows 系统库</td></tr><tr><td><code>amd64_sysv</code></td><td>SysV AMD64</td><td><code>main_jhyy</code></td><td>hosted（同上；跨目标必须 <code>--no-link</code>）</td></tr><tr><td><code>amd64_win_freestanding</code></td><td>MS x64（与 <code>amd64_win</code> 逐字节相同）</td><td>用户自备（<code>efi_main</code> / <code>_start</code>）</td><td><strong>取决于源文件有没有 <code>#[no_std]</code></strong>，不是取决于 <code>--target</code></td></tr><tr><td><code>amd64_sysv_freestanding</code></td><td>SysV AMD64（与 <code>amd64_sysv</code> 逐字节相同）</td><td>用户自备（<code>efi_main</code> / <code>_start</code>）</td><td>同上</td></tr></tbody></table></div>
+<blockquote class="callout"><p>⚠️ <strong>输出容器格式不由 <code>--target</code> 决定</strong>，而由宿主工具链的 <code>ld</code> 决定 （<code>link_with_gcc</code> 没有 target 参数）。各目标的 PE / ELF 产出只是<strong>惯例</strong>（ABI § 12.9）。</p>
+<p>推论：<strong>除 <code>amd64_win</code> 外的目标都只能 <code>--no-link</code></strong>，拿 <code>.s</code> 去用与目标匹配的工具链链接。</p></blockquote>
+<hr />
+<h2 id="ffi">FFI</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>方向</th><th>支持的参数 / 返回类型</th></tr></thead><tbody><tr><td>JHYY → C</td><td>全部基础类型、<code>*T</code>、<code>bool</code></td></tr><tr><td>C → JHYY</td><td>同上</td></tr></tbody></table></div>
+<ul class='md-list'><li><code>extern fn</code> 只声明、不生成函数体，链接期由 <code>ld</code> 解析符号。</li><li><strong>不支持</strong>：struct / enum 按值跨 FFI 边界、变参函数（JHYY 侧需逐参数列出）、回调函数。</li><li>⚠️ <code>extern fn</code> 的参数 / 返回类型<strong>不做编译期限制</strong>——声明 struct 参数能编译通过， 但实际按地址传，与 C ABI 不符（静默不符，无报错）。</li><li>字符串字面量是 UTF-8 字节序列，存放在 <strong><code>.data</code></strong> 段，以 NUL 结尾，作为 <code>*u8</code> 传给 C， 兼容 C 的 <code>char*</code>。</li></ul>
+<hr />
+<h2 id="已知偏离与未实装项">已知偏离与未实装项</h2>
+<p>ABI § 12 是<strong>有意记录、有门或已登记</strong>的事实，不是遗漏。</p>
+<blockquote class="callout"><p>§ 12 的表<strong>只列当前仍未闭合的项</strong>——已修复的偏离会从表里移除，<strong>编号随之前移</strong> ⇒ 引用时请以条目内容而非编号为准。摘要：</p></blockquote>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>#</th><th>项</th><th>性质</th></tr></thead><tbody><tr><td>12.1</td><td><strong>struct / enum 返回值在所有目标无条件走 sret</strong>，无大小阈值——SysV 标准应把 ≤16 字节聚合类型放进 <code>RAX:RDX</code> / <code>XMM0:XMM1</code></td><td>偏离 SysV</td></tr><tr><td>12.2</td><td><strong><code>alignof(enum)</code> 硬编码返回 4</strong>，与 enum 布局计算用的 <code>max(4, max_payload_align)</code> 不一致</td><td>内部不一致</td></tr><tr><td>12.3</td><td>SysV 的非 struct 标量参数仍借 Win 分类器决定 IR 字母——当前不出错，但是隐式依赖</td><td>隐患</td></tr><tr><td>12.4</td><td><strong>SysV 下 MEMORY class 参数与寄存器溢出参数混排 → 编译期报错</strong>；部分合法 SysV 用法当前无法编译</td><td>能力边界</td></tr><tr><td>12.5</td><td>sret 槽大小 <code>max(4, sizeof(T))</code> 与 enum 拷贝按 <code>total_size</code> 写入——理论边界，实测恒等</td><td>理论边界</td></tr><tr><td>12.6</td><td><strong>栈槽只保证 8 字节对齐</strong>；当前无 16 字节对齐类型，未触发</td><td>能力边界</td></tr><tr><td>12.7</td><td><strong>全 spill，只保存 <code>RBP</code></strong>，栈帧显著偏大，依赖 64 MB 栈预留补偿</td><td>实现特征</td></tr><tr><td><strong>12.8</strong></td><td><strong>UEFI EFIAPI wrapper 未实装</strong>：freestanding 的两个钩子（<code>emit_entry_point</code> / <code>no_crt_init</code>）<strong>都是空实现</strong>——编译器不生成 EFIAPI wrapper，也不自动抑制 CRT / runtime 链接。entry 符号由用户自行提供</td><td><strong>未实装</strong></td></tr><tr><td>12.9</td><td><strong>无交叉编译容器后端</strong>：<code>--target</code> 不切换 PE / ELF 产出</td><td>能力边界</td></tr><tr><td>12.10</td><td><strong>无 aarch64 / riscv64</strong>；<code>.jhyynb</code> 原生二进制格式仍是设计稿，未实装</td><td>未实装</td></tr><tr><td>12.11</td><td>SysV eightbyte 宽度规则<strong>只对第 0 个 eightbyte 成立</strong>——第 1 个及以后恒为 8 字节</td><td>偏离 SysV</td></tr><tr><td>12.12</td><td>SysV 溢出的 <code>f64</code> 栈参缺 16 字节对齐</td><td>偏离 SysV</td></tr><tr><td>12.14</td><td><strong>Windows 控制台 UTF-8 由运行时设置</strong>：<code>runtime.c</code> 的 <code>main</code> 在 <strong>stdout 是控制台时</strong>调 <code>SetConsoleOutputCP(CP_UTF8)</code> + <code>SetConsoleCP(CP_UTF8)</code>；管道 / 重定向时不动代码页</td><td>实现特征</td></tr></tbody></table></div>
+<blockquote class="callout"><p>§ 12.14 是这一组里唯一<strong>用户能直接看见</strong>的一条：默认 OEM 代码页在中文 Windows 上是 CP936 / GBK，程序 <code>printf</code> 出去的 UTF-8 字节会被按 GBK 解释 ⇒ 屏幕全是乱码。 运行时只在 stdout 是控制台时才切代码页，正是为了避开这个坑。</p>
+<p><strong>§ 12.8 是当前最大的缺口</strong>：freestanding 目标标着 beta 不是因为约定没定， 而是因为<strong>入口路径还没接上</strong>。用户得自己提供 <code>efi_main</code> 或 <code>_start</code>。</p></blockquote>
+<hr />
+<h2 id="稳定性承诺">稳定性承诺</h2>
+<p>ABI § 9 明确分成两栏：</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>此版本<strong>锁定</strong>（不因 minor / patch 改变）</th><th><strong>可能</strong>在后续版本改变</th></tr></thead><tbody><tr><td>基础类型的 sizeof / alignof</td><td>struct / enum 返回值在 SysV 上的 sret 处理</td></tr><tr><td>指针宽度（64 位）</td><td><code>alignof(enum)</code> 的取值</td></tr><tr><td>struct 字段对齐与排列算法</td><td>名称修饰方案（引入类型编码 / 重载编码）</td></tr><tr><td>enum 的 tag（<code>i32</code>，offset 0）布局</td><td>SysV 分类器对非 struct 标量的处理</td></tr><tr><td>四个目标的调用约定归属（哪个目标用哪套约定）</td><td>栈槽对齐粒度</td></tr><tr><td>名称修饰方案的基本形状（<code>&lt;mod&gt;__&lt;name&gt;</code> / <code>&lt;Base&gt;$&lt;T&gt;</code>）</td><td></td></tr></tbody></table></div>
+<hr />
+<h2 id="原文">原文</h2>
+<ul class='md-list'><li>ABI v4.0.0（锁定）—— <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener noreferrer"><code>docs/abis/jhyy-abi-v4.0.0.md</code></a></li><li>配套语言规范 v4.0.0（锁定）—— <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer"><code>docs/abis/jhyy-lang-spec-v4.0.0.md</code></a></li><li>已知限制台账—— <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener noreferrer"><code>docs/internal/workarounds.md</code></a></li><li>二进制格式（设计稿，未实装）—— <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md" target="_blank" rel="noopener noreferrer"><code>docs/abis/jhyy-binary-format-v1.0.0.md</code></a></li></ul>
+      <div class="doc-foot-row">
+        
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">报告问题 ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="本页目录"><h4>本页</h4><a class="anchor-l1" href="#abi-v400">ABI v4.0.0</a><a class="anchor-l2" href="#目标与调用约定">目标与调用约定</a><a class="anchor-l3" href="#ms-x64amd64-win-amd64-win-freestanding">MS x64（amd64_win / amd64_win_freestanding）</a><a class="anchor-l3" href="#sysv-amd64amd64-sysv-amd64-sysv-freestanding">SysV AMD64（amd64_sysv / amd64_sysv_freestanding）</a><a class="anchor-l2" href="#类型布局">类型布局</a><a class="anchor-l2" href="#聚合类型传参">聚合类型传参</a><a class="anchor-l3" href="#win">Win</a><a class="anchor-l3" href="#sysv">SysV</a><a class="anchor-l3" href="#返回值">返回值</a><a class="anchor-l3" href="#名称修饰">名称修饰</a><a class="anchor-l2" href="#程序入口与链接">程序入口与链接</a><a class="anchor-l3" href="#freestanding-不切换链接方式">freestanding 不切换链接方式</a><a class="anchor-l3" href="#目标-abi-链接方式">目标 → ABI → 链接方式</a><a class="anchor-l2" href="#ffi">FFI</a><a class="anchor-l2" href="#已知偏离与未实装项">已知偏离与未实装项</a><a class="anchor-l2" href="#稳定性承诺">稳定性承诺</a><a class="anchor-l2" href="#原文">原文</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../index.html" class="nav-logo foot-logo">
+          <img src="../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../../compiler/docs/index.html">文档</a></li>
+            <li><a href="../../compiler/download/index.html">下载</a></li>
+            <li><a href="../../compiler/community/index.html">社区</a></li>
+            <li><a href="../../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

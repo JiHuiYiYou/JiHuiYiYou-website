@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>JiHuiYiYou-for-VEX</title>
+  <meta name="description" content="让 JHYY 直接跑在 VEX V5 Brain 上——实测优先的嵌入式目标路线" />
+  <meta property="og:title" content="JiHuiYiYou-for-VEX" />
+  <meta property="og:description" content="让 JHYY 直接跑在 VEX V5 Brain 上——实测优先的嵌入式目标路线" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  
+  <link rel="icon" type="image/png" sizes="any" href="../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="bg-bg text-text font-sans antialiased">
+
+  <div class="mist mist-1" aria-hidden="true"></div>
+  <div class="mist mist-2" aria-hidden="true"></div>
+  <div class="mist mist-3" aria-hidden="true"></div>
+  <div class="mist mist-4" aria-hidden="true"></div>
+  <svg id="cracks" class="cracks" aria-hidden="true"><g class="cracks-layer"></g></svg>
+  <div class="cursor-dot" aria-hidden="true"></div>
+
+
+  <nav class="floating-nav" aria-label="Primary">
+    <div class="nav-pill">
+      <a href="../index.html" class="nav-logo" aria-label="机会翼游 · JHYY 首页">
+        <img src="../assets/img/jhyy-logo.png" class="logo-img" height="30" alt="机会翼游 · JHYY" />
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>for-VEX<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item" href="../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item is-active" href="../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <div class="nav-links" role="navigation"><a class="" href="../vex/index.html">概览</a><a class="" href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX/blob/main/docs/00-%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF.md">事实基线</a></div>
+      <div class="nav-cta-group">
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX" class="nav-icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+        <a href="../compiler/download/index.html" class="nav-cta magnetic" data-magnetic>
+          <span>下载 v4.1.4</span>
+          <span class="btn-icon-wrap"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 L17 7 M9 7 L17 7 L17 15"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+<main id="top" class="page-main">
+<p>给 JHYY（机会翼游）加一个<strong>嵌入式目标</strong>：VEX V5 Brain。当前进度是<strong>第 0 步已完成</strong> —— 把 VEX 侧的未知数全部变成实测值，写成一份事实基线。</p>
+<h2 id="目标硬件">目标硬件</h2>
+<p>VEX V5 Brain：ARM，<strong>Xilinx Zynq</strong>（Cortex-A9 + FPGA），有 VFPv3 + NEON。 DDR 基址 <code>0x03800000</code>（<code>lscript.ld</code> 里的 <code>ps7_ddr_0_S_AXI_BASEADDR</code>）， 入口钉在 <code>0x03800020</code>。</p>
+<h2 id="路线-b-是jhyy-直出-arm-机器码">路线 B 是「JHYY 直出 ARM 机器码」</h2>
+<p>不是「转译成 C++」。但边界要说清 —— <strong>换掉的是 clang 的位置，<code>ld</code> 及以下原样不动</strong>：</p>
+<ul class='md-list'><li><strong>A 路</strong>（第 0 步，黄金参考）：JHYY → C 源码 → clang → <code>.bin</code></li><li><strong>B 路</strong>（目标）：JHYY → ARM 机器码（<code>.o</code>）→ 官方 SDK → <code>.bin</code></li></ul>
+<p>B 路出的是 ARM <code>.o</code>，然后链官方 SDK 的 <code>lscript.ld</code> / <code>stdlib_0.lib</code> / <code>libv5rt.a</code>， 最后 objcopy 出 <code>.bin</code>。</p>
+<p>这跟 pros-rs 当年的<strong>同构</strong>（Rust 出 <code>.o</code>、链 libpros）是一个路子，区别是<strong>带着实测重走</strong>， 不带它的沉没成本。</p>
+<p>⇒ 推论也一致：<strong>ABI 必须锁死</strong>（softfp）、<strong>入口必须锁死</strong>（符号名 <code>main</code>）、 <strong>绑定面必须锁死</strong>（每个 <code>extern fn</code> 逐字对应一个 C 符号）—— 链哪份库就认哪份 ABI。 这三样锁不住，两路就没法对拍。</p>
+<h2 id="day-0-已完成事实基线">Day 0 已完成：事实基线</h2>
+<p><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX/blob/main/docs/00-%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF.md" target="_blank" rel="noopener noreferrer"><code>docs/00-事实基线.md</code></a> 是这个项目「会变的数字与平台事实」的<strong>唯一真相源</strong>。测量日期 <strong>2026-11-08</strong>， 机器 <strong>Windows 10 + MSYS2</strong>，测量方式全部是本机实测（编译 / 反汇编 / <code>readelf</code> / <code>nm</code>）， <strong>零 JHYY 变量</strong>。凡未实测的条目一律标「待测」，不写推测值。</p>
+<p>规格书要覆盖八件事，缺一不可 —— <strong>七件已有结论，一件待测</strong>：</p>
+<ul class='md-list'><li>产物格式与签名布局 —— 已实测</li><li><code>vexStartup</code> 替你干了什么 —— 已实测（反汇编 + 重定位）</li><li>符号修饰规则 —— 已实测（C++ mangled 1404 个 vs 纯 C API）</li><li>softfp / hard 的决定及依据 —— <strong>已锁定 softfp</strong></li><li>struct 传参的 C 对齐 —— 已实测（布局 + 寄存器约定 + 唯一那个按值 struct）</li><li>最小绑定面 —— 已核实确切函数名 + JHYY 侧逐字对应的清单</li><li>场控状态从哪读 —— <code>vexCompetitionStatus</code> / <code>vexCompetitionControl</code></li><li>消息泵 tick 频率 —— <strong>待测</strong>（需实机）</li></ul>
+<p>几条实测结论：</p>
+<ul class='md-list'><li><strong>产物格式不需要额外转换器</strong> —— SDK 的 <code>objcopy</code> 直出最终格式。头 32 字节是 <code>XVX5</code> + 版本 1， 入口紧跟其后在 <code>0x03800020</code>。</li><li><strong>启动链完全闭合</strong>：清 <code>.bss</code> → stdlib 版本校验 → newlib impure data → <code>__libc_init_array</code> → <code>vexMain</code> → <code>__libc_fini_array</code>。</li><li><strong>用户的 <code>main</code> 是一个 task</strong>，不是主线程 —— SDK 用 <code>vexTaskAdd(main, 2, &quot;MAIN&quot;)</code> 把它注册进 VEXos 调度器。所以 B 路<strong>必须发射一个不带修饰的 <code>main</code> 符号</strong>。</li><li><strong>ABI 锁定 softfp</strong> —— 我们的 ELF 与 <code>libv5rt.a</code> 都没有 <code>Tag_ABI_VFP_args</code> 标签， 按 ARM ABI 缺省即 base standard variant。</li><li><strong>指令集是 ARM 态、4 字节定长</strong> ⇒ 后端不必做 Thumb-2 变长编码。</li><li><strong>API 两层</strong>：C++ <code>vex::</code>（1404 个 mangled 符号，<strong>不碰</strong>）和<strong>纯 C <code>vex*()</code></strong> —— 后者 JHYY 的 <code>extern fn</code> 直接绑，<strong>零胶水层</strong>。</li><li><strong>struct 布局实测</strong>：packed 与非 packed 都有；C API 里<strong>只有一个</strong>按值传的 struct （<code>V5_DeviceVisionRgb</code>，≤4 B ⇒ 寄存器传参），其余一律指针传递。</li><li><strong>内存预算</strong>：堆 1 MB，栈 14 KB —— 递归深度是硬约束。</li><li><strong>JHYY 侧的硬约束</strong>（ABI v4.0.0）：不支持变参、不支持 struct 按值跨 FFI， 且<strong>指针宽度锁死 64 位</strong> ⇒ ARM 目标必须先把指针宽度定成 4 字节，否则连 <code>extern fn</code> 都对不上。</li></ul>
+<h2 id="三条坑都在原文里被明确警告过">三条坑（都在原文里被明确警告过）</h2>
+<ol class='md-list'><li><strong>MSYS2 自带的 <code>objdump</code> 是 x86-only</strong> —— 对 VEX 产物会报 <code>can&#x27;t disassemble for architecture UNKNOWN!</code> ⇒ <strong>必须用 <code>arm-none-eabi-objdump</code></strong> （本次是额外装的，binutils 2.47）。<code>readelf</code> 两边都能读。</li><li><strong>SDK 的 clang 是 8.0.0</strong>，flags 里写着 <code>-target thumbv7-none-eabi</code>（一个 <strong>Thumb</strong> 目标）， 但实测入口处是 <strong>ARM 态</strong>指令（<code>e59f00a0</code> 是 ARM 态 LDR literal，Thumb-2 会是 <code>f8df</code>）。 「目标说 Thumb、实测产物是 ARM」这个组合依赖具体版本的 codegen 行为 —— <strong>换 clang 版本必须重测</strong>，不能把这条结论直接搬过去。</li><li><strong>实测环境是 Windows 10 + MSYS2</strong> —— 工具链路径、shell、objcopy 的行为都跟这个环境绑定。</li></ol>
+<h2 id="后续排期">后续排期</h2>
+<ul class='md-list'><li><strong>Day 0</strong> —— 已完成。手写 C 探针，零 JHYY 变量，纯手工走通 <code>源码 → ELF → 带签名 bin → program.bin</code>。 探针里还顺手做了绑定面本身的一层：屏显 API 全是变参，而 JHYY 不支持变参调用， 所以加了一个<strong>非变参封装</strong> <code>jhyy_vex_display_puts</code> —— 变参只发生在 C 内部。</li><li><strong>Day 1–2</strong> —— 未开始。emitter 发 <strong>C</strong>（不发 C++），最小子集 + 最小绑定面 （先只绑 <code>vexDeviceGetByIndex</code> / <code>vexDeviceMotorVelocitySet</code> / <code>vexDelay</code> / <code>jhyy_vex_display_puts</code>）。</li><li><strong>Day 3</strong> —— 未开始。A 路产物跟现有 C++ 工程的行为对照，补齐 Day 0 遗留的待测项，规格书定稿。</li><li><strong>B 阶段</strong> —— 未开始。JHYY 的 ARM 后端。</li></ul>
+<p>Day 3 的对拍口径先说清：<strong>「一致」指的是行为，不是字节</strong>。A 路和 B 路是两个不同的代码生成器 （<code>.s</code> 必然不同，<code>.o</code> 段布局也可能不同），所以 <code>.s</code> / <code>.o</code> / ELF / <code>.map</code> / <code>.bin</code> 五层产物 是<strong>各自的诊断证据</strong>，不是逐字节比对对象 —— 逐层比对只是为了<strong>定位</strong>不一致发生在哪一层。</p>
+<p>Day 0 还有一条<strong>验收线</strong>没过：<strong>A 路产出的 <code>.bin</code> 必须真的在 Brain 上转过电机</strong>。 这件事需要 microSD 卡和一台机器人 —— 屏显与电机的实机行为、消息泵 tick 频率、 <code>vexDisplayPrintf</code> 的坐标语义都还标着「待测」。</p>
+<p>Day 0 的探针可以复现（产物本地留存，不进版本库）：</p>
+<pre><code class="language-bash">scripts/build-vex.sh spike/day0-c day0c
+</code></pre>
+<h2 id="边界与纪律">边界与纪律</h2>
+<ul class='md-list'><li><strong>不直接改 JHYY 主仓</strong> —— 实验在本仓做，拿到实测再回主仓落地，单独评审。</li><li><strong>第 0 步的产出是知识，不是代码</strong> —— emitter 是探针，不许长成产品。</li><li><strong>产物本地留存，不进版本库</strong> —— <code>.bin</code> / ELF 含 <code>libv5rt.a</code> 的代码（VEX 专有）， 在「SDK 再分发」拍板前不进公开 repo；留存靠<strong>本地 + 可复现脚本 + 哈希清单</strong>。</li></ul>
+<p>仓库：<a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX" target="_blank" rel="noopener noreferrer">https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX</a></p>
+</main>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../index.html" class="nav-logo foot-logo">
+          <img src="../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../compiler/docs/index.html">文档</a></li>
+            <li><a href="../compiler/download/index.html">下载</a></li>
+            <li><a href="../compiler/community/index.html">社区</a></li>
+            <li><a href="../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>

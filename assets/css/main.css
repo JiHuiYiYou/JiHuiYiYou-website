@@ -2170,3 +2170,190 @@ button:not(.btn-primary):not(.btn-ghost):not(.stab):not(.ci-copy):not(.copy-btn)
   vertical-align: middle;
 }
 .ci-copy--foot svg { width: 11px; height: 11px; }
+
+/* ============================================================
+   项目切换器（机会翼游家族下拉）
+   纯 HTML/CSS（<details>），不依赖 JS。
+   ============================================================ */
+.proj-switch { position: relative; }
+
+.proj-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  white-space: nowrap;
+  transition: color 0.25s, background 0.25s;
+}
+.proj-summary::-webkit-details-marker { display: none; }
+.proj-summary:hover { color: var(--text-1); background: var(--bg-glass); }
+.proj-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--brand-400);
+  box-shadow: 0 0 8px var(--brand-glow);
+}
+.proj-caret { font-size: 9px; opacity: 0.65; transition: transform 0.25s var(--ease-fluid); }
+.proj-switch[open] .proj-summary { color: var(--text-1); background: var(--bg-glass-strong); }
+.proj-switch[open] .proj-caret { transform: rotate(180deg); }
+
+.proj-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 300px;
+  max-width: 340px;
+  padding: 6px;
+  background: rgba(13, 13, 15, 0.94);
+  border: 1px solid var(--hairline-2);
+  border-radius: 16px;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.72);
+  z-index: 60;
+}
+.proj-item {
+  display: block;
+  padding: 9px 11px;
+  border-radius: 10px;
+  color: var(--text-2);
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.proj-item:hover { background: var(--bg-glass-strong); text-decoration: none; }
+.proj-item.is-active { background: var(--brand-glow-faint); }
+.proj-item-name { font-size: 13.5px; font-weight: 600; color: var(--text-1); }
+.proj-item-en {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-4);
+  margin-left: 7px;
+}
+.proj-item-tag {
+  display: block;
+  font-size: 11.5px;
+  color: var(--text-3);
+  margin-top: 2px;
+  line-height: 1.45;
+}
+
+/* 导航当前区高亮 */
+.nav-links a.is-active { color: var(--text-1); }
+.nav-links a.is-active::before { opacity: 1; background: var(--bg-glass-strong); }
+
+/* ============================================================
+   版本闸门 —— 首页顶部固定显示「当前是哪个版本」
+   ============================================================ */
+.version-gate {
+  position: relative;
+  z-index: 2;
+  padding: 8px 0 0;
+}
+.version-gate-inner {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 13px 20px;
+  background: var(--bg-glass);
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+}
+.vg-item { display: flex; align-items: baseline; gap: 9px; }
+.vg-k {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-4);
+}
+.vg-v {
+  font-family: var(--f-mono);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-1);
+}
+.vg-strong .vg-v { color: var(--brand-300); }
+.vg-d { font-size: 11.5px; color: var(--text-3); }
+.vg-div { width: 1px; height: 18px; background: var(--hairline-2); }
+.vg-cta {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--brand-300);
+  padding: 6px 13px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--hairline-brand);
+  transition: background 0.25s, border-color 0.25s;
+  white-space: nowrap;
+}
+.vg-cta:hover {
+  background: var(--brand-glow-faint);
+  border-color: var(--brand-400);
+  text-decoration: none;
+}
+@media (max-width: 860px) {
+  .vg-div { display: none; }
+  .version-gate-inner { gap: 10px 18px; padding: 12px 16px; }
+  .vg-cta { margin-left: 0; }
+}
+
+/* ============================================================
+   卡片底行（下载按钮 + 一行事实说明）
+   ============================================================ */
+.card-foot-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--hairline);
+}
+.card-meta {
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  color: var(--text-3);
+  letter-spacing: 0.01em;
+}
+
+/* ============================================================
+   页面级提示条（安装说明 / 基准口径说明 / 文档说明）
+   ============================================================ */
+.install-note,
+.perf-note,
+.docs-note {
+  margin-top: 28px;
+  padding: 16px 20px;
+  background: var(--bg-glass);
+  border: 1px solid var(--hairline);
+  border-left: 3px solid var(--brand-400);
+  border-radius: 0 14px 14px 0;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text-2);
+}
+.install-note strong,
+.perf-note strong,
+.docs-note strong { color: var(--text-1); }
+.install-note code,
+.perf-note code,
+.docs-note code {
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  color: var(--brand-200);
+}
+.install-note a,
+.perf-note a,
+.docs-note a { color: var(--brand-300); }
+.install-note a:hover,
+.perf-note a:hover,
+.docs-note a:hover { color: var(--brand-200); }

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>标准库</title>
+  <meta name="description" content="八个模块的真实 API：arena、mem、string、vec、fmt、io、math、os" />
+  <meta property="og:title" content="标准库" />
+  <meta property="og:description" content="八个模块的真实 API：arena、mem、string、vec、fmt、io、math、os" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY 首页">
+        <img src="../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>编译器<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item is-active" href="../../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="主导航"><a class="" href="../../compiler/index.html">首页</a><a class="is-active" href="../../compiler/docs/index.html">文档</a><a class="" href="../../compiler/download/index.html">下载</a><a class="" href="../../compiler/community/index.html">社区</a><a class="" href="../../compiler/governance/index.html">治理</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../search-index.json" aria-label="搜索文档">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>搜索文档</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="最新稳定版">v4.1.4</span>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="文档目录">
+    <div class="doc-nav-group"><h4>上手</h4><ul><li><a class="" href="../../compiler/docs/getting-started.html">快速上手</a></li><li><a class="" href="../../compiler/docs/tour.html">语言导览</a></li></ul></div><div class="doc-nav-group"><h4>语言参考</h4><ul><li><a class="" href="../../compiler/docs/reference.html">参考总览</a></li><li><a class="" href="../../compiler/docs/spec.html">语言规范 v4.0.0</a></li><li><a class="" href="../../compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="is-active" href="../../compiler/docs/stdlib.html">标准库</a></li></ul></div><div class="doc-nav-group"><h4>专项指南</h4><ul><li><a class="" href="../../compiler/docs/arena.html">Arena 内存管理</a></li><li><a class="" href="../../compiler/docs/osdev.html">裸机与内核开发</a></li></ul></div><div class="doc-nav-group"><h4>工具与实现</h4><ul><li><a class="" href="../../compiler/docs/cli.html">CLI 参考</a></li><li><a class="" href="../../compiler/docs/compiler.html">编译器实现</a></li><li><a class="" href="../../compiler/docs/build-and-test.html">构建与测试</a></li><li><a class="" href="../../compiler/docs/faq.html">常见问题</a></li></ul></div>
+    
+    <div class="doc-nav-group doc-nav-external">
+      <h4>规范原文</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">语言规范 v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">问题台账 ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="标准库">标准库</h1>
+<p>JHYY 自带一份小标准库，<strong>8 个模块</strong>，随编译器一同安装。 本页的每个签名都是从源码逐字抄的——<code>compiler/src0/std/*.jhyy</code>—— 没有改写，也没有补全源码里不存在的函数。</p>
+<blockquote class="callout"><p><strong>源码是唯一真相源</strong>： <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/src0/std" target="_blank" rel="noopener noreferrer"><code>compiler/src0/std/</code></a></p></blockquote>
+<hr />
+<h2 id="怎么用">怎么用</h2>
+<p><code>import</code> 拉进来的是<strong>模块</strong>，<strong>不带 <code>std::</code> 前缀</strong>——<code>import std::vec;</code> 是解析错误：</p>
+<pre><code class="language-jhyy">import io;
+import vec;
+
+fn main_jhyy() -&gt; i32 {
+    io::std_io_print("hello from the JHYY stdlib\n");
+    0
+}
+</code></pre>
+<p>两种调用写法都实测能编过：</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>写法</th><th>出处</th></tr></thead><tbody><tr><td><code>io::std_io_print(...)</code></td><td>仓库 README、<code>compiler/tests/examples/std_io_import.jhyy</code> 用的就是这一种</td></tr><tr><td><code>std_io_print(...)</code></td><td>规范 § 15 指定的写法（直接写源码里的函数名）</td></tr></tbody></table></div>
+<p>⚠ 规范 § 15 只承认后一种——它明确说「不是 <code>io::std_io_print(...)</code>」； 但限定写法在实现里是通的，仓库自己的 README 和回归用例走的就是它。 两种都不会报 <code>undefined variable</code>。<strong>推荐限定写</strong>——<code>ptr_add</code> 这类名字 在多个模块里各有一份（见下表），不限定容易指错。</p>
+<p>命名风格<strong>历史上不统一</strong>：</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>风格</th><th>模块</th><th>例</th></tr></thead><tbody><tr><td><code>&lt;mod&gt;_&lt;fn&gt;</code></td><td><code>mem</code> / <code>fmt</code> / <code>string</code> / <code>arena</code></td><td><code>mem_copy</code>、<code>fmt_i32</code>、<code>str_concat</code>、<code>arena_alloc</code></td></tr><tr><td><code>std_&lt;mod&gt;_&lt;fn&gt;</code></td><td><code>io</code> / <code>os</code> / <code>vec</code> / <code>math</code></td><td><code>std_io_print</code>、<code>std_os_exit</code>、<code>std_vec_new</code>、<code>std_math_sin</code></td></tr></tbody></table></div>
+<p>写错名字的报错是 <code>undefined variable</code>——<strong>没有</strong>「你是不是想写 …」的提示。 第一次用某个模块时，照着下面的表抄名字。</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>模块</th><th>解决什么问题</th></tr></thead><tbody><tr><td><a href="#mem"><code>mem</code></a></td><td>裸内存的拷贝、清零、比较、查找</td></tr><tr><td><a href="#fmt"><code>fmt</code></a></td><td>把整数 / 字符串格式化进字节缓冲区</td></tr><tr><td><a href="#string"><code>string</code></a></td><td>带长度前缀的 UTF-8 字符串</td></tr><tr><td><a href="#vec"><code>vec</code></a></td><td>动态字节数组</td></tr><tr><td><a href="#arena"><code>arena</code></a></td><td>bump 分配器——一次性申请、整块复用</td></tr><tr><td><a href="#io"><code>io</code></a></td><td>文件句柄与读写、标准输出 / 错误输出</td></tr><tr><td><a href="#os"><code>os</code></a></td><td>裸文件描述符、进程退出、环境变量</td></tr><tr><td><a href="#math"><code>math</code></a></td><td>三角、平方根、幂（<strong>只有 f64</strong>）</td></tr></tbody></table></div>
+<hr />
+<h2 id="mem">mem</h2>
+<p><strong>解决什么问题</strong>：裸内存操作。全部是自实现的 byte 循环——<strong>不调 libc</strong>， 所以标准库本身不依赖 libc 运行时。</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>签名</th><th>做什么</th></tr></thead><tbody><tr><td><code>fn ptr_add(p: *u8, off: i64) -&gt; *u8</code></td><td>本地指针算术 helper</td></tr><tr><td><code>fn mem_copy(dst: *u8, src: *u8, n: i64) -&gt; *u8</code></td><td>复制 n 字节；返回 <code>dst</code></td></tr><tr><td><code>fn mem_compare(a: *u8, b: *u8, n: i64) -&gt; i32</code></td><td>比较 n 字节：<code>0</code> equal / <code>&lt;0</code> a<b / <code>&gt;0</code> a>b</td></tr><tr><td><code>fn mem_set(dst: *u8, val: i32, n: i64) -&gt; *u8</code></td><td>n 字节设为 <code>val</code>（低 8 位）；返回 <code>dst</code></td></tr><tr><td><code>fn mem_find_byte(p: *u8, n: i64, val: i32) -&gt; i64</code></td><td>找第一个 <code>== val</code> 的字节；返回 index / <code>-1</code></td></tr><tr><td><code>fn mem_zero(dst: *u8, n: i64) -&gt; *u8</code></td><td>n 字节清零；返回 <code>dst</code></td></tr></tbody></table></div>
+<p><strong>坑</strong></p>
+<ul class='md-list'><li>⚠️ <strong><code>mem_copy</code> 不处理 overlap</strong>——语义跟 libc <code>memcpy</code> 一致。 重叠区要拷得用 <code>memmove</code>，<strong>本模块不实现</strong>。</li><li>失败语义：长度 <code>&lt; 0</code> 返 <code>0</code> / null（不允许）；长度 <code>0</code> 是 no-op。</li><li>⚠️ <strong><code>mem_set</code> 假设 <code>dst</code> 是 8 字节对齐</strong>。<code>std::arena</code> 的 <code>arena_alloc</code> 保证这一点， 但<strong>外部 caller 不保证</strong>——非 8 对齐的 <code>dst</code> 会触发 i64 store 的 <code>#GP</code>。</li><li><code>mem_set</code> 走 i64-store 批量写 + i32-store 尾段（W-075 真修）。 更早的版本用 <code>*i32</code> 宽度写 1 字节步进的循环，<strong>请求 n 字节实际写 4n 字节</strong>， 多出来的部分踩掉调用方的缓冲区（W-139 已修）。</li></ul>
+<hr />
+<h2 id="fmt">fmt</h2>
+<p><strong>解决什么问题</strong>：把值格式化成字节。自实现，不走 libc <code>printf</code> 的变参 ABI。</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>签名</th><th>做什么</th></tr></thead><tbody><tr><td><code>fn ptr_add(p: *u8, off: i64) -&gt; *u8</code></td><td>本地指针算术 helper</td></tr><tr><td><code>fn digit_char(d: i32) -&gt; i32</code></td><td>0–9 → ASCII 码</td></tr><tr><td><code>fn hex_char(d: i32, upper: i32) -&gt; i32</code></td><td>0–15 → ASCII 码；<code>upper != 0</code> 时用大写 <code>A</code>–<code>F</code></td></tr><tr><td><code>fn fmt_i32(out_buf: *u8, val: i32) -&gt; i64</code></td><td>写 i32 十进制；返回写入字节数（不含 <code>\0</code>）</td></tr><tr><td><code>fn fmt_i64(out_buf: *u8, val: i64) -&gt; i64</code></td><td>写 i64 十进制；返回字节数</td></tr><tr><td><code>fn fmt_str(out_buf: *u8, s: *u8) -&gt; i64</code></td><td>复制 cstr 到 <code>out_buf</code>；返回字节数</td></tr><tr><td><code>fn fmt_hex_u32(out_buf: *u8, val: i32, upper: i32) -&gt; i64</code></td><td>写 u32 十六进制（无 <code>0x</code> 前缀）；返回字节数</td></tr></tbody></table></div>
+<p><strong>坑</strong></p>
+<ul class='md-list'><li>⚠️ <strong><code>out_buf</code> 必须 ≥ 32 字节。</strong> i32 最多 11 位 + sign + <code>\0</code>， i64 最多 20 位 + sign + <code>\0</code>，hex u32 最多 10 位 + <code>\0</code>。</li><li>⚠️ <strong>没有浮点格式化。</strong> <code>fmt</code> 里没有 <code>f32</code> / <code>f64</code> 的格式化函数。</li><li>⚠️ <strong><code>fmt_hex_u32</code> 的 <code>val</code> 是 u32 的位模式、以 <code>i32</code> 传入。</strong> 值 ≥ <code>0x80000000</code> 时它是<strong>负的</strong>——函数内部手工转成无符号的 <code>i64</code> 再算。</li><li><code>fmt_i32</code> / <code>fmt_i64</code> 用<strong>向 0 截断</strong>的除法，不取绝对值， 所以 <code>i32::MIN</code> / <code>i64::MIN</code> 天然可用（W-195 真修）。 更早的版本先取绝对值，<code>MIN</code> 取负回绕成它自己 ⇒ 只打出一个 <code>-</code>。</li></ul>
+<hr />
+<h2 id="string">string</h2>
+<p><strong>解决什么问题</strong>：带长度前缀的 UTF-8 字符串。字符串用<strong>裸 <code>*u8</code> + 长度</strong>表示 （跟 <code>CapTable</code> 路径一致），<strong>不是</strong>借用（<code>&amp;str</code> 还没做）。</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>签名</th><th>做什么</th></tr></thead><tbody><tr><td><code>fn ptr_add(p: *u8, off: i64) -&gt; *u8</code></td><td>本地指针算术 helper</td></tr><tr><td><code>fn strlen_local(s: *u8) -&gt; i64</code></td><td>cstr 长度</td></tr><tr><td><code>fn str_from_cstr(a: *u8, s: *u8) -&gt; *u8</code></td><td>复制 cstr 到 arena；返回 <code>*StringHeader</code></td></tr><tr><td><code>fn str_from_bytes(a: *u8, p: *u8, n: i64) -&gt; *u8</code></td><td>复制 n 字节；返回 <code>*StringHeader</code></td></tr><tr><td><code>fn str_len(s: *u8) -&gt; i64</code></td><td>长度</td></tr><tr><td><code>fn str_data(s: *u8) -&gt; *u8</code></td><td>data 指针（<strong>不保证 NUL 结尾</strong>）</td></tr><tr><td><code>fn str_concat(a: *u8, x: *u8, y: *u8) -&gt; *u8</code></td><td>拼接 x + y 到新 arena buffer；返回 <code>*StringHeader</code></td></tr><tr><td><code>fn str_equals(x: *u8, y: *u8) -&gt; i32</code></td><td><code>1</code> equal / <code>0</code></td></tr><tr><td><code>fn str_compare(x: *u8, y: *u8) -&gt; i32</code></td><td>字典序：<code>0</code> equal / <code>&lt;0</code> x<y / <code>&gt;0</code> x>y</td></tr><tr><td><code>fn str_find(s: *u8, needle: *u8) -&gt; i64</code></td><td>找子串（needle 必为 cstr）；index / <code>-1</code></td></tr><tr><td><code>fn STR_HEADER_SIZE() -&gt; i64</code></td><td><code>StringHeader</code> 字节数（16）</td></tr></tbody></table></div>
+<p><code>StringHeader</code> 的布局是 <code>data: *u8</code> + <code>len: i64</code>，共 16 字节。</p>
+<p><strong>坑</strong></p>
+<ul class='md-list'><li>⚠️ <strong>buffer 不强制 NUL 结尾</strong>（M0 简化）。需要时自己写 <code>*(data + len) = 0</code>。</li><li>⚠️ <strong>所有 string buffer 从模块内部的 mini-arena 分配</strong>——caller 自己负责 <code>reset</code> / <code>free</code>。这个 mini-arena 是 <code>string.jhyy</code> <strong>内嵌</strong>的， 不复用 <code>std::arena</code> 模块。</li><li>⚠️ <strong>模块内部另有 4 个同名函数</strong>：<code>arena_init</code> / <code>arena_alloc</code> / <code>arena_reset</code> / <code>arena_free</code>，签名都是 <code>*u8</code>（不是 <code>*Arena</code>）。 它们和 <code>std::arena</code> 模块的同名函数<strong>并存，且不报重定义错误</strong>—— 不限定写会解析到其中一个。要确定调用的是哪一个，用 <code>string::</code> / <code>arena::</code> 限定。</li><li><code>str_find</code> 的 <code>needle</code> 必须是 <strong>cstr</strong>（内部用 <code>strlen_local</code> 量长度）。</li><li>历史坑：block 布局曾是 <code>[next(8B)][payload...]</code>，payload 起点压在 next 指针那一格上 ⇒ 第一次分配的字节直接覆盖 block 的 next 指针，链表当场损坏，且 bump 指针不推进 ⇒ 连续分配两个以上字符串就会 ACCESS_VIOLATION（W-141 已修成 <code>[next(8B)][payload_size(8B)][payload...]</code>）。</li></ul>
+<hr />
+<h2 id="vec">vec</h2>
+<p><strong>解决什么问题</strong>：动态数组。</p>
+<p>⚠️ <strong>先说清楚一件事：<code>Vec</code> 不是泛型容器。</strong> 它的 <code>elem_size</code> 是<strong>运行时参数</strong>， 不是一个类型参数。</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>签名</th><th>做什么</th></tr></thead><tbody><tr><td><code>fn std_vec_new(elem_size: i64) -&gt; Vec</code></td><td>空 Vec（<code>data</code>/<code>len</code>/<code>cap</code> 全 0）</td></tr><tr><td><code>fn std_vec_with_cap(elem_size: i64, cap: i64) -&gt; Vec</code></td><td>预分配 cap 个 slot；<code>elem_size ≤ 0</code> 或 <code>cap ≤ 0</code> 返空 Vec</td></tr><tr><td><code>fn std_vec_push(v: *Vec, elem_size: i64, src: *u8) -&gt; i32</code></td><td>追加 1 个元素（从 <code>src</code> 拷 <code>elem_size</code> 字节）；返 1 成功 / 0 OOM</td></tr><tr><td><code>fn std_vec_get(v: *Vec, elem_size: i64, idx: i64) -&gt; *u8</code></td><td>元素指针；<strong>越界返回 NULL</strong></td></tr><tr><td><code>fn std_vec_len(v: *Vec) -&gt; i64</code></td><td>元素数</td></tr><tr><td><code>fn std_vec_cap(v: *Vec) -&gt; i64</code></td><td>已分配的 slot 数（<strong>不是字节数</strong>）</td></tr><tr><td><code>fn std_vec_free(v: *Vec) -&gt; i32</code></td><td>释放 data buffer 并重置</td></tr><tr><td><code>fn std_vec_grow(v: *Vec, elem_size: i64, new_cap: i64) -&gt; i32</code></td><td>私有 helper：cap 翻倍直到 ≥ <code>new_cap</code></td></tr><tr><td><code>fn std_vec_byte_copy(dst: *u8, src: *u8, n: i64) -&gt; *u8</code></td><td>私有 helper：拷 n 字节</td></tr><tr><td><code>fn VEC_SIZE() -&gt; i64</code></td><td><code>Vec</code> 字节数（24）</td></tr><tr><td><code>fn ptr_add(p: *u8, off: i64) -&gt; *u8</code></td><td>本地指针算术 helper</td></tr></tbody></table></div>
+<p><code>Vec</code> 的布局是 <code>data: *u8</code> + <code>len: i64</code> + <code>cap: i64</code>，共 24 字节。</p>
+<p><strong>坑</strong></p>
+<ul class='md-list'><li>⚠️ <strong><code>std_vec_get</code> 返回的是指针，不是元素值</strong>——因为 <code>elem_size</code> 是运行时参数， caller 拿到指针后自己解引用。</li><li>⚠️ <strong><code>std_vec_push</code> 不检查 <code>src</code> 是否为 NULL</strong>——它会按 <code>elem_size</code> 从 <code>src</code> 读。 传空指针进去就是读空地址。</li><li><code>std_vec_new</code> 返回的是 <strong>24 字节 struct 值</strong>（不是指针）——源码注释写明这是为了 避开 sret 的 ABI 复杂度。</li><li><strong>不依赖完整的 drop 语义</strong>（leak-OK）：没有自动析构，<code>std_vec_free</code> 要自己调。</li><li><code>std_vec_with_cap</code> 里的 <code>malloc</code> 失败检查是 2026-11-07 补的——补之前它会返回 <code>data=NULL</code> 的 Vec，caller 之后往里写 ⇒ 写 NULL 地址 ⇒ 进程直接崩。</li></ul>
+<hr />
+<h2 id="arena">arena</h2>
+<p><strong>解决什么问题</strong>：bump 分配器。一块一块地申请内存、在块内线性推进指针， 需要时整块复用或整块释放。</p>
+<blockquote class="callout"><p><strong>展开讲</strong>：<a href="../../compiler/docs/arena.html">Arena 内存管理</a> —— 分配器模型、 与 GC 的取舍、什么时候该用它。</p></blockquote>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>签名</th><th>做什么</th></tr></thead><tbody><tr><td><code>fn arena_init(a: *Arena, default_size: i64) -&gt; i32</code></td><td>初始化；<code>default_size ≤ 0</code> 时用 1 MB。返 1</td></tr><tr><td><code>fn arena_alloc(a: *Arena, size: i64) -&gt; *u8</code></td><td>8 字节对齐分配；失败返 0</td></tr><tr><td><code>fn arena_alloc_aligned(a: *Arena, size: i64, align: i64) -&gt; *u8</code></td><td>指定对齐的分配；<code>size == 0</code> 返 0</td></tr><tr><td><code>fn arena_calloc(a: *Arena, size: i64) -&gt; *u8</code></td><td>分配并清零</td></tr><tr><td><code>fn arena_reset(a: *Arena) -&gt; i32</code></td><td>重置游标到起点，<strong>不释放 block</strong></td></tr><tr><td><code>fn arena_free(a: *Arena) -&gt; i32</code></td><td>释放所有 block</td></tr><tr><td><code>fn arena_new_block(a: *Arena, size: i64) -&gt; i32</code></td><td>私有：新建一块并挂到链表头</td></tr><tr><td><code>fn align_up(x: i64, align: i64) -&gt; i64</code></td><td>把 x 上调到 align 的倍数（align 须为 2 的幂）</td></tr><tr><td><code>fn ptr_add(p: *u8, off: i64) -&gt; *u8</code></td><td>本地指针算术 helper</td></tr><tr><td><code>fn ARENA_SIZE() -&gt; i64</code></td><td><code>Arena</code> 字节数（40）</td></tr><tr><td><code>fn ARENA_BLOCK_HEADER() -&gt; i64</code></td><td>block 头字节数（8）</td></tr></tbody></table></div>
+<p><code>Arena</code> 的布局是 <code>start</code> / <code>cur</code> / <code>end</code> / <code>blocks</code>（都是 <code>*u8</code>）+ <code>def_size: i64</code>，共 40 字节。</p>
+<p><strong>坑</strong></p>
+<ul class='md-list'><li>⚠️ <strong><code>arena_reset</code> 会把可用空间算成 <code>def_size</code>（默认 1 MB），但实际 block 没那么大。</strong> <code>arena_init</code> 只记录 <code>def_size</code>、<strong>不分配任何 block</strong>；真正的 block 是 <code>arena_alloc</code> 触发的，尺寸是 <code>size + align</code>，<strong>不是</strong> <code>def_size</code>。 <code>arena_reset</code> 却把 <code>end</code> 设成 <code>start + def_size</code> ⇒ arena 以为自己有 1 MB 可用， 实际脚下只有几十字节 ⇒ <strong>后续分配会写穿 malloc 出来的块</strong>。</li></ul>
+<p><strong>触发条件是分配尺寸落在 <code>(真实 block 大小, def_size]</code> 这个区间里。</strong> 实测（2026-11-08，v4.1.4 自举编译器，本机）：</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>场景</th><th>结果</th></tr></thead><tbody><tr><td><code>alloc(8)</code> → <code>reset</code> → <code>alloc(16/32/64)</code></td><td>通过（真实块 16B + 堆余量够用）</td></tr><tr><td><code>alloc(8)</code> → <code>reset</code> → <code>alloc(128/256/500/1000/1024)</code></td><td><strong>ACCESS_VIOLATION（段错误）</strong></td></tr><tr><td><code>alloc(8)</code> → <code>reset</code> → <code>alloc(2000)</code></td><td>通过（超过 <code>def_size</code>，走新建块路径）</td></tr><tr><td>同样程序<strong>去掉</strong> <code>reset</code></td><td>全部通过</td></tr></tbody></table></div>
+<pre><code class="language-jhyy">  import arena;
+
+  fn main_jhyy() -&gt; i32 {
+      let mut a: Arena = Arena {
+          start: 0 as *u8, cur: 0 as *u8, end: 0 as *u8,
+          blocks: 0 as *u8, def_size: 0 as i64,
+      };
+      arena_init(&amp;a, 1024);
+      let p = arena_alloc(&amp;a, 8);
+      arena_reset(&amp;a);                    // ← end 被设成 start + 1024
+      let big = arena_alloc(&amp;a, 500);     // ← 以为有 1 MB，实际脚下只有 16 B
+      let mut i: i32 = 0;
+      while i &lt; 500 { *(big + i as i64) = 1 as u8; i = i + 1; }   // ← 写穿
+      0
+  }
+</code></pre>
+<p>两端都安全，所以这个坑很容易漏掉：小分配塞得下，超大分配会另开一块， 只有「中等大小 + reset 之后」这一档会炸。 （编译器自用的那份 arena——<code>compiler/src0/arena.jhyy</code>——block 尺寸取 <code>max(def_size, min_size)</code>，没有这个问题；<strong>两份实现的行为不一致</strong>。） <strong>这条目前不在问题台账里。</strong></p>
+<ul class='md-list'><li><code>blocks</code> 字段走 <code>*u8</code> 占位（JHYY 不支持自引用 struct），使用处要 cast 成 <code>*ArenaBlock</code>。</li><li><code>arena_alloc_aligned</code> 与 <code>arena_new_block</code> 在源码注释里标为<strong>私有 API</strong>—— 它们是 <code>fn</code>（所以公开可见），但不打算让你直接用。</li><li>底层走 libc <code>malloc</code>（M0 简化；MMAP 后端留在 v3.x 中末）。</li><li><strong>怎么拿到一个 <code>Arena</code> 实例</strong>：<code>arena::Arena { ... }</code> 这种<strong>限定名的 struct 字面量 解析不了</strong>。可行做法是本地声明一个同布局的 struct 再 cast 指针 （<code>&amp;local as *arena::Arena</code>），或自己 <code>malloc</code> 40 字节清零后 cast。</li></ul>
+<hr />
+<h2 id="io">io</h2>
+<p><strong>解决什么问题</strong>：文件句柄与读写，加上标准输出 / 错误输出。 后端走 libc 的 <code>fopen</code> / <code>fread</code> / <code>fwrite</code> / <code>fclose</code>。</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>签名</th><th>做什么</th></tr></thead><tbody><tr><td><code>fn std_io_open(path: *u8, mode: *u8) -&gt; *u8</code></td><td>打开文件（<code>mode</code> 是 cstr：<code>&quot;r&quot;</code> / <code>&quot;w&quot;</code> / <code>&quot;wb&quot;</code> / <code>&quot;rb&quot;</code> / <code>&quot;a&quot;</code> …）；返回 <code>FILE*</code> / 失败返 0</td></tr><tr><td><code>fn std_io_close(f: *u8) -&gt; i32</code></td><td>关闭；<code>f == 0</code> 返 <code>-1</code>，否则返 <code>fclose</code> 的结果</td></tr><tr><td><code>fn std_io_read(f: *u8, buf: *u8, n: i64) -&gt; i64</code></td><td>读 n 字节到 <code>buf</code>；返实际字节数（<code>&lt; n</code> 表示 EOF / error）</td></tr><tr><td><code>fn std_io_write(f: *u8, buf: *u8, n: i64) -&gt; i64</code></td><td>写 n 字节；返实际写出的字节数</td></tr><tr><td><code>fn std_io_print(s: *u8) -&gt; i32</code></td><td>写 stdout（cstr）；<code>s == 0</code> 返 <code>-1</code></td></tr><tr><td><code>fn std_io_print_err(s: *u8) -&gt; i32</code></td><td>写 stderr（cstr）；<code>s == 0</code> 返 <code>-1</code></td></tr><tr><td><code>fn std_io_eprint(s: *u8) -&gt; i32</code></td><td><code>std_io_print_err</code> 的别名</td></tr></tbody></table></div>
+<p><strong>坑</strong></p>
+<ul class='md-list'><li>⚠️ <strong><code>std_io_print</code> / <code>std_io_print_err</code> 依赖 libc 的 <code>stdout</code> / <code>stderr</code> 句柄获取</strong> （走 C 侧的 <code>jh_fputs_stdout</code> / <code>jh_fputs_stderr</code> 桥）。这意味着用了它们就 <strong>依赖 C 运行时</strong>——与 <code>no_std</code> 方向冲突。</li><li><code>std_io_read</code> / <code>std_io_write</code> 在 <code>f == 0</code> 时返 <code>-1</code>，<code>n &lt;= 0</code> 时返 <code>0</code>。</li><li>源码注释写明：OS kernel M11 launch 后要换成 syscall 实现 （改 <code>jhyy_helpers.c</code> 里的 <code>jh_fputs_*</code>），<strong><code>std/io.jhyy</code> 一行都不用动</strong>。</li></ul>
+<hr />
+<h2 id="os">os</h2>
+<p><strong>解决什么问题</strong>：裸文件描述符、进程退出、环境变量。</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>签名</th><th>做什么</th></tr></thead><tbody><tr><td><code>fn std_os_open(path: *u8, flags: i32, mode: i32) -&gt; i64</code></td><td><code>open(2)</code> wrapper；返 fd / 失败返 <code>-1</code></td></tr><tr><td><code>fn std_os_close(fd: i64) -&gt; i32</code></td><td><code>close(2)</code> wrapper；<code>0</code> ok / <code>-1</code> fail</td></tr><tr><td><code>fn std_os_read(fd: i64, buf: *u8, n: i64) -&gt; i64</code></td><td><code>read(2)</code> wrapper；返字节数，EOF 返 0，出错返 <code>-1</code></td></tr><tr><td><code>fn std_os_write(fd: i64, buf: *u8, n: i64) -&gt; i64</code></td><td><code>write(2)</code> wrapper；返写出的字节数，出错返 <code>-1</code></td></tr><tr><td><code>fn std_os_exit(code: i32)</code></td><td>终止进程（<strong>真退出</strong>，never returns）</td></tr><tr><td><code>fn std_os_getenv(name: *u8) -&gt; *u8</code></td><td>读环境变量；返值 cstr / 未找到返 0</td></tr><tr><td><code>fn OS_O_RDONLY() -&gt; i32</code></td><td><code>0</code></td></tr><tr><td><code>fn OS_O_WRONLY() -&gt; i32</code></td><td><code>1</code></td></tr><tr><td><code>fn OS_O_RDWR() -&gt; i32</code></td><td><code>2</code></td></tr><tr><td><code>fn OS_O_CREAT() -&gt; i32</code></td><td><code>64</code>（<code>0x40</code>）</td></tr><tr><td><code>fn OS_O_TRUNC() -&gt; i32</code></td><td><code>512</code>（<code>0x200</code>）</td></tr><tr><td><code>fn OS_O_APPEND() -&gt; i32</code></td><td><code>1024</code>（<code>0x400</code>）</td></tr><tr><td><code>fn OS_MODE_RW_R() -&gt; i32</code></td><td><code>420</code>（<code>0644</code>）</td></tr></tbody></table></div>
+<p><strong>坑</strong></p>
+<ul class='md-list'><li>⚠️ <strong><code>OS_O_*</code> / <code>OS_MODE_RW_R</code> 是零参函数，不是常量。</strong> 用法是 <code>os::OS_O_CREAT()</code>——不带括号会得到 <code>expected (, got ;</code>。</li><li>⚠️ <strong><code>O_*</code> 是 POSIX 值</strong>（<code>O_CREAT = 0x40</code>），与 Windows 的 <code>_O_*</code> （<code>O_CREAT = 0x100</code>）不同。平台差异在 C bridge 那一层翻译，jhyy 侧保持 POSIX 语义。</li><li>⚠️ <strong><code>std_os_*</code> 走 <code>jhyy_helpers.c</code> 的 5 个 libc bridge</strong>，所以它们<strong>又依赖 C 运行时</strong> ——与「删 C runtime / 0-C 闭环」的方向相反（W-103 登记了这个取舍）。 真要 0-C 时要换掉的是 bridge 的<strong>实现</strong>，<code>std/os.jhyy</code> 一行都不用动。</li><li><code>std_os_open</code> 做输入验证：<code>path == 0</code>、<code>flags &lt; 0</code>、<code>mode &lt; 0</code>、<code>mode &gt; 0777</code> 一律返 <code>-1</code>（对齐 libc <code>open()</code> 的错误语义）。</li></ul>
+<hr />
+<h2 id="math">math</h2>
+<p><strong>解决什么问题</strong>：三角函数、平方根、幂。<strong>只有 f64</strong>。</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>签名</th><th>做什么</th></tr></thead><tbody><tr><td><code>fn std_math_sin(x: f64) -&gt; f64</code></td><td><code>sin(x)</code>，x 为弧度</td></tr><tr><td><code>fn std_math_cos(x: f64) -&gt; f64</code></td><td><code>cos(x)</code>，x 为弧度</td></tr><tr><td><code>fn std_math_sqrt(x: f64) -&gt; f64</code></td><td><code>√x</code>；<code>x &lt; 0</code> → NaN，<code>x = +∞</code> → <code>+∞</code></td></tr><tr><td><code>fn std_math_pow(base: f64, exp: f64) -&gt; f64</code></td><td><code>base^exp</code>，libm C99 语义</td></tr></tbody></table></div>
+<p><strong>坑</strong></p>
+<ul class='md-list'><li>⚠️ <strong>只有 f64 版本。</strong> 没有 f32，也没有 <code>tan</code> / <code>log</code> / <code>exp</code> / <code>floor</code> / <code>ceil</code>。</li><li>直接 FFI 接 libm（Windows 走 MSVCRT，POSIX 走 libc + libm）——<code>-lm</code> 已在链接行里。 <strong>不走 C-side bridge</strong>：后端的 f64 返回走 <code>%xmm0</code> + <code>movsd</code>，直接 extern 即可。</li><li>语义跟 libm 一致：finite 输入返 finite 值，<code>inf</code> / <code>NaN</code> 透传（IEEE 754）。 <strong>无异常、无 errno</strong>。</li></ul>
+<hr />
+<h2 id="状态">状态</h2>
+<p>标准库是 <strong>pre-1.0</strong> 的产物，<strong>API 会变</strong>。源码里的版本注释写着 <code>v3.2.2 (3l.1)</code> 到 <code>v3.2.5 (3l.4)</code>——那是模块自己的一次迭代编号， 不代表任何兼容性承诺。</p>
+<p><strong>这页是人工维护的。</strong> 理想状态是由编译器自己生成标准库文档 （从 <code>compiler/src0/std/*.jhyy</code> 抽签名），当前还没有那条流水线—— 所以签名有可能和源码漂移。<strong>发现对不上，以源码为准</strong>，然后提个 issue。</p>
+<p>相关的坑台账在 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener noreferrer"><code>docs/internal/workarounds.md</code></a>， 语言层面的限制在 <a href="../../compiler/docs/spec.html">语言规范 v4.0.0</a> 的附录 B。</p>
+      <div class="doc-foot-row">
+        
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">报告问题 ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="本页目录"><h4>本页</h4><a class="anchor-l1" href="#标准库">标准库</a><a class="anchor-l2" href="#怎么用">怎么用</a><a class="anchor-l2" href="#mem">mem</a><a class="anchor-l2" href="#fmt">fmt</a><a class="anchor-l2" href="#string">string</a><a class="anchor-l2" href="#vec">vec</a><a class="anchor-l2" href="#arena">arena</a><a class="anchor-l2" href="#io">io</a><a class="anchor-l2" href="#os">os</a><a class="anchor-l2" href="#math">math</a><a class="anchor-l2" href="#状态">状态</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../index.html" class="nav-logo foot-logo">
+          <img src="../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../../compiler/docs/index.html">文档</a></li>
+            <li><a href="../../compiler/download/index.html">下载</a></li>
+            <li><a href="../../compiler/community/index.html">社区</a></li>
+            <li><a href="../../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

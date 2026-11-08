@@ -1,8 +1,10 @@
-# JHYY 编译器官网 — 设计文档
+# JHYY 家族官网 — 设计文档
 
-> 服务于 **Next.js (App Router) + Tailwind + Vercel** 实现。
-> 涵盖：双层架构（门脸 + 文档）+ 个人介绍层。
-> 本文档讲"是什么 / 为什么"；视觉 tokens 实施时由 `stitch-design-taste` / `design-taste-frontend` 细化产出。
+> 描述**已经建成**的站：四个项目（编译器 / IDE / OS / for-VEX）的官网枢纽，
+> 编译器区是完整的五区 MVP。
+>
+> 本文档讲「是什么 / 为什么 / 怎么改」；视觉 tokens 就是 `assets/css/main.css`
+> 与 `assets/css/docs.css` 里的 `:root` 变量本身。
 
 ---
 
@@ -10,11 +12,9 @@
 
 **进站 5 秒要传达的事：让一个不懂编译器的开发者也想往下看，看完想装。**
 
-要做到这条靠三股力：
-
 | 层级 | 目标 | 实现路径 |
 |---|---|---|
-| **视觉冲击** | "这站不是 AI 套壳" | 暗黑主调 + 琥珀强调色 + serif 大字符句 + 一行可运行代码嵌入 hero |
+| **视觉冲击** | "这站不是 AI 套壳" | 暗黑主调 + 青绿强调色 + serif 大字符句 + 一行可运行代码嵌入 hero |
 | **继续阅读** | "这内容值得看完" | swimlane 节奏（一屏一主题），不堆叠，每个 section 都有"具体可说的事" |
 | **内容质量** | "看完想装" | 准确、有细节、不空泛；数字 / 案例 / 可操作的 CTA |
 
@@ -32,18 +32,17 @@
 
 | 层级 | 调性 | 字体 | 配色 |
 |---|---|---|---|
-| 门脸层 | **炫、有戏、可看** | Serif 大字 + 代码穿插 | 黑底 + 琥珀 accents |
+| 门脸层 | **炫、有戏、可看** | Serif 大字 + 代码穿插 | 深黑底 + 青绿 accents |
 | 文档层 | **克制、密、可学** | Sans 为主 + Mono 代码 | 近白底 + 深灰文本 |
 
-两层切换时要有"视觉门"的过渡：从 hero 上的"看文档"点击过去，不是 URL 变了就没了，要有一次明确的"进入学习模式"动效（e.g., 顶部短闪过琥珀色，盖住门脸调性，落到文档白底）。
+两层切换时要有"视觉门"的过渡：从门脸点「文档」落到白底文档页，
+靠的是**版式的整体换血**（深色玻璃胶囊导航 → 浅色三栏顶栏），不是动效。
 
 ### 2.2 微动效原则（Stripe 哲学）
 
 **每个动效都有功能目的，不为炫而炫：**
-
 - 入场 fade-up（reveal）：传达"模块就位"
 - 代码 typewriter：传达"程序在跑"
-- scroll-driven 段落揭示：让长文有节奏
 - hover transform（150-200ms）：操作反馈
 - 永远不要：循环闪烁、悬浮跳出来、强视差
 
@@ -54,7 +53,7 @@
 门脸层和文档层**绝不复用同一组件**：
 - 文档层的卡片 / 列表 / 导航组件，全部按"信息密集、安静"设计
 - 门脸层的卡片 / 列表 / 章节组件，按"视觉强、可玩"设计
-- 共享的只有 atoms：Button / Input / CodeBlock / Icon
+- 共享的只有 atoms：图标 / 代码块 / 链接
 
 ---
 
@@ -63,94 +62,74 @@
 ### 3.1 路由
 
 ```
-/                  → 门脸层 Landing
-/docs              → 文档层（带 layout：左 TOC + 中 + 右）
-  /docs/quick-start
-  /docs/tour
-  /docs/tutorials/*
-  /docs/reference/*
-  /docs/cli
-/about             → 关于作者（个人介绍层）
-/download          → 下载落地（GitHub Releases 跳转）
+/                                  家族首页（四个项目）
+/compiler/                         编译器首页（门脸层）
+/compiler/docs/                    文档区（浅色三栏）
+  /compiler/docs/getting-started.html
+  /compiler/docs/tour.html
+  /compiler/docs/reference.html
+  /compiler/docs/spec.html
+  /compiler/docs/abi.html
+  /compiler/docs/stdlib.html
+  /compiler/docs/arena.html
+  /compiler/docs/osdev.html
+  /compiler/docs/cli.html
+  /compiler/docs/compiler.html
+  /compiler/docs/build-and-test.html
+  /compiler/docs/faq.html
+/compiler/download/                下载区（浅色三栏）
+  /targets.html  /bootstrap.html  /verify.html
+/compiler/community/               社区区（浅色三栏）
+  /conduct.html  /contributing.html  /security.html
+/compiler/governance/              治理区（浅色三栏）
+  /license.html  /repo-map.html
+/ide/  /os/  /vex/                 另外三个项目的落地页（门脸层）
 ```
 
-### 3.2 门脸层 → 文档层 → 个人介绍层的关系
+### 3.2 家族结构
 
 ```
-                    ┌─ /          (门脸：5 秒钩子)
-                    │
-  进来 ── 看完 ────►├─ /docs      (文档：系统学习)
-                    │
-                    └─ /about     (个人：关系建立)
+                       ┌─ /          （枢纽：四项目分流）
+                       │
+   进来 ── 看完 ──────►├─ /compiler/ （编译器：完整五区）
+                       │
+                       ├─ /ide/  /os/  /vex/   （各自一页 + 仓库文档外链）
+                       │
+                       └─ /compiler/community/  （怎么参与）
 ```
 
-**门脸不写完所有内容**——它讲"为什么要看 / 怎么开始"，把"深入学"和"了解作者"分到 `/docs` 和 `/about`。
+**三个早项目的分栏不指向站内空页**，直接链各自仓库里的真实文档——
+不为凑导航栏造一个没有内容的站内页面。
 
 ---
 
-## 4. 门脸层设计（暗 + 琥珀 + 大字）
+## 4. 门脸层设计（深 + 青绿 + 大字）
 
 ### 4.1 Hero
 
-**结构：** 占满 viewport (min-h-svh)
-- 左侧：大字符句标语 + 一句话定位 + 双 CTA
-- 右侧：嵌入的 10-15 行可运行 hello world 代码块（语法高亮，跑 typewriter 动效）
+- 大字符句标语 + 一句话定位 + 双 CTA
+- 嵌入式代码块（语法高亮，typewriter 动效）
+- **版本闸门**（`.version-gate`）：首屏下方固定显示编译器版本、发布日、
+  语言规范与 ABI 的契约版本、宿主平台——首页的第一职责是「版本闸门」
 
-**视觉：**
-- 背景：近黑 (var(--bg-deep))
-- 标语字符：serif display，字号 64-96px，琥珀色 (var(--accent-amber))
-- 代码块：Mono 字体，深炭底 + 关键字琥珀 / 字符串浅米
-- CTA：主按钮琥珀底黑字，副按钮描边
+### 4.2 四个项目（家族首页）
 
-**动效（intent-driven）：**
-- 入场：左上标语字符 stagger fade-up
-- 代码块：typewriter 一次后停止（不是循环！传达"程序在跑"的感觉）
-- 滚动：CTA 浮住；hero 区滚动后变暗（Stripe 同款）
+大 Bento：编译器 `--lg`（span 7，跨两行），IDE `--sm`，OS `--sm`，VEX `--wide`。
+每张卡只写**现在真的做到哪一步**，不含计划中的部分。
 
-### 4.2 Why JHYY
+### 4.3 编译器三张领域卡
 
-**结构：** 一屏，3-4 个价值主张卡片
-- 每张：一句宣言式短句 + 一段 50-80 字解释 + 一句反问/邀请
+新手 / OS 开发者 / 研究者三条主线各一张卡，每张导向站内具体文档，
+不是营销口号。
 
-**反模式警告：** 不要再用 "Fast ⚡ / Simple ✨ / Powerful 💪" 这种 AI-generic 卖点。要写具体的、能落地的声明。
+### 4.4 五个高频出口
 
-### 4.3 Toolchain
+下载、文档、标准库 API、源码仓库、社区规则——每个都指向一个具体动作。
 
-**结构：** 横向 4 列（移动端纵向）
-- compiler / IDE / VS Code ext / MCP
-- 每列：图标（一笔风 SVG）+ 名字 + 一句能力
+### 4.5 版本闸门与诚实条款
 
-**这是真实强项**：用户拥有的不只是编译器，是全套工具链。把"做一整套"的努力显性化，比"我们编译器很快"更有说服力。
-
-### 4.4 Build with JHYY
-
-**结构：** 取代 MS 那个"受到开发者喜爱 / 受企业信任"。我们没这块社会证明，换成：
-
-- 用户项目卡片 3-6 个（用 JHYY 写的小工具 / 编译生成的 demo）
-- 每个卡片：项目名 + 一句话能力 + 跳转链接（GitHub / 演示）
-
-### 4.5 Performance
-
-**结构：** 一屏 + 数字 + bullet
-- 数字示例：编译速度 / 二进制大小 / 启动时间
-- Bullet：QBE 后端的优势、可移植性、跨平台支持
-
-**视觉：** 克制，不炫。数字大、说明小、密集排版。
-
-### 4.6 About the Author（叠加层）
-
-**结构：** 不是独立屏，**作为叠加层**：
-- 选项 A：作为 footer 上方的小段（"made by ... 一段 2-3 句话简介 + 链接"）
-- 选项 B：作为 hero 浮动卡片（最不打扰的入口）
-
-**选定 A**。理由：hero 已经够"自我"了，不要让"自我"再侵蚀第一屏的视觉冲击力。
-
-### 4.7 Get started CTA
-
-**结构：** 一屏
-- 大字 "Get Started" 或 "立刻开始"
-- 双 CTA："安装 JHYY（跳 /download）" + "读文档（跳 /docs）"
-- 比 hero 大，因为这是收尾，必须留存转化窗口
+安装器与 MSI **未签名**、UEFI 入口路径**未完工**、基准比值是**代码质量下限**
+而非快慢达标线——这些必须写在页面上，不能藏进脚注。
 
 ---
 
@@ -158,162 +137,138 @@
 
 ### 5.1 Layout
 
-三栏（参考 learn.microsoft.com/dotnet/csharp）：
+三栏（参考 learn.microsoft.com）：
 
 ```
 ┌─────────────────────────────────────────────────┐
-│ 顶栏：搜索 / 版本切换 / 主题切换 / GitHub 链接    │
+│ 顶栏：项目切换 / 五区导航 / 搜索 / 版本 / GitHub  │
 ├───────┬─────────────────────────────┬───────────┤
-│       │                             │           │
-│ 左    │   中：内容主区                │ 右        │
-│ TOC   │   - h1 / h2 / h3             │ On this  │
-│ 可折  │   - 段落 + 列表 + 代码       │ page     │
-│ 叠    │   - Callout (note/tip/warn)  │ anchor   │
-│       │                             │           │
+│  左   │   中：内容主区                │  右       │
+│  TOC  │   - h1 / h2 / h3             │ On this   │
+│  可折 │   - 段落 + 列表 + 代码        │ page      │
+│  叠   │   - Callout(note/warn/danger) │ anchor    │
 └───────┴─────────────────────────────┴───────────┘
 ```
 
-- 顶栏：固定头部，整页可滚动时跟随
-- 左 TOC：sticky，`max-height: calc(100vh - 80px)`，可折叠分组
-- 中内容：`max-width: 720px` 居中（阅读舒适宽度）
-- 右 anchor：sticky 在主区右侧 16-24px
+- 顶栏：固定，搜索按钮按 `/` 唤起
+- 左 TOC：sticky，按区（docs / download / community / governance）切换内容
+- 中内容：`max-width: 760px`
+- 右 anchor：sticky，滚动时高亮当前小节
 
 ### 5.2 内容骨架
 
 ```
-/docs
-  /quick-start       一页跑通的 hello world（5 分钟内）
-  /tour              语言巡礼（5-10 分钟讲清形态）
-  /tutorials
-    /01-basic
-    /02-functions
-    /03-types
-    /...
-  /reference
-    /syntax
-    /semantics
-    /stdlib
-  /cli               编译器命令手册
-  /editor-setup      IDE / VS Code ext 配置
+content/
+├─ index.html                     家族首页（门脸）
+├─ compiler/
+│  ├─ index.html                  编译器首页（门脸）
+│  ├─ docs/*.md                   12 页文档
+│  ├─ download/*.md               4 页下载
+│  ├─ community/*.md              4 页社区
+│  └─ governance/*.md             3 页治理
+├─ ide/index.md  os/index.md  vex/index.md
 ```
 
 ### 5.3 关键页面规格
 
-- **教程页**：左 TOC + 中 markdown + 可运行代码块（语法高亮、有"复制"按钮；不需要内置 playground，那是 v2）
-- **参考页**：表格密、可跳转 ID 链接、关键词高亮
-- **搜索**：⌘K 弹 dialog，全文搜索、关键词高亮、键盘导航（参考 Stripe Docs 同款）
+- **教程页**：左 TOC + 中 markdown + 代码块（语法高亮、复制按钮）
+- **参考页**：表格密、可跳转 ID 链接
+- **搜索**：顶栏 `/` 唤起，客户端索引（`search-index.json` 由构建器生成）
 
 ### 5.4 调性
 
 - 文字优先，图形极少（最多代码块）
-- 字体：sans (Inter) 正文、mono (JetBrains Mono) 代码
-- 配色：近白底 (#FAFAFA) + 深灰文本 (#1A1A1A) + 琥珀强调（用于 `<a>` hover / 关键字 / callout 标题）
-- **不动效**（除 scroll-revealed progress indicator）
+- 字体：Inter 正文、JetBrains Mono 代码
+- 配色：近白底 (`#fbfbfa`) + 深灰文本 (`#16161a`) + 青绿强调 (`#007a66`)
+- **不动效**（除滚动进度）
 
 ---
 
-## 6. 个人介绍层 / `/about`
+## 6. 内容流水线
 
-### 6.1 内容
+```
+content/**/*.md  ──┐
+                   ├─→ tools/build.py ──→ *.html（提交进仓库，GH Pages 直出）
+tools/siteconfig.py ┘         │
+                             ├─→ search-index.json
+                             └─→ tools/build.py --check（链接与锚点检查）
+```
 
-- 头像（大尺寸，琥珀边框）
-- 一段 2-3 句话简介（第一人称，"我是 X，做 Y，因为 Z"）
-- 项目列表：编译器官网 / 其他个人项目
-- 联系方式：GitHub / 邮箱 / 其他社交
-- 时间表 / 现在在做什么（1-2 条）
+- `tools/siteconfig.py` —— **全站唯一真相源**：版本号、目标表、产物表、
+  状态数字、导航与侧栏。改版本号只改这一处。
+- `tools/mdrender.py` —— 零依赖 Markdown 渲染器（CommonMark 子集 +
+  callout + mermaid + `[[Wiki 链接]]`）。
+- `tools/build.py` —— 站点生成器 + 链接检查。
+- `tools/check_examples.py` —— 把文档里的 `.jhyy` 代码块抽出来交给真编译器验。
+- `tools/CONTENT_GUIDE.md` —— 内容写作规约（文风 / 方言 / 事实来源 / 常见坑）。
 
-### 6.2 风格
-
-- 文本驱动，**不靠视觉**
-- 字体跟文档层一致（白底 + 干净），但用琥珀 accents 加点个人味
-- 留白多
-- 调性跟文档层接近，但可以有 1-2 张大图（用户头像 / 项目截图）
+**约定：正文用根绝对路径写站内链接**（`/compiler/docs/tour.html`），
+构建时按页面深度自动改写成相对路径——站点挂在 `user.github.io/<repo>/`
+下也不会 404。
 
 ---
 
 ## 7. 组件清单
 
 ### Atoms（门脸 + 文档复用）
-
-- `Button`：主 / 次 / 幽灵三态
-- `Icon`：内联 SVG，统一来自 `lucide-react`
-- `CodeBlock`：语言标识 / 复制按钮 / 主题切换跟随
+- `Icon`：内联 SVG
+- `CodeBlock`：语言标识 / 复制按钮
 - `Link`：内 / 外链接区分样式
 
 ### 门脸层专属
-
-- `Hero`（首屏大字 + CTA + 代码示例）
-- `SwimLane`（满屏章节容器 + 章节锚点）
-- `ValueCard`（宣言式卖点卡）
-- `ToolchainShowcase`（横向 4 列工具展示）
-- `ProjectShowcaseCard`（用户项目展示）
-- `StatBlock`（性能数字）
-- `CTAFinal`（收尾强 CTA）
+`Hero`（大字 + CTA + 代码 + 版本闸门）· `Bento` · `Card` · `ToolCard` ·
+`PerfCell` · `EcoCard`（五出口）· `DocCard` · `VersionGate` · `CTA`
 
 ### 文档层专属
-
-- `TOC`（左侧目录，sticky）
-- `OnThisPage`（右侧 anchor）
-- `DocLayout`（三栏容器）
-- `SearchDialog`（⌘K 搜索弹窗）
-- `Callout`（note / tip / warning 三种）
-- `RefTable`（参考文档表格）
-- `Breadcrumb`
+`DocTopbar`（含项目切换与搜索）· `TOC` · `OnThisPage` · `Callout`
+（note / warn / danger）· `RefTable` · `SearchModal`
 
 ---
 
-## 8. Reference 映射（已确定）
-
-| JHYY 的部分 | Reference | 借鉴点 |
-|---|---|---|
-| Hero、toolchain、build、performance | `dotnet.microsoft.com/zh-cn/languages/csharp` | swimlane 节奏、工具链横向叙事、双 CTA hero |
-| 文档三栏 + 搜索 + 代码 | `learn.microsoft.com/zh-cn/dotnet/csharp` | 完整 docs 模板 |
-| 微动效用 intent | Stripe 哲学 | "动效得有功能目的" |
-| 渐进披露 + 便当盒 | Stripe 哲学 | "信息密但不堆" |
-| 抗平庸 | Stripe 哲学 | "接受足够好就输" |
-
-**不抄的部分：**
-
-- MS 那套企业蓝紫渐变 + 严肃感 → 我们的琥珀 + 暗，更"个人"
-- 商业库贴图 → 我们的 hero 直接用可运行代码演示
-- "Loved by millions"社会证明 → 我们没这块，换成"用户项目小卡片"
-
----
-
-## 9. 反模式（明确禁止）
+## 8. 反模式（明确禁止）
 
 - ❌ Tailwind 默认 `bg-blue-500` 类配色
 - ❌ "Fast ⚡ Simple ✨ Powerful 💪" AI-generic 卖点
 - ❌ Hero 区贴一张"团队微笑"或者办公室的 stock photo
-- ❌ 字体 fallback 到 system-ui 不设 fallback stack
 - ❌ 文档层加 scroll-reveal 动效（除 progress indicator）
-- ❌ 用 emoji 当 UI 元素（hero 那行 mono 代码里可有，那是 code，不是 UI）
-- ❌ 复制粘贴 MS 站原句（要换字、要做出"这是个人项目"的语气）
+- ❌ 用 emoji 当 UI 元素
+- ❌ **编造数字**——每个断言都要能追溯到一个文件
+- ❌ **藏起已知缺口**——未签名、UEFI 未完工、基准比值的口径都要写在页面上
+- ❌ 用 `curl | bash` 式的信任盲区（校验步骤要能被复现）
 
 ---
 
-## 10. 决策记录（per conversation log）
+## 9. 决策记录
 
-- **框架**：Next.js App Router 全套（不用静态导出）—— 用户明确反对"静态"
-- **样式**：Tailwind + 可能的 `tailwindcss-animate` 微动效库
-- **部署**：Vercel（用户明确不备案）
-- **下载追踪**：GitHub Releases API（前端构建时拉，SSR 注入数据）
-- **视频托管**：暂不用，文档层不需要视频
-- **搜索**：v1 用 Algolia DocSearch（免费 OSS 计划）/ FlexSearch（自建）；v2 评估 Algolia
-- **代码高亮**：Shiki 或 Prism（Next.js 生态成熟）
-- **不引入**：backend、自建数据库、自建 admin
+| 项 | 决定 | 理由 |
+|---|---|---|
+| 框架 | **纯静态 + 自写 Python 生成器** | 原决策是 Next.js + Vercel，但仓库里从未落地 Next.js（没有 `package.json`）。实际建成的是静态 HTML + 手写 CSS + GH Pages。改版报告 §8 同样建议「Markdown 长文 + 编译器生成 API + 数据驱动下载页」而不是押注单一重型框架。 |
+| 样式 | 手写 CSS（`main.css` 门脸 / `docs.css` 文档） | 两套调性差异大，手写比抽象层便宜 |
+| 部署 | GitHub Pages（仓库根） | 纯静态产物，无需构建服务 |
+| 下载分发 | 站点镜像 + GitHub Releases 双通道 | 镜像字节与线上发行件**逐字节一致**（已用 GitHub API 的 digest 核对），所以两边 SHA256 都能验过 |
+| 搜索 | 客户端索引（`search-index.json`） | 规模还小，先不上服务端 |
+| 代码高亮 | 手写 CSS（无第三方高亮库） | 减少依赖；门脸层的代码块本来就带自定义 span 标记 |
+| i18n | 官网单语（中文） | 报告：i18n 是独立流水线，不是一期阻塞项 |
+| 不引入 | 后端、数据库、admin、Playground | Playground 是安全与维护黑洞，报告点名说它不是一期必做 |
 
 ---
 
-## 11. 下一步
+## 10. 现状与待办
 
-1. 起 Next.js 14+ App Router 项目骨架到 `projects/JiHuiYiYou官网/`
-2. 调 `stitch-design-taste` 跑一遍，输出 `DESIGN_TOKENS.md`（colors / spacing / typography exact values）
-3. 调 `imagegen-frontend-web` 给 Hero、Toolchain、About 出参考图
-4. 实施 Design System（tokens + atoms）
-5. 实施门脸层（先做骨架，迭代视觉）
-6. 实施文档层
-7. 实施 `/about` 个人页
-8. 接 GitHub Releases API 接 Vercel 部署
-9. 接 Algolia 搜索
-10. 上线
+**已完成**：四项目枢纽、编译器五区 24 页、站内搜索、链接检查、
+文档示例真编译验证、下载镜像与校验和同步到 v4.1.4。
+
+**二期候选**（按报告 §10 的门槛判定）：
+- 版本化文档（`stable / nightly / archive`）与 `noindex`
+- i18n（社区翻译仓 → 站点原生）
+- 错误码索引（把 `W-NNN` 与诊断号做成可搜索符号）
+- Playground（只在「安装/首次编译」确实是流失点时才上）
+
+**已知缺口**（写在这里，也写在官网治理页里）：
+- 四个仓库都没有 `CODEOWNERS`
+- 编译器仓没有 RFC 目录与模板
+- 编译器仓没有商标政策
+- winget 包 `JiHuiYiYou.JHYY` 的 manifest 在仓库里，但**上游 `microsoft/winget-pkgs` 未合并**
+- `#[no_std]` 的链接分支依赖相对 CWD 的 side-file，异地构建会回落失败
+- `#[naked]` 函数在 `.s` 里没有标签，裸中断入口目前不可用
+- 标准库 `arena_reset` 的可用窗口按 `def_size` 算但实际块更小 ⇒ 特定尺寸区间越界

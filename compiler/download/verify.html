@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>校验与签名</title>
+  <meta name="description" content="SHA256 怎么核对、签名现状、以及发布产物如何验证来源" />
+  <meta property="og:title" content="校验与签名" />
+  <meta property="og:description" content="SHA256 怎么核对、签名现状、以及发布产物如何验证来源" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY 首页">
+        <img src="../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>编译器<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item is-active" href="../../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="主导航"><a class="" href="../../compiler/index.html">首页</a><a class="" href="../../compiler/docs/index.html">文档</a><a class="is-active" href="../../compiler/download/index.html">下载</a><a class="" href="../../compiler/community/index.html">社区</a><a class="" href="../../compiler/governance/index.html">治理</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../search-index.json" aria-label="搜索文档">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>搜索文档</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="最新稳定版">v4.1.4</span>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="文档目录">
+    <div class="doc-nav-group"><h4>下载</h4><ul><li><a class="" href="../../compiler/download/index.html">下载首页</a></li><li><a class="" href="../../compiler/download/targets.html">目标与交叉编译</a></li><li><a class="" href="../../compiler/download/bootstrap.html">源码构建与自举</a></li><li><a class="is-active" href="../../compiler/download/verify.html">校验与签名</a></li></ul></div><div class="doc-nav-group"><h4>产物</h4><ul><li><a class="" href="../../compiler/download/index.html#installer">安装器（GUI）</a></li><li><a class="" href="../../compiler/download/index.html#msi">MSI（企业分发）</a></li><li><a class="" href="../../compiler/download/index.html#vsix">VS Code 扩展</a></li><li><a class="" href="../../compiler/download/index.html#pkgmgr">包管理器</a></li></ul></div><div class="doc-nav-group"><h4>版本</h4><ul><li><a class="" href="../../compiler/download/index.html#current">v4.1.4（当前稳定）</a></li><li><a class="" href="../../compiler/download/index.html#archive">历史归档</a></li></ul></div>
+    
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="校验与签名">校验与签名</h1>
+<p>这一页回答三个问题：<strong>下载下来的字节是不是完整的</strong>、<strong>发布者是不是预期的那个 发布者</strong>、以及<strong>你手上的编译器是不是这一版</strong>。</p>
+<p>第二个问题的答案不太好看，先说在前面。</p>
+<hr />
+<h2 id="签名现状没有签名">签名现状：没有签名</h2>
+<blockquote class="callout warn"><p>安装器和 MSI <strong>都没有代码签名</strong>。Windows SmartScreen 首次运行会弹 「Windows 已保护你的电脑」，点「更多信息 → 仍要运行」。 未签名二进制也更容易被第三方杀软拦。企业分发策略可能直接拒收未签名 MSI。</p></blockquote>
+<p>具体会碰到什么：</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>场景</th><th>现象</th></tr></thead><tbody><tr><td>个人用户首次运行</td><td>SmartScreen 的蓝底提示框拦一道，需手动「更多信息 → 仍要运行」；「发布者」一栏显示未知发布者</td></tr><tr><td>第三方杀软</td><td>未签名二进制的启发式误报率明显更高，可能被隔离或要求加白名单</td></tr><tr><td>企业分发</td><td>很多组织的软件分发策略直接拒收未签名 MSI——不是装不上，是策略层面拉黑</td></tr><tr><td>强制签名环境</td><td>装不上，除非 IT 侧单独放行</td></tr></tbody></table></div>
+<p><strong>没有</strong> minisign、sigstore、cosign、GPG 签名的 detached signature； <strong>没有</strong> SLSA provenance、SBOM、attestation。发布流程产出的校验相关资产只有一个： <code>SHA256.txt</code>。</p>
+<p>所以本页不会给你一个签名验证流程——因为没有。这是有意的：<strong>用一个不存在的 流程把「没签名」这件事说圆，比直接说没签名更糟。</strong></p>
+<h3 id="sha256-能证明什么不能证明什么">SHA256 能证明什么、不能证明什么</h3>
+<p><code>SHA256.txt</code> 和它校验的产物是<strong>同一个发布者</strong>提供的。这决定了它的能力边界：</p>
+<ul class='md-list'><li><strong>能</strong>证明文件在传输中没有损坏、没有截断、不是你下错了版本；</li><li><strong>不能</strong>证明发布者本人可信——如果有人能改你的下载源，他也能同时改 <code>SHA256.txt</code>。</li></ul>
+<p>换句话说，这是<strong>完整性</strong>检查，不是<strong>来源认证</strong>。真要认证来源，得有签名或 transparency log——项目目前两者都没有。</p>
+<hr />
+<h2 id="sha256-怎么核对">SHA256 怎么核对</h2>
+<p>每个 release 都带一个 <code>SHA256.txt</code> 资产，里面是 <code>sha256sum</code> 格式的清单：</p>
+<pre><code class="language-text">&lt;64 位十六进制&gt;  &lt;文件名&gt;
+</code></pre>
+<p>两个空格分隔，UTF-8 无 BOM，<strong>LF 换行</strong>（Windows 上生成的，但刻意写成 LF—— CRLF 会让 Linux 上的 <code>sha256sum -c</code> 把 <code>\r</code> 当成文件名的一部分）。</p>
+<h3 id="bash">bash</h3>
+<p>把三个产物和 <code>SHA256.txt</code> 放在同一个目录，然后：</p>
+<pre><code class="language-bash">sha256sum -c SHA256.txt
+</code></pre>
+<p>输出是逐行 <code>文件名: OK</code>；任何一行是 <code>FAILED</code> 就是对不上。</p>
+<p>只核对其中一个文件：</p>
+<pre><code class="language-bash">sha256sum jhyy-installer-4.1.4.exe
+</code></pre>
+<p>把输出的哈希和 <code>SHA256.txt</code> 里那一行比对即可（文件里的哈希是小写）。</p>
+<blockquote class="callout"><p>权威清单是 release 上的那份 <code>SHA256.txt</code>。本站 <code>/downloads/</code> 下的本地镜像把 同一份清单存成 <code>SHA256SUMS.txt</code>——文件名不同，内容格式一样。</p></blockquote>
+<h3 id="powershell">PowerShell</h3>
+<p>一次核对清单里的全部文件：</p>
+<pre><code class="language-powershell">Get-Content .\SHA256.txt | ForEach-Object {
+    $p = $_ -split '\s+', 2
+    $actual = (Get-FileHash -Algorithm SHA256 -Path $p[1]).Hash.ToLower()
+    if ($actual -eq $p[0].ToLower()) { "OK   $($p[1])" } else { "FAIL $($p[1])" }
+}
+</code></pre>
+<p>单个文件：</p>
+<pre><code class="language-powershell">Get-FileHash -Algorithm SHA256 .\jhyy-installer-4.1.4.exe
+</code></pre>
+<p><code>Get-FileHash</code> 输出的是<strong>大写</strong>十六进制，<code>SHA256.txt</code> 里是<strong>小写</strong>——比对时 统一转小写（上面的命令已经做了）。</p>
+<hr />
+<h2 id="核对失败通常是什么原因">核对失败通常是什么原因</h2>
+<p>按出现频率排：</p>
+<ol class='md-list'><li><strong>下载被截断。</strong> 网络中断、代理缓存、浏览器中断续传都会留下半个文件。 重新完整下载，不要用续传出来的半截文件。</li><li><strong>换行被改了。</strong> <code>SHA256.txt</code> 必须是 LF。如果用编辑器打开后保存过（或在 Windows 上被某些工具转成 CRLF），<code>sha256sum -c</code> 会报 <code>No such file or directory</code>——因为它把行尾的 <code>\r</code> 当成了文件名的一部分。 <strong>不要编辑这个文件</strong>，直接对原文件跑校验。</li><li><strong>拿到的不是原文件。</strong> 从 GitHub release 的 <strong>HTML 下载页</strong>另存下来的东西 不保证是发布物本身。用 tag 直链： <code>https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v&lt;版本&gt;/&lt;文件名&gt;</code></li><li><strong>版本号弄错。</strong> <code>SHA256.txt</code> 是<strong>跟着版本走的</strong>——拿旧版本的校验和去对新 版本的产物，必然对不上。另外归档里 v1.5.5 / v1.5.6 那两次是历史占位， 资产已 404，清单里的哈希对不上任何现存的下载。</li><li><strong>对错了文件。</strong> <code>SHA256.txt</code> 列的是三个发布产物：安装器、MSI、VSIX。 编译器本体 <code>jhyy.exe</code> <strong>不是</strong> release 资产——它在安装器里，也在仓库的 <code>compiler/build/bin/</code> 下。</li></ol>
+<hr />
+<h2 id="怎样确认你拿到的确实是这个版本">怎样确认你拿到的确实是这个版本</h2>
+<h3 id="版本横幅">版本横幅</h3>
+<p><code>jhyy --help</code> 的<strong>第一行</strong>就是版本横幅：</p>
+<pre><code class="language-text">jhyy compiler v4.1.4 (self-hosted)
+</code></pre>
+<p>不带参数直接跑 <code>jhyy</code> 打的是同一份帮助文本。</p>
+<blockquote class="callout"><p><strong>没有 <code>jhyy --version</code></strong>——这个子命令不存在。版本横幅只在 <code>--help</code> 首行， 别去找一个不存在的命令。</p></blockquote>
+<h3 id="编译产物里嵌的版本">编译产物里嵌的版本</h3>
+<p>版本号是编译器源码里的<strong>字符串字面量</strong>（<code>compiler/src0/main.jhyy</code> 里 <code>printf</code> 出来的那一行），编译时进二进制，所以可以直接在二进制里搜：</p>
+<pre><code class="language-bash">strings jhyy.exe | grep "jhyy compiler v"
+</code></pre>
+<p>需要 binutils 的 <code>strings</code>（MSYS2 与 Git Bash 里都有）。</p>
+<h3 id="装完之后">装完之后</h3>
+<pre><code class="language-powershell">where jhyy
+jhyy --help
+</code></pre>
+<p><code>where jhyy</code> 期望指向 <code>C:\Program Files\JHYY\bin\jhyy.exe</code>；<code>--help</code> 首行的 版本应当与本页写的当前稳定版一致。</p>
+<p>VS Code 扩展那一份看文件名与版本号：产物叫 <code>jhyy-lang-&lt;版本&gt;.vsix</code>，扩展内部 的 <code>version</code> 字段在打包时对齐同一个版本号（仓库里的 <code>installer/vscode-ext/package.ps1</code> 负责改）。</p>
+<hr />
+<h2 id="接下来">接下来</h2>
+<ul class='md-list'><li><a href="../../compiler/download/index.html">下载</a>——产物矩阵与下载链接。</li><li><a href="../../compiler/download/bootstrap.html">源码构建与自举</a>——为什么「编译出来的东西 自己再编一遍还是一样」是发布前必过的一道门。</li></ul>
+      <div class="doc-foot-row">
+        
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">报告问题 ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="本页目录"><h4>本页</h4><a class="anchor-l1" href="#校验与签名">校验与签名</a><a class="anchor-l2" href="#签名现状没有签名">签名现状：没有签名</a><a class="anchor-l3" href="#sha256-能证明什么不能证明什么">SHA256 能证明什么、不能证明什么</a><a class="anchor-l2" href="#sha256-怎么核对">SHA256 怎么核对</a><a class="anchor-l3" href="#bash">bash</a><a class="anchor-l3" href="#powershell">PowerShell</a><a class="anchor-l2" href="#核对失败通常是什么原因">核对失败通常是什么原因</a><a class="anchor-l2" href="#怎样确认你拿到的确实是这个版本">怎样确认你拿到的确实是这个版本</a><a class="anchor-l3" href="#版本横幅">版本横幅</a><a class="anchor-l3" href="#编译产物里嵌的版本">编译产物里嵌的版本</a><a class="anchor-l3" href="#装完之后">装完之后</a><a class="anchor-l2" href="#接下来">接下来</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../index.html" class="nav-logo foot-logo">
+          <img src="../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../../compiler/docs/index.html">文档</a></li>
+            <li><a href="../../compiler/download/index.html">下载</a></li>
+            <li><a href="../../compiler/community/index.html">社区</a></li>
+            <li><a href="../../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

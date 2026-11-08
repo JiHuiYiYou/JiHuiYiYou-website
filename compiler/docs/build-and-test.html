@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>构建与测试</title>
+  <meta name="description" content="从源码构建编译器，跑回归与自举闭环门" />
+  <meta property="og:title" content="构建与测试" />
+  <meta property="og:description" content="从源码构建编译器，跑回归与自举闭环门" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../assets/img/jhyy-icon.png" />
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY 首页">
+        <img src="../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>编译器<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item is-active" href="../../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="主导航"><a class="" href="../../compiler/index.html">首页</a><a class="is-active" href="../../compiler/docs/index.html">文档</a><a class="" href="../../compiler/download/index.html">下载</a><a class="" href="../../compiler/community/index.html">社区</a><a class="" href="../../compiler/governance/index.html">治理</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../search-index.json" aria-label="搜索文档">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>搜索文档</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="最新稳定版">v4.1.4</span>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="文档目录">
+    <div class="doc-nav-group"><h4>上手</h4><ul><li><a class="" href="../../compiler/docs/getting-started.html">快速上手</a></li><li><a class="" href="../../compiler/docs/tour.html">语言导览</a></li></ul></div><div class="doc-nav-group"><h4>语言参考</h4><ul><li><a class="" href="../../compiler/docs/reference.html">参考总览</a></li><li><a class="" href="../../compiler/docs/spec.html">语言规范 v4.0.0</a></li><li><a class="" href="../../compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../compiler/docs/stdlib.html">标准库</a></li></ul></div><div class="doc-nav-group"><h4>专项指南</h4><ul><li><a class="" href="../../compiler/docs/arena.html">Arena 内存管理</a></li><li><a class="" href="../../compiler/docs/osdev.html">裸机与内核开发</a></li></ul></div><div class="doc-nav-group"><h4>工具与实现</h4><ul><li><a class="" href="../../compiler/docs/cli.html">CLI 参考</a></li><li><a class="" href="../../compiler/docs/compiler.html">编译器实现</a></li><li><a class="is-active" href="../../compiler/docs/build-and-test.html">构建与测试</a></li><li><a class="" href="../../compiler/docs/faq.html">常见问题</a></li></ul></div>
+    
+    <div class="doc-nav-group doc-nav-external">
+      <h4>规范原文</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">语言规范 v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">问题台账 ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="构建与测试">构建与测试</h1>
+<p>这一页讲的是<strong>改编译器</strong>。只是<strong>用</strong>编译器，见 <a href="../../compiler/docs/getting-started.html">快速上手</a>。</p>
+<hr />
+<h2 id="环境要求">环境要求</h2>
+<p><strong>宿主：</strong> Windows 10 + MSYS2（<code>C:\msys64\mingw64\bin\bash.exe</code>），外加 <code>mingw-w64-ucrt-x86_64-gcc</code> 与 <code>mingw-w64-ucrt-x86_64-binutils</code>。</p>
+<pre><code class="language-bash">pacman -S --needed mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-binutils
+</code></pre>
+<blockquote class="callout warn"><p><strong>不要</strong>用 Git Bash 自带的那个 MinGW <code>gcc</code> （<code>/c/Program\ Files/Git/mingw64/bin/gcc.exe</code>）——它不支持 PE+ 链接，会在链接阶段失败。</p></blockquote>
+<hr />
+<h2 id="构建">构建</h2>
+<pre><code class="language-bash">git clone https://github.com/JiHuiYiYou/JiHuiYiYou-compiler.git
+cd JiHuiYiYou-compiler
+make all        # → compiler/build/bin/jhyy.exe
+</code></pre>
+<p><code>make</code> 不只是编译：它会<strong>把自举闭环迭代到不动点</strong>。编译器编译自己，编译出来的那个 再编译自己，构建一直迭代，直到连续两代产出的汇编<strong>逐字节相同</strong>。这就是整个项目的 立身之本——不动点是跑出来的，不是假设出来的。</p>
+<p><code>make clean</code> 清掉构建产物。</p>
+<p>工具链的完整故事——查找顺序、经典坑、多目标构建、版本号自动化——在仓库的 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/build.md" target="_blank" rel="noopener noreferrer">构建文档</a>里。</p>
+<hr />
+<h2 id="测试">测试</h2>
+<pre><code class="language-bash">python regress.py                       # 全量
+python regress.py --tests=hello.jhyy    # 单个用例
+python regress.py --all                 # 带上受门控的用例
+python regress.py --byte-equal          # 比对 .il / .s / .exe 三层
+python regress.py --fixed-point         # 跨代不动点检查
+</code></pre>
+<blockquote class="callout warn"><p><strong>测试要从仓库根目录跑。</strong> 脚本按当前目录解析路径；在子目录里跑会把所有文件报成 缺失，看起来像漂移，其实不是。</p></blockquote>
+<p>测试覆盖 <code>compiler/tests/examples/</code> 下每一个 <code>.jhyy</code> 文件（下划线开头的辅助 fixture 除外）。通过数和门的清单写在 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer">FACTS.md</a> 里——那是唯一写数字的地方。</p>
+<h3 id="断言强度">断言强度</h3>
+<pre><code class="language-bash">python scripts/dev/audit_test_assertions.py --strict
+</code></pre>
+<p>一个不可能失败的测试比没有测试更糟——它什么都没查却报成功。这个审计会报出多少用例 带着真断言，并在出现「零信号」用例时判红。</p>
+<hr />
+<h2 id="那些门">那些门</h2>
+<p>项目很清楚「测试全绿」比听上去弱得多，所以外面围了一圈<strong>门</strong>。完整且当前的清单在 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer">FACTS.md § 2</a> ——CI 门和需要手工跑的本地门在那里分开列。</p>
+<p>最值得知道的三道：</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>门</th><th>它证明什么</th></tr></thead><tbody><tr><td><strong>自举闭环</strong></td><td>编译器精确地复现自己——这是关于生成确定性的陈述，不是关于语义正确性</td></tr><tr><td><strong>产物新鲜度</strong></td><td>提交进仓的那份 <code>jhyy.exe</code> 行为与按当前源码现编出来的一致</td></tr><tr><td><strong>全量回归</strong></td><td>真正的语义——语义回归是这一道抓的</td></tr></tbody></table></div>
+<blockquote class="callout"><p>「编译器把自己编译得逐字节相同」<strong>并不</strong>意味着编译器是对的。一个确定性的错误编译器 也能完美闭环。这是经典的 "trusting trust" 缺口，由另一道门覆盖：回归套件。</p></blockquote>
+<hr />
+<h2 id="交叉编译到-linux">交叉编译到 Linux</h2>
+<p>产出不限于 Windows。<code>amd64_sysv*</code> 目标产出 SysV 汇编，可以在 Linux 上链接并运行， 一共三步：</p>
+<pre><code class="language-bash"># 1. 在 Windows 上 —— 只产出 .s（交叉目标不能链接）
+./compiler/build/bin/jhyy.exe compile --target=amd64_sysv_freestanding --no-link prog.jhyy -o prog
+#    ⇒ prog.s
+
+# 2. 在 Linux 上 —— 链成静态 ELF
+gcc -nostdlib -static -T runtime/linux_elf/link.ld -o prog.elf \
+    runtime/linux_elf/crt0.S prog.s
+
+# 3. 跑起来
+./prog.elf
+</code></pre>
+<p>CI 在 Linux 上跑的就是这条链——见 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/compiler/tests/bootstrap/sysv_link_run.sh" target="_blank" rel="noopener noreferrer"><code>compiler/tests/bootstrap/sysv_link_run.sh</code></a>。</p>
+<p>Linux 运行时调的是 <code>main_jhyy</code>（不是 <code>main</code>），并以它的返回值退出，所以入口约定与 托管侧一致——但链接是 <code>-nostdlib</code>，所以 freestanding 程序不能调 libc。</p>
+<hr />
+<h2 id="发一个版本">发一个版本</h2>
+<p>版本号<strong>不是手改的</strong>。仓库根的 <code>VERSION</code> 是单一真相源，下面这个顺序不能反：</p>
+<pre><code class="language-bash">python scripts/dev/bump_version.py set &lt;新版本号&gt;   # ① 刷 VERSION 与各处版本串
+make                                            # ② 编译器把版本编进去
+pwsh -File installer/build.ps1 bundle           # ③ 构建产物
+python scripts/dev/bump_version.py finalize     # ④ 回填实测的校验和与体积
+python scripts/dev/bump_version.py check        # ⑤ 零漂移门
+</code></pre>
+<blockquote class="callout warn"><p><strong>不能跳过第 ② 步。</strong> 版本是编译器源码里的字符串字面量，自举产物必须重编——否则 编译器报的还是上一个版本，第 ⑤ 步的漂移门会（正确地）判红。</p></blockquote>
+<hr />
+<h2 id="周边工具">周边工具</h2>
+<h3 id="claude-code-的-mcp-服务">Claude Code 的 MCP 服务</h3>
+<p><code>mcp-jhyy/</code> 把编译器暴露给 AI 编码助手：编译、运行、检查语法、导出中间表示、跑回归套件、 查 workaround 台账、查询语言规范与 ABI。</p>
+<pre><code class="language-bash">pip install fastmcp     # ⚠️ 不是 `mcp[cli]` —— fastmcp 是另一个分发包
+</code></pre>
+<p>细节见 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/mcp-jhyy/README.md" target="_blank" rel="noopener noreferrer">mcp-jhyy/README.md</a>。</p>
+<h3 id="vs-code-扩展">VS Code 扩展</h3>
+<p><code>vscode-ext/</code> 提供语法高亮、原生的 ▶ <strong>Run JHYY File</strong> 命令（<code>Ctrl+F5</code>）和 <strong>Compile JHYY File (no run)</strong> 命令。装编译器安装包时也会一并装上扩展。</p>
+<hr />
+<h2 id="接下来">接下来</h2>
+<ul class='md-list'><li><a href="../../compiler/docs/compiler.html">架构</a> —— <code>make</code> 到底在构建什么。</li><li><a href="../../compiler/docs/faq.html">常见问题</a> —— 关于构建与运行的问题。</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">CONTRIBUTING.md</a> —— 贡献者的工作流程。</li></ul>
+      <div class="doc-foot-row">
+        
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">报告问题 ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="本页目录"><h4>本页</h4><a class="anchor-l1" href="#构建与测试">构建与测试</a><a class="anchor-l2" href="#环境要求">环境要求</a><a class="anchor-l2" href="#构建">构建</a><a class="anchor-l2" href="#测试">测试</a><a class="anchor-l3" href="#断言强度">断言强度</a><a class="anchor-l2" href="#那些门">那些门</a><a class="anchor-l2" href="#交叉编译到-linux">交叉编译到 Linux</a><a class="anchor-l2" href="#发一个版本">发一个版本</a><a class="anchor-l2" href="#周边工具">周边工具</a><a class="anchor-l3" href="#claude-code-的-mcp-服务">Claude Code 的 MCP 服务</a><a class="anchor-l3" href="#vs-code-扩展">VS Code 扩展</a><a class="anchor-l2" href="#接下来">接下来</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../index.html" class="nav-logo foot-logo">
+          <img src="../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">机会翼游家族 · 编译器 / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">家族</h4>
+          <ul><li><a href="../../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">编译器</h4>
+          <ul>
+            <li><a href="../../compiler/docs/index.html">文档</a></li>
+            <li><a href="../../compiler/download/index.html">下载</a></li>
+            <li><a href="../../compiler/community/index.html">社区</a></li>
+            <li><a href="../../compiler/governance/index.html">治理</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">仓库</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">规范</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">语言规范 v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">二进制格式 v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">社区</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ 群 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">贡献指南</a></li>
+            <li><a href="../../compiler/community/security.html">安全披露</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

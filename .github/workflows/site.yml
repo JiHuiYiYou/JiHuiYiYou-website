@@ -1,0 +1,72 @@
+name: site
+
+# 官网的内容是「Markdown 源 → 生成 HTML」。这条流水线守三件事：
+#   1. 生成的 HTML 与 content/ 同步（有人改了 Markdown 忘了重建 → 红）
+#   2. 站内链接与锚点不断（改版时最容易悄悄坏掉的东西）
+#   3. 文档里的 .jhyy 示例真的能编过（读者照抄不能白费一次）
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 生成站点
+        run: python tools/build.py
+
+      - name: 检查生成的 HTML 是否与 content/ 同步
+        run: |
+          if ! git diff --quiet -- '*.html' search-index.json; then
+            echo "::error::content/ 改了但 HTML 没重新生成。跑 python tools/build.py 再提交。"
+            git --no-pager diff --stat -- '*.html' search-index.json
+            exit 1
+          fi
+
+      - name: 站内链接与锚点检查
+        run: python tools/build.py --check
+
+      - name: 文档示例真编译验证（需要 JHYY 编译器，Windows）
+        if: runner.os == 'windows'
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          $jhyy = Get-ChildItem -Path "$env:GITHUB_WORKSPACE" -Recurse -Filter jhyy.exe -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $jhyy) {
+            Write-Host "::notice::找不到 jhyy.exe，跳过示例验证"
+            exit 0
+          }
+          $env:JHYY = $jhyy.FullName
+          python tools/check_examples.py
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - id: deployment
+        uses: actions/deploy-pages@v4
