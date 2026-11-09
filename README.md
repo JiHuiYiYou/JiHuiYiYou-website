@@ -46,16 +46,16 @@ python tools/check_examples.py
 生成的 HTML 直接提交进仓库（GH Pages 从仓库根直出）。改完跑一次
 `build` + `check`，两条都绿再提交。
 
-**版本号只有一处**：`tools/siteconfig.py` 里的 `SITE_VERSION`。改那里，全站跟着改。
+## 文档
 
-**事实也只有一份**：正文写 `{{site_version}}` 这类占位符，值从 `siteconfig.FACTS` 取 ——
-中英两种语言共用同一份常量，不可能对不上数字。`tools/check_facts.py` 负责跟编译器仓对拍。
+| 文档 | 只管什么 |
+|---|---|
+| [`DESIGN.md`](DESIGN.md) | 站点结构、视觉与内容决策、决策记录、现状与待办 |
+| [`tools/CONTENT_GUIDE.md`](tools/CONTENT_GUIDE.md) | 写 `content/**` 的规约：front matter、Markdown 方言、文风、事实来源 |
+| [`assets/fonts/README.md`](assets/fonts/README.md) | 字体资产清单与许可 |
 
-**双语**：站点是构建期双树 —— `content/**` 是中文（`/`），`content/en/**` 是英文（`/en/`）。
-两个页面互为孪生页，`tools/check_twins.py` 守。
-
-内容写作规约见 [`tools/CONTENT_GUIDE.md`](tools/CONTENT_GUIDE.md)；
-设计与架构见 [`DESIGN.md`](DESIGN.md)。
+**跨文件的规则只写在一处** —— 版本号、事实占位符、双语结构、术语表这些机制的
+说明在 `DESIGN.md` §6 与 §9，本 README 不复述（复述了就会漂）。
 
 ## 目录
 

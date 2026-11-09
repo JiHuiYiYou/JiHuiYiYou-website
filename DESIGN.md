@@ -8,6 +8,22 @@
 
 ---
 
+## 0. 文档分工
+
+**一条规则只写一处；别处只留指针。**
+
+| 文档 | 只管什么 | 不许写什么 |
+|---|---|---|
+| **`DESIGN.md`（本文）** | 站点结构、视觉与内容决策、决策记录、现状与待办 | 逐页写作细则（→ `tools/CONTENT_GUIDE.md`）、命令清单（→ `README.md`） |
+| `tools/CONTENT_GUIDE.md` | 写 `content/**` 的规约：front matter、Markdown 方言、文风、事实来源 | 设计决策、构建命令 |
+| `README.md` | 仓库门面：这是什么、怎么构建、命令、目录 | 设计细节、写作细则 |
+| `assets/fonts/README.md` | 字体资产清单与许可 | 设计理由（→ §9） |
+
+**不另起分册。** 待办、阶段划分、进度一律留在本文 §10 —— 不新建
+`Task.md` / `TODO.md` / `PLAN.md`：分册的下场是同一件事写两遍，然后两份都漂。
+
+---
+
 ## 1. 北极星
 
 **进站 5 秒要传达的事：让一个不懂编译器的开发者也想往下看，看完想装。**
@@ -246,13 +262,15 @@ tools/i18n.py ──────────────────┤
 - `tools/check_examples.py` —— 把文档里的 `.jhyy` 代码块抽出来交给真编译器验。
 - `tools/CONTENT_GUIDE.md` —— 内容写作规约（文风 / 方言 / 事实来源 / 常见坑）。
 
-**四道新门**（本地可跑，CI 也跑）：
+**门**（本地可跑，CI 也跑）：
 
-| 门 | 查什么 |
-|---|---|
-| `tools/check_facts.py` | `siteconfig.FACTS` ↔ 编译器仓 `docs/internal/FACTS.md` 对拍（17 项） |
-| `tools/check_twins.py` | 每个页面都要有中英两版 |
-| `tools/check_i18n.py` | 正文里不许手写事实（改用 `{{key}}`）、英文页里不许出现中文、术语说法一致 |
+| 门 | 查什么 | 级别 |
+|---|---|---|
+| `tools/check_facts.py` | `siteconfig.FACTS` ↔ 编译器仓 `docs/internal/FACTS.md` 对拍（17 项） | 错误 |
+| `tools/check_twins.py` | 每个页面都要有中英两版 | 错误 |
+| `tools/check_i18n.py` | 正文里不许手写事实（改用 `{{key}}`）、英文页里不许出现中文、术语说法一致 | 错误 + 警告 |
+| `tools/build.py --check` | 站内链接与锚点不断（两棵树都扫） | 错误 |
+| 同步门（CI 里 `git diff` + `git ls-files --others`） | `content/` 改了要重建；**未跟踪的生成物也算** | 错误 |
 
 **事实只有一份。** 正文里写 `{{site_version}}` / `{{regress_pass}}` 这类占位符，
 构建器从 `siteconfig.FACTS` 取值 —— **两种语言拿的是同一份常量，不可能对不上
@@ -317,7 +335,7 @@ PASS」，编译器仓已经改成 281 了，没有任何门会红）。
 | 代码高亮 | 手写 CSS（无第三方高亮库） | 减少依赖；门脸层的代码块本来就带自定义 span 标记 |
 | i18n | **构建期双树**：`content/**` 中文（`/`）+ `content/en/**` 英文（`/en/`） | 报告说 i18n 是独立流水线、不阻塞一期；但站点当时是**语言沙拉**（编译器落地页英文、其余 28 页中文）。构建期双树让语言状态变成构建的一部分，而不是各页各自为政。现有中文 URL 不变。 |
 | 事实 | **只有一份**，正文写 `{{key}}` 占位符 | 抄数字必然漂 —— 编译器仓把回归数从 279 改成 281 之后，官网还写着 279，而没有任何门会红。现在两边共用 `siteconfig.FACTS`，`check_facts.py` 跟编译器仓对拍。 |
-| 字体 | **自托管**（`assets/fonts/`，latin + latin-ext 子集） | `fonts.googleapis.com` 在中国大陆取不到，取不到就整站掉回系统默认字体。中文走系统 CJK 栈 —— 那四款字体本来就没有汉字字形。 |
+| 字体 | **自托管**（`assets/fonts/`，latin + latin-ext 子集） | `fonts.googleapis.com` 在中国大陆取不到，取不到就整站掉回系统默认字体。中文走系统 CJK 栈 —— 那四款字体本来就没有汉字字形。资产清单与许可见 `assets/fonts/README.md`。 |
 | 展示字族 | 拉丁 Instrument Serif + 中文系统无衬线 | Windows 只带宋体，大字下横竖粗细差太大、发旧；思源宋体多数机器没装（自托管子集要 100+ 切片、3 MB 起，不值）。 |
 | 强调色 | **只有青绿一套** | 之前品牌青绿之外还混着琥珀（卡片 hover 会闪金色）、紫（雾气）、红（logo 辉光）—— 一页四套强调色。logo 自身的紫蓝渐变是 logo 的颜色，不算 UI 强调色。 |
 | 不引入 | 后端、数据库、admin、Playground | Playground 是安全与维护黑洞，报告点名说它不是一期必做 |

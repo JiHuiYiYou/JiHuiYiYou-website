@@ -3,6 +3,9 @@
 站点的四款拉丁字体放在这里，**不走 CDN** —— `fonts.googleapis.com` 在中国大陆
 取不到，取不到就整站字体退到系统默认（标题掉回 Times New Roman，品牌识别度归零）。
 
+> 这个决定（为什么自托管、为什么中文走系统栈）记在 `DESIGN.md` §9；
+> 本文件只管**资产清单与许可**，不复述设计理由。
+
 | 字体 | 用途 | 许可 |
 |---|---|---|
 | Instrument Serif | 门脸层大标题 | SIL OFL 1.1（`OFL-instrumentserif.txt`） |

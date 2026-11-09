@@ -13,6 +13,8 @@
 - `content/**` = **中文**（站点根 `/`）
 - `content/en/**` = **英文**（`/en/`）
 
+（机制与目录结构见 `DESIGN.md` §5.2 / §6；这里只讲怎么写。）
+
 两棵树同构：同一个 route 的中英两页互为**孪生页**。
 每个页面都要有孪生页 —— `tools/check_twins.py` 守。
 
@@ -121,7 +123,7 @@ zone: docs
 回归 {{regress_pass}} PASS / {{regress_failed}} FAIL（共 {{regress_total}} 条）
 ```
 
-**两种语言共用同一份常量 ⇒ 不可能对不上数字。**
+取值表在 `tools/siteconfig.py` 的 `FACTS`（**唯一副本**，机制见 `DESIGN.md` §6）。
 `tools/check_i18n.py` 会把正文里手写的特征数字（`4.1.4` / `279` / `299` …）
 当**错误**报出来；`tools/check_facts.py` 负责跟编译器仓那份真相对拍。
 
@@ -139,17 +141,18 @@ zone: docs
 
 ## 4.5 术语
 
-一个概念**只准一种说法**。术语表在 `tools/i18n.py` 的 `GLOSSARY`，
-用 `python tools/check_i18n.py --dump-glossary` 打印成 Markdown 表格贴到本文件。
+一个概念**只准一种说法**。术语表在 `tools/i18n.py` 的 `GLOSSARY` —— **唯一副本**。
 
-首批：自举/self-hosted · 面向表达式/expression-oriented · 产物级门/artifact checks ·
-裸机/bare metal · arena/arena · 问题台账/workaround ledger · 工作台/workbench ·
-目标三元组/target triple · 契约版本/contract version · 发射器/emitter ·
-回归套件/regression suite · 逐字节相同/byte-identical · 不动点/fixed point ·
-家族/family
+```bash
+python tools/check_i18n.py --dump-glossary   # 打印当前全表（概念 / 中文 / English）
+```
 
-两种语言里都**保持英文**的词（`KEEP_EN`）：arena、IR、ABI、target、backend、
-freestanding、no_std、linker script、sysroot、calling convention …
+**不要把表抄进本文件** —— 抄了就是第二个副本，加词时必然只改一处、两处开始漂。
+`tools/check_i18n.py` 按表检查正文用词，对不上报**警告**。
+
+两种语言里都**保持英文**的词（`KEEP_EN`）：`ABI` `IL` `IR` `arena` `backend`
+`freestanding` `no_std` `linker script` `sysroot` `calling convention` `target` …
+（完整名单同样用 `--dump-glossary` 看。）
 
 ---
 
