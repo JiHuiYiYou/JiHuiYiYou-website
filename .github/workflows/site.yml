@@ -111,29 +111,41 @@ jobs:
         shell: msys2 {0}
         run: |
           exe="$(pwd)/vendor/JiHuiYiYou/compiler/build/bin/jhyy.exe"
-          {
-            echo "### 示例真编译验证"
-            echo
-            echo "- exe: $exe"
-            echo "- exists: $([ -f "$exe" ] && echo yes || echo no)"
-            echo "- gcc: $(command -v gcc 2>&1)"
-            echo "- as: $(command -v as 2>&1)"
-            echo "- ld: $(command -v ld 2>&1)"
-            echo "- python: $(command -v python 2>&1)"
-            echo "- python version: $(python --version 2>&1)"
-            echo "- tempdir: $(python -c 'import tempfile;print(tempfile.gettempdir())' 2>&1)"
-            echo
-          } >> $GITHUB_STEP_SUMMARY
+          # 诊断信息用 ::notice:: / ::error:: 发出去 —— 它们会变成 check-run 的
+          # annotation，**不用 admin 权限就能从 API 读到**（日志要 admin）。
+          echo "::notice::exe=$exe"
+          echo "::notice::exists=$([ -f "$exe" ] && echo yes || echo no)"
+          echo "::notice::gcc=$(command -v gcc 2>&1)"
+          echo "::notice::as=$(command -v as 2>&1)"
+          echo "::notice::ld=$(command -v ld 2>&1)"
+          echo "::notice::python=$(command -v python 2>&1)"
           if [ ! -f "$exe" ]; then
-            echo "::error::仓里没有 jhyy.exe —— 这道门不能空转" >> $GITHUB_STEP_SUMMARY
+            echo "::error::仓里没有 jhyy.exe —— 这道门不能空转"
             exit 1
           fi
+          # 编译器找 gcc 有四层优先级；显式钉死 JHY_GCC，绕开 PATH 歧义
+          # （runner 镜像自带一套旧 MSYS2 在 C:\mingw64，setup-msys2 装的在
+          #  C:\msys64 —— 两套同时在 PATH 上，靠 PATH 找会挑中旧的那套）。
+          if command -v gcc >/dev/null 2>&1; then
+            export JHY_GCC="$(cygpath -w "$(command -v gcc)")"
+            echo "::notice::JHY_GCC=$JHY_GCC"
+          else
+            echo "::error::找不到 gcc —— jhyy compile 要用它汇编 / 链接"
+            exit 1
+          fi
+          # 用 setup-python 装的那个解释器，别赌 msys2 的 python 在不在
+          PY="python"
+          if [ -n "$pythonLocation" ] && [ -f "$pythonLocation/python.exe" ]; then
+            PY="$(cygpath -u "$pythonLocation")/python.exe"
+          fi
+          echo "::notice::PY=$PY"
           export JHYY="$(cygpath -w "$exe")"
-          echo "JHYY = $JHYY"
-          python tools/check_examples.py > examples.log 2>&1
+          echo "::notice::JHYY=$JHYY"
+          "$PY" tools/check_examples.py > examples.log 2>&1
           rc=$?
-          cat examples.log >> $GITHUB_STEP_SUMMARY
           cat examples.log
+          # 把失败原因做成 annotation（公开可读）
+          grep -E "错误|失败|error|Error|not found|无法|找不到" examples.log | head -8 | sed 's/^/::error::/' || true
           exit $rc
 
   deploy:
