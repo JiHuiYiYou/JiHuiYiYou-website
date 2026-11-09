@@ -83,6 +83,9 @@ jobs:
 
   # 文档示例的真编译验证需要 jhyy.exe —— 只能在 Windows 上跑。
   # （原先它挂在 ubuntu runner 上加 `if: runner.os == 'windows'` ⇒ 恒不执行。）
+  #
+  # `jhyy compile` 要调 `as` / `ld` —— Windows runner 镜像里没有，
+  # 所以这道门必须自己装工具链（跟编译器仓的 CI 同一套：MSYS2 UCRT64）。
   examples:
     runs-on: windows-latest
     steps:
@@ -95,21 +98,29 @@ jobs:
         with:
           repository: JiHuiYiYou/JiHuiYiYou-compiler
           path: vendor/JiHuiYiYou
-      - name: 定位编译器二进制
-        shell: pwsh
-        run: |
-          # 安装器是 GUI bundle，CI 里不装 —— 直接用仓里跟踪的那份 jhyy.exe
-          $exe = "vendor/JiHuiYiYou/compiler/build/bin/jhyy.exe"
-          if (-not (Test-Path $exe)) {
-            Write-Host "::error::仓里没有 jhyy.exe（$exe）—— 这道门不能空转"
-            exit 1
-          }
-          $full = (Resolve-Path $exe).Path
-          Write-Host "JHYY = $full"
-          "JHYY=$full" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      - name: 装工具链（jhyy 汇编 / 链接要 as + ld）
+        uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-binutils
+            python
       - name: 文档示例真编译验证
-        shell: pwsh
-        run: python tools/check_examples.py
+        shell: msys2 {0}
+        run: |
+          set -e
+          # 仓里跟踪的那份 jhyy.exe（安装器是 GUI bundle，CI 里不装）
+          exe="$(pwd)/vendor/JiHuiYiYou/compiler/build/bin/jhyy.exe"
+          if [ ! -f "$exe" ]; then
+            echo "::error::仓里没有 jhyy.exe —— 这道门不能空转"
+            exit 1
+          fi
+          export JHYY="$(cygpath -w "$exe")"
+          echo "JHYY = $JHYY"
+          which as ld python
+          python tools/check_examples.py
 
   deploy:
     needs: [build, twins]
