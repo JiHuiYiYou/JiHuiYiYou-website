@@ -13,7 +13,7 @@
 - `content/**` = **中文**（站点根 `/`）
 - `content/en/**` = **英文**（`/en/`）
 
-（机制与目录结构见 `DESIGN.md` §5.2 / §6；这里只讲怎么写。）
+（机制与目录结构见 `ARCHITECTURE.md` §3 / §4；这里只讲怎么写。）
 
 两棵树同构：同一个 route 的中英两页互为**孪生页**。
 每个页面都要有孪生页 —— `tools/check_twins.py` 守。
@@ -123,7 +123,7 @@ zone: docs
 回归 {{regress_pass}} PASS / {{regress_failed}} FAIL（共 {{regress_total}} 条）
 ```
 
-取值表在 `tools/siteconfig.py` 的 `FACTS`（**唯一副本**，机制见 `DESIGN.md` §6）。
+取值表在 `tools/siteconfig.py` 的 `FACTS`（**唯一副本**，机制见 `ARCHITECTURE.md` §4.2）。
 `tools/check_i18n.py` 会把正文里手写的特征数字（`4.1.4` / `279` / `299` …）
 当**错误**报出来；`tools/check_facts.py` 负责跟编译器仓那份真相对拍。
 

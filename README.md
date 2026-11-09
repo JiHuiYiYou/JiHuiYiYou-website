@@ -50,13 +50,14 @@ python tools/check_examples.py
 
 | 文档 | 只管什么 |
 |---|---|
-| [`DESIGN.md`](DESIGN.md) | 站点结构、视觉与内容决策、决策记录、现状 |
+| [`DESIGN.md`](DESIGN.md) | 设计决策：北极星、总规则、两层的版式、反模式、决策记录 |
+| [`ARCHITECTURE.md`](ARCHITECTURE.md) | 站点结构与现状：路由、内容骨架、构建管线、门、组件、建成什么样 |
 | [`Task.md`](Task.md) | 还没做的事：要做什么、归属、判据 |
 | [`tools/CONTENT_GUIDE.md`](tools/CONTENT_GUIDE.md) | 写 `content/**` 的规约：front matter、Markdown 方言、文风、事实来源 |
 | [`assets/fonts/README.md`](assets/fonts/README.md) | 字体资产清单与许可 |
 
 **跨文件的规则只写在一处** —— 版本号、事实占位符、双语结构、术语表这些机制的
-说明在 `DESIGN.md` §6 与 §9，本 README 不复述（复述了就会漂）。
+说明在 `ARCHITECTURE.md` §4 与 `DESIGN.md` §6，本 README 不复述（复述了就会漂）。
 
 ## 目录
 

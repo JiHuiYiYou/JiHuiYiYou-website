@@ -30,7 +30,7 @@
 
 - **要做什么**：上一轮只做了翻译与编号修正，屏序与信息密度没动。
 - **归属**：官网仓（`content/compiler/index.html` + `content/en/compiler/index.html`）。
-- **判据**：12 屏各有明确职责、不互相重复（按 `DESIGN.md` §4 的「一屏一主题」判据）。
+- **判据**：12 屏各有明确职责、不互相重复（按 `DESIGN.md` §3 的「一屏一主题」判据）。
 
 ### 4. 仓库 `README.md` 改英文 + 补 `README.zh-CN.md`
 

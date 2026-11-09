@@ -3,8 +3,11 @@
 > 描述**已经建成**的站：四个项目（编译器 / IDE / OS / for-VEX）的官网枢纽，
 > 编译器区是完整的五区 MVP。
 >
-> 本文档讲「是什么 / 为什么 / 怎么改」；视觉 tokens 就是 `assets/css/main.css`
-> 与 `assets/css/docs.css` 里的 `:root` 变量本身。
+> 本文档只讲**为什么这么设计**：北极星、总规则、两层的版式、反模式、决策记录。
+> 站点的**结构与现状**（路由 / 内容骨架 / 构建管线 / 门 / 组件 / 建成什么样）
+> ⇒ [`ARCHITECTURE.md`](ARCHITECTURE.md)；**待办** ⇒ [`Task.md`](Task.md)；
+> 视觉 tokens 就是 `assets/css/main.css` 与 `assets/css/docs.css` 里的
+> `:root` 变量本身。
 
 ---
 
@@ -14,14 +17,15 @@
 
 | 文档 | 只管什么 | 不许写什么 |
 |---|---|---|
-| **`DESIGN.md`（本文）** | 站点结构、视觉与内容决策、决策记录、现状 | 逐页写作细则（→ `tools/CONTENT_GUIDE.md`）、命令清单（→ `README.md`）、**待办**（→ `Task.md`） |
-| `Task.md` | 还没做的事：要做什么、归属、判据 | 设计决策、现状描述（→ 本文） |
+| **`DESIGN.md`（本文）** | 设计决策：北极星、总规则、两层的版式、反模式、决策记录 | 站点结构与现状（→ `ARCHITECTURE.md`）、逐页写作细则（→ `tools/CONTENT_GUIDE.md`）、命令清单（→ `README.md`）、**待办**（→ `Task.md`） |
+| `ARCHITECTURE.md` | 站点结构与现状：路由、内容骨架、构建管线、门、组件、建成什么样 | 设计理由（→ 本文）、待办（→ `Task.md`） |
+| `Task.md` | 还没做的事：要做什么、归属、判据 | 设计决策、现状描述 |
 | `tools/CONTENT_GUIDE.md` | 写 `content/**` 的规约：front matter、Markdown 方言、文风、事实来源 | 设计决策、构建命令 |
 | `README.md` | 仓库门面：这是什么、怎么构建、命令、目录 | 设计细节、写作细则 |
-| `assets/fonts/README.md` | 字体资产清单与许可 | 设计理由（→ §9） |
+| `assets/fonts/README.md` | 字体资产清单与许可 | 设计理由（→ §6） |
 
-**待办不在本文。** 未完成的事、归属与判据都在 [`Task.md`](Task.md) —— 本文只描述
-**已经建成什么样**与**为什么这么设计**。一条规则只写一处：别处只留指针。
+**本文不装待办，也不复述结构。** 未完成的事 ⇒ `Task.md`；
+路由 / 骨架 / 管线 / 门 / 组件 ⇒ `ARCHITECTURE.md`。
 
 ---
 
@@ -81,57 +85,13 @@
 - 门脸层的卡片 / 列表 / 章节组件，按"视觉强、可玩"设计
 - 共享的只有 atoms：图标 / 代码块 / 链接
 
----
-
-## 3. 信息架构
-
-### 3.1 路由
-
-```
-/                                  家族首页（四个项目）
-/compiler/                         编译器首页（门脸层）
-/compiler/docs/                    文档区（浅色三栏）
-  /compiler/docs/getting-started.html
-  /compiler/docs/tour.html
-  /compiler/docs/reference.html
-  /compiler/docs/spec.html
-  /compiler/docs/abi.html
-  /compiler/docs/stdlib.html
-  /compiler/docs/arena.html
-  /compiler/docs/osdev.html
-  /compiler/docs/cli.html
-  /compiler/docs/compiler.html
-  /compiler/docs/build-and-test.html
-  /compiler/docs/faq.html
-/compiler/download/                下载区（浅色三栏）
-  /targets.html  /bootstrap.html  /verify.html
-/compiler/community/               社区区（浅色三栏）
-  /conduct.html  /contributing.html  /security.html
-/compiler/governance/              治理区（浅色三栏）
-  /license.html  /repo-map.html
-/ide/  /os/  /vex/                 另外三个项目的落地页（门脸层）
-```
-
-### 3.2 家族结构
-
-```
-                       ┌─ /          （枢纽：四项目分流）
-                       │
-   进来 ── 看完 ──────►├─ /compiler/ （编译器：完整五区）
-                       │
-                       ├─ /ide/  /os/  /vex/   （各自一页 + 仓库文档外链）
-                       │
-                       └─ /compiler/community/  （怎么参与）
-```
-
-**三个早项目的分栏不指向站内空页**，直接链各自仓库里的真实文档——
-不为凑导航栏造一个没有内容的站内页面。
+（现有组件清单 ⇒ `ARCHITECTURE.md` §6。）
 
 ---
 
-## 4. 门脸层设计（深 + 青绿 + 大字）
+## 3. 门脸层设计（深 + 青绿 + 大字）
 
-### 4.1 Hero
+### 3.1 Hero
 
 - 大字符句标语 + 一句话定位 + 双 CTA
 - 品牌标记（`<img>`，自托管 SVG）
@@ -143,7 +103,7 @@
 的职责，放在首页就是重复。首页给的是**版本闸门**——读者第一眼要知道的是
 「现在能装的是哪个版本」，不是「这段代码长什么样」。
 
-### 4.2 四个项目（家族首页）
+### 3.2 四个项目（家族首页）
 
 大 Bento：编译器 `--lg`（span 7，跨两行），IDE `--sm`，OS `--sm`，VEX `--wide`
 —— 这套 span 正好填满 12 栏（7+5=12，OS 落在第二行右侧，VEX 整行）。
@@ -152,7 +112,7 @@
 只写**现在真的做到哪一步**，不含计划中的部分。成熟度用视觉区分
 （`data-status`：编译器实心主卡，其余描边卡）。
 
-### 4.3 一门语言撑起四个项目（关系图）
+### 3.3 一门语言撑起四个项目（关系图）
 
 一张图讲清家族结构 —— 这是**首页独有的内容**，任何子站都讲不了：
 
@@ -168,7 +128,9 @@
 IDE 要「同一个 `jhyy.exe` 出诊断」，for-VEX 要「ARM 后端」，
 OS 要「freestanding 目标 + 裸机能力」。
 
-### 4.4 最近变化 + 诚实的边界
+（家族结构本身 ⇒ `ARCHITECTURE.md` §2。）
+
+### 3.4 最近变化 + 诚实的边界
 
 左栏是这一版修了什么（取自编译器仓 `CHANGELOG.md`），
 右栏是**没做什么** —— 安装器与 MSI **未签名**、只有 **amd64** 四个 target、
@@ -182,9 +144,9 @@ OS 要「freestanding 目标 + 裸机能力」。
 
 ---
 
-## 5. 文档层设计（白底 + 干净 + 信息密度）
+## 4. 文档层设计（白底 + 干净 + 信息密度）
 
-### 5.1 Layout
+### 4.1 Layout
 
 三栏（参考 learn.microsoft.com）：
 
@@ -204,35 +166,13 @@ OS 要「freestanding 目标 + 裸机能力」。
 - 中内容：`max-width: 760px`
 - 右 anchor：sticky，滚动时高亮当前小节
 
-### 5.2 内容骨架
-
-```
-content/
-├─ index.html                     家族首页（门脸）
-├─ compiler/
-│  ├─ index.html                  编译器首页（门脸）
-│  ├─ docs/*.md                   12 页文档
-│  ├─ download/*.md               4 页下载
-│  ├─ community/*.md              4 页社区
-│  └─ governance/*.md             3 页治理
-├─ ide/index.md  os/index.md  vex/index.md
-└─ en/                            **英文树** —— 与上面同构
-   ├─ index.html
-   ├─ compiler/index.html + docs/ download/ community/ governance/
-   └─ ide/index.md  os/index.md  vex/index.md
-```
-
-`en/` 下的每个文件都有中文孪生页（`route` 相同即孪生）：
-`content/en/compiler/docs/tour.md` ↔ `content/compiler/docs/tour.md`。
-孪生关系由 `tools/i18n.py` 的 route 契约管，`tools/check_twins.py` 守。
-
-### 5.3 关键页面规格
+### 4.2 关键页面规格
 
 - **教程页**：左 TOC + 中 markdown + 代码块（语法高亮、复制按钮）
 - **参考页**：表格密、可跳转 ID 链接
 - **搜索**：顶栏 `/` 唤起，客户端索引（`search-index.json` 由构建器生成）
 
-### 5.4 调性
+### 4.3 调性
 
 - 文字优先，图形极少（最多代码块）
 - 字体：Inter 正文、JetBrains Mono 代码
@@ -241,72 +181,7 @@ content/
 
 ---
 
-## 6. 内容流水线
-
-```
-content/**/*.md     ──┐
-content/**/*.html   ──┤
-                      ├─→ tools/build.py ──→ *.html（提交进仓库，GH Pages 直出）
-tools/siteconfig.py ──┘         │
-tools/i18n.py ──────────────────┤
-                                ├─→ search-index.json
-                                └─→ tools/build.py --check（链接与锚点检查）
-```
-
-- `tools/siteconfig.py` —— **全站唯一真相源**：版本号、目标表、产物表、
-  状态数字、导航与侧栏、以及 `FACTS`（事实占位符的取值表）。
-- `tools/i18n.py` —— 术语表（`GLOSSARY`）、界面字符串（`UI`）、专名白名单
-  （`KEEP_CJK`）、孪生页契约（`TWIN_REQUIRED` / `TWIN_EXEMPT_PREFIXES`）。
-- `tools/mdrender.py` —— 零依赖 Markdown 渲染器（CommonMark 子集 +
-  callout + mermaid + `[[Wiki 链接]]`）。
-- `tools/build.py` —— 站点生成器 + 链接检查 + **双语双树**。
-- `tools/check_examples.py` —— 把文档里的 `.jhyy` 代码块抽出来交给真编译器验。
-- `tools/CONTENT_GUIDE.md` —— 内容写作规约（文风 / 方言 / 事实来源 / 常见坑）。
-
-**门**（本地可跑，CI 也跑）：
-
-| 门 | 查什么 | 级别 |
-|---|---|---|
-| `tools/check_facts.py` | `siteconfig.FACTS` ↔ 编译器仓 `docs/internal/FACTS.md` 对拍（17 项） | 错误 |
-| `tools/check_twins.py` | 每个页面都要有中英两版 | 错误 |
-| `tools/check_i18n.py` | 正文里不许手写事实（改用 `{{key}}`）、英文页里不许出现中文、术语说法一致 | 错误 + 警告 |
-| `tools/build.py --check` | 站内链接与锚点不断（两棵树都扫） | 错误 |
-| 同步门（CI 里 `git diff` + `git ls-files --others`） | `content/` 改了要重建；**未跟踪的生成物也算** | 错误 |
-
-**事实只有一份。** 正文里写 `{{site_version}}` / `{{regress_pass}}` 这类占位符，
-构建器从 `siteconfig.FACTS` 取值 —— **两种语言拿的是同一份常量，不可能对不上
-数字**。`check_facts.py` 负责跟编译器仓那份真相对拍（之前官网写着「回归 279
-PASS」，编译器仓已经改成 281 了，没有任何门会红）。
-
-**约定：正文用根绝对路径写站内链接**（`/compiler/docs/tour.html`），
-构建时按页面深度自动改写成相对路径——站点挂在 `user.github.io/<repo>/`
-下也不会 404。
-
----
-
-## 7. 组件清单
-
-### Atoms（门脸 + 文档复用）
-- `Icon`：内联 SVG
-- `CodeBlock`：语言标识 / 复制按钮
-- `Link`：内 / 外链接区分样式
-
-### 门脸层专属
-`Hero`（大字 + CTA + 版本闸门）· `Bento` · `Card` · `ToolCard` ·
-`PerfCell` · `EcoCard` · `DocCard` · `VersionGate` · `CTA` ·
-`FamilyGraph`（共享层 → 编译器 → 三分支）· `ChangeGrid`（最近变化 / 诚实的边界）
-
-### 文档层专属
-`DocTopbar`（含项目切换与搜索）· `TOC` · `OnThisPage` · `Callout`
-（note / warn / danger）· `RefTable` · `SearchModal`
-
-### 两层共用（只有 atoms）
-`Icon`（内联 SVG）· `CodeBlock`（语言标识 / 复制按钮）· `Link` ·
-**`LangSwitch`**（语言切换，普通 `<a>`，无 JS 依赖）
-
----
-
-## 8. 反模式（明确禁止）
+## 5. 反模式（明确禁止）
 
 - ❌ Tailwind 默认 `bg-blue-500` 类配色
 - ❌ "Fast ⚡ Simple ✨ Powerful 💪" AI-generic 卖点
@@ -324,7 +199,7 @@ PASS」，编译器仓已经改成 281 了，没有任何门会红）。
 
 ---
 
-## 9. 决策记录
+## 6. 决策记录
 
 | 项 | 决定 | 理由 |
 |---|---|---|
@@ -341,14 +216,4 @@ PASS」，编译器仓已经改成 281 了，没有任何门会红）。
 | 强调色 | **只有青绿一套** | 之前品牌青绿之外还混着琥珀（卡片 hover 会闪金色）、紫（雾气）、红（logo 辉光）—— 一页四套强调色。logo 自身的紫蓝渐变是 logo 的颜色，不算 UI 强调色。 |
 | 不引入 | 后端、数据库、admin、Playground | Playground 是安全与维护黑洞，报告点名说它不是一期必做 |
 
----
-
-## 10. 现状
-
-**已完成**：四项目枢纽、编译器五区 24 页、站内搜索、链接检查、
-文档示例真编译验证、下载镜像与校验和同步到 v4.1.4；
-**首页重做**（纯枢纽四屏：Hero / 四个项目 / 一门语言撑起四个项目 / 最近变化与诚实的边界）；
-**双语地基**（构建期双树、语言切换器、术语表、事实占位符）+ 5 页门脸中英双版；
-**四道新门**（事实对拍 / 孪生页 / i18n 一致性 / 同步门补未跟踪产物）。
-
-**还没做的事在 [`Task.md`](Task.md)** —— 本文只描述已经建成什么样，不装待办清单。
+（这些决定的**机制**怎么落地 ⇒ `ARCHITECTURE.md` §4。）
