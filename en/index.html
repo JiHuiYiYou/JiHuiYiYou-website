@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>机会翼游 · JHYY — a language, four projects</title>
+  <meta name="description" content="The JHYY family: a self-hosted systems language compiler, a desktop IDE, an OS written in that language, and an embedded target for the VEX V5 Brain." />
+  <meta property="og:title" content="机会翼游 · JHYY — a language, four projects" />
+  <meta property="og:description" content="The JHYY family: a self-hosted systems language compiler, a desktop IDE, an OS written in that language, and an embedded target for the VEX V5 Brain." />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../index.html" />
+  <link rel="stylesheet" href="../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+
+  <link rel="icon" type="image/png" sizes="any" href="../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="bg-bg text-text font-sans antialiased">
+
+  <div class="mist mist-1" aria-hidden="true"></div>
+  <div class="mist mist-2" aria-hidden="true"></div>
+  <div class="mist mist-3" aria-hidden="true"></div>
+  <div class="mist mist-4" aria-hidden="true"></div>
+  <svg id="cracks" class="cracks" aria-hidden="true"><g class="cracks-layer"></g></svg>
+  <div class="cursor-dot" aria-hidden="true"></div>
+
+
+  <nav class="floating-nav" aria-label="Primary">
+    <div class="nav-pill">
+      <a href="../index.html" class="nav-logo" aria-label="机会翼游 · JHYY home">
+        <img src="../assets/img/jhyy-logo.png" class="logo-img" height="30" alt="机会翼游 · JHYY" />
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>All projects<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item" href="../en/compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../index.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../en/index.html" hreflang="en" aria-current="true">English</a></div>
+      <div class="nav-cta-group">
+        <a href="https://github.com/JiHuiYiYou" class="nav-icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+        <a href="../compiler/download/index.html" class="nav-cta magnetic" data-magnetic>
+          <span>Download v4.1.4</span>
+          <span class="btn-icon-wrap"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 L17 7 M9 7 L17 7 L17 15"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+<main id="top">
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-label="The JHYY family">
+    <div class="container hero-inner">
+      <div class="hero-icon reveal" data-reveal-delay="0">
+        <div class="hero-icon-bezel">
+          <img src="../assets/img/jhyy-icon-animated.svg" class="hero-icon-img" width="120" height="120" alt="JHYY" />
+        </div>
+        <div class="hero-icon-ring" aria-hidden="true"></div>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="reveal-line"><span class="line-inner">A systems language</span></span>
+        <span class="reveal-line"><span class="line-inner">that compiles itself —</span></span>
+        <span class="reveal-line"><span class="line-inner accent">four projects share it.</span></span>
+      </h1>
+
+      <p class="hero-sub reveal" data-reveal-delay="700">
+        <img src="../assets/img/jhyy-logo.png" class="logo-img logo-img--hero" height="44" alt="机会翼游" />
+        <span class="hero-sub-en">JHYY (机会翼游) is a statically typed, expression-oriented systems programming language. <strong>The compiler is written in the language itself</strong>; the backend is a <strong>self-written amd64 emitter</strong> — no LLVM, and no vendored QBE.</span>
+      </p>
+
+      <div class="cta-row reveal" data-reveal-delay="900">
+        <a href="../compiler/download/" class="btn-primary magnetic" data-magnetic title="Chinese only">
+          <span class="btn-label">Download v4.1.4</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
+            </svg>
+          </span>
+        </a>
+        <a href="../compiler/docs/" class="btn-ghost magnetic" data-magnetic title="Chinese only">
+          <span class="btn-label">Read the docs</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VERSION GATE ============ -->
+  <section class="version-gate" aria-label="Version gate">
+    <div class="container version-gate-inner">
+      <div class="vg-item vg-strong">
+        <span class="vg-k">Compiler</span>
+        <span class="vg-v">v4.1.4</span>
+        <span class="vg-d">2026-11-07</span>
+      </div>
+      <span class="vg-div" aria-hidden="true"></span>
+      <div class="vg-item">
+        <span class="vg-k">Language spec</span>
+        <span class="vg-v">v4.0.0</span>
+        <span class="vg-d">locked</span>
+      </div>
+      <span class="vg-div" aria-hidden="true"></span>
+      <div class="vg-item">
+        <span class="vg-k">ABI</span>
+        <span class="vg-v">v4.0.0</span>
+        <span class="vg-d">locked</span>
+      </div>
+      <span class="vg-div" aria-hidden="true"></span>
+      <div class="vg-item">
+        <span class="vg-k">Host</span>
+        <span class="vg-v">Windows x64</span>
+        <span class="vg-d">amd64 only</span>
+      </div>
+      <a class="vg-cta" href="../compiler/download/" title="Chinese only">Download and verify →</a>
+    </div>
+  </section>
+
+  <!-- ============ THE FOUR PROJECTS ============ -->
+  <section id="projects" class="section section-why" aria-label="The four projects">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">01 / The four projects</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">The compiler is the foundation —</span></span>
+          <span class="reveal-line"><span class="line-inner">the other three stand on it.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          They share one language and one toolchain. Each card below says what the project <strong>actually does today</strong> — nothing that is only planned.
+        </p>
+      </header>
+
+      <div class="bento">
+        <!-- Compiler -->
+        <article class="bento-card bento-card--lg reveal-card" data-status="stable">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">01</span>
+                <span class="card-tag">Stable · <span class="card-tag-ver">v4.1.4</span></span>
+              </div>
+              <h3 class="card-title">JHYY Compiler</h3>
+              <p class="card-body">
+                The compiler's only implementation is <code>compiler/src0/*.jhyy</code> — there is no bootstrap C compiler in the tree and no vendored backend. It compiles itself, then the compiler it produced compiles it again, and the gate requires the two generations to emit <strong>byte-identical</strong> assembly. The fixed point is run to, not assumed.
+              </p>
+              <p class="card-body">
+                The backend is a self-written in-memory amd64 code emitter, producing PE/COFF on Windows and SysV assembly on Linux. 8 standard library modules, with arena as a first-class citizen.
+              </p>
+              <div class="card-foot-row">
+                <a href="../en/compiler/index.html" class="btn-primary magnetic" data-magnetic>
+                  <span class="btn-label">Enter the compiler</span>
+                  <span class="btn-icon-wrap">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                    </svg>
+                  </span>
+                </a>
+                <span class="card-meta">Regression 281 PASS / 0 FAIL · 20 artifact checks · ledger ACTIVE 0</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- IDE -->
+        <article class="bento-card bento-card--sm reveal-card" data-status="beta" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">02</span>
+                <span class="card-tag">Beta · <span class="card-tag-ver">v0.2.1</span></span>
+              </div>
+              <h3 class="card-title">JHYY IDE</h3>
+              <p class="card-body">
+                A desktop workbench. Blockly blocks and CodeMirror text <strong>share one AST</strong> — change one, the other rebuilds. Syntax blocks cannot express survives as an opaque block holding the original source; it never silently disappears. The panel on the right talks to the <code>claude</code> CLI already installed on your machine.
+              </p>
+              <div class="card-foot-row">
+                <a href="../en/ide/index.html" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
+                  <span class="btn-label">IDE overview</span>
+                  <span class="btn-icon-wrap">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                    </svg>
+                  </span>
+                </a>
+                <span class="card-meta">Consistency gate 277/277 · Windows x64 only</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- OS -->
+        <article class="bento-card bento-card--sm reveal-card" data-status="incubating" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">03</span>
+                <span class="card-tag">Incubating</span>
+              </div>
+              <h3 class="card-title">JiHuiYiYou-OS</h3>
+              <p class="card-body">
+                An operating system written in this language. The repository currently holds one UEFI x64 boot spike — a bootloader that prints <code>HELLO</code>. It has already measured the EFI calling convention, that the <code>ConOut</code> protocol offset is <strong>+64, not +80</strong> (+80 is StdErr, and invisible on OVMF's graphical console), and the <code>isa-debug-exit</code> exit-code path. The design baseline is being rebuilt.
+              </p>
+              <div class="card-foot-row">
+                <a href="../en/os/index.html" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
+                  <span class="btn-label">OS overview</span>
+                  <span class="btn-icon-wrap">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                    </svg>
+                  </span>
+                </a>
+                <span class="card-meta">The spike has measured 4 things</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- for-VEX -->
+        <article class="bento-card bento-card--wide reveal-card" data-status="incubating" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">04</span>
+                <span class="card-tag">Day 0 complete</span>
+              </div>
+              <h3 class="card-title">JiHuiYiYou-for-VEX</h3>
+              <p class="card-body">
+                Run JHYY directly on the VEX V5 Brain (Xilinx Zynq / Cortex-A9). The route is <strong>JHYY emitting ARM machine code directly</strong>, not transpiling to C++ — but only clang's slot is replaced; <code>ld</code> and below stay exactly as they are, linking the official SDK into a <code>.bin</code>. Day 0 is complete: every unknown on the VEX side became a measured value, written down as a fact baseline.
+              </p>
+              <p class="card-body">
+                Measurement also turned up three traps worth remembering: MSYS2's bundled <code>objdump</code> is x86-only, the SDK's clang is 8.0.0, and the conclusion “the instruction set is ARM-state, fixed 4 bytes” depends on that specific clang version.
+              </p>
+              <div class="card-foot-row">
+                <a href="../en/vex/index.html" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
+                  <span class="btn-label">for-VEX overview</span>
+                  <span class="btn-icon-wrap">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                    </svg>
+                  </span>
+                </a>
+                <span class="card-meta">8 baseline items · 7 concluded · 1 pending (needs real hardware)</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ONE LANGUAGE, FOUR PROJECTS ============ -->
+  <section id="family" class="section section-code" aria-label="One language, four projects">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">02 / One language, four projects</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">What is shared is the language</span></span>
+          <span class="reveal-line"><span class="line-inner">and the contracts; what forks</span></span>
+          <span class="reveal-line"><span class="line-inner accent">is the target.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          The four projects are not four languages. They share one language spec, one ABI and one backend — what forks is what each of them needs the compiler to grow into.
+        </p>
+      </header>
+
+      <div class="family-graph reveal-card">
+        <div class="fg-row fg-shared">
+          <span class="fg-chip">Language spec v4.0.0 · locked</span>
+          <span class="fg-chip">ABI v4.0.0 · locked</span>
+          <span class="fg-chip">Self-written amd64 emitter</span>
+          <span class="fg-chip">8 standard library modules</span>
+        </div>
+
+        <div class="fg-link" aria-hidden="true"></div>
+
+        <div class="fg-row fg-core">
+          <span class="fg-chip fg-chip--core">Compiler v4.1.4</span>
+        </div>
+
+        <div class="fg-link" aria-hidden="true"></div>
+
+        <div class="fg-row fg-branches">
+          <div class="fg-branch">
+            <div class="fg-branch-head">IDE</div>
+            <p class="fg-need">Needs “diagnostics from the same <code>jhyy.exe</code>”</p>
+            <p class="fg-fact">Consistency gate 277/277</p>
+          </div>
+          <div class="fg-branch">
+            <div class="fg-branch-head">for-VEX</div>
+            <p class="fg-need">Needs “an ARM backend” — JHYY emits ARM machine code directly; the official SDK's linker and below stay untouched</p>
+            <p class="fg-fact">Route B, Day 0 complete</p>
+          </div>
+          <div class="fg-branch">
+            <div class="fg-branch-head">OS</div>
+            <p class="fg-need">Needs “freestanding targets and bare-metal features” — <code>no_std</code> / <code>naked</code> / <code>link_section</code> / <code>asm!</code> / memory barriers</p>
+            <p class="fg-fact">The UEFI entry path is not finished yet</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="family-note reveal">
+        That is where the loop actually closes: the new requirements the four projects place on the language go back into the language.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ WHAT CHANGED / WHAT ISN'T DONE ============ -->
+  <section id="changes" class="section section-cta" aria-label="What changed and what isn't done">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">03 / What changed · What isn't done</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">This release fixed four kinds</span></span>
+          <span class="reveal-line"><span class="line-inner">of silently wrong answers.</span></span>
+        </h2>
+      </header>
+
+      <div class="change-grid">
+        <div class="change-col reveal">
+          <h3 class="change-h">What changed · v4.1.4</h3>
+          <ul class="change-list">
+            <li>Calls with more than 16 arguments silently dropped arguments — a 20-argument sum returned 117 instead of 210.</li>
+            <li>SysV stack arguments overwrote the caller's own locals.</li>
+            <li>Floating-point stack arguments clobbered the callee-saved <code>%xmm15</code>.</li>
+            <li>A range pattern with identifier endpoints silently matched everything.</li>
+          </ul>
+          <p class="change-more">The same release also bounds path buffers byte-wise, stops the stderr pipe from deadlocking, stops swallowing a user program's stderr, and rejects deeply nested expressions with an error instead of overflowing the stack.</p>
+          <a class="change-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Full changelog ↗</a>
+        </div>
+
+        <div class="change-col change-col--warn reveal" data-reveal-delay="120">
+          <h3 class="change-h">What isn't done</h3>
+          <ul class="change-list">
+            <li>Neither the installer nor the MSI is <strong>code-signed</strong> — SmartScreen intercepts the first run, and enterprise deployment policies may reject an unsigned MSI outright.</li>
+            <li><strong>amd64 only</strong>, four targets; no aarch64, riscv or wasm. The host is Windows x64.</li>
+            <li>The <strong>UEFI entry path is not finished</strong> (ABI § 12.8).</li>
+            <li>The benchmark ratio is a <strong>lower bound on code quality</strong>, not a speed pass line — there is no optimizer, so it is the same yardstick as <code>gcc -O0</code>.</li>
+          </ul>
+          <p class="change-more">These are on the page, not buried in a footnote.</p>
+          <a class="change-link" href="../compiler/download/verify.html" title="Chinese only">Verification and signing →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../index.html" class="nav-logo foot-logo">
+          <img src="../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a title="Chinese only" href="../compiler/docs/index.html">Docs</a></li>
+            <li><a title="Chinese only" href="../compiler/download/index.html">Download</a></li>
+            <li><a title="Chinese only" href="../compiler/community/index.html">Community</a></li>
+            <li><a title="Chinese only" href="../compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a title="Chinese only" href="../compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>

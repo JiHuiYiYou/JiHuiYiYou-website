@@ -130,7 +130,7 @@ def split_front_matter(text: str) -> tuple[dict, str]:
 
 # ── 导航 / 页脚 ─────────────────────────────────────────────────────────────
 
-def project_switcher(active: str, lang: str) -> str:
+def project_switcher(active: str, lang: str, routes: dict) -> str:
     """项目切换器 —— 纯 HTML/CSS 的下拉（<details>），不依赖 JS。"""
     cur = next((p for p in C.PROJECTS if p["key"] == active), None)
     label = cur["name"] if cur else I18N.t(lang, "all_projects")
@@ -138,7 +138,7 @@ def project_switcher(active: str, lang: str) -> str:
     for p in C.PROJECTS:
         state = " is-active" if p["key"] == active else ""
         items.append(
-            f'<a class="proj-item{state}" href="{normalize_href(p["path"])}">'
+            f'<a class="proj-item{state}" href="{normalize_href(localize_href(p["path"], lang, routes)[0])}">'
             f'<span class="proj-item-name">{html.escape(p["name"])}</span>'
             f'<span class="proj-item-en">{html.escape(p["en"])}</span>'
             f'<span class="proj-item-tag">{html.escape(pick(p, "tagline", lang))}</span>'
@@ -263,6 +263,36 @@ def _link(href: str, lang: str, routes: dict, cls: str = "", inner: str = "") ->
     return f'<a{c}{title} href="{normalize_href(h)}">{inner}</a>'
 
 
+_A_TAG = re.compile(r"<a\b([^>]*?)href=\"([^\"]+)\"([^>]*)>")
+
+
+def localize_body_links(body_html: str, lang: str, routes: dict) -> str:
+    """英文页**正文**里的站内链接指到英文孪生页。
+
+    导航/页脚的链接由 `_link` 处理；正文里的链接来自内容源 —— 源里写的是
+    根绝对路径，两棵树写法相同 ⇒ 由构建器按当前语言改写。
+
+    没有英文孪生页时（文档层本轮还没译）⇒ 保留指向中文页的链接，并挂
+    「仅中文」提示 —— 不假装它有英文版。
+    """
+    if lang == "zh":
+        return body_html
+
+    def repl(m: re.Match) -> str:
+        pre, href, post = m.group(1), m.group(2), m.group(3)
+        if not href.startswith("/"):
+            return m.group(0)
+        new, zh_only = localize_href(href, lang, routes)
+        if new == href and not zh_only:
+            return m.group(0)
+        title = f' title="{html.escape(I18N.t(lang, "zh_only"))}"' if zh_only else ""
+        pre = re.sub(r'\s*title="[^"]*"', "", pre)
+        post = re.sub(r'\s*title="[^"]*"', "", post)
+        return f'<a{pre}href="{new}"{post}{title}>'
+
+    return _A_TAG.sub(repl, body_html)
+
+
 def dark_nav(project: str, zone: str | None, prefix: str, lang: str, ctx: dict) -> str:
     """门脸层导航（深色玻璃胶囊）。所有非文档页共用。"""
     routes = ctx.get("routes") or {}
@@ -290,7 +320,7 @@ def dark_nav(project: str, zone: str | None, prefix: str, lang: str, ctx: dict) 
       <a href="{prefix}index.html" class="nav-logo" aria-label="{html.escape(I18N.t(lang, "brand_home"))}">
         <img src="{prefix}assets/img/jhyy-logo.png" class="logo-img" height="30" alt="机会翼游 · JHYY" />
       </a>
-      {project_switcher(project, lang)}
+      {project_switcher(project, lang, routes)}
       {zone_links}{lang_switcher(ctx)}
       <div class="nav-cta-group">
         <a href="{repo}" class="nav-icon-btn" aria-label="{html.escape(I18N.t(lang, "github"))}">{GITHUB_ICON}</a>
@@ -323,7 +353,7 @@ def docs_nav(project: str, prefix: str, zone: str | None, lang: str, ctx: dict) 
         <img src="{prefix}assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
         <span class="doc-brand-name">JHYY</span>
       </a>
-      {project_switcher("compiler", lang)}
+      {project_switcher("compiler", lang, routes)}
       <nav class="doc-zones" aria-label="{html.escape(I18N.t(lang, "primary_nav"))}">{"".join(links)}</nav>
       <div class="doc-topbar-right">
         <button class="doc-search-btn" type="button" data-search-open data-search-index="{prefix}search-index.json" data-search-lang="{lang}" aria-label="{html.escape(I18N.t(lang, "search_docs"))}">
@@ -429,11 +459,10 @@ def footer(project: str, prefix: str, lang: str, ctx: dict) -> str:
 # ── 布局 ────────────────────────────────────────────────────────────────────
 
 FONTS = (
-    '<link rel="preconnect" href="https://fonts.googleapis.com" />\n'
-    '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n'
-    '  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1'
-    '&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700'
-    '&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />'
+    # 字体**自托管**（assets/fonts/）——不走 Google Fonts CDN：
+    # fonts.googleapis.com 在中国大陆取不到，取不到就整站掉回系统默认字体。
+    # @font-face 规则在 assets/css/fonts.css。
+    '<link rel="stylesheet" href="{p}assets/css/fonts.css" />'
 )
 
 
@@ -467,10 +496,16 @@ def head(meta: dict, prefix: str, layout: str, lang: str = "zh", ctx: dict | Non
   <meta property="og:description" content="{html.escape(desc, quote=True)}" />
   <meta property="og:type" content="website" />
   {alt_html}
-  {FONTS}
+  {FONTS.format(p=prefix)}
   <link rel="stylesheet" href="{prefix}{css}" />
   {extra}
   <link rel="icon" type="image/png" sizes="any" href="{prefix}assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale {{ opacity: 1 !important; transform: none !important; }}
+    .reveal-line .line-inner {{ transform: none !important; }}
+  </style></noscript>
 </head>
 """
 
@@ -750,6 +785,7 @@ def build() -> int:
             headings: list = []
             renderer = Renderer(C.WIKI_LINKS, lambda lv, t, s: headings.append((lv, t, s)))
             body_html = renderer.render(body)
+            body_html = localize_body_links(body_html, lang, routes)
             page = render_docs_layout(meta, body_html, prefix, out, headings, ctx)
             # 侧栏当前项高亮：按 self 匹配
             page = page.replace('class="doc-nav-group"', 'class="doc-nav-group"', 1)
@@ -780,6 +816,7 @@ def build() -> int:
                 )
             else:
                 body_html = '<main id="top" class="page-main">\n' + Renderer(C.WIKI_LINKS).render(body) + "\n</main>"
+            body_html = localize_body_links(body_html, lang, routes)
             page = render_page_layout(meta, body_html, prefix, project, zone, ctx)
             written.append(out)
             if meta.get("search", "true") != "false":

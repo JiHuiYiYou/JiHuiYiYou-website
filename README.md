@@ -24,11 +24,20 @@
 ## 怎么改
 
 ```bash
-# 改内容 → content/ 下编辑 Markdown，然后重新生成
+# 改内容 → content/ 下编辑 Markdown（英文内容在 content/en/），然后重新生成
 python tools/build.py
 
 # 检查站内链接与锚点
 python tools/build.py --check
+
+# 事实对拍：官网的 siteconfig.FACTS ↔ 编译器仓的 docs/internal/FACTS.md
+python tools/check_facts.py          # 需要编译器仓（默认 ../JiHuiYiYou，可用 JHYY_REPO 指）
+
+# 孪生页检查：每个页面都要有中英两版
+python tools/check_twins.py
+
+# i18n 一致性：正文不许手写事实、英文页不许出现中文、术语说法一致
+python tools/check_i18n.py
 
 # 把文档里的 .jhyy 代码块交给真编译器验一遍
 python tools/check_examples.py
@@ -38,6 +47,12 @@ python tools/check_examples.py
 `build` + `check`，两条都绿再提交。
 
 **版本号只有一处**：`tools/siteconfig.py` 里的 `SITE_VERSION`。改那里，全站跟着改。
+
+**事实也只有一份**：正文写 `{{site_version}}` 这类占位符，值从 `siteconfig.FACTS` 取 ——
+中英两种语言共用同一份常量，不可能对不上数字。`tools/check_facts.py` 负责跟编译器仓对拍。
+
+**双语**：站点是构建期双树 —— `content/**` 是中文（`/`），`content/en/**` 是英文（`/en/`）。
+两个页面互为孪生页，`tools/check_twins.py` 守。
 
 内容写作规约见 [`tools/CONTENT_GUIDE.md`](tools/CONTENT_GUIDE.md)；
 设计与架构见 [`DESIGN.md`](DESIGN.md)。

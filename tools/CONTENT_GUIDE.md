@@ -8,6 +8,24 @@
 - **不要**改 `tools/`、`assets/`、任何 `.html`、任何 `downloads/` 里的二进制。
 - 写完**不要**运行 `python tools/build.py`（统一构建由主控执行）。
 
+## 1.5 两棵树
+
+- `content/**` = **中文**（站点根 `/`）
+- `content/en/**` = **英文**（`/en/`）
+
+两棵树同构：同一个 route 的中英两页互为**孪生页**。
+每个页面都要有孪生页 —— `tools/check_twins.py` 守。
+
+写英文源时：
+
+- 站内链接**照抄中文源的目标**（`/compiler/docs/tour.html`）—— 构建器
+  会按当前语言改写到英文孪生页；没有英文孪生页的（文档层本轮还没译）
+  保留指向中文页，并在 Markdown 链接上加标题：`[快速上手](/compiler/docs/getting-started.html "Chinese only")`
+- **不要**在英文源里写相对路径
+- 英文源**不许出现中文**（专名 `机会翼游` 除外）—— `tools/check_i18n.py` 守
+
+---
+
 ## 2. front matter（必须，原样保留字段名）
 
 ```markdown
@@ -94,6 +112,46 @@ zone: docs
 **不要在正文里手写版本号。** 全部链接到 `/compiler/download/index.html` 或写「当前稳定版」，
 让下载页承担版本事实。唯一例外是「语言规范 v4.0.0」「ABI v4.0.0」这种**契约版本**
 ——它们和工具链版本是两件事，写清楚即可。
+
+### 事实用占位符，不要写字面量
+
+正文里写 `{{key}}`，构建器从 `tools/siteconfig.py` 的 `FACTS` 取值：
+
+```markdown
+回归 {{regress_pass}} PASS / {{regress_failed}} FAIL（共 {{regress_total}} 条）
+```
+
+**两种语言共用同一份常量 ⇒ 不可能对不上数字。**
+`tools/check_i18n.py` 会把正文里手写的特征数字（`4.1.4` / `279` / `299` …）
+当**错误**报出来；`tools/check_facts.py` 负责跟编译器仓那份真相对拍。
+
+常用键：`site_version` `site_version_date` `spec_version` `abi_version`
+`binary_format_version` `ide_version` `regress_total` `regress_pass`
+`regress_skip` `regress_failed` `assertions` `artifact_checks`
+`workarounds_total` `workarounds_active` `stdlib_modules` `ide_gate_pass`
+`ide_gate_total` `os_spike_measured` `vex_baseline_total` `vex_baseline_done`
+`vex_baseline_pending` `legacy_abi_version`
+
+### 资源路径
+
+正文里的资源路径写**根绝对**（`/assets/img/…`）—— 构建器按页面深度改写成
+相对路径。英文树尤其不能写相对路径（`/en/` 下会解析到 `/en/assets/…`）。
+
+## 4.5 术语
+
+一个概念**只准一种说法**。术语表在 `tools/i18n.py` 的 `GLOSSARY`，
+用 `python tools/check_i18n.py --dump-glossary` 打印成 Markdown 表格贴到本文件。
+
+首批：自举/self-hosted · 面向表达式/expression-oriented · 产物级门/artifact checks ·
+裸机/bare metal · arena/arena · 问题台账/workaround ledger · 工作台/workbench ·
+目标三元组/target triple · 契约版本/contract version · 发射器/emitter ·
+回归套件/regression suite · 逐字节相同/byte-identical · 不动点/fixed point ·
+家族/family
+
+两种语言里都**保持英文**的词（`KEEP_EN`）：arena、IR、ABI、target、backend、
+freestanding、no_std、linker script、sysroot、calling convention …
+
+---
 
 ## 5. 事实来源（只读）
 

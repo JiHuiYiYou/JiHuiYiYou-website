@@ -8,7 +8,7 @@ zone: home
 
 <main id="top">
     <!-- ============ HERO ============ -->
-    <section class="hero" aria-label="Hero">
+    <section class="hero" aria-label="首屏">
       <div class="container hero-inner">
         <!-- Big icon centerpiece -->
         <div class="hero-icon reveal" data-reveal-delay="0">
@@ -20,21 +20,21 @@ zone: home
 
         <!-- Headline -->
         <h1 class="hero-title">
-          <span class="reveal-line"><span class="line-inner">A language</span></span>
-          <span class="reveal-line"><span class="line-inner">that <em>compiles</em></span></span>
-          <span class="reveal-line"><span class="line-inner accent">itself.</span></span>
+          <span class="reveal-line"><span class="line-inner">一门</span></span>
+          <span class="reveal-line"><span class="line-inner">能<em>编译自己</em></span></span>
+          <span class="reveal-line"><span class="line-inner accent">的语言。</span></span>
         </h1>
 
         <!-- Sub -->
         <p class="hero-sub reveal" data-reveal-delay="700">
           <img src="/assets/img/jhyy-logo.png" class="logo-img logo-img--hero" height="44" alt="机会翼游" />
-          <span class="hero-sub-en">— a statically-typed, expression-oriented systems language. <strong>The compiler is written in itself</strong>: <code>compiler/src0/*.jhyy</code> is the only implementation, and the backend is a self-written amd64 emitter — no LLVM, no vendored QBE, no garbage collector. Currently <code>v{{site_version}}</code>.</span>
+          <span class="hero-sub-en">— 一门静态类型、面向表达式的系统编程语言。<strong>编译器用这门语言自己写</strong>：<code>compiler/src0/*.jhyy</code> 是唯一的实现，后端是自研的 amd64 发射器——没有 LLVM，没有 vendor 进来的 QBE，也没有垃圾回收器。当前版本 <code>v{{site_version}}</code>。</span>
         </p>
 
         <!-- CTAs -->
         <div class="cta-row reveal" data-reveal-delay="900">
           <a href="#get-started" class="btn-primary magnetic" data-magnetic>
-            <span class="btn-label">Get started</span>
+            <span class="btn-label">开始使用</span>
             <span class="btn-icon-wrap">
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12 L19 12 M13 5 L19 12 L13 19" />
@@ -42,7 +42,7 @@ zone: home
             </span>
           </a>
           <a href="/compiler/docs/spec.html" class="btn-ghost magnetic" data-magnetic>
-            <span class="btn-label">Read the spec</span>
+            <span class="btn-label">读规范</span>
             <span class="btn-icon-wrap">
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
@@ -55,11 +55,11 @@ zone: home
         <div class="hero-meta reveal" data-reveal-delay="1100">
           <div class="meta-item">
             <span class="meta-dot meta-dot--ok"></span>
-            <span>Stage 2 byte-equal closed loop</span>
+            <span>Stage 2 逐字节闭环</span>
           </div>
           <div class="meta-item">
             <span class="meta-dot meta-dot--brand"></span>
-            <span>MIT licensed</span>
+            <span>MIT 许可</span>
           </div>
           <div class="meta-item">
             <span class="meta-dot"></span>
@@ -107,45 +107,45 @@ fn dist_sq(a: Point, b: Point) -> i32 {
 
       <!-- Scroll cue -->
       <div class="scroll-cue" aria-hidden="true">
-        <span class="scroll-cue-text">Scroll</span>
+        <span class="scroll-cue-text">向下滚动</span>
         <span class="scroll-cue-line"></span>
       </div>
     </section>
 
     <!-- ============ MARQUEE: principle strip ============ -->
-    <section class="principles" aria-label="Principles">
+    <section class="principles" aria-label="设计原则">
       <div class="marquee">
         <div class="marquee-track">
-          <span>Statically typed</span><span class="dot-sep">◆</span>
-          <span>Expression-oriented</span><span class="dot-sep">◆</span>
-          <span>Compiled to native</span><span class="dot-sep">◆</span>
-          <span>No garbage collector</span><span class="dot-sep">◆</span>
-          <span>First-class FFI to C</span><span class="dot-sep">◆</span>
-          <span>Exhaustive pattern match</span><span class="dot-sep">◆</span>
-          <span>Statically typed</span><span class="dot-sep">◆</span>
-          <span>Expression-oriented</span><span class="dot-sep">◆</span>
-          <span>Compiled to native</span><span class="dot-sep">◆</span>
-          <span>No garbage collector</span><span class="dot-sep">◆</span>
-          <span>First-class FFI to C</span><span class="dot-sep">◆</span>
-          <span>Exhaustive pattern match</span><span class="dot-sep">◆</span>
+          <span>静态类型</span><span class="dot-sep">◆</span>
+          <span>面向表达式</span><span class="dot-sep">◆</span>
+          <span>编译为本地代码</span><span class="dot-sep">◆</span>
+          <span>无垃圾回收</span><span class="dot-sep">◆</span>
+          <span>一等 C FFI</span><span class="dot-sep">◆</span>
+          <span>穷尽式模式匹配</span><span class="dot-sep">◆</span>
+          <span>静态类型</span><span class="dot-sep">◆</span>
+          <span>面向表达式</span><span class="dot-sep">◆</span>
+          <span>编译为本地代码</span><span class="dot-sep">◆</span>
+          <span>无垃圾回收</span><span class="dot-sep">◆</span>
+          <span>一等 C FFI</span><span class="dot-sep">◆</span>
+          <span>穷尽式模式匹配</span><span class="dot-sep">◆</span>
         </div>
       </div>
     </section>
 
     <!-- ============ WHY JHYY (Bento) ============ -->
-    <section id="language" class="section section-why" aria-label="Why JHYY">
+    <section id="language" class="section section-why" aria-label="为什么是 JHYY">
       <div class="container">
         <header class="section-head">
           <div class="eyebrow reveal">
             <span class="eyebrow-dot"></span>
-            <span class="eyebrow-text">01 / Why JHYY</span>
+            <span class="eyebrow-text">01 / 为什么是 JHYY</span>
           </div>
           <h2 class="section-title">
-            <span class="reveal-line"><span class="line-inner">A language,</span></span>
-            <span class="reveal-line"><span class="line-inner">not a framework.</span></span>
+            <span class="reveal-line"><span class="line-inner">一门语言，</span></span>
+            <span class="reveal-line"><span class="line-inner">不是一个框架。</span></span>
           </h2>
           <p class="section-sub reveal">
-            Four opinions we won't compromise on. Each is a small, specific promise — not a marketing tagline.
+            四条不让步的立场。每条都是一个小而具体的承诺，不是营销口号。
           </p>
         </header>
 
@@ -156,11 +156,11 @@ fn dist_sq(a: Point, b: Point) -> i32 {
               <div class="bezel-inner">
                 <div class="card-head">
                   <span class="card-num">01</span>
-                  <span class="card-tag">Type system</span>
+                  <span class="card-tag">类型系统</span>
                 </div>
-                <h3 class="card-title">Static, not gradual.</h3>
+                <h3 class="card-title">静态，不是渐进。</h3>
                 <p class="card-body">
-                  Types are checked at compile time. There is no <code>any</code>, no implicit conversion, no escape hatch. If a value is <code>i32</code>, it is <code>i32</code> for the rest of the program.
+                  类型在编译期检查。没有 <code>any</code>，没有隐式转换，没有逃生口。值一旦是 <code>i32</code>，在程序余下部分它就是 <code>i32</code>。
                 </p>
                 <div class="card-snippet">
 <pre class="code-block code-block--mini"><code><span class="kw">type</span> Point = <span class="kw">struct</span> { x: <span class="ty">i32</span>, y: <span class="ty">i32</span> }
@@ -185,11 +185,11 @@ fn dist_sq(a: Point, b: Point) -> i32 {
               <div class="bezel-inner">
                 <div class="card-head">
                   <span class="card-num">02</span>
-                  <span class="card-tag">Control flow</span>
+                  <span class="card-tag">控制流</span>
                 </div>
-                <h3 class="card-title">Expressions, not statements.</h3>
+                <h3 class="card-title">表达式，不是语句。</h3>
                 <p class="card-body">
-                  <code>if</code>, <code>match</code>, and blocks return values. The last expression of a function is its return — no <code>return</code> keyword needed.
+                  <code>if</code>、<code>match</code> 和块都返回值。函数的最后一个表达式就是返回值——不需要 <code>return</code> 关键字。
                 </p>
                 <div class="card-snippet">
 <pre class="code-block code-block--mini"><code><span class="kw">fn</span> dist_sq(a: Point, b: Point) -&gt; <span class="ty">i32</span> {
@@ -208,19 +208,19 @@ fn dist_sq(a: Point, b: Point) -> i32 {
               <div class="bezel-inner">
                 <div class="card-head">
                   <span class="card-num">03</span>
-                  <span class="card-tag">Trajectory</span>
+                  <span class="card-tag">路线</span>
                 </div>
-                <h3 class="card-title">A compiler that compiles itself.</h3>
+                <h3 class="card-title">一个能编译自己的编译器。</h3>
                 <p class="card-body">
-                  The compiler is written in itself. It compiles itself, then compiles itself again, and the gate requires the emitted assembly to be <strong>byte-identical</strong> across generations. The fixed point is <em>reached</em>, not assumed — the local gate iterates N=10 generations.
+                  编译器用这门语言自己写。它编译自己，再让编译出来的自己编译自己；门要求各代产出的汇编<strong>逐字节相同</strong>。不动点是<em>跑出来</em>的，不是假设的——本地的门迭代 N=10 代。
                 </p>
                 <div class="card-visual">
                   <div class="phase-pills">
-                    <span class="pp pp--done">C host</span>
+                    <span class="pp pp--done">C 宿主</span>
                     <span class="pp-arrow">→</span>
-                    <span class="pp pp--done">JHYY host</span>
+                    <span class="pp pp--done">JHYY 宿主</span>
                     <span class="pp-arrow">→</span>
-                    <span class="pp pp--active">Byte-equal closure ✓</span>
+                    <span class="pp pp--active">逐字节闭合 ✓</span>
                   </div>
                 </div>
               </div>
@@ -234,18 +234,18 @@ fn dist_sq(a: Point, b: Point) -> i32 {
                 <div class="card-half">
                   <div class="card-head">
                     <span class="card-num">04</span>
-                    <span class="card-tag">Specification</span>
+                    <span class="card-tag">规范</span>
                   </div>
-                  <h3 class="card-title">One ABI to rule them all.</h3>
+                  <h3 class="card-title">一个 ABI 统管全部。</h3>
                   <p class="card-body">
-                    The language spec (<code>v{{spec_version}}</code>) and the ABI (<code>v{{abi_version}}</code>) are both locked. The spec is a <strong>citable contract</strong> — third parties can build compatible compilers against it, not just against some commit.
+                    语言规范（<code>v{{spec_version}}</code>）与 ABI（<code>v{{abi_version}}</code>）都已经锁定。规范是一份<strong>可引用的契约</strong>——第三方可以照着它写兼容的编译器，而不只是照着某个提交写。
                   </p>
                 </div>
                 <div class="card-half card-half--visual">
                   <div class="doc-stamp">
                     <div class="doc-stamp-line"><span>SPEC</span><span class="stamp-val">v{{spec_version}}</span></div>
-                    <div class="doc-stamp-line"><span>ABI</span><span class="stamp-val">v{{abi_version}} · locked</span></div>
-                    <div class="doc-stamp-line"><span>BACKEND</span><span class="stamp-val">self-written amd64</span></div>
+                    <div class="doc-stamp-line"><span>ABI</span><span class="stamp-val">v{{abi_version}} · 已锁定</span></div>
+                    <div class="doc-stamp-line"><span>BACKEND</span><span class="stamp-val">自研 amd64</span></div>
                     <div class="doc-stamp-line"><span>TARGET</span><span class="stamp-val">amd64_win</span></div>
                   </div>
                 </div>
@@ -257,21 +257,21 @@ fn dist_sq(a: Point, b: Point) -> i32 {
     </section>
 
     <!-- ============ INSTALL ============ -->
-    <section id="install" class="section section-install" aria-label="Install">
+    <section id="install" class="section section-install" aria-label="安装">
       <div class="container">
         <header class="section-head">
           <div class="eyebrow reveal">
             <span class="eyebrow-dot"></span>
-            <span class="eyebrow-text">02 / Install</span>
+            <span class="eyebrow-text">02 / 安装</span>
           </div>
           <h2 class="section-title">
-            <span class="reveal-line"><span class="line-inner">Three minutes</span></span>
-            <span class="reveal-line"><span class="line-inner">from download to <em>hello.exe</em>.</span></span>
+            <span class="reveal-line"><span class="line-inner">三分钟</span></span>
+            <span class="reveal-line"><span class="line-inner">从下载到 <em>hello.exe</em>。</span></span>
           </h2>
           <p class="section-sub reveal">
-            One installer covers the compiler, the <code>.jhyy</code> file association, the VS Code extension and
-            <code>PATH</code>. Since v4.1.0 it also bundles a minimal native ucrt64 toolchain — so
-            <strong>MSYS2 is not required to use the compiler</strong>. Only building it from source needs MSYS2.
+            一个安装器覆盖编译器、<code>.jhyy</code> 文件关联、VS Code 扩展和
+            <code>PATH</code>。从 v4.1.0 起还附带一套最小的原生 ucrt64 工具链——所以
+            <strong>用编译器不需要 MSYS2</strong>。只有从源码构建才需要 MSYS2。
           </p>
         </header>
 
@@ -284,7 +284,7 @@ fn dist_sq(a: Point, b: Point) -> i32 {
                   <span class="card-num">A</span>
                   <span class="card-tag">推荐 · Windows x64</span>
                 </div>
-                <h3 class="card-title">GUI installer.</h3>
+                <h3 class="card-title">GUI 安装器。</h3>
                 <p class="card-body">
                   编译器 + <code>.jhyy</code> 文件关联 + VS Code 扩展 + <code>PATH</code>，外加一份最小原生 ucrt64
                   工具链。装完直接写代码，不需要先配环境。
@@ -319,7 +319,7 @@ Hello, world!
                   <span class="card-num">B</span>
                   <span class="card-tag">企业 · 无 GUI</span>
                 </div>
-                <h3 class="card-title">MSI for SCCM.</h3>
+                <h3 class="card-title">给 SCCM 用的 MSI。</h3>
                 <p class="card-body">
                   同样的载荷，不要 GUI 向导。给 SCCM / Intune / 组策略这类受管环境用。
                 </p>
@@ -341,7 +341,7 @@ Hello, world!
                   <span class="card-num">C</span>
                   <span class="card-tag">winget · scoop</span>
                 </div>
-                <h3 class="card-title">Package managers.</h3>
+                <h3 class="card-title">包管理器。</h3>
                 <p class="card-body">
                   v{{site_version}} 起提供 winget 与 scoop 入口。确切包标识见
                   <a href="/compiler/download/#pkgmgr">下载页</a>。
@@ -363,7 +363,7 @@ Hello, world!
                   <span class="card-num">D</span>
                   <span class="card-tag">源码 · Makefile</span>
                 </div>
-                <h3 class="card-title">Build from source.</h3>
+                <h3 class="card-title">从源码构建。</h3>
                 <p class="card-body">
                   需要 MSYS2 + <code>mingw-w64-ucrt-x86_64-gcc</code> + binutils。一次 <code>make</code> 产出
                   <code>jhyy.exe</code>；自举闭环的门在本地跑——N=10 代的 <code>.il</code> 与 <code>.s</code>
@@ -402,16 +402,16 @@ Hello, world!
       </div>
     </section>
     <!-- ============ CODE SHOWCASE ============ -->
-    <section class="section section-code" aria-label="Code showcase">
+    <section class="section section-code" aria-label="代码示例">
       <div class="container">
         <header class="section-head">
           <div class="eyebrow reveal">
             <span class="eyebrow-dot"></span>
-            <span class="eyebrow-text">03 / A taste of the language</span>
+            <span class="eyebrow-text">03 / 一点语言的样子</span>
           </div>
           <h2 class="section-title">
-            <span class="reveal-line"><span class="line-inner">Four files,</span></span>
-            <span class="reveal-line"><span class="line-inner">the whole grammar.</span></span>
+            <span class="reveal-line"><span class="line-inner">四个文件，</span></span>
+            <span class="reveal-line"><span class="line-inner">整个语法。</span></span>
           </h2>
         </header>
 
@@ -431,7 +431,7 @@ Hello, world!
             <button class="stab" data-tab="03" type="button">
               <span class="stab-num">03</span>
               <span class="stab-name">fib.jhyy</span>
-              <span class="stab-sub">recursion</span>
+              <span class="stab-sub">递归</span>
             </button>
             <button class="stab" data-tab="04" type="button">
               <span class="stab-num">04</span>
@@ -457,12 +457,12 @@ Hello, world!
                   <span class="panel-filename">hello.jhyy</span>
                 </div>
                 <div class="file-meta">
-                  <button class="copy-btn" type="button" aria-label="Copy code">
+                  <button class="copy-btn" type="button" aria-label="复制代码">
                     <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                       <rect x="9" y="9" width="13" height="13" rx="2" />
                       <path d="M5 15 H4 a2 2 0 0 1 -2 -2 V4 a2 2 0 0 1 2 -2 h9 a2 2 0 0 1 2 2 v1" />
                     </svg>
-                    <span>Copy</span>
+                    <span>复制</span>
                   </button>
                 </div>
               </div>
@@ -518,19 +518,19 @@ Hello, world!
     </section>
 
     <!-- ============ TOOLCHAIN ============ -->
-    <section id="toolchain" class="section section-toolchain" aria-label="Toolchain">
+    <section id="toolchain" class="section section-toolchain" aria-label="工具链">
       <div class="container">
         <header class="section-head">
           <div class="eyebrow reveal">
             <span class="eyebrow-dot"></span>
-            <span class="eyebrow-text">04 / The toolchain</span>
+            <span class="eyebrow-text">04 / 工具链</span>
           </div>
           <h2 class="section-title">
-            <span class="reveal-line"><span class="line-inner">A compiler,</span></span>
-            <span class="reveal-line"><span class="line-inner">and everything around it.</span></span>
+            <span class="reveal-line"><span class="line-inner">一个编译器，</span></span>
+            <span class="reveal-line"><span class="line-inner">和它周围的一切。</span></span>
           </h2>
           <p class="section-sub reveal">
-            You don't only get <code>jhyy.exe</code>. You get an editor extension, an MCP server for Claude Code, and an arena runtime — the four pieces a real language needs to be usable.
+            你拿到的可不只是 <code>jhyy.exe</code>。还有编辑器扩展、给 Claude Code 用的 MCP 服务，以及一套 arena 运行时——一门语言真要能用起来，缺的就是这四样。
           </p>
         </header>
 
@@ -545,12 +545,12 @@ Hello, world!
                     <path d="M14 4 L10 20" />
                   </svg>
                 </div>
-                <h3 class="tool-name">Compiler</h3>
+                <h3 class="tool-name">编译器</h3>
                 <p class="tool-desc">
-                  <code>jhyy compile foo.jhyy -o foo.exe</code> runs the pipeline: <strong>Lex → Parse → Sema → IL → 自研 amd64 发射器 → native</strong>. Diagnostics carry line + column. Exit codes match <code>clang</code>. No GC, no malloc hot-path — one <code>arena_alloc</code>, one <code>arena_free</code> at the end.
+                  <code>jhyy compile foo.jhyy -o foo.exe</code> 跑的是这条流水线：<strong>Lex → Parse → Sema → IL → 自研 amd64 发射器 → 本机代码</strong>。诊断带行号 + 列号。退出码与 <code>clang</code> 一致。没有 GC，热路径上没有 malloc——一次 <code>arena_alloc</code>，收尾一次 <code>arena_free</code>。
                 </p>
                 <ul class="tool-meta">
-                  <li><span>~</span>39 000 LOC JHYY</li>
+                  <li><span>~</span>39 000 行 JHYY</li>
                   <li><span>·</span>51 个 .jhyy 文件</li>
                   <li><span>·</span>自举 · 唯一实现</li>
                 </ul>
@@ -569,14 +569,14 @@ Hello, world!
                     <path d="M12 18 L12 21" />
                   </svg>
                 </div>
-                <h3 class="tool-name">VS Code extension</h3>
+                <h3 class="tool-name">VS Code 扩展</h3>
                 <p class="tool-desc">
-                  First-class <code>.jhyy</code> language support: syntax highlighting, snippets, problem matchers, and a configured <strong>F6</strong> shortcut to compile &amp; run via Code Runner.
+                  一等的 <code>.jhyy</code> 语言支持：语法高亮、代码片段、问题匹配器，以及一个配好的 <strong>F6</strong> 快捷键，经 Code Runner 编译并运行。
                 </p>
                 <ul class="tool-meta">
-                  <li><span>·</span>F6 run</li>
+                  <li><span>·</span>F6 运行</li>
                   <li><span>·</span>Ctrl+Shift+B</li>
-                  <li><span>·</span>Snippets</li>
+                  <li><span>·</span>代码片段</li>
                 </ul>
               </div>
             </div>
@@ -592,13 +592,13 @@ Hello, world!
                     <path d="M12 12 V17" />
                   </svg>
                 </div>
-                <h3 class="tool-name">MCP server</h3>
+                <h3 class="tool-name">MCP 服务</h3>
                 <p class="tool-desc">
-                  11 tools for AI agents: <code>jhyy_run</code>, <code>jhyy_check</code>, <code>jhyy_compile</code>, <code>jhyy_format</code>, <code>jhyy_get_il</code>, <code>jhyy_il_diff</code>, <code>jhyy_lang_ref</code>, <code>jhyy_abi_info</code>, <code>jhyy_regress</code>, <code>jhyy_selfhost_check</code>, <code>jhyy_workarounds</code>.
+                  给 AI 编码助手的 11 个工具：<code>jhyy_run</code>、<code>jhyy_check</code>、<code>jhyy_compile</code>、<code>jhyy_format</code>、<code>jhyy_get_il</code>、<code>jhyy_il_diff</code>、<code>jhyy_lang_ref</code>、<code>jhyy_abi_info</code>、<code>jhyy_regress</code>、<code>jhyy_selfhost_check</code>、<code>jhyy_workarounds</code>。
                 </p>
                 <ul class="tool-meta">
-                  <li><span>·</span>11 tools</li>
-                  <li><span>·</span>Selfhost verify</li>
+                  <li><span>·</span>11 个工具</li>
+                  <li><span>·</span>自举校验</li>
                   <li><span>·</span>Stdio</li>
                 </ul>
               </div>
@@ -615,9 +615,9 @@ Hello, world!
                     <path d="M3 17 L12 21 L21 17" />
                   </svg>
                 </div>
-                <h3 class="tool-name">Windows installer</h3>
+                <h3 class="tool-name">Windows 安装器</h3>
                 <p class="tool-desc">
-                  GUI installer <strong>~55 MB</strong>（含 .NET 8 Desktop Runtime 与内置的最小原生 ucrt64 工具链）；无 GUI 的 <strong>MSI ~28 MB</strong> 给 SCCM / Intune / 组策略。注册 <code>.jhyy</code> 文件关联、写入 <code>PATH</code>、自动装 VS Code 扩展。<strong>两者都未代码签名</strong>——SmartScreen 会拦一下。
+                  GUI 安装器 <strong>~55 MB</strong>（含 .NET 8 Desktop Runtime 与内置的最小原生 ucrt64 工具链）；无 GUI 的 <strong>MSI ~28 MB</strong> 给 SCCM / Intune / 组策略。注册 <code>.jhyy</code> 文件关联、写入 <code>PATH</code>、自动装 VS Code 扩展。<strong>两者都未代码签名</strong>——SmartScreen 会拦一下。
                 </p>
                 <ul class="tool-meta">
                   <li><span>·</span>WiX 7.0.0</li>
@@ -640,8 +640,8 @@ Hello, world!
             <span class="eyebrow-text">05 / 现状与边界</span>
           </div>
           <h2 class="section-title">
-            <span class="reveal-line"><span class="line-inner">What works,</span></span>
-            <span class="reveal-line"><span class="line-inner">and what doesn't.</span></span>
+            <span class="reveal-line"><span class="line-inner">什么能用，</span></span>
+            <span class="reveal-line"><span class="line-inner">什么不能用。</span></span>
           </h2>
           <p class="section-sub reveal">
             JHYY 是 <strong>pre-1.0</strong> 的项目：自举成立、回归全绿，但它还不是 C 或 Rust 的替代品。
@@ -661,7 +661,7 @@ Hello, world!
                 <p class="card-body">
                   编译器唯一的实现是 JHYY。它编译自己，再让编译出来的自己编译自己，门要求两代产出的汇编
                   <strong>逐字节相同</strong>。回归 {{regress_pass}} PASS / 0 FAIL / {{regress_skip}} SKIP（共 {{regress_total}} 条），
-                  artifact 检查 {{artifact_checks}} PASS / 0 FAIL，问题台账 {{workarounds_total}} 条里 ACTIVE = {{workarounds_active}}。
+                  产物级门 {{artifact_checks}} PASS / 0 FAIL，问题台账 {{workarounds_total}} 条里 ACTIVE = {{workarounds_active}}。
                 </p>
                 <div class="card-foot-row">
                   <span class="card-meta">spec v{{spec_version}} · ABI v{{abi_version}} · binary format v{{binary_format_version}}</span>
@@ -681,7 +681,7 @@ Hello, world!
                 <p class="card-body">
                   只有 <strong>amd64</strong>——没有 aarch64、没有 riscv、没有 wasm。宿主只有 Windows x64。
                   UEFI 入口路径尚未完工（ABI § 12.8）。没有 traits，没有 GC，借用检查目前只有最小的一层。
-                  安装器和 MSI 未签名。裸机目标只到 freestanding，链接仍需外部 <code>ld</code>。
+                  安装器和 MSI 未签名。裸机目标目前只支持裸机模式，链接仍需外部 <code>ld</code>。
                 </p>
                 <div class="card-foot-row">
                   <a href="/compiler/docs/osdev.html" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
@@ -739,16 +739,16 @@ Hello, world!
       </div>
     </section>
     <!-- ============ PERFORMANCE ============ -->
-    <section id="numbers" class="section section-perf" aria-label="By the numbers">
+    <section id="numbers" class="section section-perf" aria-label="看数字">
       <div class="container">
         <header class="section-head">
           <div class="eyebrow reveal">
             <span class="eyebrow-dot"></span>
-            <span class="eyebrow-text">06 / By the numbers</span>
+            <span class="eyebrow-text">06 / 看数字</span>
           </div>
           <h2 class="section-title">
-            <span class="reveal-line"><span class="line-inner">No VM.</span></span>
-            <span class="reveal-line"><span class="line-inner">No JIT. No runtime.</span></span>
+            <span class="reveal-line"><span class="line-inner">没有 VM。</span></span>
+            <span class="reveal-line"><span class="line-inner">没有 JIT。没有运行时。</span></span>
           </h2>
           <p class="section-sub reveal">
             自研发射器在编译期直接产出 <code>amd64</code> 机器码。随附的运行时只有一个小 C 支撑库
@@ -783,7 +783,7 @@ Hello, world!
               <div class="bezel-inner">
                 <div class="perf-label">回归基线</div>
                 <div class="perf-value">{{regress_pass}} / {{regress_total}}</div>
-                <div class="perf-foot">PASS {{regress_pass}} · FAIL 0 · SKIP {{regress_skip}}，共 {{regress_total}} 条。另有 artifact 检查 {{artifact_checks}} PASS / 0 FAIL，问题台账 {{workarounds_total}} 条中 ACTIVE = {{workarounds_active}}。</div>
+                <div class="perf-foot">PASS {{regress_pass}} · FAIL 0 · SKIP {{regress_skip}}，共 {{regress_total}} 条。另有产物级门 {{artifact_checks}} PASS / 0 FAIL，问题台账 {{workarounds_total}} 条中 ACTIVE = {{workarounds_active}}。</div>
               </div>
             </div>
           </div>
@@ -810,7 +810,7 @@ Hello, world!
       </div>
     </section>
     <!-- ============ ABOUT THE AUTHOR (snippet) ============ -->
-    <section id="about" class="section section-about" aria-label="About">
+    <section id="about" class="section section-about" aria-label="关于作者">
       <div class="container">
         <div class="about-shell reveal">
           <div class="bezel-outer">
@@ -818,11 +818,11 @@ Hello, world!
               <div class="about-left">
                 <div class="eyebrow">
                   <span class="eyebrow-dot"></span>
-                  <span class="eyebrow-text">07 / About</span>
+                  <span class="eyebrow-text">07 / 关于作者</span>
                 </div>
                 <h2 class="about-title">北京 · RDFZ ICC · CS,<br/>一个编译器,以及它身后的 OS。</h2>
                 <p class="about-body">
-                  <strong>机会翼游</strong>(<code>JHYY</code>)的作者。两年前在 B 站看到朝歌大佬的 <strong>z 语言</strong>,受了点启发,就开始了 JHYY。一开始没什么方向,后来慢慢成形:rust-like + arena allocator,再后来确定了自举优先的方针 — 现在它<strong>已经自举了</strong>——编译器唯一实现就是 JHYY 自己,两代产物要求逐字节相同,不动点是跑出来的。后端也是自己写的 amd64 发射器,约 13 400 行,没有 LLVM 也没有 vendor 进来的 QBE。<br/><br/>自举之后做什么?借强类型 + 编译快的优势,我们开始构想自研 OS。先后确定了 <strong>Cap&lt;T&gt;</strong> capability、<strong>lang-debug</strong> ABI、以及 GUI 三个方向,目标 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS" target="_blank" rel="noopener">JiHuiYiYou-OS</a> microkernel。<br/><br/>写编译器之外偶尔也做点 Godot 独立游戏。<a href="https://github.com/JiHuiYiYou" target="_blank" rel="noopener">GitHub</a> 上能找到我。<br/><br/>项目初创不久,目前还只是一个草台班子(只有我一个人)。欢迎大家提建议、参与讨论、共同进步。<br/><br/><em>Code should have personality, and personality should have a debug mode.</em> ᐛ
+                  <strong>机会翼游</strong>(<code>JHYY</code>)的作者。两年前在 B 站看到朝歌大佬的 <strong>z 语言</strong>,受了点启发,就开始了 JHYY。一开始没什么方向,后来慢慢成形:rust-like + arena allocator,再后来确定了自举优先的方针 — 现在它<strong>已经自举了</strong>——编译器唯一实现就是 JHYY 自己,两代产物要求逐字节相同,不动点是跑出来的。后端也是自己写的 amd64 发射器,约 13 400 行,没有 LLVM 也没有 vendor 进来的 QBE。<br/><br/>自举之后做什么?借强类型 + 编译快的优势,我们开始构想自研 OS。先后确定了 <strong>Cap&lt;T&gt;</strong> capability、<strong>lang-debug</strong> ABI、以及 GUI 三个方向,目标 <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS" target="_blank" rel="noopener">JiHuiYiYou-OS</a> microkernel。<br/><br/>写编译器之外偶尔也做点 Godot 独立游戏。<a href="https://github.com/JiHuiYiYou" target="_blank" rel="noopener">GitHub</a> 上能找到我。<br/><br/>项目初创不久,目前还只是一个草台班子(只有我一个人)。欢迎大家提建议、参与讨论、共同进步。<br/><br/><em>代码应该有个性，而个性应该有个调试模式。</em> ᐛ
                 </p>
 
                 <div class="community-row reveal">
@@ -835,7 +835,7 @@ Hello, world!
                     </div>
                     <div class="community-value">
                       <code>429807125</code>
-                      <button class="ci-copy ci-copy--inline" type="button" aria-label="Copy QQ group number" data-copy-text="429807125">
+                      <button class="ci-copy ci-copy--inline" type="button" aria-label="复制 QQ 群号" data-copy-text="429807125">
                         <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                           <rect x="9" y="9" width="13" height="13" rx="2" />
                           <path d="M5 15 H4 a2 2 0 0 1 -2 -2 V4 a2 2 0 0 1 2 -2 h9 a2 2 0 0 1 2 2 v1" />
@@ -847,7 +847,7 @@ Hello, world!
                 </div>
 
                 <a href="#get-started" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
-                  <span class="btn-label">More about the project</span>
+                  <span class="btn-label">关于项目的更多</span>
                   <span class="btn-icon-wrap">
                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M5 12 L19 12 M13 5 L19 12 L13 19" />
@@ -858,16 +858,16 @@ Hello, world!
 
               <div class="about-right">
                 <div class="id-card">
-                  <div class="id-row"><span>Project</span><span>JHYY</span></div>
-                  <div class="id-row"><span>Chinese</span><span>机会翼游</span></div>
-                  <div class="id-row"><span>Author</span><span>JHYY</span></div>
-                  <div class="id-row"><span>Location</span><span>Beijing</span></div>
-                  <div class="id-row"><span>School</span><span>RDFZ ICC · CS</span></div>
-                  <div class="id-row"><span>Indie</span><span>Godot</span></div>
-                  <div class="id-row"><span>Email</span><span>15901598712@163.com</span></div>
-                  <div class="id-row"><span>Community</span><span>QQ 429807125</span></div>
-                  <div class="id-row"><span>License</span><span>MIT</span></div>
-                  <div class="id-row id-row--accent"><span>Current</span><span>v{{site_version}}</span></div>
+                  <div class="id-row"><span>项目</span><span>JHYY</span></div>
+                  <div class="id-row"><span>中文名</span><span>机会翼游</span></div>
+                  <div class="id-row"><span>作者</span><span>JHYY</span></div>
+                  <div class="id-row"><span>所在地</span><span>北京</span></div>
+                  <div class="id-row"><span>学校</span><span>RDFZ ICC · CS</span></div>
+                  <div class="id-row"><span>独立开发</span><span>Godot</span></div>
+                  <div class="id-row"><span>邮箱</span><span>15901598712@163.com</span></div>
+                  <div class="id-row"><span>社区</span><span>QQ 429807125</span></div>
+                  <div class="id-row"><span>许可</span><span>MIT</span></div>
+                  <div class="id-row id-row--accent"><span>当前版本</span><span>v{{site_version}}</span></div>
                 </div>
               </div>
             </div>
@@ -877,16 +877,16 @@ Hello, world!
     </section>
 
     <!-- ============ DOCS PREVIEW ============ -->
-    <section id="docs" class="section section-docs-preview" aria-label="Documentation">
+    <section id="docs" class="section section-docs-preview" aria-label="文档">
       <div class="container">
         <header class="section-head">
           <div class="eyebrow reveal">
             <span class="eyebrow-dot"></span>
-            <span class="eyebrow-text">07 / Documentation</span>
+            <span class="eyebrow-text">08 / 文档</span>
           </div>
           <h2 class="section-title">
-            <span class="reveal-line"><span class="line-inner">Read the spec,</span></span>
-            <span class="reveal-line"><span class="line-inner">not the marketing.</span></span>
+            <span class="reveal-line"><span class="line-inner">读规范，</span></span>
+            <span class="reveal-line"><span class="line-inner">不是读营销。</span></span>
           </h2>
           <p class="section-sub reveal">
             语言规范锁在 <code>v{{spec_version}}</code>，ABI 锁在 <code>v{{abi_version}}</code>。
@@ -898,7 +898,7 @@ Hello, world!
           <article class="docs-card reveal-card">
             <div class="bezel-outer"><div class="bezel-inner">
               <div class="docs-card-head">
-                <span class="docs-tag">Start</span>
+                <span class="docs-tag">入门</span>
                 <span class="docs-tag-version">5 分钟</span>
               </div>
               <h3 class="docs-card-title">快速上手</h3>
@@ -913,8 +913,8 @@ Hello, world!
           <article class="docs-card reveal-card" data-reveal-delay="100">
             <div class="bezel-outer"><div class="bezel-inner">
               <div class="docs-card-head">
-                <span class="docs-tag">Reference</span>
-                <span class="docs-tag-version">v{{spec_version}} · locked</span>
+                <span class="docs-tag">参考</span>
+                <span class="docs-tag-version">v{{spec_version}} · 已锁定</span>
               </div>
               <h3 class="docs-card-title">语言与 ABI 契约</h3>
               <p class="docs-card-body">语法与语义、类型布局、调用约定、struct 传参规则。第三方可以照着它写兼容编译器——不只对着某个提交写。</p>
@@ -928,8 +928,8 @@ Hello, world!
           <article class="docs-card reveal-card" data-reveal-delay="200">
             <div class="bezel-outer"><div class="bezel-inner">
               <div class="docs-card-head">
-                <span class="docs-tag">Specialised</span>
-                <span class="docs-tag-version">arena · freestanding</span>
+                <span class="docs-tag">专项</span>
+                <span class="docs-tag-version">arena · 裸机</span>
               </div>
               <h3 class="docs-card-title">两个专项指南</h3>
               <p class="docs-card-body"><strong>Arena</strong>：分配器也是生命周期工具，<code>reset</code> 与 <code>free</code> 各管什么。<strong>裸机</strong>：<code>no_std</code>、<code>naked</code>、内联汇编，以及 UEFI 入口尚未完工这件事。</p>
@@ -943,8 +943,8 @@ Hello, world!
           <article class="docs-card reveal-card" data-reveal-delay="300">
             <div class="bezel-outer"><div class="bezel-inner">
               <div class="docs-card-head">
-                <span class="docs-tag">Internals</span>
-                <span class="docs-tag-version">13 000+ LOC 后端</span>
+                <span class="docs-tag">内部实现</span>
+                <span class="docs-tag-version">13 000+ 行后端</span>
               </div>
               <h3 class="docs-card-title">编译器怎么实现</h3>
               <p class="docs-card-body">前端 → IL 文本 → 自研 amd64 发射器 → PE/COFF 或 ELF。自举闭环的门在本地跑：N=10 代的 <code>.il</code> 与 <code>.s</code> 逐字节相等。</p>
@@ -963,13 +963,13 @@ Hello, world!
       </div>
     </section>
     <!-- ============ RELATED TOOLS / ECOSYSTEM ============ -->
-    <section id="ecosystem" class="section section-ecosystem" aria-label="Related tools">
+    <section id="ecosystem" class="section section-ecosystem" aria-label="相关工具">
       <div class="container">
         <div class="eyebrow">
           <span class="eyebrow-dot"></span>
-          <span class="eyebrow-text">09 / Ecosystem</span>
+          <span class="eyebrow-text">09 / 生态</span>
         </div>
-        <h2 class="sec-title">Builds on trusted tools.</h2>
+        <h2 class="sec-title">站在可靠的工具之上。</h2>
         <p class="sec-sub">JHYY 自己的编译器是自研的;但打包、分发和链接这几步,靠的是一批无聊但可靠的第三方工具。下面是其中几个。</p>
 
         <div class="eco-grid">
@@ -979,7 +979,7 @@ Hello, world!
             </div>
             <div class="eco-meta">
               <div class="eco-name">GCC</div>
-              <div class="eco-desc">The compiler behind the compiler — <code>mingw-w64-ucrt-x86_64-gcc</code> drives every source build on Windows.</div>
+              <div class="eco-desc">编译器背后的编译器——Windows 上每次源码构建都由 <code>mingw-w64-ucrt-x86_64-gcc</code> 驱动。</div>
             </div>
             <span class="eco-arrow" aria-hidden="true">↗</span>
           </a>
@@ -990,7 +990,7 @@ Hello, world!
             </div>
             <div class="eco-meta">
               <div class="eco-name">MSYS2</div>
-              <div class="eco-desc">POSIX shell + package manager on Windows. Source build entry point — install once, <code>make</code> forever.</div>
+              <div class="eco-desc">Windows 上的 POSIX shell + 包管理器。源码构建的入口——装一次，之后一直 <code>make</code>。</div>
             </div>
             <span class="eco-arrow" aria-hidden="true">↗</span>
           </a>
@@ -1001,7 +1001,7 @@ Hello, world!
             </div>
             <div class="eco-meta">
               <div class="eco-name">mingw-w64</div>
-              <div class="eco-desc">Windows port of GCC. Drives the link step (<code>as</code> + <code>ld</code>) and every source build on Windows.</div>
+              <div class="eco-desc">GCC 的 Windows 移植版。驱动链接步骤（<code>as</code> + <code>ld</code>）和 Windows 上每次源码构建。</div>
             </div>
             <span class="eco-arrow" aria-hidden="true">↗</span>
           </a>
@@ -1012,7 +1012,7 @@ Hello, world!
             </div>
             <div class="eco-meta">
               <div class="eco-name">.NET 8 Desktop Runtime</div>
-              <div class="eco-desc">Hosts the installer's first-run wizard + UCPD bypass helper. Auto-bundled by the WiX chainer.</div>
+              <div class="eco-desc">承载安装器的首次运行向导 + UCPD 绕过助手。由 WiX chainer 自动捆绑。</div>
             </div>
             <span class="eco-arrow" aria-hidden="true">↗</span>
           </a>
@@ -1023,7 +1023,7 @@ Hello, world!
             </div>
             <div class="eco-meta">
               <div class="eco-name">WiX Toolset 7.0</div>
-              <div class="eco-desc">The MSI builder. One click from <code>.wxs</code> to signed, SCCM-ready <code>.msi</code>.</div>
+              <div class="eco-desc">MSI 的构建工具。从 <code>.wxs</code> 到已签名、可交给 SCCM 的 <code>.msi</code>，一键完成。</div>
             </div>
             <span class="eco-arrow" aria-hidden="true">↗</span>
           </a>
@@ -1043,20 +1043,20 @@ Hello, world!
     </section>
 
     <!-- ============ FINAL CTA ============ -->
-    <section id="get-started" class="section section-cta" aria-label="Get started">
+    <section id="get-started" class="section section-cta" aria-label="开始使用">
       <div class="container">
         <div class="cta-shell reveal">
           <div class="cta-inner">
             <div class="cta-glow" aria-hidden="true"></div>
             <h2 class="cta-title">
-              <span class="reveal-line"><span class="line-inner">Write the next</span></span>
-              <span class="reveal-line"><span class="line-inner"><em>hello.jhyy</em>.</span></span>
+              <span class="reveal-line"><span class="line-inner">写下下一个</span></span>
+              <span class="reveal-line"><span class="line-inner"><em>hello.jhyy</em>。</span></span>
             </h2>
             <p class="cta-sub">从 <code>git clone</code> 到第一个编译产物，或者直接下载 Windows 安装器——两边都是五分钟量级。</p>
 
             <div class="cta-row">
               <a href="/compiler/download/" class="btn-primary btn-primary--lg magnetic" data-magnetic>
-                <span class="btn-label">Download v{{site_version}}</span>
+                <span class="btn-label">下载 v{{site_version}}</span>
                 <span class="btn-icon-wrap">
                   <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
@@ -1064,7 +1064,7 @@ Hello, world!
                 </span>
               </a>
               <a href="/compiler/download/#msi" class="btn-ghost btn-ghost--lg magnetic" data-magnetic>
-                <span class="btn-label">Silent MSI (SCCM)</span>
+                <span class="btn-label">静默安装 MSI（SCCM）</span>
                 <span class="btn-icon-wrap">
                   <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
@@ -1072,7 +1072,7 @@ Hello, world!
                 </span>
               </a>
               <a href="/compiler/download/bootstrap.html" class="btn-ghost btn-ghost--lg magnetic" data-magnetic>
-                <span class="btn-label">Build from source</span>
+                <span class="btn-label">从源码构建</span>
                 <span class="btn-icon-wrap">
                   <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
@@ -1082,9 +1082,9 @@ Hello, world!
             </div>
 
             <div class="cta-install-meta">
-              <span class="cim-item"><strong>v{{site_version}}</strong> · stable · amd64 · {{regress_pass}} / {{regress_total}} PASS</span>
+              <span class="cim-item"><strong>v{{site_version}}</strong> · 稳定版 · amd64 · {{regress_pass}} / {{regress_total}} PASS</span>
               <span class="cim-sep">·</span>
-              <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></span>
+              <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">变更日志</a></span>
               <span class="cim-sep">·</span>
               <span class="cim-item"><a href="/compiler/download/verify.html">SHA256 &amp; 签名</a></span>
               <span class="cim-sep">·</span>
@@ -1094,7 +1094,7 @@ Hello, world!
             <div class="cta-install reveal">
               <span class="ci-prompt">$</span>
               <code class="ci-line">git clone https://github.com/JiHuiYiYou/JiHuiYiYou-compiler && cd JiHuiYiYou-compiler</code>
-              <button class="ci-copy" type="button" aria-label="Copy command">
+              <button class="ci-copy" type="button" aria-label="复制命令">
                 <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="9" y="9" width="13" height="13" rx="2" />
                   <path d="M5 15 H4 a2 2 0 0 1 -2 -2 V4 a2 2 0 0 1 2 -2 h9 a2 2 0 0 1 2 2 v1" />

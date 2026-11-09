@@ -1356,7 +1356,39 @@
   "lang": "zh",
   "title": "JHYY 编译器",
   "desc": "自举的系统编程语言编译器。编译器唯一的实现是 JHYY 自己，后端是自研的 amd64 发射器 —— 没有 LLVM，也没有 vendor 进来的 QBE。",
+  "text": " 一门 能 编译自己 的语言。 — 一门静态类型、面向表达式的系统编程语言。 编译器用这门语言自己写 ： compiler/src0/*.jhyy 是唯一的实现，后端是自研的 amd64 发射器——没有 LLVM，没有 vendor 进来的 QBE，也没有垃圾回收器。当前版本 v4.1.4 。 开始使用 读规范 Stage 2 逐字节闭环 MIT 许可 x86-64 &nbsp;·&nbsp; Windows hello.jhyy v4.1.4 i32 { let dx = a.x - b.x; let dy = a.y - b.y; dx * dx + dy * dy }\"> $ jhyy run hello.jhyy d² = 25 向下滚动 静态类型 ◆ 面向表达式 ◆ 编译为本地代码 ◆ 无垃圾回收 ◆ 一等 C FFI ◆ 穷尽式模式匹配 ◆ 静态类型 ◆ 面向表达式 ◆ 编译为本地代码 ◆ 无垃圾回收 ◆ 一等 C FFI ◆ 穷尽式模式匹配 ◆ 01 / 为什么是 JHYY 一门语言， 不是一个框架。 四条不让步的立场。每条都是一个小而具体的承诺，不是营销口号。 01 类型系统 静态，不是渐进。 类型在编译期检查。没有 any ，没有隐式转换，没有逃生口。值一旦是 i32 ，在程序余下部分它就是 i32 。 type Point = struct { x: i32 ,",
+  "headings": []
+ },
+ {
+  "url": "/en/compiler/index.html",
+  "lang": "en",
+  "title": "JHYY Compiler",
+  "desc": "A self-hosted, statically typed, expression-oriented systems programming language. The compiler is written in itself; the backend is a self-written amd64 emitter — no LLVM, and no vendored QBE.",
   "text": " A language that compiles itself. — a statically-typed, expression-oriented systems language. The compiler is written in itself : compiler/src0/*.jhyy is the only implementation, and the backend is a self-written amd64 emitter — no LLVM, no vendored QBE, no garbage collector. Currently v4.1.4 . Get started Read the spec Stage 2 byte-equal closed loop MIT licensed x86-64 &nbsp;·&nbsp; Windows hello.jhyy v4.1.4 i32 { let dx = a.x - b.x; let dy = a.y - b.y; dx * dx + dy * dy }\"> $ jhyy run hello.jhyy d² = 25 Scroll Statically typed ◆ Expression-oriented ◆ Compiled to native ◆ No garbage collector",
+  "headings": []
+ },
+ {
+  "url": "/en/ide/index.html",
+  "lang": "en",
+  "title": "JHYY IDE",
+  "desc": "A desktop workbench where block programming and text editing share one AST",
+  "text": "A desktop IDE for JHYY: **drag blocks, write code, talk to Claude Code on your own machine**. A VS Code-style workbench: two coding views share one AST, and diagnostics always come from a real `jhyy.exe`. ## Three panels - **Text view** — CodeMirror 6, just write code. Syntax highlighting, bracket matching, auto-close, indentation, completion (keywords, types, 8 standard library modules), and hover hints that give you the **spec section number**. Files open in tabs, and opening a second one does not evict the first; the little black dot is computed from content, so it disappears on its own onc",
+  "headings": []
+ },
+ {
+  "url": "/en/os/index.html",
+  "lang": "en",
+  "title": "JiHuiYiYou-OS",
+  "desc": "An operating system written in JHYY — a measurement-first route that starts from a UEFI boot spike",
+  "text": "An operating system written in JHYY. **It is at a very early stage** — the repo contains only a UEFI x64 boot spike, and the design baseline is being rebuilt. This page describes **the current state**, not a blueprint. ## What is in the repo right now The repo currently has one directory, `spike/` (plus an MIT-licensed `LICENSE`): - `spike/boot.s` — the UEFI x64 bootloader, in Intel syntax. - `spike/BOOTX64.EFI` — the compiled output of that source file. - `spike/esp_root/EFI/BOOT/BOOTX64.EFI` — the boot file inside the EFI partition image. - `spike/wrap_gpt.py` — wraps a raw FAT image into a ",
+  "headings": []
+ },
+ {
+  "url": "/en/vex/index.html",
+  "lang": "en",
+  "title": "JiHuiYiYou-for-VEX",
+  "desc": "Letting JHYY run directly on the VEX V5 Brain — a measurement-first embedded target route",
+  "text": "Adding an **embedded target** to JHYY: the VEX V5 Brain. The current progress is **step 0 complete** — every unknown on the VEX side has been turned into a measured value and written down as a fact baseline. ## Target hardware VEX V5 Brain: ARM, **Xilinx Zynq** (Cortex-A9 + FPGA), with VFPv3 + NEON. DDR base address `0x03800000` (`ps7_ddr_0_S_AXI_BASEADDR` in `lscript.ld`), entry pinned at `0x03800020`. ## Route B is \"JHYY emitting ARM machine code directly\" Not \"translating it to C++\". But the boundary has to be spelled out — **what gets replaced is clang's place; `ld` and everything below it",
   "headings": []
  },
  {

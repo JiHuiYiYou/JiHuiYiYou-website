@@ -57,9 +57,18 @@
   --r-shell: 32px;
 
   /* Type */
-  --f-serif: "Instrument Serif", ui-serif, Georgia, "Times New Roman", serif;
-  --f-sans: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --f-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  /* 这三款字体**没有汉字字形** —— 中文一律落到系统 CJK 栈。
+     那几个西文字体是自托管的（assets/css/fonts.css），不走 CDN：
+     fonts.googleapis.com 在国内取不到，取不到就整站掉回系统默认。 */
+  /* 大字（展示字族）。
+     拉丁走 Instrument Serif —— **中文没有可用的系统衬线**：Windows 只带宋体，
+     大字下横竖粗细差太大、发旧，而思源宋体 / 苹方宋多数机器没装
+     （自托管一份思源宋体子集要 100+ 个切片、3 MB 起，不值）。
+     所以中文落系统无衬线（苹方 / 微软雅黑 / 思源黑体）；
+     缺字时浏览器自动落到下一个字族，不会出豆腐块。 */
+  --f-serif: "Instrument Serif", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Hiragino Sans GB", ui-sans-serif, system-ui, sans-serif;
+  --f-sans: "Space Grotesk", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 }
 
 /* ============================================================
@@ -86,6 +95,14 @@ ul, ol { list-style: none; }
 code, pre { font-family: var(--f-mono); }
 ::selection { background: var(--brand-glow); color: var(--brand-50); }
 
+/* 键盘焦点环 —— 之前 main.css 一条都没有（docs.css 有）。
+   自定义光标被拿掉后，这一条就是键盘用户唯一的焦点提示。 */
+:focus-visible {
+  outline: 2px solid var(--brand-400);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 /* Theme helper class shortcuts */
 .bg-bg { background: var(--bg-deep); }
 .text-text { color: var(--text-1); }
@@ -98,40 +115,6 @@ code, pre { font-family: var(--f-mono); }
 /* ============================================================
    Global background orbs (fixed)
    ============================================================ */
-.orb {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(80px);
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.55;
-  will-change: transform;
-}
-.orb-1 {
-  top: -10%;
-  left: -10%;
-  width: 560px; height: 560px;
-  background: radial-gradient(circle, rgba(251, 191, 36, 0.35), transparent 65%);
-  animation: orb-drift 28s var(--ease-soft) infinite alternate;
-}
-.orb-2 {
-  top: 30%;
-  right: -8%;
-  width: 480px; height: 480px;
-  background: radial-gradient(circle, rgba(217, 119, 6, 0.30), transparent 65%);
-  animation: orb-drift 36s var(--ease-soft) infinite alternate-reverse;
-}
-.orb-3 {
-  bottom: -10%;
-  left: 30%;
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(252, 211, 77, 0.18), transparent 65%);
-  animation: orb-drift 44s var(--ease-soft) infinite alternate;
-}
-@keyframes orb-drift {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(60px, 40px) scale(1.08); }
-}
 
 /* ============================================================
    Purple mist layer (mouse pushes blobs away with momentum)
@@ -152,22 +135,22 @@ code, pre { font-family: var(--f-mono); }
 .mist-1 {
   top: -380px; left: -260px;
   width: 900px; height: 900px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.60), transparent 65%);
+  background: radial-gradient(circle, rgba(0, 212, 170, 0.15), transparent 65%);
 }
 .mist-2 {
   top: -260px; right: -220px;
   width: 840px; height: 840px;
-  background: radial-gradient(circle, rgba(217, 70, 239, 0.55), transparent 65%);
+  background: radial-gradient(circle, rgba(0, 168, 136, 0.14), transparent 65%);
 }
 .mist-3 {
   bottom: -320px; left: -240px;
   width: 880px; height: 880px;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.52), transparent 65%);
+  background: radial-gradient(circle, rgba(0, 122, 102, 0.17), transparent 65%);
 }
 .mist-4 {
   bottom: -380px; right: -260px;
   width: 900px; height: 900px;
-  background: radial-gradient(circle, rgba(192, 132, 252, 0.58), transparent 65%);
+  background: radial-gradient(circle, rgba(0, 212, 170, 0.12), transparent 65%);
 }
 @media (prefers-reduced-motion: reduce) {
   .mist { transition: none !important; }
@@ -176,32 +159,10 @@ code, pre { font-family: var(--f-mono); }
 /* ============================================================
    Noise overlay (fixed, pointer-events none)
    ============================================================ */
-.grain {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.06;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  background-size: 200px 200px;
-}
 
 /* ============================================================
    Mouse-following spotlight (subtle)
    ============================================================ */
-.spotlight {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: radial-gradient(
-    600px circle at var(--mx, 50%) var(--my, 30%),
-    rgba(251, 191, 36, 0.05),
-    transparent 60%
-  );
-  transition: background 80ms linear;
-}
 
 /* ============================================================
    Custom cursor (desktop only)
@@ -212,7 +173,8 @@ code, pre { font-family: var(--f-mono); }
   body { cursor: auto; }
 }
 @media (hover: hover) {
-  body.has-cursor, body.has-cursor * { cursor: none; }
+  /* 原生光标保留 —— 之前全局 cursor:none 让全站没有文本 I 形光标，
+   也不利于键盘用户的可预期性。光点（.cursor-dot）继续作拖影装饰。 */
   a, button { cursor: pointer; }
 }
 
@@ -405,6 +367,7 @@ code, pre { font-family: var(--f-mono); }
 .nav-logo {
   display: inline-flex;
   align-items: center;
+  flex: none;          /* 品牌标永远不许被挤扁 —— 之前在手机上被压成 0 宽，整张 logo 消失 */
   gap: 10px;
   padding-right: 16px;
   border-right: 1px solid var(--hairline);
@@ -414,6 +377,7 @@ code, pre { font-family: var(--f-mono); }
 .nav-logo:hover { opacity: 0.8; }
 .logo-img {
   display: block;
+  flex: none;
   height: 38px;
   width: auto;
   filter: drop-shadow(0 0 12px rgba(0, 212, 170, 0.18));
@@ -430,7 +394,7 @@ code, pre { font-family: var(--f-mono); }
   margin-right: 6px;
   margin-bottom: 4px;
   display: inline-block;
-  filter: drop-shadow(0 0 18px rgba(220, 38, 38, 0.22));
+
 }
 @media (max-width: 720px) {
   .logo-img { height: 30px; }
@@ -473,6 +437,14 @@ code, pre { font-family: var(--f-mono); }
   align-items: center;
   gap: 4px;
   padding-left: 4px;
+}
+
+/* 手机上导航条放不下 4 块东西：品牌标 / 项目下拉 / 语言切换 / 下载 CTA。
+   项目下拉先收起来 —— 首页第 2 屏的四个项目卡就是同样的入口。 */
+@media (max-width: 640px) {
+  .proj-switch { display: none; }
+  .lang-opt { padding: 3px 8px; font-size: 10px; }
+  .nav-cta { font-size: 12px; }
 }
 
 /* 语言切换（门脸层）—— 普通 <a>，无 JS 依赖。
@@ -618,13 +590,13 @@ code, pre { font-family: var(--f-mono); }
   min-height: 100dvh;
   display: flex;
   align-items: center;
-  padding-top: 120px;
-  padding-bottom: 60px;
+  padding-top: 96px;
+  padding-bottom: 56px;
   overflow: hidden;
   isolation: isolate;
 }
 @media (min-width: 1024px) {
-  .hero { padding-top: 160px; padding-bottom: 100px; }
+  .hero { padding-top: 128px; padding-bottom: 88px; }
 }
 
 /* Centered single-column hero (icon + headline + cta + code) */
@@ -645,8 +617,8 @@ code, pre { font-family: var(--f-mono); }
 /* Big hero icon — Double-Bezel with rotating halo */
 .hero-icon {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 148px;
+  height: 148px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -655,8 +627,8 @@ code, pre { font-family: var(--f-mono); }
 .hero-icon-bezel {
   position: relative;
   z-index: 2;
-  width: 168px;
-  height: 168px;
+  width: 120px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -678,7 +650,8 @@ code, pre { font-family: var(--f-mono); }
   background: linear-gradient(135deg, rgba(0, 212, 170, 0.08), transparent 60%);
   pointer-events: none;
 }
-.hero-icon-bezel svg {
+.hero-icon-bezel svg,
+.hero-icon-img {
   width: 100%;
   height: 100%;
   border-radius: 28px;
@@ -709,12 +682,17 @@ code, pre { font-family: var(--f-mono); }
 .hero-title {
   font-family: var(--f-serif);
   font-weight: 400;
-  font-size: clamp(2.8rem, 8.4vw, 6.4rem);
-  line-height: 0.96;
+  font-size: clamp(2.5rem, 7vw, 5.4rem);
+  line-height: 0.98;
   letter-spacing: -0.025em;
   margin-top: 24px;
   color: var(--text-1);
 }
+/* 中文标题的字号小一档：汉字是方块字，同样字号下比拉丁字母宽得多，
+   8.4vw 下第一行会折出孤字（「一门自己编译自己 / 的」）。 */
+:lang(zh) .hero-title { font-size: clamp(2.1rem, 5.6vw, 4.2rem); }
+:lang(zh) .section-title { font-size: clamp(2rem, 5vw, 3.8rem); }
+
 .hero-title em {
   font-style: italic;
   color: var(--brand-300);
@@ -729,15 +707,6 @@ code, pre { font-family: var(--f-mono); }
   max-width: 620px;
   margin-left: auto;
   margin-right: auto;
-}
-.hero-sub-zh {
-  display: inline-block;
-  font-family: var(--f-serif);
-  font-style: italic;
-  font-size: 1.4rem;
-  color: var(--brand-300);
-  margin-right: 8px;
-  vertical-align: middle;
 }
 .hero-sub-en { color: var(--text-2); }
 
@@ -820,7 +789,7 @@ code, pre { font-family: var(--f-mono); }
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 0% 0%, rgba(251, 191, 36, 0.08), transparent 50%);
+  background: radial-gradient(circle at 0% 0%, rgba(0, 212, 170, 0.09), transparent 50%);
   pointer-events: none;
 }
 .code-chrome {
@@ -1021,7 +990,7 @@ code, pre { font-family: var(--f-mono); }
   overflow: hidden;
 }
 .bento-card:hover .bezel-outer {
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.4), rgba(255, 255, 255, 0.04) 50%, rgba(251, 191, 36, 0.2));
+  background: linear-gradient(135deg, rgba(0, 212, 170, 0.4), rgba(255, 255, 255, 0.04) 50%, rgba(0, 212, 170, 0.2));
 }
 .bezel-inner {
   position: relative;
@@ -1039,7 +1008,7 @@ code, pre { font-family: var(--f-mono); }
   position: absolute;
   top: 0; right: 0;
   width: 200px; height: 200px;
-  background: radial-gradient(circle at top right, rgba(251, 191, 36, 0.08), transparent 60%);
+  background: radial-gradient(circle at top right, rgba(0, 212, 170, 0.09), transparent 60%);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.6s var(--ease-fluid);
@@ -1078,6 +1047,12 @@ code, pre { font-family: var(--f-mono); }
   text-transform: uppercase;
   color: var(--text-3);
 }
+/* 版本号不吃 uppercase —— "V4.1.4" 不是版本号的写法。 */
+.card-tag-ver {
+  text-transform: none;
+  letter-spacing: 0.04em;
+  font-family: var(--f-mono);
+}
 
 .card-title {
   font-family: var(--f-serif);
@@ -1112,35 +1087,7 @@ code, pre { font-family: var(--f-mono); }
   margin-top: auto;
   padding-top: 22px;
 }
-.visual-flow {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-.flow-node {
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 12px;
-  background: var(--bg-elev-2);
-  border: 1px solid var(--hairline);
-  border-radius: 6px;
-  font-family: var(--f-mono);
-  font-size: 11px;
-  color: var(--text-2);
-  transition: border-color 0.3s, color 0.3s, transform 0.3s var(--ease-fluid);
-}
-.flow-node--accent {
-  color: var(--brand-300);
-  border-color: var(--hairline-brand);
-  background: rgba(251, 191, 36, 0.05);
-}
 .bento-card:hover .flow-node { transform: translateY(-1px); }
-.flow-arrow {
-  color: var(--text-4);
-  font-size: 11px;
-  font-family: var(--f-mono);
-}
 
 .phase-pills {
   display: flex;
@@ -1306,7 +1253,7 @@ code, pre { font-family: var(--f-mono); }
   justify-content: center;
   width: 44px; height: 44px;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(251, 191, 36, 0.04));
+  background: linear-gradient(135deg, rgba(0, 212, 170, 0.14), rgba(0, 212, 170, 0.04));
   border: 1px solid var(--hairline-brand);
   color: var(--brand-300);
   margin-bottom: 22px;
@@ -1357,123 +1304,12 @@ code, pre { font-family: var(--f-mono); }
 /* ============================================================
    Roadmap Timeline
    ============================================================ */
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  position: relative;
-  max-width: 880px;
-}
-.tl-step {
-  display: grid;
-  grid-template-columns: 48px 1fr;
-  gap: 24px;
-  padding: 32px 0;
-  position: relative;
-}
 .tl-step:not(:last-child) { border-bottom: 1px solid var(--hairline); }
 
-.tl-marker {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 8px;
-}
-.tl-dot {
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  background: var(--bg-elev-2);
-  border: 1.5px solid var(--text-4);
-  position: relative;
-  z-index: 2;
-}
-.tl-dot--active {
-  background: var(--brand-400);
-  border-color: var(--brand-300);
-  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.18), 0 0 20px var(--brand-glow);
-}
-.tl-dot--future {
-  border-style: dashed;
-  border-color: var(--text-4);
-}
-.tl-line {
-  flex: 1;
-  width: 1px;
-  background: linear-gradient(to bottom, var(--hairline-2), transparent);
-  margin-top: 6px;
-}
 
 .tl-body {}
-.tl-head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-}
-.tl-phase {
-  font-family: var(--f-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--text-3);
-}
-.tl-status {
-  font-family: var(--f-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.04em;
-  color: var(--text-3);
-  padding: 3px 9px;
-  border: 1px solid var(--hairline-2);
-  border-radius: var(--r-pill);
-}
 .tl-status--done { color: var(--ok); border-color: rgba(52, 211, 153, 0.3); background: rgba(52, 211, 153, 0.06); }
 .tl-status--active { color: var(--brand-300); border-color: var(--hairline-brand); background: rgba(0, 212, 170, 0.06); }
-.tl-title {
-  font-family: var(--f-serif);
-  font-weight: 400;
-  font-size: clamp(1.5rem, 2.6vw, 2rem);
-  line-height: 1.15;
-  letter-spacing: -0.015em;
-  color: var(--text-1);
-  margin-bottom: 12px;
-}
-.tl-desc {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--text-2);
-  max-width: 640px;
-}
-.tl-desc code {
-  font-size: 0.86em;
-  padding: 1px 5px;
-  background: var(--bg-elev-2);
-  border: 1px solid var(--hairline);
-  border-radius: 5px;
-  color: var(--brand-200);
-}
-.tl-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 16px;
-}
-.tl-chips li {
-  font-family: var(--f-mono);
-  font-size: 11px;
-  color: var(--text-2);
-  padding: 5px 10px;
-  background: var(--bg-elev-2);
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-pill);
-}
-.tl-chips li code {
-  background: none;
-  border: none;
-  padding: 0;
-  color: var(--brand-200);
-}
 
 /* ============================================================
    Performance
@@ -1577,7 +1413,7 @@ code, pre { font-family: var(--f-mono); }
   inset: -1px;
   border-radius: 18px;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.3), transparent 40%, transparent 60%, rgba(251, 191, 36, 0.2));
+  background: linear-gradient(135deg, rgba(0, 212, 170, 0.3), transparent 40%, transparent 60%, rgba(0, 212, 170, 0.2));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -1634,8 +1470,8 @@ code, pre { font-family: var(--f-mono); }
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 0%, rgba(251, 191, 36, 0.18), transparent 50%),
-    radial-gradient(circle at 80% 100%, rgba(217, 119, 6, 0.16), transparent 50%);
+    radial-gradient(circle at 20% 0%, rgba(0, 212, 170, 0.20), transparent 50%),
+    radial-gradient(circle at 80% 100%, rgba(0, 122, 102, 0.18), transparent 50%);
   z-index: -1;
 }
 
@@ -1941,16 +1777,6 @@ code, pre { font-family: var(--f-mono); }
    - 棱有角(3-5 顶点随机散布,无圆角)
    ============================================================ */
 
-/* Disable old decoration — replaced by shards */
-.orb,
-.grain,
-.spotlight,
-.bg-crack,
-.crack-edge,
-.cursor-ring,
-.cursor-trail {
-  display: none !important;
-}
 
 .cracks {
   position: fixed;
@@ -1988,36 +1814,32 @@ code, pre { font-family: var(--f-mono); }
 /* inner fracture line */
 .shard .s-line { stroke-width: 1.2; opacity: 0.6; }
 
+/* 原生光标保留之后，这颗点退成**拖影装饰** —— 不是指针替身，
+   所以更小、更淡，而且不再响应 hover 放大。 */
 .cursor-dot {
   position: fixed;
   top: 0; left: 0;
-  width: 4px; height: 4px;
-  margin: -2px 0 0 -2px;
+  width: 3px; height: 3px;
+  margin: -1.5px 0 0 -1.5px;
   border-radius: 50%;
-  background: #e6fcf7;
+  background: var(--brand-200);
+  opacity: 0.45;
   pointer-events: none;
   z-index: 999;
   transform: translate3d(-100px, -100px, 0);
   box-shadow:
-    0 0 0 1px var(--brand-300),
-    0 0 8px 1px rgba(29, 233, 192, 0.9),
-    0 0 18px 2px rgba(0, 212, 170, 0.55);
+    0 0 0 1px rgba(29, 233, 192, 0.5),
+    0 0 10px 1px rgba(0, 212, 170, 0.28);
   will-change: transform;
+  transition: opacity 0.2s var(--ease-soft);
 }
-.cursor-dot.is-hover {
-  background: #ffffff;
-  box-shadow:
-    0 0 0 1.5px var(--brand-200),
-    0 0 12px 2px rgba(102, 233, 204, 1),
-    0 0 28px 4px rgba(0, 212, 170, 0.7);
-}
-
 @media (hover: none) {
   .cracks, .cursor-dot { display: none; }
   body { cursor: auto; }
 }
 @media (hover: hover) {
-  body.has-cursor, body.has-cursor * { cursor: none; }
+  /* 原生光标保留 —— 之前全局 cursor:none 让全站没有文本 I 形光标，
+   也不利于键盘用户的可预期性。光点（.cursor-dot）继续作拖影装饰。 */
   a, button { cursor: pointer; }
 }
 /* Custom cursor visible (e8fa2b4 only removed wheel burst, not the whole effect) */
@@ -2389,3 +2211,152 @@ button:not(.btn-primary):not(.btn-ghost):not(.stab):not(.ci-copy):not(.copy-btn)
 .install-note a:hover,
 .perf-note a:hover,
 .docs-note a:hover { color: var(--brand-200); }
+
+
+/* ============================================================
+   Family graph — 一门语言撑起四个项目
+   共享层 → 编译器 → 三个分支（各自要编译器额外给什么）
+   ============================================================ */
+.family-graph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 34px 28px;
+  background: var(--bg-glass);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-card);
+}
+.fg-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+.fg-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  border-radius: var(--r-pill);
+  background: var(--bg-elev-2);
+  border: 1px solid var(--hairline);
+  font-size: 13px;
+  color: var(--text-2);
+}
+.fg-chip--core {
+  background: var(--brand-glow-faint);
+  border-color: var(--hairline-brand);
+  color: var(--brand-200);
+  font-family: var(--f-mono);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+.fg-link {
+  width: 1px;
+  height: 26px;
+  background: linear-gradient(var(--hairline-2), var(--hairline-brand));
+}
+.fg-branches { align-items: stretch; gap: 14px; }
+.fg-branch {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 18px 20px;
+  background: var(--bg-elev-1);
+  border: 1px solid var(--hairline);
+  border-radius: 20px;
+}
+.fg-branch-head {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--brand-300);
+  margin-bottom: 10px;
+}
+.fg-need { font-size: 14px; line-height: 1.6; color: var(--text-2); }
+.fg-need code { font-family: var(--f-mono); font-size: 12.5px; color: var(--text-1); }
+.fg-fact { margin-top: 10px; font-size: 12.5px; color: var(--text-3); }
+.family-note {
+  margin-top: 26px;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-2);
+}
+@media (max-width: 860px) {
+  .family-graph { padding: 26px 18px; }
+  .fg-branches { flex-direction: column; }
+  .fg-link { height: 18px; }
+}
+
+/* ============================================================
+   What changed / what isn't done
+   ============================================================ */
+.change-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.change-col {
+  padding: 28px;
+  background: var(--bg-elev-1);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-card);
+}
+.change-col--warn {
+  background: var(--bg-glass);
+  border-color: var(--hairline-brand);
+}
+.change-h {
+  font-family: var(--f-serif);
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--text-1);
+  margin-bottom: 16px;
+}
+.change-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.change-list li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-2);
+}
+.change-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-400);
+}
+.change-col--warn .change-list li::before { background: var(--text-4); }
+.change-list code { font-family: var(--f-mono); font-size: 12.5px; color: var(--text-1); }
+.change-more { margin-top: 16px; font-size: 13px; line-height: 1.65; color: var(--text-3); }
+.change-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 13.5px;
+  color: var(--brand-300);
+}
+.change-link:hover { color: var(--brand-200); }
+@media (max-width: 860px) {
+  .change-grid { grid-template-columns: 1fr; }
+  .change-col { padding: 22px; }
+}
+
+/* 成熟度：编译器实心主卡，其余描边 + 状态胶囊 */
+.bento-card[data-status="stable"] .card-tag {
+  color: var(--brand-200);
+  border-color: var(--hairline-brand);
+}
+.bento-card[data-status="beta"] .card-tag { color: var(--text-2); }
+.bento-card[data-status="incubating"] .card-tag { color: var(--text-3); }

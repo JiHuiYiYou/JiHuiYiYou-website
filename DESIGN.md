@@ -14,14 +14,14 @@
 
 | 层级 | 目标 | 实现路径 |
 |---|---|---|
-| **视觉冲击** | "这站不是 AI 套壳" | 暗黑主调 + 青绿强调色 + serif 大字符句 + 一行可运行代码嵌入 hero |
+| **视觉冲击** | "这站不是 AI 套壳" | 暗黑主调 + 青绿强调色 + 大字符句（拉丁走 Instrument Serif，中文走系统无衬线） |
 | **继续阅读** | "这内容值得看完" | swimlane 节奏（一屏一主题），不堆叠，每个 section 都有"具体可说的事" |
 | **内容质量** | "看完想装" | 准确、有细节、不空泛；数字 / 案例 / 可操作的 CTA |
 
 **反北极星（要避开的）：**
 - "Hello World"式 hero（"为 X 而生" + "为 Y 而设计"堆叠）
 - AI-generic 三栏卡片 + 蓝紫渐变
-- 没有可运行代码的"语言介绍"页
+- 首页重复编译器子站已经讲过的内容
 - 没有 install 入口的"快来用"按钮
 
 ---
@@ -47,6 +47,15 @@
 - 永远不要：循环闪烁、悬浮跳出来、强视差
 
 时长预算：单次动效不超过 600ms，绝大部分 200-400ms。
+
+**「减少动态效果」是硬要求，不是可选项。** `prefers-reduced-motion: reduce`
+命中时：碎片、雾气物理、打字机、磁吸**全部停**，只留入场 reveal 与 hover
+反馈（reveal 直接显形，不做位移）。这一条同时约束 CSS 与 JS —— 只在 CSS 里
+写 `@media` 不够，打字机与物理效果是 JS 驱动的。
+
+**原生光标保留。** 之前全站 `cursor: none`，换来的是没有文本 I 形光标、
+没有可预期的指针、键盘用户也看不出焦点在哪。`.cursor-dot` 保留为**拖影装饰**
+（更小、更淡、不响应 hover 放大），不是指针的替身。
 
 ### 2.3 组件复用规则
 
@@ -108,28 +117,51 @@
 ### 4.1 Hero
 
 - 大字符句标语 + 一句话定位 + 双 CTA
-- 嵌入式代码块（语法高亮，typewriter 动效）
-- **版本闸门**（`.version-gate`）：首屏下方固定显示编译器版本、发布日、
-  语言规范与 ABI 的契约版本、宿主平台——首页的第一职责是「版本闸门」
+- 品牌标记（`<img>`，自托管 SVG）
+- **版本闸门**（`.version-gate`）：紧贴 hero 下沿，显示编译器版本、发布日、
+  语言规范与 ABI 的契约版本、宿主平台
+
+**hero 不放代码窗口。** 首页是**枢纽**，讲的是「这门语言 + 四个项目」；
+可运行的代码样例是编译器子站（`/compiler/` 的「03 / A taste of the language」）
+的职责，放在首页就是重复。首页给的是**版本闸门**——读者第一眼要知道的是
+「现在能装的是哪个版本」，不是「这段代码长什么样」。
 
 ### 4.2 四个项目（家族首页）
 
-大 Bento：编译器 `--lg`（span 7，跨两行），IDE `--sm`，OS `--sm`，VEX `--wide`。
-每张卡只写**现在真的做到哪一步**，不含计划中的部分。
+大 Bento：编译器 `--lg`（span 7，跨两行），IDE `--sm`，OS `--sm`，VEX `--wide`
+—— 这套 span 正好填满 12 栏（7+5=12，OS 落在第二行右侧，VEX 整行）。
 
-### 4.3 编译器三张领域卡
+每张卡四件套：**定位一句话 + 现在到哪一步 + 一个数字 + 一个 CTA**。
+只写**现在真的做到哪一步**，不含计划中的部分。成熟度用视觉区分
+（`data-status`：编译器实心主卡，其余描边卡）。
 
-新手 / OS 开发者 / 研究者三条主线各一张卡，每张导向站内具体文档，
-不是营销口号。
+### 4.3 一门语言撑起四个项目（关系图）
 
-### 4.4 五个高频出口
+一张图讲清家族结构 —— 这是**首页独有的内容**，任何子站都讲不了：
 
-下载、文档、标准库 API、源码仓库、社区规则——每个都指向一个具体动作。
+```
+共享层：语言规范 · ABI · 自研后端 · 标准库
+              │
+          编译器
+        ╱    │    ╲
+      IDE  for-VEX  OS
+```
 
-### 4.5 版本闸门与诚实条款
+三个分支各写一句「**它要编译器额外给什么**」——
+IDE 要「同一个 `jhyy.exe` 出诊断」，for-VEX 要「ARM 后端」，
+OS 要「freestanding 目标 + 裸机能力」。
 
-安装器与 MSI **未签名**、UEFI 入口路径**未完工**、基准比值是**代码质量下限**
-而非快慢达标线——这些必须写在页面上，不能藏进脚注。
+### 4.4 最近变化 + 诚实的边界
+
+左栏是这一版修了什么（取自编译器仓 `CHANGELOG.md`），
+右栏是**没做什么** —— 安装器与 MSI **未签名**、只有 **amd64** 四个 target、
+**UEFI 入口路径未完工**、基准比值是**代码质量下限**而非快慢达标线。
+
+这些必须写在页面上，不能藏进脚注。
+
+> 改版前的首页有第五屏「五个高频出口」（下载 / 文档 / 标准库 / 源码仓库 /
+> 社区规则）。**删掉了** —— 同样的五个去处在顶栏、页脚、项目切换器里
+> 各出现一次，占一整屏只为重列一遍导航。
 
 ---
 
@@ -167,7 +199,15 @@ content/
 │  ├─ community/*.md              4 页社区
 │  └─ governance/*.md             3 页治理
 ├─ ide/index.md  os/index.md  vex/index.md
+└─ en/                            **英文树** —— 与上面同构
+   ├─ index.html
+   ├─ compiler/index.html + docs/ download/ community/ governance/
+   └─ ide/index.md  os/index.md  vex/index.md
 ```
+
+`en/` 下的每个文件都有中文孪生页（`route` 相同即孪生）：
+`content/en/compiler/docs/tour.md` ↔ `content/compiler/docs/tour.md`。
+孪生关系由 `tools/i18n.py` 的 route 契约管，`tools/check_twins.py` 守。
 
 ### 5.3 关键页面规格
 
@@ -187,20 +227,37 @@ content/
 ## 6. 内容流水线
 
 ```
-content/**/*.md  ──┐
-                   ├─→ tools/build.py ──→ *.html（提交进仓库，GH Pages 直出）
-tools/siteconfig.py ┘         │
-                             ├─→ search-index.json
-                             └─→ tools/build.py --check（链接与锚点检查）
+content/**/*.md     ──┐
+content/**/*.html   ──┤
+                      ├─→ tools/build.py ──→ *.html（提交进仓库，GH Pages 直出）
+tools/siteconfig.py ──┘         │
+tools/i18n.py ──────────────────┤
+                                ├─→ search-index.json
+                                └─→ tools/build.py --check（链接与锚点检查）
 ```
 
 - `tools/siteconfig.py` —— **全站唯一真相源**：版本号、目标表、产物表、
-  状态数字、导航与侧栏。改版本号只改这一处。
+  状态数字、导航与侧栏、以及 `FACTS`（事实占位符的取值表）。
+- `tools/i18n.py` —— 术语表（`GLOSSARY`）、界面字符串（`UI`）、专名白名单
+  （`KEEP_CJK`）、孪生页契约（`TWIN_REQUIRED` / `TWIN_EXEMPT_PREFIXES`）。
 - `tools/mdrender.py` —— 零依赖 Markdown 渲染器（CommonMark 子集 +
   callout + mermaid + `[[Wiki 链接]]`）。
-- `tools/build.py` —— 站点生成器 + 链接检查。
+- `tools/build.py` —— 站点生成器 + 链接检查 + **双语双树**。
 - `tools/check_examples.py` —— 把文档里的 `.jhyy` 代码块抽出来交给真编译器验。
 - `tools/CONTENT_GUIDE.md` —— 内容写作规约（文风 / 方言 / 事实来源 / 常见坑）。
+
+**四道新门**（本地可跑，CI 也跑）：
+
+| 门 | 查什么 |
+|---|---|
+| `tools/check_facts.py` | `siteconfig.FACTS` ↔ 编译器仓 `docs/internal/FACTS.md` 对拍（17 项） |
+| `tools/check_twins.py` | 每个页面都要有中英两版 |
+| `tools/check_i18n.py` | 正文里不许手写事实（改用 `{{key}}`）、英文页里不许出现中文、术语说法一致 |
+
+**事实只有一份。** 正文里写 `{{site_version}}` / `{{regress_pass}}` 这类占位符，
+构建器从 `siteconfig.FACTS` 取值 —— **两种语言拿的是同一份常量，不可能对不上
+数字**。`check_facts.py` 负责跟编译器仓那份真相对拍（之前官网写着「回归 279
+PASS」，编译器仓已经改成 281 了，没有任何门会红）。
 
 **约定：正文用根绝对路径写站内链接**（`/compiler/docs/tour.html`），
 构建时按页面深度自动改写成相对路径——站点挂在 `user.github.io/<repo>/`
@@ -216,12 +273,17 @@ tools/siteconfig.py ┘         │
 - `Link`：内 / 外链接区分样式
 
 ### 门脸层专属
-`Hero`（大字 + CTA + 代码 + 版本闸门）· `Bento` · `Card` · `ToolCard` ·
-`PerfCell` · `EcoCard`（五出口）· `DocCard` · `VersionGate` · `CTA`
+`Hero`（大字 + CTA + 版本闸门）· `Bento` · `Card` · `ToolCard` ·
+`PerfCell` · `EcoCard` · `DocCard` · `VersionGate` · `CTA` ·
+`FamilyGraph`（共享层 → 编译器 → 三分支）· `ChangeGrid`（最近变化 / 诚实的边界）
 
 ### 文档层专属
 `DocTopbar`（含项目切换与搜索）· `TOC` · `OnThisPage` · `Callout`
 （note / warn / danger）· `RefTable` · `SearchModal`
+
+### 两层共用（只有 atoms）
+`Icon`（内联 SVG）· `CodeBlock`（语言标识 / 复制按钮）· `Link` ·
+**`LangSwitch`**（语言切换，普通 `<a>`，无 JS 依赖）
 
 ---
 
@@ -235,6 +297,11 @@ tools/siteconfig.py ┘         │
 - ❌ **编造数字**——每个断言都要能追溯到一个文件
 - ❌ **藏起已知缺口**——未签名、UEFI 未完工、基准比值的口径都要写在页面上
 - ❌ 用 `curl | bash` 式的信任盲区（校验步骤要能被复现）
+- ❌ **正文里手写事实**（版本号、回归数、门数）—— 用 `{{key}}` 占位符，
+  否则中英两棵树迟早对不上，而且没人会红
+- ❌ **英文页里出现中文**（专名白名单 `KEEP_CJK` 除外）—— 一页一种语言，
+  不混排
+- ❌ **一屏只为重列一遍导航**（顶栏 / 页脚 / 项目切换器里已有的去处）
 
 ---
 
@@ -248,7 +315,11 @@ tools/siteconfig.py ┘         │
 | 下载分发 | 站点镜像 + GitHub Releases 双通道 | 镜像字节与线上发行件**逐字节一致**（已用 GitHub API 的 digest 核对），所以两边 SHA256 都能验过 |
 | 搜索 | 客户端索引（`search-index.json`） | 规模还小，先不上服务端 |
 | 代码高亮 | 手写 CSS（无第三方高亮库） | 减少依赖；门脸层的代码块本来就带自定义 span 标记 |
-| i18n | 官网单语（中文） | 报告：i18n 是独立流水线，不是一期阻塞项 |
+| i18n | **构建期双树**：`content/**` 中文（`/`）+ `content/en/**` 英文（`/en/`） | 报告说 i18n 是独立流水线、不阻塞一期；但站点当时是**语言沙拉**（编译器落地页英文、其余 28 页中文）。构建期双树让语言状态变成构建的一部分，而不是各页各自为政。现有中文 URL 不变。 |
+| 事实 | **只有一份**，正文写 `{{key}}` 占位符 | 抄数字必然漂 —— 编译器仓把回归数从 279 改成 281 之后，官网还写着 279，而没有任何门会红。现在两边共用 `siteconfig.FACTS`，`check_facts.py` 跟编译器仓对拍。 |
+| 字体 | **自托管**（`assets/fonts/`，latin + latin-ext 子集） | `fonts.googleapis.com` 在中国大陆取不到，取不到就整站掉回系统默认字体。中文走系统 CJK 栈 —— 那四款字体本来就没有汉字字形。 |
+| 展示字族 | 拉丁 Instrument Serif + 中文系统无衬线 | Windows 只带宋体，大字下横竖粗细差太大、发旧；思源宋体多数机器没装（自托管子集要 100+ 切片、3 MB 起，不值）。 |
+| 强调色 | **只有青绿一套** | 之前品牌青绿之外还混着琥珀（卡片 hover 会闪金色）、紫（雾气）、红（logo 辉光）—— 一页四套强调色。logo 自身的紫蓝渐变是 logo 的颜色，不算 UI 强调色。 |
 | 不引入 | 后端、数据库、admin、Playground | Playground 是安全与维护黑洞，报告点名说它不是一期必做 |
 
 ---
@@ -256,11 +327,19 @@ tools/siteconfig.py ┘         │
 ## 10. 现状与待办
 
 **已完成**：四项目枢纽、编译器五区 24 页、站内搜索、链接检查、
-文档示例真编译验证、下载镜像与校验和同步到 v4.1.4。
+文档示例真编译验证、下载镜像与校验和同步到 v4.1.4；
+**首页重做**（纯枢纽四屏：Hero / 四个项目 / 一门语言撑起四个项目 / 最近变化与诚实的边界）；
+**双语地基**（构建期双树、语言切换器、术语表、事实占位符）+ 5 页门脸中英双版；
+**四道新门**（事实对拍 / 孪生页 / i18n 一致性 / 同步门补未跟踪产物）。
+
+**下一步**（i18n 的第二阶段）：
+- 文档层 24 页的英文版 —— 译完就把 `i18n.TWIN_EXEMPT_PREFIXES` 那四行删掉，
+  孪生页门自动覆盖全站
+- IDE / OS / VEX 三个门脸的**结构**重做（它们现在仍是 Markdown 墙）
+- 编译器落地页 12 屏的结构重做（本轮只做了翻译与编号修正）
 
 **二期候选**（按报告 §10 的门槛判定）：
 - 版本化文档（`stable / nightly / archive`）与 `noindex`
-- i18n（社区翻译仓 → 站点原生）
 - 错误码索引（把 `W-NNN` 与诊断号做成可搜索符号）
 - Playground（只在「安装/首次编译」确实是流失点时才上）
 

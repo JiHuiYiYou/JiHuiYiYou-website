@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>JiHuiYiYou-OS</title>
+  <meta name="description" content="An operating system written in JHYY — a measurement-first route that starts from a UEFI boot spike" />
+  <meta property="og:title" content="JiHuiYiYou-OS" />
+  <meta property="og:description" content="An operating system written in JHYY — a measurement-first route that starts from a UEFI boot spike" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../os/index.html" />
+  <link rel="stylesheet" href="../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+
+  <link rel="icon" type="image/png" sizes="any" href="../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="bg-bg text-text font-sans antialiased">
+
+  <div class="mist mist-1" aria-hidden="true"></div>
+  <div class="mist mist-2" aria-hidden="true"></div>
+  <div class="mist mist-3" aria-hidden="true"></div>
+  <div class="mist mist-4" aria-hidden="true"></div>
+  <svg id="cracks" class="cracks" aria-hidden="true"><g class="cracks-layer"></g></svg>
+  <div class="cursor-dot" aria-hidden="true"></div>
+
+
+  <nav class="floating-nav" aria-label="Primary">
+    <div class="nav-pill">
+      <a href="../../index.html" class="nav-logo" aria-label="机会翼游 · JHYY home">
+        <img src="../../assets/img/jhyy-logo.png" class="logo-img" height="30" alt="机会翼游 · JHYY" />
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>OS<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item" href="../../en/compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item is-active" href="../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <div class="nav-links" role="navigation"><a class="" href="../../en/os/index.html">Overview</a><a class="" href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/tree/main/spike">Spike</a></div><div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../os/index.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../en/os/index.html" hreflang="en" aria-current="true">English</a></div>
+      <div class="nav-cta-group">
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS" class="nav-icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+        <a href="../../compiler/download/index.html" class="nav-cta magnetic" data-magnetic>
+          <span>Download v4.1.4</span>
+          <span class="btn-icon-wrap"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 L17 7 M9 7 L17 7 L17 15"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+<main id="top" class="page-main">
+<p>An operating system written in JHYY. <strong>It is at a very early stage</strong> — the repo contains only a UEFI x64 boot spike, and the design baseline is being rebuilt. This page describes <strong>the current state</strong>, not a blueprint.</p>
+<h2 id="what-is-in-the-repo-right-now">What is in the repo right now</h2>
+<p>The repo currently has one directory, <code>spike/</code> (plus an MIT-licensed <code>LICENSE</code>):</p>
+<ul class='md-list'><li><code>spike/boot.s</code> — the UEFI x64 bootloader, in Intel syntax.</li><li><code>spike/BOOTX64.EFI</code> — the compiled output of that source file.</li><li><code>spike/esp_root/EFI/BOOT/BOOTX64.EFI</code> — the boot file inside the EFI partition image.</li><li><code>spike/wrap_gpt.py</code> — wraps a raw FAT image into a GPT disk image with <strong>one EFI System Partition</strong> (it writes the protective MBR, the primary/backup GPT headers and the CRC32s itself, and also rewrites the FAT BPB's hidden sector count to the partition's starting LBA).</li></ul>
+<p>The most recent commit (2026-10-30) is exactly <strong>"clear the existing design documents — rebuild the design baseline"</strong>: in one go it deleted the 17 v0.0.x design documents under <code>docs/</code>, the 9 external research archives under <code>deep_research/</code>, plus <code>README.md</code> and <code>CLAUDE.md</code>. Those documents were written in the compiler's v1.8.3 era (C host + QBE + ABI v1.0.0), and many of their conclusions have been overturned or are out of date.</p>
+<p>The content is not lost — <strong>it is all in the git history</strong>: <code>24589bd</code> is the last state before the deletion, and <code>git show 24589bd:docs/&lt;file&gt;</code> will take you back there. The cross-project design baseline now lives in a single place, in the compiler repo's <code>docs/coordination/</code>.</p>
+<h2 id="the-four-things-the-spike-has-actually-measured">The four things the spike has actually measured</h2>
+<p>The header comment of <code>spike/boot.s</code> lists the four things this spike is meant to verify:</p>
+<ol class='md-list'><li><strong>UEFI x64 hands over directly in long mode</strong>, with no mode-switch assembly needed.</li><li><strong>The EFI calling convention is MS x64</strong>: at the entry point <code>RCX</code> = the first argument (ImageHandle), <code>RDX</code> = SystemTable.</li><li><strong>The ConOut function pointer is usable via <code>[protocol + offset]</code></strong> — but the offset is <strong>+64, not +80</strong>. +80 is <strong>StdErr</strong>; OVMF's ConSplitter does not register StdErr for the graphical console, so writing to it only reaches the serial port and is <strong>invisible</strong> on the GOP framebuffer. This +64 / +80 pair was found by measurement; the code comment marks it CRITICAL.</li><li><strong>The <code>isa-debug-exit</code> port <code>0xf4</code> can hand an exit code to QEMU</strong>.</li></ol>
+<blockquote class="callout"><p>Honest note: the <code>boot.s</code> in the current commit ends in an <code>hlt</code> infinite loop — it prints <code>HELLO</code> / <code>OK</code> on screen for a human to look at, and the comment says to replace it with <code>out 0xf4, al</code> for automated verification. In other words, the fourth point has <strong>a place in the code</strong>, but this commit takes the human-facing path.</p></blockquote>
+<p>What the spike actually does is three steps, all of them calls through the ConOut protocol's function pointers: <strong>ClearScreen</strong> (offset 48, which first wipes TianoCore's boot splash), <strong>SetAttribute</strong> (offset 40, white text on bright red background <code>0xCF</code>), <strong>OutputString</strong> (offset 8, prints <code>HELLO</code> and <code>OK</code>). The header comment marks this spike as <strong>P0-1</strong> — it is the first point to verify on the OS line, not a small piece of a product.</p>
+<h2 id="building">Building</h2>
+<p>The comment in <code>boot.s</code> gives exactly this (pasteable):</p>
+<pre><code class="language-bash">x86_64-w64-mingw32-gcc -nostdlib -Wl,--subsystem,10 \
+  -Wl,-e,efi_main -Wl,--image-base=0x10000 -o BOOTX64.EFI boot.s
+</code></pre>
+<p><code>--subsystem,10</code> means EFI application, <code>-e,efi_main</code> sets the entry point.</p>
+<p>Put the built <code>BOOTX64.EFI</code> into <code>esp_root/EFI/BOOT/</code>, and then <code>wrap_gpt.py</code> wraps the partition contents into a bootable GPT disk image.</p>
+<h2 id="direction-not-yet-written-up-as-the-os-repos-own-design-document">Direction (not yet written up as the OS repo's own design document)</h2>
+<p>The following is <strong>direction</strong>, not a frozen implementation plan:</p>
+<ul class='md-list'><li><strong>Capability microkernel + <code>Cap&lt;T&gt;</code> capabilities</strong> — the compiler repo's <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/coordination/JHYY_OS%E4%BE%A7%E8%AE%BE%E8%AE%A1%E7%BB%88%E7%89%88.md" target="_blank" rel="noopener noreferrer">"JHYY OS-side design, final version"</a> locks the kernel identity to "capability microkernel (long term) + privilege layering (first version)", because the three specs (language spec v4.0.0 / ABI v4.0.0 / binary format v1.0.0) already provide a complete authorization chain: object classification <code>type_tag</code>, cap authorization <code>rights</code>/<code>depth</code>, in-place cap transfer over IPC — going with a traditional hybrid kernel would turn that binary format into decoration.</li><li><strong>lang-debug ABI</strong> — the "Debug ABI" in <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">language spec § 19</a> is a cross-project contract: settled sizes, the type representation on the <code>jhyy</code> side, the compiler emitting no DWARF debug info, and FFI boundary reminders.</li><li><strong>GUI</strong> — the object skeleton (<code>compositor</code> / <code>surface</code> / <code>seat</code> / <code>buffer</code>) is enough to build a double-buffered display pipeline, but <strong>a complete desktop has not been specified</strong>.</li></ul>
+<p>That design document also <strong>lists</strong> the questions the first architecture freeze should answer (whether threads and address spaces are separated, whether kernel objects share a uniform header, whether revoke is synchronous, whether interrupts are capabilities, whether a page fault belongs to the kernel or to a user pager, …) — they do not have answers yet. The <code>.jhyynb</code> capability launch format itself is still a <strong>design draft, not implemented</strong>.</p>
+<p>In the schedule, the whole OS line (the <strong>OS-1 … OS-16</strong> sixteen version slots in the compiler's <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer"><code>docs/internal/FACTS.md</code></a> § 4.3) is planned for the compiler's v4.6 → v4.15, and <strong>not one of them has started</strong>.</p>
+<p>If you want to read the old design drafts (written in the v0.0.x era, against a C host + QBE + ABI v1.0.0 background, most of their conclusions overturned), the archaeology command is:</p>
+<pre><code class="language-bash">git show 24589bd:docs/README.md
+</code></pre>
+<h2 id="the-language-side">The language side</h2>
+<p>The language features a kernel needs are already on the JHYY side: <code>#[no_std]</code>, freestanding targets, <code>#[naked]</code>, <code>#[link_section]</code>, <code>volatile</code>, inline <code>asm!</code>, and memory barriers. For how to use them to write freestanding code, see <a href="../../compiler/docs/osdev.html" title="Chinese only">Bare metal and kernel development</a>.</p>
+<h2 id="summary-of-the-current-state">Summary of the current state</h2>
+<ul class='md-list'><li>The repo has <strong>only</strong> one directory, <code>spike/</code> — a UEFI bootloader that can print <code>HELLO</code>.</li><li>The design documents have been cleared for a rebuild; the roadmap is still to be rewritten.</li><li>There is nothing to install or run, and no release channel of any kind.</li></ul>
+<p>Repository: <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS" target="_blank" rel="noopener noreferrer">https://github.com/JiHuiYiYou/JiHuiYiYou-OS</a></p>
+</main>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../index.html" class="nav-logo foot-logo">
+          <img src="../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a title="Chinese only" href="../../compiler/docs/index.html">Docs</a></li>
+            <li><a title="Chinese only" href="../../compiler/download/index.html">Download</a></li>
+            <li><a title="Chinese only" href="../../compiler/community/index.html">Community</a></li>
+            <li><a title="Chinese only" href="../../compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a title="Chinese only" href="../../compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../assets/js/main.js" defer></script>
+</body>
+</html>

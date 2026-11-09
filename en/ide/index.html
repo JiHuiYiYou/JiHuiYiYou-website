@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>JHYY IDE</title>
+  <meta name="description" content="A desktop workbench where block programming and text editing share one AST" />
+  <meta property="og:title" content="JHYY IDE" />
+  <meta property="og:description" content="A desktop workbench where block programming and text editing share one AST" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../ide/index.html" />
+  <link rel="stylesheet" href="../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+
+  <link rel="icon" type="image/png" sizes="any" href="../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="bg-bg text-text font-sans antialiased">
+
+  <div class="mist mist-1" aria-hidden="true"></div>
+  <div class="mist mist-2" aria-hidden="true"></div>
+  <div class="mist mist-3" aria-hidden="true"></div>
+  <div class="mist mist-4" aria-hidden="true"></div>
+  <svg id="cracks" class="cracks" aria-hidden="true"><g class="cracks-layer"></g></svg>
+  <div class="cursor-dot" aria-hidden="true"></div>
+
+
+  <nav class="floating-nav" aria-label="Primary">
+    <div class="nav-pill">
+      <a href="../../index.html" class="nav-logo" aria-label="机会翼游 · JHYY home">
+        <img src="../../assets/img/jhyy-logo.png" class="logo-img" height="30" alt="机会翼游 · JHYY" />
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>IDE<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item" href="../../en/compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item is-active" href="../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <div class="nav-links" role="navigation"><a class="" href="../../en/ide/index.html">Overview</a><a class="" href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/tree/main/docs/wiki">Docs</a><a class="" href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/releases">Releases</a></div><div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../ide/index.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../en/ide/index.html" hreflang="en" aria-current="true">English</a></div>
+      <div class="nav-cta-group">
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE" class="nav-icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+        <a href="../../compiler/download/index.html" class="nav-cta magnetic" data-magnetic>
+          <span>Download v4.1.4</span>
+          <span class="btn-icon-wrap"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 L17 7 M9 7 L17 7 L17 15"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+<main id="top" class="page-main">
+<p>A desktop IDE for JHYY: <strong>drag blocks, write code, talk to Claude Code on your own machine</strong>. A VS Code-style workbench: two coding views share one AST, and diagnostics always come from a real <code>jhyy.exe</code>.</p>
+<h2 id="three-panels">Three panels</h2>
+<ul class='md-list'><li><strong>Text view</strong> — CodeMirror 6, just write code. Syntax highlighting, bracket matching, auto-close, indentation, completion (keywords, types, 8 standard library modules), and hover hints that give you the <strong>spec section number</strong>. Files open in tabs, and opening a second one does not evict the first; the little black dot is computed from content, so it disappears on its own once you undo back to the last saved version.</li><li><strong>Block view</strong> — Blockly 13, drag blocks to write programs. The first screen of the toolbox is "Getting started": functions, print, call, number/string, variables, return — plus ready-made <strong>C function declaration</strong> blocks (<code>printf</code> / <code>puts</code> / <code>malloc</code> / <code>free</code> / <code>exit</code>, with the parameter list filled in for you) — so the first line of every JHYY program no longer has to be typed by hand through the "raw code" escape hatch.</li><li><strong>Claude Code</strong> — an embedded chat panel in the right sidebar, driving the <strong>already-installed <code>claude</code> CLI</strong> on your machine (streaming mode over stdin, with the multi-turn context kept). Claude is wired to the jhyy MCP server, so it can call <code>jhyy_check</code> and get diagnostics from the <strong>real compiler</strong> instead of guessing. The sidebar also has a "read-only" switch; when it is on, the system prompt states explicitly that the user has asked you not to modify any files.</li></ul>
+<p>There is also a panel at the bottom that is <strong>collapsed by default</strong>: "Check" jumps to the <strong>Problems</strong> page, "Run" jumps to the <strong>Terminal</strong> page.</p>
+<h2 id="the-most-convincing-one-blocks-and-text-share-one-ast">The most convincing one: blocks and text share one AST</h2>
+<p>The two coding views are <strong>two projections of the same tree</strong>, not two separate code generators:</p>
+<ul class='md-list'><li><strong>Blocks → text</strong> follows in real time (the whole source is regenerated and replaces the text view; the cursor is mapped back to its old position by longest common prefix/suffix).</li><li><strong>Text → blocks</strong> is rebuilt when you switch back to the block view (rebuilding the blocks on every keystroke makes the canvas shake too much to use).</li></ul>
+<p>The AST lives in <code>src/lang/</code> and is <strong>pure TypeScript</strong> — no dependency on Electron / Node / Blockly, so the parser, the printer and the block converter can all be unit-tested in plain Node. The IDE's own lexer (73 token kinds) and grammar (57 node kinds) follow the compiler repo's <code>compiler/src0/</code>.</p>
+<p><strong>Syntax that blocks cannot express does not silently disappear.</strong> Generics, turbofish, closures, pointers, borrows, slices, <code>defer</code>, <code>asm!</code>, attributes — these land in an <strong>opaque block</strong> that holds the original source text. You can move it, delete it; as long as <strong>you</strong> do not touch it, that part of the code round-trips byte-for-byte without loss.</p>
+<p>And one more rule: <strong>the referee is always the real compiler</strong>. The IDE never guesses whether a program is right; it runs <code>jhyy.exe</code>, parses its <code>file:line:col: error: …</code> output and shows you the compiler's own diagnostics. One "check" is recorded at about 185ms in the repo README (it uses <code>--no-link</code> to skip linking).</p>
+<h2 id="blocks-and-text-never-occupy-the-screen-at-the-same-time">Blocks and text never occupy the screen at the same time</h2>
+<p>The block canvas fills the whole editing area and the code editor disappears entirely — switch with the block button in the title bar, <code>Ctrl+Shift+B</code>, or the command palette. Both sides <strong>keep their state</strong> across the switch: the canvas keeps its zoom and pan, and the editor keeps its undo history and cursor position.</p>
+<h2 id="the-bottom-panel-problems-terminal">The bottom panel: Problems + Terminal</h2>
+<ul class='md-list'><li><strong>Problems</strong> — the compiler's diagnostics; click one to jump straight to that line and column.</li><li><strong>Terminal</strong> — a real shell (MSYS2 bash by default; PowerShell and <code>cmd</code> can be selected), and you can open more than one. The terminal prefers a <strong>real PTY</strong> (node-pty / Windows ConPTY); when node-pty cannot be installed it falls back to pipes, and then full-screen TUIs like <code>vim</code> and <code>top</code> do not run — and when it falls back the status bar shows a badge, so it never silently turns fake. "Run" runs in <strong>the terminal you are currently looking at</strong>; when it finishes the terminal is still alive and the prompt comes back.</li></ul>
+<blockquote class="callout"><p>The README still lists three tabs: "Problems / Output / Terminal". <strong>The "Output" tab has been removed in the in-development version</strong> — compiler output and program output now both go to the terminal, the same way VS Code does it.</p></blockquote>
+<h2 id="keyboard-shortcuts">Keyboard shortcuts</h2>
+<p>The menu bar, the command palette and the keyboard shortcuts are three views of <strong>one command table</strong> (<code>src/renderer/commands/registry.ts</code>), so a shortcut shown in the menu is always one that really works.</p>
+<ul class='md-list'><li><code>Ctrl+Shift+P</code> — command palette</li><li><code>Ctrl+Shift+B</code> — toggle block view / text view</li><li><code>Ctrl+Shift+D</code> — check</li><li><code>F5</code> / <code>Shift+F5</code> — run / stop</li><li><code>Ctrl+J</code> — show/hide the bottom panel</li><li><code>Ctrl+Shift+M</code> — problems</li><li>Terminal — <code>Ctrl</code> plus backquote; new terminal — <code>Ctrl+Shift+Backquote</code></li><li><code>Ctrl+Alt+B</code> — show/hide the chat sidebar; <code>Ctrl+Alt+I</code> — focus the chat</li><li><code>Ctrl+S</code> / <code>Ctrl+O</code> / <code>Ctrl+Shift+S</code> — save / open / save as</li><li><code>Ctrl+,</code> — settings</li></ul>
+<h2 id="consistency-gate-277277">Consistency gate: 277/277</h2>
+<p>The IDE's parser and printer must say the same thing as the <strong>real compiler</strong>. That is guaranteed by the compiler repo's own example programs — the corpus is the compiler repo's <code>compiler/tests/examples/</code> (it grows together with the compiler). Dropping the library files with no entry function, the ones carrying <code>SKIP</code> / <code>XFAIL</code> directives, and the ones whose name starts with <code>_</code> (environment-dependent / need manual preparation), what enters the gate is <strong>277</strong> cases — that is the full-coverage number in the IDE repo's CI.</p>
+<p>Two gates:</p>
+<ol class='md-list'><li>IDE parses → IDE prints → the <strong>real <code>jhyy.exe</code></strong> compiles it (with <code>--no-link</code>, skipping the link step);</li><li>then it is <strong>actually run once</strong>, compared against the <code>// EXPECT:</code> directives in the source.</li></ol>
+<p>The corpus rule is the same as the language repo's own rule: <strong>files starting with <code>_</code> do not enter the corpus</strong> — those are environment-dependent / manually prepared repro cases. The full 277 take about 25 minutes to run; by default only one representative subset is run.</p>
+<h2 id="version-status-there-is-an-inconsistency-here-stating-it-plainly">Version status (there is an inconsistency here; stating it plainly)</h2>
+<ul class='md-list'><li><code>package.json</code> says <strong>0.2.1</strong>;</li><li>the <strong>badge at the top of the repo README still says v0.1.0</strong> — the badge has not caught up;</li><li>the installer left behind in the local <code>release/</code> directory is also still the <strong>0.1.0</strong> one (a build leftover, not a release channel).</li></ul>
+<p>On GitHub Releases, <strong>v0.1.0, v0.2.0 and v0.2.1 have all been released</strong>, each with one NSIS installer and a <code>SHA256.txt</code>. So: <strong>what is released is v0.2.1</strong>; and the top of <code>CHANGELOG.md</code> still has an "Unreleased" section (the terminal rework, the settings dialog, and so on) — <strong>the source tree is ahead of every released version</strong>.</p>
+<p>To install, go to the repo's <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/releases" target="_blank" rel="noopener noreferrer">Releases page</a>.</p>
+<h2 id="platform-and-prerequisites">Platform and prerequisites</h2>
+<ul class='md-list'><li><strong>Windows x64</strong> — this is the only platform currently built and verified; Linux / macOS are not built.</li><li><strong>Node.js 20+</strong> (development uses 24).</li><li><strong>A JHYY compiler</strong> — the IDE <strong>does not contain</strong> a compiler; every compile and every diagnostic comes from a real <code>jhyy.exe</code>. It looks for one in this order: the path configured in the IDE's settings → the environment variable <code>JHY_EXE</code> → <code>../JiHuiYiYou/compiler/build/bin/jhyy.exe</code> (the development build in the sibling repo) → <code>C:\Program Files\JHYY\bin\jhyy.exe</code> (the official install) → a <code>jhyy.exe</code> on <code>PATH</code>.</li></ul>
+<p>The installer <strong>has no code signature</strong>, so Windows SmartScreen will stop you once; choose "More info → Run anyway".</p>
+<h2 id="documentation">Documentation</h2>
+<ul class='md-list'><li><strong><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/wiki" target="_blank" rel="noopener noreferrer">Wiki</a></strong> — the long-form guide: getting started, architecture, the block subset, Claude Code, troubleshooting, how to add a new block, how to contribute (bilingual, 7 pages).</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/blob/main/docs/blocks-subset.md" target="_blank" rel="noopener noreferrer"><code>docs/blocks-subset.md</code></a> — which syntax has blocks, which does not, and why.</li><li>Repository: <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE" target="_blank" rel="noopener noreferrer">https://github.com/JiHuiYiYou/JiHuiYiYou-IDE</a> (MIT license)</li></ul>
+</main>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../index.html" class="nav-logo foot-logo">
+          <img src="../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a title="Chinese only" href="../../compiler/docs/index.html">Docs</a></li>
+            <li><a title="Chinese only" href="../../compiler/download/index.html">Download</a></li>
+            <li><a title="Chinese only" href="../../compiler/community/index.html">Community</a></li>
+            <li><a title="Chinese only" href="../../compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a title="Chinese only" href="../../compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.4 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../assets/js/main.js" defer></script>
+</body>
+</html>

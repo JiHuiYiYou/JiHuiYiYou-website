@@ -41,6 +41,15 @@ def tag_spans(text: str) -> list[tuple[int, int]]:
     return [m.span() for m in re.finditer(r"<[^>]*>", text, flags=re.S)]
 
 
+def keep_cjk_spans(text: str) -> list[tuple[int, int]]:
+    """两种语言里都会出现的专名（语言自己的中文名）—— 不许误报。"""
+    spans: list[tuple[int, int]] = []
+    for term in getattr(I18N, "KEEP_CJK", ()):
+        for m in re.finditer(re.escape(term), text):
+            spans.append(m.span())
+    return spans
+
+
 def in_spans(pos: int, spans: list[tuple[int, int]]) -> bool:
     return any(a <= pos < b for a, b in spans)
 
@@ -88,7 +97,7 @@ def check_en_has_no_cjk() -> list[str]:
             continue
         rel = path.relative_to(ROOT).as_posix()
         text = path.read_text(encoding="utf-8")
-        spans = code_spans(text) + tag_spans(text)
+        spans = code_spans(text) + tag_spans(text) + keep_cjk_spans(text)
         for m in CJK.finditer(text):
             if in_spans(m.start(), spans):
                 continue
@@ -110,6 +119,26 @@ def twins() -> dict[str, dict[str, Path]]:
     return out
 
 
+def prose_only(text: str) -> str:
+    """只留**可见正文** —— 去掉 HTML 标签（含属性）与事实占位符。
+
+    术语检查要看的是「人读到的说法」，不是 class 名（`class="family-graph"` 里
+    的 "family" 不是说法），也不是占位符名（`{{artifact_checks}}` 里的
+    "artifact_checks" 不是说法）。
+    """
+    text = re.sub(r"<[^>]*>", " ", text)
+    return re.sub(r"\{\{[A-Za-z0-9_]+\}\}", " ", text)
+
+
+def norm_en(s: str) -> str:
+    """英文术语归一化：小写 + 非字母数字一律当空格。
+
+    这样 "bare metal" / "bare-metal" / "Bare Metal" 认成同一个说法 ——
+    连字符与大小写不该算「另一种说法」。
+    """
+    return re.sub(r"[^a-z0-9]+", " ", s.lower()).strip()
+
+
 def check_glossary() -> list[str]:
     """术语说法不一致 —— 只警告。"""
     warns: list[str] = []
@@ -117,19 +146,21 @@ def check_glossary() -> list[str]:
     for route, pair in sorted(pairs.items()):
         if "zh" not in pair or "en" not in pair:
             continue
-        zh_text = pair["zh"].read_text(encoding="utf-8")
-        en_text = pair["en"].read_text(encoding="utf-8")
+        zh_text = prose_only(pair["zh"].read_text(encoding="utf-8"))
+        en_text = prose_only(pair["en"].read_text(encoding="utf-8"))
+        en_norm = norm_en(en_text)
+        zh_norm = norm_en(zh_text)
         for key, forms in I18N.GLOSSARY.items():
             zh_term, en_term = forms["zh"], forms["en"]
             if zh_term == en_term:
                 continue  # 两种语言同一个词（arena）—— 没有「说法不一致」这回事
             zh_has = zh_term in zh_text
-            en_has = en_term in en_text
+            en_has = norm_en(en_term) in en_norm
             if zh_has and not en_has:
                 warns.append(
                     f"route {route!r}：中文页用了 {zh_term!r}，英文页却没用术语表里的 {en_term!r}"
                 )
-            if zh_has and en_term in zh_text:
+            if zh_has and norm_en(en_term) in zh_norm:
                 warns.append(
                     f"route {route!r}：中文页同时出现 {zh_term!r} 和 {en_term!r} —— 一个概念只准一种说法"
                 )

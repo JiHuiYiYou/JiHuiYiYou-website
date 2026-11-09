@@ -27,7 +27,7 @@ GLOSSARY = {
     "self_hosted": {"zh": "自举", "en": "self-hosted"},
     "expression_oriented": {"zh": "面向表达式", "en": "expression-oriented"},
     "artifact_checks": {"zh": "产物级门", "en": "artifact checks"},
-    "freestanding": {"zh": "裸机", "en": "freestanding"},
+    "bare_metal": {"zh": "裸机", "en": "bare metal"},
     "arena": {"zh": "arena", "en": "arena"},
     "workaround_ledger": {"zh": "问题台账", "en": "workaround ledger"},
     "workbench": {"zh": "工作台", "en": "workbench"},
@@ -40,6 +40,10 @@ GLOSSARY = {
     "family": {"zh": "家族", "en": "family"},
     "landing_page": {"zh": "门脸层", "en": "landing page"},
 }
+
+# 两种语言里都会出现的专名 —— 语言自己的中文名。
+# 它是这门语言的正式名字，英文页里也照写（JHYY (机会翼游)）⇒ CJK lint 不许误报。
+KEEP_CJK = {"机会翼游"}
 
 # 两种语言里都保持英文的词（不译）—— 来自 tools/CONTENT_GUIDE.md §4「文风」。
 # 术语 lint 遇到这些不许报警。
