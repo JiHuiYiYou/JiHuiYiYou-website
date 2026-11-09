@@ -1387,8 +1387,8 @@
   "url": "/en/vex/index.html",
   "lang": "en",
   "title": "JiHuiYiYou-for-VEX",
-  "desc": "Letting JHYY run directly on the VEX V5 Brain — a measurement-first embedded target route",
-  "text": "Adding an **embedded target** to JHYY: the VEX V5 Brain. The current progress is **step 0 complete** — every unknown on the VEX side has been turned into a measured value and written down as a fact baseline. ## Target hardware VEX V5 Brain: ARM, **Xilinx Zynq** (Cortex-A9 + FPGA), with VFPv3 + NEON. DDR base address `0x03800000` (`ps7_ddr_0_S_AXI_BASEADDR` in `lscript.ld`), entry pinned at `0x03800020`. ## Route B is \"JHYY emitting ARM machine code directly\" Not \"translating it to C++\". But the boundary has to be spelled out — **what gets replaced is clang's place; `ld` and everything below it",
+  "desc": "Compiling JHYY to the VEX V5 Brain — an embedded target route that starts from measurements",
+  "text": " Let JHYY emit ARM machine code directly — not transpile to C++. JiHuiYiYou-for-VEX — an embedded target for JHYY: the VEX V5 Brain. The current state is step 0 complete — every unknown on the VEX side was turned into a measured value and written down as a fact baseline. Read the fact baseline Open the repository Step 0 complete All 8 baseline items measured Xilinx Zynq · Cortex-A9 MIT license 01 / Target hardware VEX V5 Brain: one Zynq. ARM, a Xilinx Zynq (Cortex-A9 + FPGA), with VFPv3 + NEON. Every number below came out of a measurement, not out of a manual. SoC Cortex-A9 Xilinx Zynq A SoC i",
   "headings": []
  },
  {
@@ -1412,7 +1412,7 @@
   "lang": "zh",
   "title": "JiHuiYiYou-for-VEX",
   "desc": "让 JHYY 直接跑在 VEX V5 Brain 上——实测优先的嵌入式目标路线",
-  "text": "给 JHYY（机会翼游）加一个**嵌入式目标**：VEX V5 Brain。当前进度是**第 0 步已完成** —— 把 VEX 侧的未知数全部变成实测值，写成一份事实基线。 ## 目标硬件 VEX V5 Brain：ARM，**Xilinx Zynq**（Cortex-A9 + FPGA），有 VFPv3 + NEON。 DDR 基址 `0x03800000`（`lscript.ld` 里的 `ps7_ddr_0_S_AXI_BASEADDR`）， 入口钉在 `0x03800020`。 ## 路线 B 是「JHYY 直出 ARM 机器码」 不是「转译成 C++」。但边界要说清 —— **换掉的是 clang 的位置，`ld` 及以下原样不动**： - **A 路**（第 0 步，黄金参考）：JHYY → C 源码 → clang → `.bin` - **B 路**（目标）：JHYY → ARM 机器码（`.o`）→ 官方 SDK → `.bin` B 路出的是 ARM `.o`，然后链官方 SDK 的 `lscript.ld` / `stdlib_0.lib` / `libv5rt.a`， 最后 objcopy 出 `.bin`。 这跟 pros-rs 当年的**同构**（Rust 出 `.o`、链 libpros）是一个路子，区别是**带着实测重走**， 不带它的沉没成本。 ",
+  "text": " 让 JHYY 直出 ARM 机器码， 不是转译成 C++。 JiHuiYiYou-for-VEX —— 给 JHYY 加一个嵌入式目标：VEX V5 Brain。当前进度是 第 0 步已完成 —— 把 VEX 侧的未知数全部变成实测值，写成一份事实基线。 看事实基线 看仓库 第 0 步已完成 8 项基线全部实测 Xilinx Zynq · Cortex-A9 MIT 许可 01 / 目标硬件 VEX V5 Brain： 一块 Zynq。 ARM， Xilinx Zynq （Cortex-A9 + FPGA），有 VFPv3 + NEON。下面每个数字都出自实测，不是查手册。 SoC Cortex-A9 Xilinx Zynq Cortex-A9 + FPGA 集成的 SoC，带 VFPv3 + NEON 。这是 ARM 态单精度浮点加 SIMD 的那套硬件底子。 规格书 § 4 目标平台 ↗ 指令集 定长 4 字节 ARM 态，不是 Thumb 目标是 ARM 态、4 字节定长 ⇒ 后端 不必做 Thumb-2 变长编码 。⚠️ 但 clang 的 flags 仍写着 -target thumbv7-none-eabi —— 详见第 04 屏。 规格书 § 4 目标平台 ↗ 内存 DDR DDR 基址 0x03800000 链接脚本 lscript.ld 里的 ps7_ddr_0",
   "headings": []
  }
 ]

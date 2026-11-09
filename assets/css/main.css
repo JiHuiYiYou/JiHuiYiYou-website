@@ -1163,6 +1163,10 @@ code, pre { font-family: var(--f-mono); }
     gap: 24px;
   }
 }
+/* 网格项默认 min-width:auto ⇒ 里面的 <pre>（white-space: pre）会把整列撑到
+   最长行的宽度 ⇒ 390px 下整页横向溢出。网格项必须允许收缩到列宽，
+   内容自己横向滚动（.code-block / .showcase-tabs 都是 overflow-x:auto）。 */
+.showcase > * { min-width: 0; }
 
 .showcase-tabs {
   display: flex;

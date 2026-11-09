@@ -89,10 +89,12 @@ FACTS = {
     "ide_gate_total": 277,
     # OS —— 来源：JiHuiYiYou-OS spike/boot.s 头部注释「实测到的四件事」
     "os_spike_measured": 4,
-    # for-VEX —— 来源：JiHuiYiYou-for-VEX docs/00-事实基线.md（八件事，七成一待测）
+    # for-VEX —— 来源：JiHuiYiYou-for-VEX docs/00-事实基线.md（八件事，八件全部实测）
+    # 2026-11-10 订正：最后一件（消息泵 tick 频率）已在真 Brain 上测得（100 Hz，
+    # 2026-11-09）⇒ 八件全部有结论。**仍待测的是八项之外的屏显细节**
+    # （bOpaque 语义、文字坐标单位）—— 那是两件事，不是一个数，所以不占 fact。
     "vex_baseline_total": 8,
-    "vex_baseline_done": 7,
-    "vex_baseline_pending": 1,
+    "vex_baseline_done": 8,
 }
 
 # ── 分发产物 ────────────────────────────────────────────────────────────────

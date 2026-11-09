@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0a0a0a" />
   <title>JiHuiYiYou-for-VEX</title>
-  <meta name="description" content="Letting JHYY run directly on the VEX V5 Brain — a measurement-first embedded target route" />
+  <meta name="description" content="Compiling JHYY to the VEX V5 Brain — an embedded target route that starts from measurements" />
   <meta property="og:title" content="JiHuiYiYou-for-VEX" />
-  <meta property="og:description" content="Letting JHYY run directly on the VEX V5 Brain — a measurement-first embedded target route" />
+  <meta property="og:description" content="Compiling JHYY to the VEX V5 Brain — an embedded target route that starts from measurements" />
   <meta property="og:type" content="website" />
   <link rel="alternate" hreflang="zh-CN" href="../../vex/index.html" />
   <link rel="stylesheet" href="../../assets/css/fonts.css" />
@@ -49,35 +49,555 @@
     </div>
   </nav>
 
-<main id="top" class="page-main">
-<p>Adding an <strong>embedded target</strong> to JHYY: the VEX V5 Brain. The current progress is <strong>step 0 complete</strong> — every unknown on the VEX side has been turned into a measured value and written down as a fact baseline.</p>
-<h2 id="target-hardware">Target hardware</h2>
-<p>VEX V5 Brain: ARM, <strong>Xilinx Zynq</strong> (Cortex-A9 + FPGA), with VFPv3 + NEON. DDR base address <code>0x03800000</code> (<code>ps7_ddr_0_S_AXI_BASEADDR</code> in <code>lscript.ld</code>), entry pinned at <code>0x03800020</code>.</p>
-<h2 id="route-b-is-jhyy-emitting-arm-machine-code-directly">Route B is "JHYY emitting ARM machine code directly"</h2>
-<p>Not "translating it to C++". But the boundary has to be spelled out — <strong>what gets replaced is clang's place; <code>ld</code> and everything below it stay as they are</strong>:</p>
-<ul class='md-list'><li><strong>Route A</strong> (step 0, the golden reference): JHYY → C source → clang → <code>.bin</code></li><li><strong>Route B</strong> (the goal): JHYY → ARM machine code (<code>.o</code>) → the official SDK → <code>.bin</code></li></ul>
-<p>Route B emits an ARM <code>.o</code>, then links the official SDK's <code>lscript.ld</code> / <code>stdlib_0.lib</code> / <code>libv5rt.a</code>, and finally objcopy produces the <code>.bin</code>.</p>
-<p>This is <strong>isomorphic</strong> to what pros-rs did back then (Rust emits an <code>.o</code>, links libpros) — the same route, except that it <strong>walks it again with measurements</strong>, without carrying that sunk cost.</p>
-<p>⇒ The corollary is the same: <strong>the ABI must be locked</strong> (softfp), <strong>the entry point must be locked</strong> (symbol name <code>main</code>), <strong>the binding surface must be locked</strong> (each <code>extern fn</code> corresponds verbatim to one C symbol) — whichever library you link against, that library's ABI is the one you get. If those three cannot be locked, the two routes cannot be cross-checked against each other.</p>
-<h2 id="day-0-is-complete-the-fact-baseline">Day 0 is complete: the fact baseline</h2>
-<p><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX/blob/main/docs/00-%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF.md" target="_blank" rel="noopener noreferrer">the fact baseline document</a> is the <strong>single source of truth</strong> for the "numbers and platform facts that may change" of this project. Measurement date <strong>2026-11-08</strong>, machine <strong>Windows 10 + MSYS2</strong>, and every measurement method was a local one (compile / disassemble / <code>readelf</code> / <code>nm</code>), with <strong>zero JHYY variables</strong>. Every entry that was not measured is marked "to be measured"; no guessed values are written down.</p>
-<p>The spec has to cover eight things, none of them optional — <strong>seven have conclusions, one is still to be measured</strong>:</p>
-<ul class='md-list'><li>Artifact format and signature layout — measured</li><li>What <code>vexStartup</code> does for you — measured (disassembly + relocations)</li><li>Symbol mangling rules — measured (1404 C++ mangled symbols vs the plain C API)</li><li>The softfp / hard decision and its rationale — <strong>locked to softfp</strong></li><li>The C alignment for passing a struct by value — measured (layout + register convention + the one struct passed by value)</li><li>The minimal binding surface — the exact function names verified, plus a list of the verbatim JHYY-side counterparts</li><li>Where to read the field control state — <code>vexCompetitionStatus</code> / <code>vexCompetitionControl</code></li><li>The message pump tick rate — <strong>to be measured</strong> (needs the real robot)</li></ul>
-<p>Some measured conclusions:</p>
-<ul class='md-list'><li><strong>The artifact format needs no extra converter</strong> — the SDK's <code>objcopy</code> emits the final format directly. The first 32 bytes are <code>XVX5</code> + version 1, and the entry point follows right after at <code>0x03800020</code>.</li><li><strong>The startup chain is fully closed</strong>: clear <code>.bss</code> → stdlib version check → newlib impure data → <code>__libc_init_array</code> → <code>vexMain</code> → <code>__libc_fini_array</code>.</li><li><strong>The user's <code>main</code> is a task</strong>, not the main thread — the SDK registers it with the VEXos scheduler via <code>vexTaskAdd(main, 2, &quot;MAIN&quot;)</code>. So Route B <strong>must emit an unmangled <code>main</code> symbol</strong>.</li><li><strong>The ABI is locked to softfp</strong> — neither our ELF nor <code>libv5rt.a</code> carries a <code>Tag_ABI_VFP_args</code> tag, and the ARM ABI default is the base standard variant.</li><li><strong>The instruction set is ARM state, 4 bytes fixed-length</strong> ⇒ the backend does not have to do Thumb-2 variable-length encoding.</li><li><strong>Two API layers</strong>: the C++ <code>vex::</code> (1404 mangled symbols, <strong>not touched</strong>) and the <strong>plain C <code>vex*()</code></strong> — the latter is what JHYY's <code>extern fn</code> binds to directly, with a <strong>zero-glue layer</strong>.</li><li><strong>Measured struct layouts</strong>: there are both packed and non-packed ones; in the C API there is <strong>exactly one</strong> struct passed by value (<code>V5_DeviceVisionRgb</code>, ≤4 B ⇒ passed in registers), everything else is passed by pointer.</li><li><strong>Memory budget</strong>: 1 MB of heap, 14 KB of stack — recursion depth is a hard constraint.</li><li><strong>Hard constraints on the JHYY side</strong> (ABI v4.0.0): no variadic calls, no struct passed by value across an FFI boundary, and the <strong>pointer width is locked at 64 bits</strong> ⇒ the ARM target must first set the pointer width to 4 bytes, or even <code>extern fn</code> will not line up.</li></ul>
-<h2 id="three-pitfalls-all-of-them-explicitly-warned-about-in-the-source-documents">Three pitfalls (all of them explicitly warned about in the source documents)</h2>
-<ol class='md-list'><li><strong>The <code>objdump</code> that ships with MSYS2 is x86-only</strong> — on VEX artifacts it reports <code>can&#x27;t disassemble for architecture UNKNOWN!</code> ⇒ <strong>you must use <code>arm-none-eabi-objdump</code></strong> (installed separately for this round, binutils 2.47). <code>readelf</code> reads both.</li><li><strong>The SDK's clang is 8.0.0</strong>, its flags say <code>-target thumbv7-none-eabi</code> (a <strong>Thumb</strong> target), but the measured entry point holds <strong>ARM state</strong> instructions (<code>e59f00a0</code> is an ARM state LDR literal; Thumb-2 would be <code>f8df</code>). This combination of "the target says Thumb, the measured artifact is ARM" depends on the codegen behaviour of a specific version — <strong>changing the clang version means re-measuring</strong>; this conclusion cannot just be carried over.</li><li><strong>The measurement environment is Windows 10 + MSYS2</strong> — the toolchain paths, the shell and objcopy's behaviour are all bound to this environment.</li></ol>
-<h2 id="schedule-ahead">Schedule ahead</h2>
-<ul class='md-list'><li><strong>Day 0</strong> — done. Hand-written C probes, zero JHYY variables, a purely manual walk through <code>source → ELF → signed bin → program.bin</code>. The probe also incidentally built a layer over the binding surface itself: the display API is entirely variadic, and JHYY does not support variadic calls, so a <strong>non-variadic wrapper</strong> <code>jhyy_vex_display_puts</code> was added — the variadic part happens only inside C.</li><li><strong>Day 1–2</strong> — not started. The emitter emits <strong>C</strong> (not C++), the minimal subset plus the minimal binding surface (for now binding only <code>vexDeviceGetByIndex</code> / <code>vexDeviceMotorVelocitySet</code> / <code>vexDelay</code> / <code>jhyy_vex_display_puts</code>).</li><li><strong>Day 3</strong> — not started. A behavioural comparison of the Route A artifact against the existing C++ project, filling in the "to be measured" items left over from Day 0, and finalizing the spec.</li><li><strong>Stage B</strong> — not started. JHYY's ARM backend.</li></ul>
-<p>First, the comparison criteria for Day 3: <strong>"consistent" means behaviour, not bytes</strong>. Routes A and B are two different code generators (the <code>.s</code> will necessarily differ, and the <code>.o</code> section layout may differ too), so the five layers of artifacts — <code>.s</code> / <code>.o</code> / ELF / <code>.map</code> / <code>.bin</code> — are <strong>each their own diagnostic evidence</strong>, not objects for a byte-identical comparison; comparing layer by layer only serves to <strong>locate</strong> which layer the inconsistency happens in.</p>
-<p>Day 0 also has one <strong>acceptance line</strong> not passed yet: <strong>the <code>.bin</code> produced by Route A must actually have spun a motor on a Brain</strong>. That needs a microSD card and a robot — the real-machine behaviour of the display and the motors, the message pump tick rate, and the coordinate semantics of <code>vexDisplayPrintf</code> are all still marked "to be measured".</p>
-<p>The Day 0 probe is reproducible (the artifacts are kept locally and are not in the repository):</p>
-<pre><code class="language-bash">scripts/build-vex.sh spike/day0-c day0c
-</code></pre>
-<h2 id="boundaries-and-discipline">Boundaries and discipline</h2>
-<ul class='md-list'><li><strong>Do not modify the JHYY main repo directly</strong> — the experiments happen in this repo; once there are measured values they land in the main repo and get a review of their own.</li><li><strong>The output of step 0 is knowledge, not code</strong> — the emitter is a probe, and it is not allowed to grow into a product.</li><li><strong>Artifacts are kept locally and are not in the repository</strong> — the <code>.bin</code> / ELF contain code from <code>libv5rt.a</code> (VEX proprietary); before the "SDK redistribution" question is settled they do not go into a public repo; they are kept through <strong>local copy + reproducible script + hash manifest</strong>.</li></ul>
-<p>Repository: <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX" target="_blank" rel="noopener noreferrer">https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX</a></p>
+<main id="top">
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-label="JiHuiYiYou-for-VEX">
+    <div class="container hero-inner">
+      <div class="hero-icon reveal" data-reveal-delay="0">
+        <div class="hero-icon-bezel">
+          <img src="../../assets/img/jhyy-icon-animated.svg" class="hero-icon-img" width="120" height="120" alt="JHYY" />
+        </div>
+        <div class="hero-icon-ring" aria-hidden="true"></div>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="reveal-line"><span class="line-inner">Let JHYY emit</span></span>
+        <span class="reveal-line"><span class="line-inner">ARM machine code directly —</span></span>
+        <span class="reveal-line"><span class="line-inner accent">not transpile to C++.</span></span>
+      </h1>
+
+      <p class="hero-sub reveal" data-reveal-delay="700">
+        <span class="hero-sub-en"><strong>JiHuiYiYou-for-VEX</strong> — an embedded target for JHYY: the VEX V5 Brain. The current state is <strong>step 0 complete</strong> — every unknown on the VEX side was turned into a measured value and written down as a fact baseline.</span>
+      </p>
+
+      <div class="cta-row reveal" data-reveal-delay="900">
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX/blob/main/docs/00-%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF.md" class="btn-primary magnetic" data-magnetic>
+          <span class="btn-label">Read the fact baseline</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+            </svg>
+          </span>
+        </a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX" class="btn-ghost magnetic" data-magnetic>
+          <span class="btn-label">Open the repository</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <div class="hero-meta reveal" data-reveal-delay="1100">
+        <div class="meta-item">
+          <span class="meta-dot meta-dot--ok"></span>
+          <span>Step 0 complete</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot meta-dot--brand"></span>
+          <span>All 8 baseline items measured</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot"></span>
+          <span>Xilinx Zynq · Cortex-A9</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot"></span>
+          <span>MIT license</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 01 · TARGET HARDWARE ============ -->
+  <section id="hardware" class="section" aria-label="Target hardware">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">01 / Target hardware</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">VEX V5 Brain:</span></span>
+          <span class="reveal-line"><span class="line-inner">one Zynq.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          ARM, a <strong>Xilinx Zynq</strong> (Cortex-A9 + FPGA), with VFPv3 + NEON. Every number below came out of a measurement, not out of a manual.
+        </p>
+      </header>
+
+      <div class="docs-grid">
+        <article class="docs-card reveal-card">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">SoC</span>
+              <span class="docs-tag-version">Cortex-A9</span>
+            </div>
+            <h3 class="docs-card-title">Xilinx Zynq</h3>
+            <p class="docs-card-body">A SoC integrating a Cortex-A9 with an FPGA, with <strong>VFPv3 + NEON</strong> — the hardware base for single-precision floats and SIMD in ARM state.</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX/blob/main/docs/00-%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF.md" target="_blank" rel="noopener">
+              Spec <code>§ 4 target platform</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Instruction set</span>
+              <span class="docs-tag-version">Fixed 4 bytes</span>
+            </div>
+            <h3 class="docs-card-title">ARM state, not Thumb</h3>
+            <p class="docs-card-body">The target is <strong>ARM state, 4 bytes fixed-length</strong> ⇒ the backend <strong>does not have to do Thumb-2 variable-length encoding</strong>. ⚠️ But clang's flags still say <code>-target thumbv7-none-eabi</code> — see screen 04.</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX/blob/main/docs/00-%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF.md" target="_blank" rel="noopener">
+              Spec <code>§ 4 target platform</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Memory</span>
+              <span class="docs-tag-version">DDR</span>
+            </div>
+            <h3 class="docs-card-title">DDR base 0x03800000</h3>
+            <p class="docs-card-body">The <code>ps7_ddr_0_S_AXI_BASEADDR</code> in the linker script <code>lscript.ld</code>. Heap <strong>1 MB</strong>, stack <strong>14 KB</strong> — recursion depth is a hard constraint.</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX/blob/main/docs/00-%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF.md" target="_blank" rel="noopener">
+              Spec <code>§ 11 memory budget</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Entry</span>
+              <span class="docs-tag-version">0x03800020</span>
+            </div>
+            <h3 class="docs-card-title">Right after the 32-byte header</h3>
+            <p class="docs-card-body">The first 32 bytes are <code>XVX5</code> + version 1, and the <strong>entry point follows right after</strong> at <code>0x03800020</code>. The SDK's <code>objcopy</code> emits the final format directly — no extra converter needed.</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX/blob/main/docs/00-%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF.md" target="_blank" rel="noopener">
+              Spec <code>§ 3 artifact format</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 · ROUTE B ============ -->
+  <section id="route" class="section" aria-label="Route B">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">02 / Route B</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">What gets replaced is clang's</span></span>
+          <span class="reveal-line"><span class="line-inner">place — <code>ld</code> and below stay.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          Not "transpile to C++". But the boundary has to be spelled out.
+        </p>
+      </header>
+
+      <div class="bento">
+        <article class="bento-card bento-card--lg reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">01</span>
+                <span class="card-tag">Route A / Route B</span>
+              </div>
+              <h3 class="card-title">Golden reference vs the target.</h3>
+              <p class="card-body">
+                <strong>Route A (step 0, the golden reference)</strong>: JHYY → C source → clang → <code>.bin</code>.<br/>
+                <strong>Route B (the goal)</strong>: JHYY → ARM machine code (<code>.o</code>) → the official SDK → <code>.bin</code>.<br/>
+                Route B emits an ARM <code>.o</code>, which is then linked against the SDK's <code>lscript.ld</code> / <code>stdlib_0.lib</code> / <code>libv5rt.a</code>, and <code>objcopy</code> produces the <code>.bin</code>.
+              </p>
+              <div class="card-visual">
+                <div class="phase-pills">
+                  <span class="pp pp--done">Route A · clang</span>
+                  <span class="pp-arrow">→</span>
+                  <span class="pp pp--active">Route B · JHYY direct</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">02</span>
+                <span class="card-tag">Isomorphic</span>
+              </div>
+              <h3 class="card-title">The same route pros-rs took</h3>
+              <p class="card-body">
+                Rust emits an <code>.o</code> and links libpros; here JHYY emits an <code>.o</code> and links the official SDK. The difference is that this time it is <strong>re-walked with measurements</strong>, without that project's sunk cost.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">03</span>
+                <span class="card-tag">The corollary</span>
+              </div>
+              <h3 class="card-title">Three things must be locked, or the two routes cannot be compared</h3>
+              <p class="card-body">
+                The <strong>ABI must be locked</strong> (softfp), the <strong>entry point must be locked</strong> (symbol name <code>main</code>), and the <strong>binding surface must be locked</strong> (every <code>extern fn</code> maps verbatim to one C symbol) — link whichever library and you accept its ABI.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--wide reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner bezel-inner--row">
+              <div class="card-half">
+                <div class="card-head">
+                  <span class="card-num">04</span>
+                  <span class="card-tag">The blocker</span>
+                </div>
+                <h3 class="card-title">JHYY has no ARM target today.</h3>
+                <p class="card-body">
+                  ABI v4.0.0 locks the <strong>pointer width at 64 bits</strong>, and all four targets are amd64; but <code>V5_DeviceT</code> is a <strong>4-byte</strong> C pointer.
+                  ⇒ The ARM target must <strong>set the pointer width to 4 bytes first</strong>; otherwise even <code>extern fn</code> will not line up. This is the first hard blocker of the B phase — it is written into the spec so nobody discovers it the expensive way.
+                </p>
+              </div>
+              <div class="card-half card-half--visual">
+                <div class="doc-stamp">
+                  <div class="doc-stamp-line"><span>JHYY pointer width</span><span class="stamp-val">64 bits</span></div>
+                  <div class="doc-stamp-line"><span>VEX C pointer</span><span class="stamp-val">4 bytes</span></div>
+                  <div class="doc-stamp-line"><span>JHYY targets</span><span class="stamp-val">4, all amd64</span></div>
+                  <div class="doc-stamp-line"><span>ABI locked to</span><span class="stamp-val">softfp</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 · THE EIGHT SPEC ITEMS ============ -->
+  <section id="baseline" class="section" aria-label="The eight spec items">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">03 / The eight spec items</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">None of them optional —</span></span>
+          <span class="reveal-line"><span class="line-inner">all eight measured.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          The <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX/blob/main/docs/00-%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF.md" target="_blank" rel="noopener">fact baseline document</a> is this project's <strong>single source of truth</strong> for the numbers and platform facts that may change.
+          Measurement date 2026-11-08, machine Windows 10 + MSYS2, every measurement method a local one (compile / disassemble / <code>readelf</code> / <code>nm</code>), with <strong>zero JHYY variables</strong>.
+        </p>
+      </header>
+
+      <div class="docs-grid">
+        <article class="docs-card reveal-card">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Measured</span>
+              <span class="docs-tag-version">01</span>
+            </div>
+            <h3 class="docs-card-title">Artifact format and signature layout</h3>
+            <p class="docs-card-body">The SDK's <code>objcopy</code> emits the final format directly; the first 32 bytes are <code>XVX5</code> + version 1 and the entry point follows right after. <strong>No extra converter needed</strong>.</p>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Measured</span>
+              <span class="docs-tag-version">02</span>
+            </div>
+            <h3 class="docs-card-title">What vexStartup does for you</h3>
+            <p class="docs-card-body">The startup chain is fully closed: clear <code>.bss</code> → stdlib version check → newlib impure data → <code>__libc_init_array</code> → <code>vexMain</code> → <code>__libc_fini_array</code>. Confirmed by disassembly and relocations.</p>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Measured</span>
+              <span class="docs-tag-version">03</span>
+            </div>
+            <h3 class="docs-card-title">Symbol mangling rules</h3>
+            <p class="docs-card-body">The C++ <code>vex::</code> layer has <strong>1404 mangled symbols</strong> in <code>libv5rt.a</code> (Itanium mangling ⇒ <strong>not touched</strong>); the plain C <code>vex*()</code> layer is what JHYY's <code>extern fn</code> binds to directly, with a <strong>zero-glue layer</strong>.</p>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Locked</span>
+              <span class="docs-tag-version">04</span>
+            </div>
+            <h3 class="docs-card-title">The softfp / hard decision</h3>
+            <p class="docs-card-body"><strong>Locked to softfp</strong>: neither our ELF nor <code>libv5rt.a</code> carries a <code>Tag_ABI_VFP_args</code> tag, and the ARM ABI default is the base standard variant.</p>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="400">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Measured</span>
+              <span class="docs-tag-version">05</span>
+            </div>
+            <h3 class="docs-card-title">The C alignment for a struct by value</h3>
+            <p class="docs-card-body">There are both packed and non-packed ones. In the whole plain C API there is <strong>exactly one</strong> struct passed by value (<code>V5_DeviceVisionRgb</code>, ≤4 B ⇒ passed in registers); everything else is passed by pointer.</p>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="500">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Verified</span>
+              <span class="docs-tag-version">06</span>
+            </div>
+            <h3 class="docs-card-title">The minimal binding surface</h3>
+            <p class="docs-card-body">The exact function names are verified to exist, and there is a list of the <strong>verbatim</strong> JHYY-side counterparts (change one, change both). The entry symbol must be an <strong>unmangled <code>main</code></strong>.</p>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="600">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Measured</span>
+              <span class="docs-tag-version">07</span>
+            </div>
+            <h3 class="docs-card-title">Where to read the field control state</h3>
+            <p class="docs-card-body"><code>vexCompetitionStatus</code> / <code>vexCompetitionControl</code>; the bit meanings were measured statically (2026-11-09, no hardware needed).</p>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="700">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Measured</span>
+              <span class="docs-tag-version">08 · real robot</span>
+            </div>
+            <h3 class="docs-card-title">The message pump tick rate</h3>
+            <p class="docs-card-body"><strong>100 Hz</strong> (scheduler tick = 10 ms), measured on a <strong>real Brain</strong> on 2026-11-09 — 50 × <code>vexDelay(1)</code> = 500 ms. The last missing item of the eight is now closed.</p>
+          </div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 · THREE PITFALLS ============ -->
+  <section id="pitfalls" class="section" aria-label="Three pitfalls">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">04 / Three pitfalls</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">Three things the source</span></span>
+          <span class="reveal-line"><span class="line-inner">warns about explicitly.</span></span>
+        </h2>
+      </header>
+
+      <div class="bento">
+        <article class="bento-card bento-card--sm reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">01</span>
+                <span class="card-tag">Tooling</span>
+              </div>
+              <h3 class="card-title">The objdump in MSYS2 is x86-only</h3>
+              <p class="card-body">
+                On VEX artifacts it reports <code>can't disassemble for architecture UNKNOWN!</code> ⇒ <strong>you must use <code>arm-none-eabi-objdump</code></strong> (installed separately for this round, binutils 2.47). <code>readelf</code> reads both.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">02</span>
+                <span class="card-tag">Version</span>
+              </div>
+              <h3 class="card-title">The target says Thumb, the measured artifact is ARM</h3>
+              <p class="card-body">
+                The SDK's clang is 8.0.0 and its flags say <code>-target thumbv7-none-eabi</code>, but the measured entry point holds <strong>ARM state</strong> instructions (<code>e59f00a0</code> is an ARM state LDR literal; Thumb-2 would be <code>f8df</code>). This combination depends on the codegen behaviour of a specific version ⇒ <strong>changing the clang version means re-measuring</strong>; the conclusion cannot just be carried over.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">03</span>
+                <span class="card-tag">Environment</span>
+              </div>
+              <h3 class="card-title">The measurement environment is Windows 10 + MSYS2</h3>
+              <p class="card-body">
+                The toolchain paths, the shell and <code>objcopy</code>'s behaviour are all bound to this environment. Re-measuring on another machine means re-confirming these three.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 · STATUS AND BOUNDARIES ============ -->
+  <section id="status" class="section" aria-label="Status and boundaries">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">05 / Status and boundaries</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">Which stretch is done,</span></span>
+          <span class="reveal-line"><span class="line-inner">what is still owed.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          Both sides belong on this screen — telling only the good half is the same as telling nothing.
+        </p>
+      </header>
+
+      <div class="bento">
+        <article class="bento-card bento-card--sm reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">✓</span>
+                <span class="card-tag">Holds today</span>
+              </div>
+              <h3 class="card-title">Step 0 is done, including on real hardware</h3>
+              <p class="card-body">
+                All eight spec items are measured, the last one on a real Brain (tick rate = <strong>100 Hz</strong>, 2026-11-09). The hardware acceptance line passed too: the <code>.bin</code> from Route A really spun a motor — <strong>speed = RPM on the output shaft, position = degrees on the output shaft</strong>, °/s = RPM × 6; the whole 1 MB heap is usable.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">✗</span>
+                <span class="card-tag">Not measured / not built</span>
+              </div>
+              <h3 class="card-title">The remaining holes are written down here</h3>
+              <p class="card-body">
+                The display details (<code>bOpaque</code> semantics, text coordinate units) are still to be measured; the motor direction flag shows no effect on read-back (the probe order is suspected); the SD card <code>program.bin</code> burn flow was not walked through (no card inserted this round). In the schedule, <strong>Days 1–2 / Day 3 / the B phase have not started at all</strong>.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">→</span>
+                <span class="card-tag">Next stretch</span>
+              </div>
+              <h3 class="card-title">Days 1–2: the emitter emits C</h3>
+              <p class="card-body">
+                A minimal subset plus the minimal binding surface (to start with just <code>vexDeviceGetByIndex</code> / <code>vexDeviceMotorVelocitySet</code> / <code>vexDelay</code> / <code>jhyy_vex_display_puts</code>). <strong>C, not C++</strong>.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">◆</span>
+                <span class="card-tag">One important distinction</span>
+              </div>
+              <h3 class="card-title">On Day 3, "identical" means behaviour, not bytes</h3>
+              <p class="card-body">
+                Routes A and B are two different code generators (the <code>.s</code> is bound to differ, and the <code>.o</code> section layout may differ too) ⇒ the five artifact layers <code>.s</code> / <code>.o</code> / ELF / <code>.map</code> / <code>.bin</code> are <strong>separate diagnostic evidence</strong>, not byte-comparison targets. Comparing layer by layer only exists to <strong>locate</strong> where the two disagree.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p class="perf-note reveal">
+        <strong>Three rules:</strong> do not touch the JHYY main repository directly — experiments happen here, and only a measured result goes back to the main repo, with a separate review;
+        <strong>the output of step 0 is knowledge, not code</strong> — the emitter is a probe and must not grow into a product;
+        artifacts stay local and are not committed — the <code>.bin</code> / ELF contain <code>libv5rt.a</code> code (VEX-proprietary), so they stay out of the public repo until the "SDK redistribution" question is settled; what is kept is <strong>local + a reproducible script + a hash manifest</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section id="get-started" class="section section-cta" aria-label="Get started">
+    <div class="container">
+      <div class="cta-shell reveal">
+        <div class="cta-inner">
+          <div class="cta-glow" aria-hidden="true"></div>
+          <h2 class="cta-title">
+            <span class="reveal-line"><span class="line-inner">Measure first,</span></span>
+            <span class="reveal-line"><span class="line-inner"><em>then move.</em></span></span>
+          </h2>
+          <p class="cta-sub">This route does not run on plans, it runs on measurements: turn every unknown on the VEX side into a number, and what is left is just work driven by numbers.</p>
+
+          <div class="cta-row">
+            <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX/blob/main/docs/00-%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF.md" class="btn-primary btn-primary--lg magnetic" data-magnetic>
+              <span class="btn-label">Read the fact baseline</span>
+              <span class="btn-icon-wrap">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                </svg>
+              </span>
+            </a>
+            <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX" class="btn-ghost btn-ghost--lg magnetic" data-magnetic>
+              <span class="btn-label">Open the repository</span>
+              <span class="btn-icon-wrap">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                </svg>
+              </span>
+            </a>
+          </div>
+
+          <div class="cta-install-meta">
+            <span class="cim-item"><strong>Step 0 complete</strong> · all 8 baseline items measured</span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item">Xilinx Zynq · Cortex-A9</span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX/blob/main/docs/00-%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF.md">Fact baseline</a></span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">Repository</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
+
 
   <footer class="site-foot">
     <div class="container foot-grid">
