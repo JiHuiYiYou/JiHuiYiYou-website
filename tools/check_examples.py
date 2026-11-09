@@ -68,6 +68,13 @@ def extract() -> list[tuple[str, int, str, str]]:
 
 
 def main() -> int:
+    # 脚本自己保证 stdout 能写中文 —— Windows runner 的 locale 是 cp1252，
+    # print 一句「示例检查：…」就 UnicodeEncodeError 崩掉（检查其实已经跑完了）。
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):
+            pass
     if not JHYY.exists():
         print(f"!! 找不到编译器：{JHYY}", file=sys.stderr)
         return 2

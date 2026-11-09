@@ -34,9 +34,10 @@ REGRESS_PASS = 281
 REGRESS_SKIP = 20
 REGRESS_FAILED = 0
 ASSERTIONS = 217
-# 产物级门数 —— 真相源是编译器仓的 docs/internal/FACTS.md § 2.1（20 道）。
-# 之前这里写 19，官网 6 处跟着写 19，是一次静默漂移（artifact_checks.sh 实测 20 个 check_ 函数）。
-ARTIFACT_CHECKS = 20
+# 产物级门数 —— 真相源是编译器仓的 docs/internal/FACTS.md § 2.1。
+# 这个数已经漂过两次：19 → 20（#[naked] 补门）→ 21。官网曾经一直跟着旧数走，
+# 而没有任何门会红；现在 check_facts.py 每次都跟编译器仓对拍。
+ARTIFACT_CHECKS = 21
 BENCH_TASKS = 9
 BENCH_AXES = 4
 
