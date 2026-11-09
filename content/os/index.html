@@ -1,0 +1,568 @@
+---
+title: JiHuiYiYou-OS
+description: 用 JHYY 写的操作系统——从 UEFI 引导 spike 开始的实测路线
+layout: page
+project: os
+zone: os
+---
+
+<main id="top">
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-label="JiHuiYiYou-OS">
+    <div class="container hero-inner">
+      <div class="hero-icon reveal" data-reveal-delay="0">
+        <div class="hero-icon-bezel">
+          <img src="/assets/img/jhyy-icon-animated.svg" class="hero-icon-img" width="120" height="120" alt="JHYY" />
+        </div>
+        <div class="hero-icon-ring" aria-hidden="true"></div>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="reveal-line"><span class="line-inner">先把「能不能启动」，</span></span>
+        <span class="reveal-line"><span class="line-inner">变成</span></span>
+        <span class="reveal-line"><span class="line-inner accent">实测值。</span></span>
+      </h1>
+
+      <p class="hero-sub reveal" data-reveal-delay="700">
+        <span class="hero-sub-en"><strong>JiHuiYiYou-OS</strong> —— 用 JHYY 写的操作系统。它现在处在<strong>极早期</strong>：仓库里只有一个 UEFI x64 引导 spike，设计基线正在重整。这一页写的是<strong>现状</strong>，不是蓝图。</span>
+      </p>
+
+      <div class="cta-row reveal" data-reveal-delay="900">
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/tree/main/spike" class="btn-primary magnetic" data-magnetic>
+          <span class="btn-label">看 spike 源码</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+            </svg>
+          </span>
+        </a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS" class="btn-ghost magnetic" data-magnetic>
+          <span class="btn-label">看仓库</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <div class="hero-meta reveal" data-reveal-delay="1100">
+        <div class="meta-item">
+          <span class="meta-dot meta-dot--ok"></span>
+          <span>孵化中 · spike</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot meta-dot--brand"></span>
+          <span>MIT 许可</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot"></span>
+          <span>UEFI x64 · ConOut</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot"></span>
+          <span>十六个版本槽，一个都没开始</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 01 · 仓库里现在有什么 ============ -->
+  <section id="repo" class="section" aria-label="仓库里现在有什么">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">01 / 仓库里现在有什么</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">四个文件，</span></span>
+          <span class="reveal-line"><span class="line-inner">一个引导程序。</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          仓库当前只有一个目录 <code>spike/</code>（外加一份 MIT 协议的 <code>LICENSE</code>）。
+        </p>
+      </header>
+
+      <div class="docs-grid">
+        <article class="docs-card reveal-card">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">源码</span>
+              <span class="docs-tag-version">94 行</span>
+            </div>
+            <h3 class="docs-card-title">spike/boot.s</h3>
+            <p class="docs-card-body">UEFI x64 引导程序，Intel 语法。它的<strong>头注释</strong>列着这个 spike 要验证的四件事 —— 下面第 02 屏就是那份注释本身。</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/blob/main/spike/boot.s" target="_blank" rel="noopener">
+              打开 <code>boot.s</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">产物</span>
+              <span class="docs-tag-version">编译输出</span>
+            </div>
+            <h3 class="docs-card-title">spike/BOOTX64.EFI</h3>
+            <p class="docs-card-body">上面那个源文件的编译产物 —— EFI application 格式，<code>--subsystem,10</code>，入口 <code>efi_main</code>，加载基址 <code>0x10000</code>。</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/tree/main/spike" target="_blank" rel="noopener">
+              打开 <code>spike/</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">分区镜像</span>
+              <span class="docs-tag-version">EFI/BOOT</span>
+            </div>
+            <h3 class="docs-card-title">esp_root/EFI/BOOT/</h3>
+            <p class="docs-card-body">EFI 分区镜像里的引导文件 —— <code>BOOTX64.EFI</code> 放在它该在的位置，打出来的磁盘镜像才找得到。</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/tree/main/spike/esp_root" target="_blank" rel="noopener">
+              打开 <code>esp_root</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">打包</span>
+              <span class="docs-tag-version">wrap_gpt.py</span>
+            </div>
+            <h3 class="docs-card-title">spike/wrap_gpt.py</h3>
+            <p class="docs-card-body">把一份裸 FAT 镜像包进带<strong>一个 EFI System Partition</strong> 的 GPT 磁盘镜像：自己写保护 MBR、主/备 GPT 头和 CRC32，还会把 FAT 的 BPB 隐藏扇区数改成分区起始 LBA。</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/blob/main/spike/wrap_gpt.py" target="_blank" rel="noopener">
+              打开 <code>wrap_gpt</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+      </div>
+
+      <p class="docs-note reveal">
+        <strong>为什么仓库看起来这么空：</strong>2026-10-30 的一次性提交「清空原有设计文档 —— 重整设计基线」（<code>f98d83d</code>）
+        删掉了 <code>docs/</code> 下 17 份 v0.0.x 设计文档、<code>deep_research/</code> 下 9 份外部调研存档，外加 <code>README.md</code> 和 <code>CLAUDE.md</code>。
+        那批文档写于编译器 v1.8.3 时代（C 宿主 + QBE + ABI v{{legacy_abi_version}}），里面大量结论已被推翻或过时。
+        内容没丢，<strong>全在 git 历史里</strong>：<code>24589bd</code> 是删除前的最后状态，<code>git show 24589bd:docs/&lt;file&gt;</code> 可以考古。
+        跨项目的设计基线现在单点落在编译器仓的 <code>docs/coordination/</code>。
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 02 · 实测到的四件事 ============ -->
+  <section id="measured" class="section" aria-label="实测到的四件事">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">02 / spike 已经实测到的四件事</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">不是设计，</span></span>
+          <span class="reveal-line"><span class="line-inner">是跑出来的。</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          <code>spike/boot.s</code> 的头注释里列的就是这个 spike 要验证的四件事。下面每一屏都是那个文件里的原话。
+        </p>
+      </header>
+
+      <div class="showcase">
+        <div class="showcase-tabs reveal">
+          <button class="stab active" data-tab="01" type="button">
+            <span class="stab-num">01</span>
+            <span class="stab-name">boot.s</span>
+            <span class="stab-sub">要验证什么</span>
+          </button>
+          <button class="stab" data-tab="02" type="button">
+            <span class="stab-num">02</span>
+            <span class="stab-name">boot.s</span>
+            <span class="stab-sub">MS x64 调用约定</span>
+          </button>
+          <button class="stab" data-tab="03" type="button">
+            <span class="stab-num">03</span>
+            <span class="stab-name">boot.s</span>
+            <span class="stab-sub">ConOut 偏移 +64</span>
+          </button>
+          <button class="stab" data-tab="04" type="button">
+            <span class="stab-num">04</span>
+            <span class="stab-name">boot.s</span>
+            <span class="stab-sub">isa-debug-exit 0xf4</span>
+          </button>
+        </div>
+
+        <div class="showcase-panel reveal">
+          <div class="code-shell code-shell--panel">
+            <div class="code-chrome">
+              <div class="window-dots">
+                <span class="dot dot-r"></span>
+                <span class="dot dot-y"></span>
+                <span class="dot dot-g"></span>
+              </div>
+              <div class="file-tab">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2 H6 a2 2 0 0 0 -2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2 -2 V8 z" />
+                  <path d="M14 2 v6 h6" />
+                </svg>
+                <span class="panel-filename">boot.s</span>
+              </div>
+              <div class="file-meta">
+                <span class="kbadge">spike/boot.s</span>
+              </div>
+            </div>
+
+            <pre class="code-block code-block--lg panel-code active" data-tab="01"><code><span class="cmt"># UEFI x64 boot path spike -- simplified (ConOut only)
+#
+# Verifies P0-1:
+#   - UEFI x64 hands off in long mode (no mode switching asm needed)
+#   - EFI calling convention is MS x64: RCX = first arg, RDX = SystemTable at entry
+#   - ConOut function pointers work via [protocol + offset]
+#   - isa-debug-exit at port 0xf4 propagates to QEMU exit code</span></code></pre>
+
+            <pre class="code-block code-block--lg panel-code" data-tab="02"><code><span class="kw">efi_main</span>:
+    <span class="cmt"># UEFI x64 entry convention:
+    #   RCX = EFI_HANDLE ImageHandle
+    #   RDX = EFI_SYSTEM_TABLE *SystemTable</span>
+    push    rbp
+    mov     rbp, rsp
+    push    rbx
+    push    r12
+    sub     rsp, 48
+
+    mov     r12, rdx                   <span class="cmt"># r12 = ST</span></code></pre>
+
+            <pre class="code-block code-block--lg panel-code" data-tab="03"><code><span class="cmt"># CRITICAL: ST offset for ConOut is +64, NOT +80 (+80 is StdErr, see comment below).
+# StdErr in OVMF's ConSplitter is NOT registered for the graphics console, so writing
+# to it reaches serial but is invisible on the GOP framebuffer.</span>
+
+    <span class="cmt"># Load ConOut protocol from ST (correct offset is 64, not 80)</span>
+    mov     rax, [r12 + 64]            <span class="cmt"># ConOut (NOT StdErr at 80)</span>
+    test    rax, rax
+    jz      .Lskip_all
+    mov     r13, rax                   <span class="cmt"># r13 = ConOut (preserve across calls)</span></code></pre>
+
+            <pre class="code-block code-block--lg panel-code" data-tab="04"><code>    <span class="cmt"># Hang loop (so GUI stays up long enough to see HELLO/OK).
+    # Close QEMU window manually when done viewing.
+    # (For automated verification, replace with `out 0xf4, al`.)</span>
+.Lhang:
+    hlt
+    jmp     .Lhang</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <p class="perf-note reveal">
+        <strong>spike 里做的事其实只有三步，</strong>全是对着 ConOut 协议打函数指针：<strong>ClearScreen</strong>（偏移 48，先擦掉 TianoCore 的启动画面）、
+        <strong>SetAttribute</strong>（偏移 40，白字亮红底 <code>0xCF</code>）、<strong>OutputString</strong>（偏移 8，打 <code>HELLO</code> 和 <code>OK</code>）。
+        头注释把这个 spike 标成 <strong>P0-1</strong> —— 它是 OS 线的第一个待验证点，不是产品的一小块。
+        <br/><br/>
+        <strong>一条诚实补充：</strong>第四条在代码里<strong>留了位置但没接上</strong> —— 当前提交的 <code>boot.s</code> 最后是一个 <code>hlt</code> 死循环，
+        屏幕上打出 <code>HELLO</code> / <code>OK</code> 给人看，注释里写明「自动化验证时把它换成 <code>out 0xf4, al</code>」。也就是说这条提交走的是给人看的那条路。
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 03 · 现状与边界 ============ -->
+  <section id="status" class="section" aria-label="现状与边界">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">03 / 现状与边界</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">它现在是什么，</span></span>
+          <span class="reveal-line"><span class="line-inner">还不是什么。</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          这一屏把两边都写出来 —— 只讲做到了什么，等于不讲。
+        </p>
+      </header>
+
+      <div class="bento">
+        <article class="bento-card bento-card--sm reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">✓</span>
+                <span class="card-tag">已经成立</span>
+              </div>
+              <h3 class="card-title">能启动，而且测出了四件事</h3>
+              <p class="card-body">
+                <code>BOOTX64.EFI</code> 在 UEFI x64 上跑得起来，屏幕上打出 <code>HELLO</code> / <code>OK</code>。构建命令就一条 gcc，产物是那个 94 行的 <code>boot.s</code>。
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">✗</span>
+                <span class="card-tag">还没有</span>
+              </div>
+              <h3 class="card-title">没有内核，也没有发布渠道</h3>
+              <p class="card-body">
+                仓库里<strong>只有</strong> <code>spike/</code> 一个目录。设计文档已被清空重整，路线图待重写。<strong>没有可安装、可运行的东西，也没有任何发布渠道。</strong>
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">→</span>
+                <span class="card-tag">排在后面</span>
+              </div>
+              <h3 class="card-title">十六个版本槽，一个都没开始</h3>
+              <p class="card-body">
+                整条 OS 线 —— 编译器仓 <code>docs/internal/FACTS.md</code> § 4.3 里的 <strong>OS-1 … OS-16</strong> —— 排在编译器的 <strong>v4.6 → v4.15</strong>。
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">◆</span>
+                <span class="card-tag">一条重要的区分</span>
+              </div>
+              <h3 class="card-title">「spike」不是「产品的一小块」</h3>
+              <p class="card-body">
+                头注释把这个 spike 标成 <strong>P0-1</strong>：它是 OS 线的<strong>第一个待验证点</strong>，验证的是「能不能启动」这件事本身。把一个 94 行的引导程序读成「内核已经开工了」—— 那是误读。
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 · 方向 ============ -->
+  <section id="direction" class="section" aria-label="方向">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">04 / 方向</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">方向，</span></span>
+          <span class="reveal-line"><span class="line-inner">不是已冻结的方案。</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          跨项目的设计基线现在单点落在编译器仓的
+          <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/coordination/JHYY_OS%E4%BE%A7%E8%AE%BE%E8%AE%A1%E7%BB%88%E7%89%88.md" target="_blank" rel="noopener">《JHYY OS 侧设计终版》</a>里 ——
+          OS 仓自己还没有对应的设计文档。
+        </p>
+      </header>
+
+      <div class="tool-grid">
+        <article class="tool-card reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2 L20 6 V14 L12 18 L4 14 V6 Z" />
+                  <path d="M12 7 V12 M12 14 V15" />
+                </svg>
+              </div>
+              <h3 class="tool-name">能力微内核 + Cap&lt;T&gt;</h3>
+              <p class="tool-desc">
+                设计终版把内核身份锁定成「能力微内核（长期）+ 特权分层（首版）」。理由是三份规范（语言规范 v{{spec_version}} / ABI v{{abi_version}} / 二进制格式 v{{binary_format_version}}）已经提供对象分类 <code>type_tag</code>、cap 授权 <code>rights</code> / <code>depth</code>、IPC 原地 cap 传输这套完整授权链条 —— 走传统混合内核，这套二进制格式会退化成装饰。
+              </p>
+              <ul class="tool-meta">
+                <li><span>·</span>能力微内核（长期）</li>
+                <li><span>·</span>特权分层（首版）</li>
+                <li><span>·</span>Cap&lt;T&gt; 未实装</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="tool-card reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 9 L4 12 L8 15" />
+                  <path d="M16 9 L20 12 L16 15" />
+                  <path d="M14 4 L10 20" />
+                </svg>
+              </div>
+              <h3 class="tool-name">lang-debug ABI</h3>
+              <p class="tool-desc">
+                语言规范 § 19 的「Debug ABI」是<strong>跨项目契约</strong>：尺寸定案、<code>jhyy</code> 侧的类型表达、<strong>编译器不生成 DWARF debug info</strong>、FFI 边界提醒。
+              </p>
+              <ul class="tool-meta">
+                <li><span>·</span>§ 19 · 跨项目契约</li>
+                <li><span>·</span>不生成 DWARF</li>
+                <li><span>·</span>已锁定</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="tool-card reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="13" rx="2" />
+                  <path d="M8 21h8M12 17v4" />
+                </svg>
+              </div>
+              <h3 class="tool-name">GUI</h3>
+              <p class="tool-desc">
+                对象骨架（<code>compositor</code> / <code>surface</code> / <code>seat</code> / <code>buffer</code>）足以搭一条双缓冲显示管线，但<strong>完整的桌面还没被规范定义</strong>。
+              </p>
+              <ul class="tool-meta">
+                <li><span>·</span>4 个对象</li>
+                <li><span>·</span>双缓冲够用</li>
+                <li><span>·</span>桌面未定义</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p class="perf-note reveal">
+        <strong>这些是方向，不是已冻结的实现方案。</strong>那份设计终版同时把该由<strong>首次架构冻结</strong>回答的问题<strong>列了出来</strong> ——
+        线程与地址空间是否分离、内核对象是否统一 header、revoke 是否同步、中断是不是 capability、page fault 归内核还是用户 pager……
+        它们现在都还没有答案。<code>.jhyynb</code> 这个 capability 启动格式本身也还是<strong>设计稿、未实装</strong>。
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 05 · 语言面与考古 ============ -->
+  <section id="language" class="section" aria-label="语言面与考古">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">05 / 语言面与考古</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">语言侧已经就位，</span></span>
+          <span class="reveal-line"><span class="line-inner">旧稿还能翻。</span></span>
+        </h2>
+      </header>
+
+      <div class="bento">
+        <article class="bento-card bento-card--lg reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">01</span>
+                <span class="card-tag">语言侧</span>
+              </div>
+              <h3 class="card-title">内核要的语言特性，JHYY 这一侧已经在了。</h3>
+              <p class="card-body">
+                <code>#[no_std]</code>、freestanding 目标、<code>#[naked]</code>、<code>#[link_section]</code>、<code>volatile</code>、内联 <code>asm!</code>、内存屏障 ——
+                写内核需要的那些，编译器这边已经具备。怎么用它们写裸机代码，见
+                <a href="/compiler/docs/osdev.html">裸机与内核开发</a>。
+              </p>
+              <div class="card-foot-row">
+                <a href="/compiler/docs/osdev.html" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
+                  <span class="btn-label">裸机与内核开发</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">02</span>
+                <span class="card-tag">考古</span>
+              </div>
+              <h3 class="card-title">旧的 v0.0.x 设计稿还在 git 里</h3>
+              <p class="card-body">
+                那批稿子写于 C 宿主 + QBE + ABI v{{legacy_abi_version}} 时代，多数结论已被推翻 —— 但想看当时的思路，命令在这儿。
+              </p>
+              <div class="cta-install reveal">
+                <span class="ci-prompt">$</span>
+                <code class="ci-line">git show 24589bd:docs/README.md</code>
+                <button class="ci-copy" type="button" aria-label="复制命令">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                    <path d="M5 15 H4 a2 2 0 0 1 -2 -2 V4 a2 2 0 0 1 2 -2 h9 a2 2 0 0 1 2 2 v1" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section id="get-started" class="section section-cta" aria-label="开始使用">
+    <div class="container">
+      <div class="cta-shell reveal">
+        <div class="cta-inner">
+          <div class="cta-glow" aria-hidden="true"></div>
+          <h2 class="cta-title">
+            <span class="reveal-line"><span class="line-inner">先让它</span></span>
+            <span class="reveal-line"><span class="line-inner"><em>boot 起来。</em></span></span>
+          </h2>
+          <p class="cta-sub">一条 gcc 命令，一个 <code>BOOTX64.EFI</code>，一张可启动的 GPT 磁盘镜像 —— 这就是现在全部的成果，也是全部的起点。</p>
+
+          <div class="cta-row">
+            <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/tree/main/spike" class="btn-primary btn-primary--lg magnetic" data-magnetic>
+              <span class="btn-label">看 spike 源码</span>
+              <span class="btn-icon-wrap">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                </svg>
+              </span>
+            </a>
+            <a href="/compiler/docs/osdev.html" class="btn-ghost btn-ghost--lg magnetic" data-magnetic>
+              <span class="btn-label">看语言侧的裸机能力</span>
+              <span class="btn-icon-wrap">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                </svg>
+              </span>
+            </a>
+          </div>
+
+          <div class="cta-install-meta">
+            <span class="cim-item"><strong>spike</strong> · 孵化中 · UEFI x64</span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item">MIT</span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/tree/main/spike">spike/</a></span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">仓库</a></span>
+          </div>
+
+          <div class="cta-install reveal">
+            <span class="ci-prompt">$</span>
+            <code class="ci-line">x86_64-w64-mingw32-gcc -nostdlib -Wl,--subsystem,10 -Wl,-e,efi_main -Wl,--image-base=0x10000 -o BOOTX64.EFI boot.s</code>
+            <button class="ci-copy" type="button" aria-label="复制命令">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" />
+                <path d="M5 15 H4 a2 2 0 0 1 -2 -2 V4 a2 2 0 0 1 2 -2 h9 a2 2 0 0 1 2 2 v1" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

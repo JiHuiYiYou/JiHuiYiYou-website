@@ -1380,7 +1380,7 @@
   "lang": "en",
   "title": "JiHuiYiYou-OS",
   "desc": "An operating system written in JHYY — a measurement-first route that starts from a UEFI boot spike",
-  "text": "An operating system written in JHYY. **It is at a very early stage** — the repo contains only a UEFI x64 boot spike, and the design baseline is being rebuilt. This page describes **the current state**, not a blueprint. ## What is in the repo right now The repo currently has one directory, `spike/` (plus an MIT-licensed `LICENSE`): - `spike/boot.s` — the UEFI x64 bootloader, in Intel syntax. - `spike/BOOTX64.EFI` — the compiled output of that source file. - `spike/esp_root/EFI/BOOT/BOOTX64.EFI` — the boot file inside the EFI partition image. - `spike/wrap_gpt.py` — wraps a raw FAT image into a ",
+  "text": " First turn \"can it boot?\" into a measured value. JiHuiYiYou-OS — an operating system written in JHYY. It is at a very early stage : the repo contains only a UEFI x64 boot spike, and the design baseline is being rebuilt. This page describes the current state , not a blueprint. Read the spike source Open the repository Incubating · spike MIT license UEFI x64 · ConOut Sixteen version slots, none started 01 / What is in the repo right now Four files, one bootloader. The repo currently has one directory, spike/ (plus an MIT-licensed LICENSE ). Source 94 lines spike/boot.s The UEFI x64 bootloader, ",
   "headings": []
  },
  {
@@ -1404,7 +1404,7 @@
   "lang": "zh",
   "title": "JiHuiYiYou-OS",
   "desc": "用 JHYY 写的操作系统——从 UEFI 引导 spike 开始的实测路线",
-  "text": "用 JHYY（机会翼游）写的操作系统。**它现在处在极早期** —— 仓库里只有一个 UEFI x64 引导 spike， 设计基线正在重整。这一页写的是**现状**，不是蓝图。 ## 仓库里现在有什么 仓库当前只有一个目录 `spike/`（外加一份 MIT 协议的 `LICENSE`）： - `spike/boot.s` —— UEFI x64 引导程序，Intel 语法。 - `spike/BOOTX64.EFI` —— 上面那个源文件的编译产物。 - `spike/esp_root/EFI/BOOT/BOOTX64.EFI` —— EFI 分区镜像里的引导文件。 - `spike/wrap_gpt.py` —— 把一份裸 FAT 镜像包进带**一个 EFI System Partition** 的 GPT 磁盘镜像（自己写保护 MBR、主/备 GPT 头和 CRC32，还会把 FAT 的 BPB 隐藏扇区数改成分区起始 LBA）。 最近一次提交（2026-10-30）就是 **「清空原有设计文档 —— 重整设计基线」**：一次性删掉了 `docs/` 下 17 份 v0.0.x 设计文档、`deep_research/` 下 9 份外部调研存档，外加 `README.md` 和 `CLAUDE.md`。那批文档写于编译器 v1.8.3 时代（C 宿主 + QBE + ABI",
+  "text": " 先把「能不能启动」， 变成 实测值。 JiHuiYiYou-OS —— 用 JHYY 写的操作系统。它现在处在 极早期 ：仓库里只有一个 UEFI x64 引导 spike，设计基线正在重整。这一页写的是 现状 ，不是蓝图。 看 spike 源码 看仓库 孵化中 · spike MIT 许可 UEFI x64 · ConOut 十六个版本槽，一个都没开始 01 / 仓库里现在有什么 四个文件， 一个引导程序。 仓库当前只有一个目录 spike/ （外加一份 MIT 协议的 LICENSE ）。 源码 94 行 spike/boot.s UEFI x64 引导程序，Intel 语法。它的 头注释 列着这个 spike 要验证的四件事 —— 下面第 02 屏就是那份注释本身。 打开 boot.s ↗ 产物 编译输出 spike/BOOTX64.EFI 上面那个源文件的编译产物 —— EFI application 格式， --subsystem,10 ，入口 efi_main ，加载基址 0x10000 。 打开 spike/ ↗ 分区镜像 EFI/BOOT esp_root/EFI/BOOT/ EFI 分区镜像里的引导文件 —— BOOTX64.EFI 放在它该在的位置，打出来的磁盘镜像才找得到。 打开 esp_root ↗ 打包 wrap_gpt.py spike/wrap_gp",
   "headings": []
  },
  {

@@ -49,39 +49,567 @@
     </div>
   </nav>
 
-<main id="top" class="page-main">
-<p>An operating system written in JHYY. <strong>It is at a very early stage</strong> — the repo contains only a UEFI x64 boot spike, and the design baseline is being rebuilt. This page describes <strong>the current state</strong>, not a blueprint.</p>
-<h2 id="what-is-in-the-repo-right-now">What is in the repo right now</h2>
-<p>The repo currently has one directory, <code>spike/</code> (plus an MIT-licensed <code>LICENSE</code>):</p>
-<ul class='md-list'><li><code>spike/boot.s</code> — the UEFI x64 bootloader, in Intel syntax.</li><li><code>spike/BOOTX64.EFI</code> — the compiled output of that source file.</li><li><code>spike/esp_root/EFI/BOOT/BOOTX64.EFI</code> — the boot file inside the EFI partition image.</li><li><code>spike/wrap_gpt.py</code> — wraps a raw FAT image into a GPT disk image with <strong>one EFI System Partition</strong> (it writes the protective MBR, the primary/backup GPT headers and the CRC32s itself, and also rewrites the FAT BPB's hidden sector count to the partition's starting LBA).</li></ul>
-<p>The most recent commit (2026-10-30) is exactly <strong>"clear the existing design documents — rebuild the design baseline"</strong>: in one go it deleted the 17 v0.0.x design documents under <code>docs/</code>, the 9 external research archives under <code>deep_research/</code>, plus <code>README.md</code> and <code>CLAUDE.md</code>. Those documents were written in the compiler's v1.8.3 era (C host + QBE + ABI v1.0.0), and many of their conclusions have been overturned or are out of date.</p>
-<p>The content is not lost — <strong>it is all in the git history</strong>: <code>24589bd</code> is the last state before the deletion, and <code>git show 24589bd:docs/&lt;file&gt;</code> will take you back there. The cross-project design baseline now lives in a single place, in the compiler repo's <code>docs/coordination/</code>.</p>
-<h2 id="the-four-things-the-spike-has-actually-measured">The four things the spike has actually measured</h2>
-<p>The header comment of <code>spike/boot.s</code> lists the four things this spike is meant to verify:</p>
-<ol class='md-list'><li><strong>UEFI x64 hands over directly in long mode</strong>, with no mode-switch assembly needed.</li><li><strong>The EFI calling convention is MS x64</strong>: at the entry point <code>RCX</code> = the first argument (ImageHandle), <code>RDX</code> = SystemTable.</li><li><strong>The ConOut function pointer is usable via <code>[protocol + offset]</code></strong> — but the offset is <strong>+64, not +80</strong>. +80 is <strong>StdErr</strong>; OVMF's ConSplitter does not register StdErr for the graphical console, so writing to it only reaches the serial port and is <strong>invisible</strong> on the GOP framebuffer. This +64 / +80 pair was found by measurement; the code comment marks it CRITICAL.</li><li><strong>The <code>isa-debug-exit</code> port <code>0xf4</code> can hand an exit code to QEMU</strong>.</li></ol>
-<blockquote class="callout"><p>Honest note: the <code>boot.s</code> in the current commit ends in an <code>hlt</code> infinite loop — it prints <code>HELLO</code> / <code>OK</code> on screen for a human to look at, and the comment says to replace it with <code>out 0xf4, al</code> for automated verification. In other words, the fourth point has <strong>a place in the code</strong>, but this commit takes the human-facing path.</p></blockquote>
-<p>What the spike actually does is three steps, all of them calls through the ConOut protocol's function pointers: <strong>ClearScreen</strong> (offset 48, which first wipes TianoCore's boot splash), <strong>SetAttribute</strong> (offset 40, white text on bright red background <code>0xCF</code>), <strong>OutputString</strong> (offset 8, prints <code>HELLO</code> and <code>OK</code>). The header comment marks this spike as <strong>P0-1</strong> — it is the first point to verify on the OS line, not a small piece of a product.</p>
-<h2 id="building">Building</h2>
-<p>The comment in <code>boot.s</code> gives exactly this (pasteable):</p>
-<pre><code class="language-bash">x86_64-w64-mingw32-gcc -nostdlib -Wl,--subsystem,10 \
-  -Wl,-e,efi_main -Wl,--image-base=0x10000 -o BOOTX64.EFI boot.s
-</code></pre>
-<p><code>--subsystem,10</code> means EFI application, <code>-e,efi_main</code> sets the entry point.</p>
-<p>Put the built <code>BOOTX64.EFI</code> into <code>esp_root/EFI/BOOT/</code>, and then <code>wrap_gpt.py</code> wraps the partition contents into a bootable GPT disk image.</p>
-<h2 id="direction-not-yet-written-up-as-the-os-repos-own-design-document">Direction (not yet written up as the OS repo's own design document)</h2>
-<p>The following is <strong>direction</strong>, not a frozen implementation plan:</p>
-<ul class='md-list'><li><strong>Capability microkernel + <code>Cap&lt;T&gt;</code> capabilities</strong> — the compiler repo's <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/coordination/JHYY_OS%E4%BE%A7%E8%AE%BE%E8%AE%A1%E7%BB%88%E7%89%88.md" target="_blank" rel="noopener noreferrer">"JHYY OS-side design, final version"</a> locks the kernel identity to "capability microkernel (long term) + privilege layering (first version)", because the three specs (language spec v4.0.0 / ABI v4.0.0 / binary format v1.0.0) already provide a complete authorization chain: object classification <code>type_tag</code>, cap authorization <code>rights</code>/<code>depth</code>, in-place cap transfer over IPC — going with a traditional hybrid kernel would turn that binary format into decoration.</li><li><strong>lang-debug ABI</strong> — the "Debug ABI" in <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">language spec § 19</a> is a cross-project contract: settled sizes, the type representation on the <code>jhyy</code> side, the compiler emitting no DWARF debug info, and FFI boundary reminders.</li><li><strong>GUI</strong> — the object skeleton (<code>compositor</code> / <code>surface</code> / <code>seat</code> / <code>buffer</code>) is enough to build a double-buffered display pipeline, but <strong>a complete desktop has not been specified</strong>.</li></ul>
-<p>That design document also <strong>lists</strong> the questions the first architecture freeze should answer (whether threads and address spaces are separated, whether kernel objects share a uniform header, whether revoke is synchronous, whether interrupts are capabilities, whether a page fault belongs to the kernel or to a user pager, …) — they do not have answers yet. The <code>.jhyynb</code> capability launch format itself is still a <strong>design draft, not implemented</strong>.</p>
-<p>In the schedule, the whole OS line (the <strong>OS-1 … OS-16</strong> sixteen version slots in the compiler's <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer"><code>docs/internal/FACTS.md</code></a> § 4.3) is planned for the compiler's v4.6 → v4.15, and <strong>not one of them has started</strong>.</p>
-<p>If you want to read the old design drafts (written in the v0.0.x era, against a C host + QBE + ABI v1.0.0 background, most of their conclusions overturned), the archaeology command is:</p>
-<pre><code class="language-bash">git show 24589bd:docs/README.md
-</code></pre>
-<h2 id="the-language-side">The language side</h2>
-<p>The language features a kernel needs are already on the JHYY side: <code>#[no_std]</code>, freestanding targets, <code>#[naked]</code>, <code>#[link_section]</code>, <code>volatile</code>, inline <code>asm!</code>, and memory barriers. For how to use them to write freestanding code, see <a href="../../compiler/docs/osdev.html" title="Chinese only">Bare metal and kernel development</a>.</p>
-<h2 id="summary-of-the-current-state">Summary of the current state</h2>
-<ul class='md-list'><li>The repo has <strong>only</strong> one directory, <code>spike/</code> — a UEFI bootloader that can print <code>HELLO</code>.</li><li>The design documents have been cleared for a rebuild; the roadmap is still to be rewritten.</li><li>There is nothing to install or run, and no release channel of any kind.</li></ul>
-<p>Repository: <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS" target="_blank" rel="noopener noreferrer">https://github.com/JiHuiYiYou/JiHuiYiYou-OS</a></p>
+<main id="top">
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-label="JiHuiYiYou-OS">
+    <div class="container hero-inner">
+      <div class="hero-icon reveal" data-reveal-delay="0">
+        <div class="hero-icon-bezel">
+          <img src="../../assets/img/jhyy-icon-animated.svg" class="hero-icon-img" width="120" height="120" alt="JHYY" />
+        </div>
+        <div class="hero-icon-ring" aria-hidden="true"></div>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="reveal-line"><span class="line-inner">First turn "can it boot?"</span></span>
+        <span class="reveal-line"><span class="line-inner">into a</span></span>
+        <span class="reveal-line"><span class="line-inner accent">measured value.</span></span>
+      </h1>
+
+      <p class="hero-sub reveal" data-reveal-delay="700">
+        <span class="hero-sub-en"><strong>JiHuiYiYou-OS</strong> — an operating system written in JHYY. It is at a <strong>very early stage</strong>: the repo contains only a UEFI x64 boot spike, and the design baseline is being rebuilt. This page describes <strong>the current state</strong>, not a blueprint.</span>
+      </p>
+
+      <div class="cta-row reveal" data-reveal-delay="900">
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/tree/main/spike" class="btn-primary magnetic" data-magnetic>
+          <span class="btn-label">Read the spike source</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+            </svg>
+          </span>
+        </a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS" class="btn-ghost magnetic" data-magnetic>
+          <span class="btn-label">Open the repository</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <div class="hero-meta reveal" data-reveal-delay="1100">
+        <div class="meta-item">
+          <span class="meta-dot meta-dot--ok"></span>
+          <span>Incubating · spike</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot meta-dot--brand"></span>
+          <span>MIT license</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot"></span>
+          <span>UEFI x64 · ConOut</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot"></span>
+          <span>Sixteen version slots, none started</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 01 · WHAT IS IN THE REPO ============ -->
+  <section id="repo" class="section" aria-label="What is in the repo right now">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">01 / What is in the repo right now</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">Four files,</span></span>
+          <span class="reveal-line"><span class="line-inner">one bootloader.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          The repo currently has one directory, <code>spike/</code> (plus an MIT-licensed <code>LICENSE</code>).
+        </p>
+      </header>
+
+      <div class="docs-grid">
+        <article class="docs-card reveal-card">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Source</span>
+              <span class="docs-tag-version">94 lines</span>
+            </div>
+            <h3 class="docs-card-title">spike/boot.s</h3>
+            <p class="docs-card-body">The UEFI x64 bootloader, in Intel syntax. Its <strong>header comment</strong> lists the four things this spike is meant to verify — screen 02 below is that comment itself.</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/blob/main/spike/boot.s" target="_blank" rel="noopener">
+              Open <code>boot.s</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Artifact</span>
+              <span class="docs-tag-version">Compiled output</span>
+            </div>
+            <h3 class="docs-card-title">spike/BOOTX64.EFI</h3>
+            <p class="docs-card-body">The compiled output of that source file — EFI application format, <code>--subsystem,10</code>, entry <code>efi_main</code>, load base <code>0x10000</code>.</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/tree/main/spike" target="_blank" rel="noopener">
+              Open <code>spike/</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Partition image</span>
+              <span class="docs-tag-version">EFI/BOOT</span>
+            </div>
+            <h3 class="docs-card-title">esp_root/EFI/BOOT/</h3>
+            <p class="docs-card-body">The boot file inside the EFI partition image — <code>BOOTX64.EFI</code> sits where it belongs, so the disk image that comes out can find it.</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/tree/main/spike/esp_root" target="_blank" rel="noopener">
+              Open <code>esp_root</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Packing</span>
+              <span class="docs-tag-version">wrap_gpt.py</span>
+            </div>
+            <h3 class="docs-card-title">spike/wrap_gpt.py</h3>
+            <p class="docs-card-body">Wraps a raw FAT image into a GPT disk image with <strong>one EFI System Partition</strong>: it writes the protective MBR, the primary/backup GPT headers and the CRC32s itself, and also rewrites the FAT BPB's hidden sector count to the partition's starting LBA.</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/blob/main/spike/wrap_gpt.py" target="_blank" rel="noopener">
+              Open <code>wrap_gpt</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+      </div>
+
+      <p class="docs-note reveal">
+        <strong>Why the repo looks so empty:</strong> one commit on 2026-10-30 — "clear the existing design documents, rebuild the design baseline" (<code>f98d83d</code>) —
+        deleted the 17 v0.0.x design documents under <code>docs/</code>, the 9 external research archives under <code>deep_research/</code>, plus <code>README.md</code> and <code>CLAUDE.md</code>.
+        Those documents were written in the compiler's v1.8.3 era (C host + QBE + ABI v1.0.0), and many of their conclusions have been overturned or are out of date.
+        The content is not lost — <strong>it is all in the git history</strong>: <code>24589bd</code> is the last state before the deletion, and <code>git show 24589bd:docs/&lt;file&gt;</code> will take you back there.
+        The cross-project design baseline now lives in a single place, in the compiler repo's <code>docs/coordination/</code>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 02 · THE FOUR MEASURED THINGS ============ -->
+  <section id="measured" class="section" aria-label="The four things measured">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">02 / The four things the spike has measured</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">Not a design,</span></span>
+          <span class="reveal-line"><span class="line-inner">a measurement.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          The header comment of <code>spike/boot.s</code> lists the four things this spike is meant to verify. Every panel below is that file's own words.
+        </p>
+      </header>
+
+      <div class="showcase">
+        <div class="showcase-tabs reveal">
+          <button class="stab active" data-tab="01" type="button">
+            <span class="stab-num">01</span>
+            <span class="stab-name">boot.s</span>
+            <span class="stab-sub">what it verifies</span>
+          </button>
+          <button class="stab" data-tab="02" type="button">
+            <span class="stab-num">02</span>
+            <span class="stab-name">boot.s</span>
+            <span class="stab-sub">MS x64 convention</span>
+          </button>
+          <button class="stab" data-tab="03" type="button">
+            <span class="stab-num">03</span>
+            <span class="stab-name">boot.s</span>
+            <span class="stab-sub">ConOut offset +64</span>
+          </button>
+          <button class="stab" data-tab="04" type="button">
+            <span class="stab-num">04</span>
+            <span class="stab-name">boot.s</span>
+            <span class="stab-sub">isa-debug-exit 0xf4</span>
+          </button>
+        </div>
+
+        <div class="showcase-panel reveal">
+          <div class="code-shell code-shell--panel">
+            <div class="code-chrome">
+              <div class="window-dots">
+                <span class="dot dot-r"></span>
+                <span class="dot dot-y"></span>
+                <span class="dot dot-g"></span>
+              </div>
+              <div class="file-tab">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2 H6 a2 2 0 0 0 -2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2 -2 V8 z" />
+                  <path d="M14 2 v6 h6" />
+                </svg>
+                <span class="panel-filename">boot.s</span>
+              </div>
+              <div class="file-meta">
+                <span class="kbadge">spike/boot.s</span>
+              </div>
+            </div>
+
+            <pre class="code-block code-block--lg panel-code active" data-tab="01"><code><span class="cmt"># UEFI x64 boot path spike -- simplified (ConOut only)
+#
+# Verifies P0-1:
+#   - UEFI x64 hands off in long mode (no mode switching asm needed)
+#   - EFI calling convention is MS x64: RCX = first arg, RDX = SystemTable at entry
+#   - ConOut function pointers work via [protocol + offset]
+#   - isa-debug-exit at port 0xf4 propagates to QEMU exit code</span></code></pre>
+
+            <pre class="code-block code-block--lg panel-code" data-tab="02"><code><span class="kw">efi_main</span>:
+    <span class="cmt"># UEFI x64 entry convention:
+    #   RCX = EFI_HANDLE ImageHandle
+    #   RDX = EFI_SYSTEM_TABLE *SystemTable</span>
+    push    rbp
+    mov     rbp, rsp
+    push    rbx
+    push    r12
+    sub     rsp, 48
+
+    mov     r12, rdx                   <span class="cmt"># r12 = ST</span></code></pre>
+
+            <pre class="code-block code-block--lg panel-code" data-tab="03"><code><span class="cmt"># CRITICAL: ST offset for ConOut is +64, NOT +80 (+80 is StdErr, see comment below).
+# StdErr in OVMF's ConSplitter is NOT registered for the graphics console, so writing
+# to it reaches serial but is invisible on the GOP framebuffer.</span>
+
+    <span class="cmt"># Load ConOut protocol from ST (correct offset is 64, not 80)</span>
+    mov     rax, [r12 + 64]            <span class="cmt"># ConOut (NOT StdErr at 80)</span>
+    test    rax, rax
+    jz      .Lskip_all
+    mov     r13, rax                   <span class="cmt"># r13 = ConOut (preserve across calls)</span></code></pre>
+
+            <pre class="code-block code-block--lg panel-code" data-tab="04"><code>    <span class="cmt"># Hang loop (so GUI stays up long enough to see HELLO/OK).
+    # Close QEMU window manually when done viewing.
+    # (For automated verification, replace with `out 0xf4, al`.)</span>
+.Lhang:
+    hlt
+    jmp     .Lhang</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <p class="perf-note reveal">
+        <strong>What the spike actually does is three steps,</strong> all of them calls through the ConOut protocol's function pointers: <strong>ClearScreen</strong> (offset 48, which first wipes TianoCore's boot splash),
+        <strong>SetAttribute</strong> (offset 40, white text on bright red background <code>0xCF</code>), <strong>OutputString</strong> (offset 8, prints <code>HELLO</code> and <code>OK</code>).
+        The header comment marks this spike as <strong>P0-1</strong> — it is the first point to verify on the OS line, not a small piece of a product.
+        <br/><br/>
+        <strong>One honest note:</strong> the fourth point has <strong>a place in the code but is not wired up</strong> — the <code>boot.s</code> in the current commit ends in an <code>hlt</code> infinite loop,
+        printing <code>HELLO</code> / <code>OK</code> for a human to look at, and the comment says to replace it with <code>out 0xf4, al</code> for automated verification. In other words, this commit takes the human-facing path.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 03 · STATUS AND BOUNDARIES ============ -->
+  <section id="status" class="section" aria-label="Status and boundaries">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">03 / Status and boundaries</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">What it is today,</span></span>
+          <span class="reveal-line"><span class="line-inner">what it is not.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          Both sides belong on this screen — telling only the good half is the same as telling nothing.
+        </p>
+      </header>
+
+      <div class="bento">
+        <article class="bento-card bento-card--sm reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">✓</span>
+                <span class="card-tag">Holds today</span>
+              </div>
+              <h3 class="card-title">It boots, and it measured four things</h3>
+              <p class="card-body">
+                <code>BOOTX64.EFI</code> runs on UEFI x64 and prints <code>HELLO</code> / <code>OK</code> on screen. The build is one gcc command, and the source behind it is those 94 lines of <code>boot.s</code>.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">✗</span>
+                <span class="card-tag">Not yet</span>
+              </div>
+              <h3 class="card-title">No kernel, and no release channel</h3>
+              <p class="card-body">
+                The repo has <strong>only</strong> one directory, <code>spike/</code>. The design documents have been cleared for a rebuild; the roadmap is still to be rewritten. <strong>There is nothing to install or run, and no release channel of any kind.</strong>
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">→</span>
+                <span class="card-tag">Scheduled later</span>
+              </div>
+              <h3 class="card-title">Sixteen version slots, none of them started</h3>
+              <p class="card-body">
+                The whole OS line — <strong>OS-1 … OS-16</strong> in the compiler repo's <code>docs/internal/FACTS.md</code> § 4.3 — is planned for the compiler's <strong>v4.6 → v4.15</strong>.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">◆</span>
+                <span class="card-tag">One important distinction</span>
+              </div>
+              <h3 class="card-title">A "spike" is not "a small piece of the product"</h3>
+              <p class="card-body">
+                The header comment marks this spike as <strong>P0-1</strong>: it is the <strong>first point to verify</strong> on the OS line, and what it verifies is "can it boot?" itself. Reading a 94-line bootloader as "the kernel has started" is a misreading.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 · DIRECTION ============ -->
+  <section id="direction" class="section" aria-label="Direction">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">04 / Direction</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">Direction,</span></span>
+          <span class="reveal-line"><span class="line-inner">not a frozen plan.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          The cross-project design baseline now lives in a single place — the compiler repo's
+          <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/coordination/JHYY_OS%E4%BE%A7%E8%AE%BE%E8%AE%A1%E7%BB%88%E7%89%88.md" target="_blank" rel="noopener">"JHYY OS-side design, final version"</a> —
+          the OS repo itself has no matching design document yet.
+        </p>
+      </header>
+
+      <div class="tool-grid">
+        <article class="tool-card reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2 L20 6 V14 L12 18 L4 14 V6 Z" />
+                  <path d="M12 7 V12 M12 14 V15" />
+                </svg>
+              </div>
+              <h3 class="tool-name">Capability microkernel + Cap&lt;T&gt;</h3>
+              <p class="tool-desc">
+                The final version locks the kernel identity to "capability microkernel (long term) + privilege layering (first version)". The reason is that the three specs (language spec v4.0.0 / ABI v4.0.0 / binary format v1.0.0) already provide a complete authorization chain: object classification <code>type_tag</code>, cap authorization <code>rights</code> / <code>depth</code>, in-place cap transfer over IPC — going with a traditional hybrid kernel would turn that binary format into decoration.
+              </p>
+              <ul class="tool-meta">
+                <li><span>·</span>Capability microkernel (long term)</li>
+                <li><span>·</span>Privilege layering (first version)</li>
+                <li><span>·</span>Cap&lt;T&gt; not implemented</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="tool-card reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 9 L4 12 L8 15" />
+                  <path d="M16 9 L20 12 L16 15" />
+                  <path d="M14 4 L10 20" />
+                </svg>
+              </div>
+              <h3 class="tool-name">lang-debug ABI</h3>
+              <p class="tool-desc">
+                The "Debug ABI" in language spec § 19 is a <strong>cross-project contract</strong>: settled sizes, the type representation on the <code>jhyy</code> side, <strong>the compiler emitting no DWARF debug info</strong>, and FFI boundary reminders.
+              </p>
+              <ul class="tool-meta">
+                <li><span>·</span>§ 19 · cross-project contract</li>
+                <li><span>·</span>No DWARF</li>
+                <li><span>·</span>Locked</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="tool-card reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="13" rx="2" />
+                  <path d="M8 21h8M12 17v4" />
+                </svg>
+              </div>
+              <h3 class="tool-name">GUI</h3>
+              <p class="tool-desc">
+                The object skeleton (<code>compositor</code> / <code>surface</code> / <code>seat</code> / <code>buffer</code>) is enough to build a double-buffered display pipeline, but <strong>a complete desktop has not been specified</strong>.
+              </p>
+              <ul class="tool-meta">
+                <li><span>·</span>4 objects</li>
+                <li><span>·</span>Double buffering is enough</li>
+                <li><span>·</span>Desktop unspecified</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p class="perf-note reveal">
+        <strong>These are direction, not a frozen implementation plan.</strong> That final version also <strong>lists</strong> the questions the first architecture freeze should answer —
+        whether threads and address spaces are separated, whether kernel objects share a uniform header, whether revoke is synchronous, whether interrupts are capabilities, whether a page fault belongs to the kernel or to a user pager…
+        They do not have answers yet. The <code>.jhyynb</code> capability launch format itself is still a <strong>design draft, not implemented</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 05 · THE LANGUAGE SIDE AND ARCHAEOLOGY ============ -->
+  <section id="language" class="section" aria-label="The language side and archaeology">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">05 / The language side and archaeology</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">The language side is ready,</span></span>
+          <span class="reveal-line"><span class="line-inner">the old drafts are still there.</span></span>
+        </h2>
+      </header>
+
+      <div class="bento">
+        <article class="bento-card bento-card--lg reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">01</span>
+                <span class="card-tag">Language side</span>
+              </div>
+              <h3 class="card-title">The language features a kernel needs are already on the JHYY side.</h3>
+              <p class="card-body">
+                <code>#[no_std]</code>, freestanding targets, <code>#[naked]</code>, <code>#[link_section]</code>, <code>volatile</code>, inline <code>asm!</code>, and memory barriers —
+                the compiler already has them. For how to use them to write freestanding code, see
+                <a href="../../compiler/docs/osdev.html" title="Chinese only">Bare metal and kernel development</a>.
+              </p>
+              <div class="card-foot-row">
+                <a href="../../compiler/docs/osdev.html" class="btn-ghost btn-ghost--inline magnetic" data-magnetic title="Chinese only">
+                  <span class="btn-label">Bare metal and kernel development</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">02</span>
+                <span class="card-tag">Archaeology</span>
+              </div>
+              <h3 class="card-title">The old v0.0.x drafts are still in git</h3>
+              <p class="card-body">
+                They were written against a C host + QBE + ABI v1.0.0, and most of their conclusions have been overturned — but if you want to see how it was thought back then, the command is here.
+              </p>
+              <div class="cta-install reveal">
+                <span class="ci-prompt">$</span>
+                <code class="ci-line">git show 24589bd:docs/README.md</code>
+                <button class="ci-copy" type="button" aria-label="复制命令">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                    <path d="M5 15 H4 a2 2 0 0 1 -2 -2 V4 a2 2 0 0 1 2 -2 h9 a2 2 0 0 1 2 2 v1" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section id="get-started" class="section section-cta" aria-label="Get started">
+    <div class="container">
+      <div class="cta-shell reveal">
+        <div class="cta-inner">
+          <div class="cta-glow" aria-hidden="true"></div>
+          <h2 class="cta-title">
+            <span class="reveal-line"><span class="line-inner">First make it</span></span>
+            <span class="reveal-line"><span class="line-inner"><em>boot.</em></span></span>
+          </h2>
+          <p class="cta-sub">One gcc command, one <code>BOOTX64.EFI</code>, one bootable GPT disk image — that is everything that exists today, and everything that starts from.</p>
+
+          <div class="cta-row">
+            <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/tree/main/spike" class="btn-primary btn-primary--lg magnetic" data-magnetic>
+              <span class="btn-label">Read the spike source</span>
+              <span class="btn-icon-wrap">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                </svg>
+              </span>
+            </a>
+            <a href="../../compiler/docs/osdev.html" class="btn-ghost btn-ghost--lg magnetic" data-magnetic title="Chinese only">
+              <span class="btn-label">See the language's bare-metal side</span>
+              <span class="btn-icon-wrap">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                </svg>
+              </span>
+            </a>
+          </div>
+
+          <div class="cta-install-meta">
+            <span class="cim-item"><strong>spike</strong> · Incubating · UEFI x64</span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item">MIT</span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS/tree/main/spike">spike/</a></span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">Repository</a></span>
+          </div>
+
+          <div class="cta-install reveal">
+            <span class="ci-prompt">$</span>
+            <code class="ci-line">x86_64-w64-mingw32-gcc -nostdlib -Wl,--subsystem,10 -Wl,-e,efi_main -Wl,--image-base=0x10000 -o BOOTX64.EFI boot.s</code>
+            <button class="ci-copy" type="button" aria-label="Copy command">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" />
+                <path d="M5 15 H4 a2 2 0 0 1 -2 -2 V4 a2 2 0 0 1 2 -2 h9 a2 2 0 0 1 2 2 v1" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
+
 
   <footer class="site-foot">
     <div class="container foot-grid">

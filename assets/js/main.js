@@ -312,23 +312,15 @@
       tabs.forEach((t) => t.classList.toggle('active', t === tab));
       panels.forEach((p) => p.classList.toggle('active', p.dataset.tab === id));
       // Update file tab + cmd/out
+      // 命令与输出**写在标签自己的 data 属性里** —— 每个页面讲的是不同的东西，
+      // 之前这里写死了编译器页的 `$ jhyy run` 和四个输出，换个页面就是假话。
       const fname = tab.querySelector('.stab-name')?.textContent || '';
       const fnameEl = document.querySelector('.panel-filename');
       const cmdEl = document.getElementById('panelCmd');
       const outEl = document.getElementById('panelOut');
       if (fnameEl) fnameEl.textContent = fname;
-      if (cmdEl) cmdEl.textContent = '$ jhyy run ' + fname;
-      // Out strings keyed by tab id (kept in HTML data attrs)
-      // v1.8.3.2 sync: tab 04 wrapper now calls `unwrap(Option::Some(99))`,
-      // so the displayed exit value is 99 not 7. (Tab 02 wrapper uses
-      // `dist_sq(Point { x: 3, y: 4 }, Point { x: 0, y: 0 })` = 25 — unchanged.)
-      const outs = {
-        '01': 'Hello, world!',
-        '02': 'point · dist² = 25',
-        '03': 'fib(10) = 55',
-        '04': 'unwrap(Some(99)) = 99',
-      };
-      if (outEl) outEl.textContent = outs[id] || '';
+      if (cmdEl) cmdEl.textContent = tab.dataset.cmd || ('$ jhyy run ' + fname);
+      if (outEl) outEl.textContent = tab.dataset.out || '';
     });
   });
 
