@@ -66,11 +66,11 @@ content/
 │  ├─ download/*.md               4 页下载
 │  ├─ community/*.md              4 页社区
 │  └─ governance/*.md             3 页治理
-├─ ide/index.md  os/index.md  vex/index.md
+├─ ide/index.html os/index.html vex/index.html   三个项目的门脸页
 └─ en/                            **英文树** —— 与上面同构
    ├─ index.html
    ├─ compiler/index.html + docs/ download/ community/ governance/
-   └─ ide/index.md  os/index.md  vex/index.md
+   └─ ide/index.html os/index.html vex/index.html
 ```
 
 `en/` 下的每个文件都有中文孪生页（`route` 相同即孪生）：
@@ -148,6 +148,13 @@ PASS」，编译器仓已经改成 281 了，没有任何门会红）。
 事实门上线以来抓到过两次真漂移：产物级门数从 19 漂到 21，以及编译器仓发 v4.1.5
 之后官网的版本号没跟上。**它不是空门。**
 
+**但它的对拍范围只有编译器仓**：`siteconfig.FACTS` 里的 `ide_version` /
+`ide_gate_*` / `os_spike_measured` / `vex_baseline_*` 来自另外三个仓，
+编译器仓的 `FACTS.md` 里没有这几行 ⇒ **它们不会自动变红**。
+这三个仓各自发版或补测之后，要人工核一遍（单子在 [`Task.md`](Task.md) § 5）。
+for-VEX 那一组已经这样漂过一次：官网还写着「消息泵 tick 频率待测」，
+而 for-VEX 仓 2026-11-09 已经在真 Brain 上测得（100 Hz）。
+
 ---
 
 ## 6. 组件清单
@@ -179,6 +186,11 @@ PASS」，编译器仓已经改成 281 了，没有任何门会红）。
 **首页重做**（纯枢纽四屏：Hero / 四个项目 / 一门语言撑起四个项目 / 最近变化与诚实的边界）；
 **双语地基**（构建期双树、语言切换器、术语表、事实占位符）+ 5 页门脸中英双版；
 **四道新门**（事实对拍 / 孪生页 / i18n 一致性 / 同步门补未跟踪产物）。
+
+**四个门脸页统一了屏语法**：首页、编译器、IDE、OS、for-VEX 现在是同一套版式
+（Hero → 分屏 → 现状与边界 → 看数字 → 文档与仓库 → CTA），中英同构。
+IDE / OS / for-VEX 三页原来各是一整页 Markdown 散文墙，现已按这套语法重做 ——
+OS 页用 `showcase` 展示 `spike/boot.s` 的原话，for-VEX 页用八张卡展示规格书八项。
 
 **跟版 v4.1.5**：三条真修（`std::arena` 的 reset 越界 / `#[naked]` 的标签与体分离 /
 side-file 路径相对 CWD）进发行版 ⇒ 文档层里那三处「已修却仍写成缺口」的表述一并改掉，
