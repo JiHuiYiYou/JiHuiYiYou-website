@@ -42,7 +42,7 @@ zone: community
 | 自举闭环 | `make` 迭代到不动点，跨代产出的 `.s` **逐字节相同** | FACTS § 2 |
 | 回归套件 | **279 PASS / 0 FAIL / 20 SKIP**（共 299 条） | FACTS § 2 |
 | 断言强度 | 215 条真断言，**零信号用例 0** | FACTS § 2 |
-| 产物级门 | 19 道 | FACTS § 2 |
+| 产物级门 | 20 道 | FACTS § 2 |
 | 问题台账 | 217 条：**ACTIVE 0** / DEFERRED 1 / RESOLVED 194 / SUPERSEDED 19 / INVALID 3 | FACTS § 3 |
 | 宿主平台 | **1 个**（Windows x64） | build.md |
 | 目标三元组 | **4 个**（2 个 stable / 2 个 beta） | FACTS § 5 |

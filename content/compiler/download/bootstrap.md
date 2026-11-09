@@ -125,13 +125,13 @@ CI 传 `STRICT_TOOLCHAIN=0`——不是放宽判据，是划清职责：CI 不�
 |---|---|---|
 | `compiler/tests/bootstrap/fixed_point.sh` | N=10 跨代 `.il` + `.s` 逐字节相等（另加 `cap_test.jhyy` 跨代退出码 = 42）。N=3 是主门，N=4..10 是信息项 | **本地门**：`python regress.py --fixed-point` |
 | `compiler/tests/bootstrap/closure_check.sh` | `v2.s == v3.s`（Stage 2 与 Stage 3 逐字节相同） | **本地门**：`bash compiler/tests/bootstrap/closure_check.sh` |
-| `compiler/tests/bootstrap/artifact_checks.sh` | 19 道产物级断言（expected-FAIL 模型） | **CI 门**：`bash compiler/tests/bootstrap/artifact_checks.sh` |
+| `compiler/tests/bootstrap/artifact_checks.sh` | 20 道产物级断言（expected-FAIL 模型） | **CI 门**：`bash compiler/tests/bootstrap/artifact_checks.sh` |
 
 > [!NOTE]
 > `fixed_point.sh` 与 `closure_check.sh` **都不接 CI**。前者是发版级流程
 > （改 `src0` 之后跑），后者在 2026-11-03 从 CI 里删掉了——CI 里那道闭环由
 > `make` 自己兜，再单跑一遍只是复述同一个结论，恒绿的门是噪音。
-> `artifact_checks.sh` 才是 CI 门，19 道产物级断言在 CI 里跑。
+> `artifact_checks.sh` 才是 CI 门，20 道产物级断言在 CI 里跑。
 
 `artifact_checks.sh` 的价值在于它验的失效模式**不在程序返回值里**，而在产物
 的字节布局里：per-fn 表 1024 上限那类缺陷，写 `.jhyy` 用例会 PASS（结果全对、

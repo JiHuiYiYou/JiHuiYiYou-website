@@ -2,7 +2,7 @@
 
 **这里出现的版本号是全站唯一一处。** 以前官网散落着 1.8.3、spec v1.3.0、
 ABI v1.0.0、两个不同的安装包体积，改一次要动十几个字符串——那是 1.8.3 页面
-在 4.1.4 时代还挂着的根因。现在改这里，��站跟着改。
+在 4.1.4 时代还挂着的根因。现在改这里，全站跟着改。
 
 改版本号后跑 `python tools/build.py` 重新生成。
 """
@@ -34,7 +34,9 @@ REGRESS_PASS = 279
 REGRESS_SKIP = 20
 REGRESS_FAILED = 0
 ASSERTIONS = 215
-ARTIFACT_CHECKS = 19
+# 产物级门数 —— 真相源是编译器仓的 docs/internal/FACTS.md § 2.1（20 道）。
+# 之前这里写 19，官网 6 处跟着写 19，是一次静默漂移（artifact_checks.sh 实测 20 个 check_ 函数）。
+ARTIFACT_CHECKS = 20
 BENCH_TASKS = 9
 BENCH_AXES = 4
 

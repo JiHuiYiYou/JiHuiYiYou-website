@@ -67,13 +67,20 @@ def slug_of(url: str) -> str:
 # ── front matter ────────────────────────────────────────────────────────────
 
 def split_front_matter(text: str) -> tuple[dict, str]:
+    """拆 front matter。
+
+    收尾栅栏必须是**整行**的 `---` —— 正文里的分隔线（`---`，CONTENT_GUIDE
+    §3 明写是支持的）不能被当成 front matter 的结束标记。否则
+    ``---\\nIntro\\n\\n---\\n\\n## S\\n`` 会被解析成「没有 front matter」，
+    开头那段被静默吞掉。
+    """
     if not text.startswith("---"):
         return {}, text
-    end = text.find("\n---", 3)
-    if end == -1:
+    m = re.match(r"^---[ \t]*\r?\n(.*?)\r?\n---[ \t]*(?:\r?\n|$)", text, re.S)
+    if not m:
         return {}, text
-    raw = text[3:end].strip()
-    body = text[end + 4 :].lstrip("\n")
+    raw = m.group(1)
+    body = text[m.end() :].lstrip("\n")
     meta: dict = {}
     for line in raw.split("\n"):
         if ":" not in line:
@@ -456,8 +463,14 @@ def check_links() -> int:
         text = path.read_text(encoding="utf-8")
         ids = set(re.findall(r'\sid="([^"]+)"', text))
         # 只看真正的 href / src，别把 data-src 这类属性当成链接
-        for m in re.finditer(r'(?<![-\w])(?:href|src)="([^"]+)"', text):
-            href = m.group(1)
+        candidates = [m.group(1) for m in re.finditer(r'(?<![-\w])(?:href|src)="([^"]+)"', text)]
+        # <object data="..."> 是资源引用（内联 SVG 用的就是它）—— 也要查，
+        # 但不能把 data-src 这种代码样本当链接，所以只认 object 标签里的 data。
+        candidates += [
+            m.group(1)
+            for m in re.finditer(r"<object\b[^>]*?\sdata=\"([^\"]+)\"", text)
+        ]
+        for href in candidates:
             if href.startswith(("http://", "https://", "mailto:", "data:", "#")):
                 continue
             if href.startswith("#"):
@@ -494,10 +507,12 @@ def build() -> int:
         return 1
 
     # 第一遍：收集所有输出路径 + 标题，用于搜索索引和 wiki 链接
+    # ⚠️ 必须把 src 一起带上 —— 下面渲染时要靠它判断源是 .html 还是 .md。
+    #    （曾经只存 out，于是 src 是上一轮循环的残留值，.html 的原始通道成了死代码。）
     index_entries = []
     for src, meta, body in pages:
         out = out_path_for(src)
-        index_entries.append((out, meta, body))
+        index_entries.append((src, out, meta, body))
 
     # 清旧输出
     for d in OUTPUT_ROOTS:
@@ -508,7 +523,7 @@ def build() -> int:
     written = []
     search_index = []
 
-    for out, meta, body in index_entries:
+    for src, out, meta, body in index_entries:
         prefix = rel_prefix(out)
         layout = meta.get("layout", "page")
         project = meta.get("project", "compiler")
@@ -537,7 +552,14 @@ def build() -> int:
             )
         else:
             if src.suffix == ".html":
-                body_html = body
+                # 手写的 HTML 源走**原始通道**（不经 Markdown 渲染器）。
+                # 它必须自带 <main>；没有就补一层 —— .page-main 在两份 CSS 里
+                # 都没有规则，纯语义，不影响版式。
+                body_html = (
+                    body
+                    if body.lstrip().startswith("<main")
+                    else '<main id="top" class="page-main">\n' + body + "\n</main>"
+                )
             else:
                 body_html = '<main id="top" class="page-main">\n' + Renderer(C.WIKI_LINKS).render(body) + "\n</main>"
             page = render_page_layout(meta, body_html, prefix, project, zone)

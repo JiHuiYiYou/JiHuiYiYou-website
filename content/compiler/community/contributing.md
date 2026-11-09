@@ -59,7 +59,7 @@ python regress.py --all                 # 带上受门控的用例
 | `make`（自举闭环） | 跨代产出的 `.s` **逐字节相同** | 改了 `compiler/src0/*.jhyy` 之后 |
 | `python regress.py` | 每个用例的退出码 / stdout 断言 | 任何行为改动之后 |
 | `python scripts/dev/audit_test_assertions.py --strict` | 每个用例都有**能失败**的断言（零信号即红）+ 指令与读点对照 | 改测试之后 |
-| `bash compiler/tests/bootstrap/artifact_checks.sh` | 19 道**产物级**断言——失效模式在字节布局里，不在程序返回值里，写 `.jhyy` 测试抓不到 | 动了 codegen 之后 |
+| `bash compiler/tests/bootstrap/artifact_checks.sh` | 20 道**产物级**断言——失效模式在字节布局里，不在程序返回值里，写 `.jhyy` 测试抓不到 | 动了 codegen 之后 |
 | `bash compiler/tests/bootstrap/closure_check.sh` | Stage 2 的 `.s` == Stage 3 的 `.s`（**本地门**，不接 CI） | 改了 `src0` 之后 |
 | `python regress.py --fixed-point` | N=10 跨代 `.il` + `.s` 逐字节相同（**本地门**） | 发版级流程 |
 | `bash compiler/tests/bootstrap/artifact_fresh_check.sh` | 提交进仓的那份 `jhyy.exe` 与现编产物行为一致 | 改了 `src0` 之后——否则它会红 |

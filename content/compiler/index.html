@@ -1,3 +1,12 @@
+---
+title: JHYY 编译器
+description: 自举的系统编程语言编译器。编译器唯一的实现是 JHYY 自己，后端是自研的 amd64 发射器 —— 没有 LLVM，也没有 vendor 进来的 QBE。
+layout: page
+project: compiler
+zone: home
+---
+
+<main id="top">
     <!-- ============ HERO ============ -->
     <section class="hero" aria-label="Hero">
       <div class="container hero-inner">
@@ -652,7 +661,7 @@ Hello, world!
                 <p class="card-body">
                   编译器唯一的实现是 JHYY。它编译自己，再让编译出来的自己编译自己，门要求两代产出的汇编
                   <strong>逐字节相同</strong>。回归 279 PASS / 0 FAIL / 20 SKIP（共 299 条），
-                  artifact 检查 19 PASS / 0 FAIL，问题台账 217 条里 ACTIVE = 0。
+                  artifact 检查 20 PASS / 0 FAIL，问题台账 217 条里 ACTIVE = 0。
                 </p>
                 <div class="card-foot-row">
                   <span class="card-meta">spec v4.0.0 · ABI v4.0.0 · binary format v1.0.0</span>
@@ -774,7 +783,7 @@ Hello, world!
               <div class="bezel-inner">
                 <div class="perf-label">回归基线</div>
                 <div class="perf-value">279 / 299</div>
-                <div class="perf-foot">PASS 279 · FAIL 0 · SKIP 20，共 299 条。另有 artifact 检查 19 PASS / 0 FAIL，问题台账 217 条中 ACTIVE = 0。</div>
+                <div class="perf-foot">PASS 279 · FAIL 0 · SKIP 20，共 299 条。另有 artifact 检查 20 PASS / 0 FAIL，问题台账 217 条中 ACTIVE = 0。</div>
               </div>
             </div>
           </div>
@@ -1096,4 +1105,4 @@ Hello, world!
         </div>
       </div>
     </section>
-  
+</main>

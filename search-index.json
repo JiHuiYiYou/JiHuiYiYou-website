@@ -1329,8 +1329,8 @@
  },
  {
   "url": "/compiler/index.html",
-  "title": "",
-  "desc": "",
+  "title": "JHYY 编译器",
+  "desc": "自举的系统编程语言编译器。编译器唯一的实现是 JHYY 自己，后端是自研的 amd64 发射器 —— 没有 LLVM，也没有 vendor 进来的 QBE。",
   "text": " A language that compiles itself. — a statically-typed, expression-oriented systems language. The compiler is written in itself : compiler/src0/*.jhyy is the only implementation, and the backend is a self-written amd64 emitter — no LLVM, no vendored QBE, no garbage collector. Currently v4.1.4 . Get started Read the spec Stage 2 byte-equal closed loop MIT licensed x86-64 &nbsp;·&nbsp; Windows hello.jhyy v4.1.4 i32 { let dx = a.x - b.x; let dy = a.y - b.y; dx * dx + dy * dy }\"> $ jhyy run hello.jhyy d² = 25 Scroll Statically typed ◆ Expression-oriented ◆ Compiled to native ◆ No garbage collector",
   "headings": []
  },
