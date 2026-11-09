@@ -1,72 +1,76 @@
-# 机会翼游 · JHYY 家族官网
+# JHYY — the family website
 
-[编译器](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler) / [IDE](https://github.com/JiHuiYiYou/JiHuiYiYou-IDE) / [OS](https://github.com/JiHuiYiYou/JiHuiYiYou-OS) / [for-VEX](https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX) 四个项目的官网枢纽。
+**[Chinese version →](README.zh-CN.md)** ｜ A static site for four projects: the
+[compiler](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler),
+[IDE](https://github.com/JiHuiYiYou/JiHuiYiYou-IDE),
+[OS](https://github.com/JiHuiYiYou/JiHuiYiYou-OS) and
+[for-VEX](https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX).
 
-静态站，挂在 GitHub Pages。**内容源是 Markdown，HTML 是生成产物。**
+**The content sources are Markdown; the HTML is a generated artifact.**
 
-## 四个项目
+## The four projects
 
-| 项目 | 状态 | 说明 |
+| Project | Status | What it is |
 |---|---|---|
-| [JHYY 编译器](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler) | v4.1.5 · 稳定 | 自举的系统编程语言编译器。编译器唯一实现是 JHYY 自己，后端是自研 amd64 发射器 |
-| [JHYY IDE](https://github.com/JiHuiYiYou/JiHuiYiYou-IDE) | v0.2.1 | 拖块编程与文本编辑共享同一棵 AST 的桌面工作台 |
-| [JiHuiYiYou-OS](https://github.com/JiHuiYiYou/JiHuiYiYou-OS) | 孵化中 | 用这门语言写的 microkernel；当前只有 UEFI x64 引导 spike |
-| [JiHuiYiYou-for-VEX](https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX) | Day 0 完成 | 让 JHYY 直出 ARM 机器码，链官方 SDK 跑在 VEX V5 Brain 上 |
+| [JHYY compiler](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler) | v4.1.5 · stable | A self-hosted systems language compiler. The only implementation of the compiler is JHYY itself, and the backend is a self-written amd64 emitter |
+| [JHYY IDE](https://github.com/JiHuiYiYou/JiHuiYiYou-IDE) | v0.2.1 | A desktop workbench where block programming and text editing share one AST |
+| [JiHuiYiYou-OS](https://github.com/JiHuiYiYou/JiHuiYiYou-OS) | incubating | A microkernel written in that language; today it is only a UEFI x64 boot spike |
+| [JiHuiYiYou-for-VEX](https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX) | step 0 done | Compiling JHYY straight to ARM machine code, linked against the official SDK, running on a VEX V5 Brain |
 
-编译器仓里是权威事实源：规范 / ABI / 二进制格式 / 变更日志 / 问题台账 / 回归套件。
+The compiler repository is the authoritative source of facts: the language spec, the ABI, the binary format, the changelog, the workaround ledger, the regression suite.
 
-## 本站
+## This site
 
-- 在线：`https://jihuiyiyou.github.io/JiHuiYiYou-website/`
-- 部署：GitHub Pages，`main` 分支根目录
-- 本地预览：`python -m http.server 8000`
+- Live: `https://jihuiyiyou.github.io/JiHuiYiYou-website/`
+- Deployed by GitHub Pages from the root of `main`
+- Local preview: `python -m http.server 8000`
 
-## 怎么改
+## How to change something
 
 ```bash
-# 改内容 → content/ 下编辑 Markdown（英文内容在 content/en/），然后重新生成
+# Edit the Markdown under content/ (the English sources live in content/en/), then regenerate
 python tools/build.py
 
-# 检查站内链接与锚点
+# Check the site's internal links and anchors
 python tools/build.py --check
 
-# 事实对拍：官网的 siteconfig.FACTS ↔ 编译器仓的 docs/internal/FACTS.md
-python tools/check_facts.py          # 需要编译器仓（默认 ../JiHuiYiYou，可用 JHYY_REPO 指）
+# Facts gate: the site's siteconfig.FACTS ↔ the compiler repo's docs/internal/FACTS.md
+python tools/check_facts.py          # needs the compiler repo (../JiHuiYiYou by default; JHYY_REPO overrides)
 
-# 孪生页检查：每个页面都要有中英两版
+# Twin-page gate: every page must have both a Chinese and an English version
 python tools/check_twins.py
 
-# i18n 一致性：正文不许手写事实、英文页不许出现中文、术语说法一致
+# i18n consistency: no hand-written facts in the prose, no Chinese on English pages, one term per concept
 python tools/check_i18n.py
 
-# 把文档里的 .jhyy 代码块交给真编译器验一遍
+# Hand the .jhyy code blocks in the docs to the real compiler
 python tools/check_examples.py
 ```
 
-生成的 HTML 直接提交进仓库（GH Pages 从仓库根直出）。改完跑一次
-`build` + `check`，两条都绿再提交。
+The generated HTML is committed straight into the repository — GitHub Pages serves the repository root. After a change, run `build` + `check` once, and only commit when both are green.
 
-## 文档
+## Documentation
 
-| 文档 | 只管什么 |
+| Document | What it covers |
 |---|---|
-| [`DESIGN.md`](DESIGN.md) | 设计决策：北极星、总规则、两层的版式、反模式、决策记录 |
-| [`ARCHITECTURE.md`](ARCHITECTURE.md) | 站点结构与现状：路由、内容骨架、构建管线、门、组件、建成什么样 |
-| [`Task.md`](Task.md) | 还没做的事：要做什么、归属、判据 |
-| [`tools/CONTENT_GUIDE.md`](tools/CONTENT_GUIDE.md) | 写 `content/**` 的规约：front matter、Markdown 方言、文风、事实来源 |
-| [`assets/fonts/README.md`](assets/fonts/README.md) | 字体资产清单与许可 |
+| [`DESIGN.md`](DESIGN.md) | Design decisions: the north star, the general rules, the two layers, the anti-patterns, the decision log |
+| [`ARCHITECTURE.md`](ARCHITECTURE.md) | Site structure and current state: routes, content skeleton, build pipeline, gates, components, what exists today |
+| [`Task.md`](Task.md) | What is not done yet: what, who owns it, how it is judged done |
+| [`tools/CONTENT_GUIDE.md`](tools/CONTENT_GUIDE.md) | The rules for writing `content/**`: front matter, Markdown dialect, voice, where facts come from |
+| [`assets/fonts/README.md`](assets/fonts/README.md) | Font assets and their licenses |
 
-**跨文件的规则只写在一处** —— 版本号、事实占位符、双语结构、术语表这些机制的
-说明在 `ARCHITECTURE.md` §4 与 `DESIGN.md` §6，本 README 不复述（复述了就会漂）。
+**A rule that spans files is written in exactly one place** — the mechanisms (version numbers, fact placeholders, the bilingual tree, the glossary) are documented in `ARCHITECTURE.md` §4 and `DESIGN.md` §6; this README does not restate them, because a restatement is a second copy and the second copy drifts.
 
-## 目录
+> These five documents are written in Chinese, following the family's rule that in-repo documentation stays in Chinese while outward-facing documents (README / CONTRIBUTING / CHANGELOG) are English.
+
+## Layout
 
 ```
-content/          内容源（Markdown + 少量 HTML 片段）
-tools/            生成器、Markdown 渲染器、站点配置、写作规约
-assets/css/       main.css（门脸层）/ docs.css（文档层）
-assets/js/        main.js（门脸层动效）/ docs.js（文档层搜索）
-downloads/        v4.1.5 发行件镜像 + SHA256SUMS.txt
+content/          content sources (Markdown + a few hand-written HTML pages)
+tools/            generator, Markdown renderer, site configuration, writing guide
+assets/css/       main.css (landing pages) / docs.css (documentation pages)
+assets/js/        main.js (landing page motion) / docs.js (documentation search)
+downloads/        v4.1.5 release artifacts mirror + SHA256SUMS.txt
 ```
 
 ## License
