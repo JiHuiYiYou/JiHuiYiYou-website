@@ -91,10 +91,15 @@ def main() -> int:
             src = td / f"ex_{checked}.jhyy"
             src.write_text(code, encoding="utf-8")
 
+            # 显式指定编码 —— 编译器的诊断里可能带源码里的中文，
+            # 而 text=True 默认按系统 locale 解码：Windows runner 上是 cp1252，
+            # 碰到非 ASCII 就 UnicodeDecodeError（整个检查崩成 traceback）。
             r = subprocess.run(
                 [str(JHYY), "compile", str(src), "-o", str(td / f"ex_{checked}.exe")],
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 cwd=str(td),
             )
             if r.returncode != 0:
@@ -104,7 +109,11 @@ def main() -> int:
 
             if run:
                 r2 = subprocess.run(
-                    [str(td / f"ex_{checked}.exe")], capture_output=True, text=True
+                    [str(td / f"ex_{checked}.exe")],
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8",
+                    errors="replace",
                 )
                 if r2.returncode != 0:
                     failures.append(
