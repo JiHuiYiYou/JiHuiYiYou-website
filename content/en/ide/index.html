@@ -1,0 +1,560 @@
+---
+title: JHYY IDE
+description: A desktop workbench where block programming and text editing share one AST
+layout: page
+project: ide
+zone: ide
+---
+
+<main id="top">
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-label="JHYY IDE">
+    <div class="container hero-inner">
+      <div class="hero-icon reveal" data-reveal-delay="0">
+        <div class="hero-icon-bezel">
+          <img src="/assets/img/jhyy-icon-animated.svg" class="hero-icon-img" width="120" height="120" alt="JHYY" />
+        </div>
+        <div class="hero-icon-ring" aria-hidden="true"></div>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="reveal-line"><span class="line-inner">Drag blocks, write code,</span></span>
+        <span class="reveal-line"><span class="line-inner">change one side,</span></span>
+        <span class="reveal-line"><span class="line-inner accent">the other follows.</span></span>
+      </h1>
+
+      <p class="hero-sub reveal" data-reveal-delay="700">
+        <span class="hero-sub-en"><strong>JHYY IDE</strong> — a VS Code-style desktop workbench. Blockly blocks and CodeMirror text <strong>share one AST</strong>; diagnostics always come from a real <code>jhyy.exe</code>, never from the IDE guessing. Current version <code>v{{ide_version}}</code>.</span>
+      </p>
+
+      <div class="cta-row reveal" data-reveal-delay="900">
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/releases" class="btn-primary magnetic" data-magnetic>
+          <span class="btn-label">Download v{{ide_version}}</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
+            </svg>
+          </span>
+        </a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/wiki" class="btn-ghost magnetic" data-magnetic>
+          <span class="btn-label">Read the wiki</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <div class="hero-meta reveal" data-reveal-delay="1100">
+        <div class="meta-item">
+          <span class="meta-dot meta-dot--ok"></span>
+          <span>Beta · v{{ide_version}}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot meta-dot--brand"></span>
+          <span>MIT license</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot"></span>
+          <span>Windows x64 only</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot"></span>
+          <span>Needs a JHYY compiler</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 01 · FOUR PANELS ============ -->
+  <section id="panels" class="section" aria-label="Four panels">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">01 / Four panels</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">One workbench,</span></span>
+          <span class="reveal-line"><span class="line-inner">four ways to look.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          Writing code, dragging blocks, talking to the model, reading diagnostics — four jobs, four panes.
+          They look like four tools, but they share <strong>one AST</strong> and <strong>one real compiler</strong>.
+        </p>
+      </header>
+
+      <div class="tool-grid">
+        <article class="tool-card reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="16" rx="2" />
+                  <path d="M7 9h10M7 13h7M7 17h4" />
+                </svg>
+              </div>
+              <h3 class="tool-name">Text view</h3>
+              <p class="tool-desc">
+                CodeMirror 6 — just write code. Syntax highlighting, bracket matching, auto-close, indentation, completion (keywords, types, {{stdlib_modules}} standard library modules), and hover hints that give you the <strong>spec section number</strong>. Files open in tabs, and opening a second one does not evict the first; the little black dot is computed from content, so it disappears on its own once you undo back to the last saved version.
+              </p>
+              <ul class="tool-meta">
+                <li><span>·</span>CodeMirror 6</li>
+                <li><span>·</span>Hover gives spec sections</li>
+                <li><span>·</span>Completion for {{stdlib_modules}} modules</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="tool-card reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                  <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                  <rect x="8" y="14" width="8" height="7" rx="1.5" />
+                </svg>
+              </div>
+              <h3 class="tool-name">Block view</h3>
+              <p class="tool-desc">
+                Blockly 13, drag blocks to write programs. The first screen of the toolbox is "Getting started": functions, print, call, number/string, variables, return — plus ready-made <strong>C function declaration</strong> blocks (<code>printf</code> / <code>puts</code> / <code>malloc</code> / <code>free</code> / <code>exit</code>, with the parameter list filled in for you) — so the first line of every JHYY program no longer has to be typed by hand through the "raw code" escape hatch.
+              </p>
+              <ul class="tool-meta">
+                <li><span>·</span>Blockly 13</li>
+                <li><span>·</span>Owns the whole editing area</li>
+                <li><span>·</span>Ready-made C declarations</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="tool-card reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                </svg>
+              </div>
+              <h3 class="tool-name">Claude Code</h3>
+              <p class="tool-desc">
+                An embedded chat panel in the right sidebar, driving the <strong>already-installed <code>claude</code> CLI</strong> on your machine (streaming mode over stdin, with the multi-turn context kept). Claude is wired to the jhyy MCP server, so it can call <code>jhyy_check</code> and get diagnostics from the <strong>real compiler</strong> instead of guessing. The sidebar also has a "read-only" switch; when it is on, the system prompt states explicitly that the user has asked you not to modify any files.
+              </p>
+              <ul class="tool-meta">
+                <li><span>·</span>Drives your local claude CLI</li>
+                <li><span>·</span>jhyy MCP server</li>
+                <li><span>·</span>Read-only switch</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="tool-card reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="M6 9l3 3-3 3M12 15h5" />
+                </svg>
+              </div>
+              <h3 class="tool-name">Bottom panel</h3>
+              <p class="tool-desc">
+                A pane that is <strong>collapsed by default</strong>: "Check" jumps to the <strong>Problems</strong> page, "Run" jumps to the <strong>Terminal</strong> page. The terminal is a real shell (MSYS2 bash by default; PowerShell and <code>cmd</code> can be selected) and prefers a <strong>real PTY</strong>; when node-pty cannot be installed it falls back to pipes, and then full-screen TUIs like <code>vim</code> and <code>top</code> do not run — and when it falls back the status bar shows a badge, so it never silently turns fake.
+              </p>
+              <ul class="tool-meta">
+                <li><span>·</span>Problems + Terminal</li>
+                <li><span>·</span>Real PTY first</li>
+                <li><span>·</span>Badge on fallback</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 · ONE AST, TWO PROJECTIONS ============ -->
+  <section id="ast" class="section" aria-label="One AST, two projections">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">02 / One AST, two projections</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">The most convincing one:</span></span>
+          <span class="reveal-line"><span class="line-inner">blocks and text share one tree.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          Not two code generators kept in sync — <strong>two projections of the same tree</strong>.
+        </p>
+      </header>
+
+      <div class="bento">
+        <article class="bento-card bento-card--lg reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">01</span>
+                <span class="card-tag">Blocks → text</span>
+              </div>
+              <h3 class="card-title">Change a block, the text follows.</h3>
+              <p class="card-body">
+                The IDE regenerates the whole source and replaces the text view; the cursor is mapped back to its old position by <strong>longest common prefix / suffix</strong> — you never watch the cursor jump somewhere else for no reason.
+              </p>
+              <div class="card-visual">
+                <div class="phase-pills">
+                  <span class="pp pp--active">edit block</span>
+                  <span class="pp-arrow">→</span>
+                  <span class="pp pp--done">text follows</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">02</span>
+                <span class="card-tag">Text → blocks</span>
+              </div>
+              <h3 class="card-title">Change text, rebuilt on switch back.</h3>
+              <p class="card-body">
+                Rebuilding the blocks on every keystroke makes the canvas shake too much to use — so the IDE <strong>does not rebuild while you type</strong>; it rebuilds when you switch back to the block view. The round trip between the two views is lossless.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">03</span>
+                <span class="card-tag">Exclusive</span>
+              </div>
+              <h3 class="card-title">Blocks and text never share the screen.</h3>
+              <p class="card-body">
+                The block canvas fills the whole editing area and the code editor disappears entirely — switch with the block button in the title bar, <code>Ctrl+Shift+B</code>, or the command palette. Both sides <strong>keep their state</strong> across the switch: the canvas keeps its zoom and pan, and the editor keeps its undo history and cursor position.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--wide reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner bezel-inner--row">
+              <div class="card-half">
+                <div class="card-head">
+                  <span class="card-num">04</span>
+                  <span class="card-tag">Opaque block</span>
+                </div>
+                <h3 class="card-title">Syntax blocks cannot express does not silently disappear.</h3>
+                <p class="card-body">
+                  Generics, turbofish, closures, pointers, borrows, slices, <code>defer</code>, <code>asm!</code>, attributes — these land in an <strong>opaque block</strong> that holds the original source text. You can move it, delete it; as long as <strong>you</strong> do not touch it, that part of the code round-trips byte-for-byte without loss.
+                </p>
+              </div>
+              <div class="card-half card-half--visual">
+                <div class="doc-stamp">
+                  <div class="doc-stamp-line"><span>AST lives in</span><span class="stamp-val">src/lang/</span></div>
+                  <div class="doc-stamp-line"><span>Language core</span><span class="stamp-val">plain TypeScript</span></div>
+                  <div class="doc-stamp-line"><span>Unit tests</span><span class="stamp-val">plain Node</span></div>
+                  <div class="doc-stamp-line"><span>Block catalogue</span><span class="stamp-val">src/lang/blocks/tree.ts</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 · STATUS AND BOUNDARIES ============ -->
+  <section id="status" class="section" aria-label="Status and boundaries">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">03 / Status and boundaries</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">What works,</span></span>
+          <span class="reveal-line"><span class="line-inner">what does not.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          Both sides belong on this screen — telling only the good half is the same as telling nothing.
+        </p>
+      </header>
+
+      <div class="bento">
+        <article class="bento-card bento-card--sm reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">✓</span>
+                <span class="card-tag">Holds today</span>
+              </div>
+              <h3 class="card-title">The referee is always the real compiler</h3>
+              <p class="card-body">
+                The IDE never guesses whether a program is right; it runs <code>jhyy.exe</code>, parses its <code>file:line:col: error: …</code> output and shows you the compiler's own diagnostics. The menu bar, the command palette and the keyboard shortcuts are three views of <strong>one command table</strong>, so a shortcut shown in the menu is always one that really works.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">✗</span>
+                <span class="card-tag">Not yet</span>
+              </div>
+              <h3 class="card-title">The boundaries are on the table</h3>
+              <p class="card-body">
+                Only <strong>Windows x64</strong> is built and verified; Linux / macOS are not built. The IDE <strong>does not contain a compiler</strong> — every compile and every diagnostic comes from a <code>jhyy.exe</code> you installed yourself (search order: the path configured in the IDE's settings → the environment variable <code>JHY_EXE</code> → the development build in the sibling repo → the official install → <code>PATH</code>). The installer <strong>has no code signature</strong>, so Windows SmartScreen will stop you once.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">→</span>
+                <span class="card-tag">In flight</span>
+              </div>
+              <h3 class="card-title">The source tree is ahead of every release</h3>
+              <p class="card-body">
+                The top of <code>CHANGELOG.md</code> still has an "Unreleased" section (the terminal rework, the settings dialog, and so on) — <strong>the source tree is ahead of every released version</strong>.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">◆</span>
+                <span class="card-tag">One important distinction</span>
+              </div>
+              <h3 class="card-title">What "one shared AST" actually proves</h3>
+              <p class="card-body">
+                Two views sharing one AST proves <strong>one single source of truth</strong> — they are two projections of the same tree. It does <strong>not</strong> prove that blocks can express every piece of syntax: what they cannot lands in an opaque block holding the original source, and that part is still <strong>editable only in the text view</strong>.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 · NUMBERS ============ -->
+  <section id="numbers" class="section" aria-label="Numbers">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">04 / Numbers</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">What the IDE claims</span></span>
+          <span class="reveal-line"><span class="line-inner">does not count.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          The IDE's parser and printer must say the same thing as the <strong>real compiler</strong>. That is guaranteed by the compiler repo's own example programs —
+          the corpus is the compiler repo's <code>compiler/tests/examples/</code>, and it grows together with the compiler.
+        </p>
+      </header>
+
+      <div class="perf-grid">
+        <div class="perf-cell reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="perf-label">Consistency gate</div>
+              <div class="perf-value">{{ide_gate_pass}} / {{ide_gate_total}}</div>
+              <div class="perf-foot">IDE parses → IDE prints → the <strong>real <code>jhyy.exe</code></strong> compiles it (with <code>--no-link</code>, skipping the link step) → then it is actually run once, compared against the <code>// EXPECT:</code> directives in the source.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="perf-cell reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="perf-label">One "check"</div>
+              <div class="perf-value">≈ 185 ms</div>
+              <div class="perf-foot">Recorded in the repo README (it uses <code>--no-link</code> to skip linking).</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="perf-cell reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="perf-label">IDE lexer</div>
+              <div class="perf-value">73 kinds</div>
+              <div class="perf-foot">The IDE's own token kinds, following the compiler repo's <code>compiler/src0/lexer.jhyy</code>.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="perf-cell reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="perf-label">IDE grammar</div>
+              <div class="perf-value">57 kinds</div>
+              <div class="perf-foot">The IDE's own node kinds, following the compiler repo's <code>compiler/src0/ast.jhyy</code>.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="perf-note reveal">
+        <strong>The corpus rule is the same as the language repo's own rule:</strong> files starting with <code>_</code> do not enter the corpus (those are environment-dependent / manually prepared repro cases);
+        the library files with no entry function and the ones carrying <code>SKIP</code> / <code>XFAIL</code> directives are dropped too. The full {{ide_gate_total}} take about 25 minutes to run; by default only one representative subset is run.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 05 · DOCS AND REPO ============ -->
+  <section id="docs" class="section" aria-label="Docs and repository">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">05 / Docs and repository</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">The long form lives in</span></span>
+          <span class="reveal-line"><span class="line-inner">the repo, the truth in</span></span>
+          <span class="reveal-line"><span class="line-inner">the source.</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          This page is a tour. The wiki, the block-subset note and the code itself are in the repository — when they disagree, the repository wins.
+        </p>
+      </header>
+
+      <div class="docs-grid">
+        <article class="docs-card reveal-card">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Wiki</span>
+              <span class="docs-tag-version">Bilingual · 7 pages</span>
+            </div>
+            <h3 class="docs-card-title">The long-form guide</h3>
+            <p class="docs-card-body">Getting started, architecture, the block subset, Claude Code, troubleshooting, how to add a new block, how to contribute.</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/wiki" target="_blank" rel="noopener">
+              Open <code>wiki</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Deep dive</span>
+              <span class="docs-tag-version">docs/blocks-subset.md</span>
+            </div>
+            <h3 class="docs-card-title">Which syntax has blocks</h3>
+            <p class="docs-card-body">Which syntax has blocks, which does not, and why — and what the ones without look like inside the IDE.</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/blob/main/docs/blocks-subset.md" target="_blank" rel="noopener">
+              Open <code>blocks-subset</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Installer</span>
+              <span class="docs-tag-version">Released v{{ide_version}}</span>
+            </div>
+            <h3 class="docs-card-title">Releases</h3>
+            <p class="docs-card-body"><strong>v{{ide_version}}</strong> is released (2026-10-30); every release carries one x64 installer and a <code>SHA256.txt</code>. ⚠️ The badge at the top of the repo README still says v0.1.0 (the badge has not caught up), and the installer left behind in the local <code>release/</code> directory is also still the 0.1.0 one (a build leftover, not a release channel).</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/releases" target="_blank" rel="noopener">
+              Open <code>releases</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Language side</span>
+              <span class="docs-tag-version">On this site</span>
+            </div>
+            <h3 class="docs-card-title">Install the compiler first</h3>
+            <p class="docs-card-body">The IDE <strong>does not contain a compiler</strong>. How to write, compile and check the language itself is documented on the compiler side.</p>
+            <a class="docs-link" href="/compiler/docs/">
+              Open <code>docs</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section id="get-started" class="section section-cta" aria-label="Get started">
+    <div class="container">
+      <div class="cta-shell reveal">
+        <div class="cta-inner">
+          <div class="cta-glow" aria-hidden="true"></div>
+          <h2 class="cta-title">
+            <span class="reveal-line"><span class="line-inner">Drag one block,</span></span>
+            <span class="reveal-line"><span class="line-inner"><em>watch it become code.</em></span></span>
+          </h2>
+          <p class="cta-sub">Download the installer, install a compiler (the IDE will not do it for you), then start from the first block of the "Getting started" toolbox.</p>
+
+          <div class="cta-row">
+            <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/releases" class="btn-primary btn-primary--lg magnetic" data-magnetic>
+              <span class="btn-label">Download v{{ide_version}}</span>
+              <span class="btn-icon-wrap">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
+                </svg>
+              </span>
+            </a>
+            <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/wiki" class="btn-ghost btn-ghost--lg magnetic" data-magnetic>
+              <span class="btn-label">Read the wiki</span>
+              <span class="btn-icon-wrap">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                </svg>
+              </span>
+            </a>
+            <a href="/compiler/download/" class="btn-ghost btn-ghost--lg magnetic" data-magnetic>
+              <span class="btn-label">Install the compiler first</span>
+              <span class="btn-icon-wrap">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
+                </svg>
+              </span>
+            </a>
+          </div>
+
+          <div class="cta-install-meta">
+            <span class="cim-item"><strong>v{{ide_version}}</strong> · Beta · Windows x64</span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item">Consistency gate {{ide_gate_pass}}/{{ide_gate_total}}</span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/blob/main/CHANGELOG.md">Changelog</a></span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/releases">SHA256</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

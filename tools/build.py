@@ -133,14 +133,16 @@ def split_front_matter(text: str) -> tuple[dict, str]:
 def project_switcher(active: str, lang: str, routes: dict) -> str:
     """项目切换器 —— 纯 HTML/CSS 的下拉（<details>），不依赖 JS。"""
     cur = next((p for p in C.PROJECTS if p["key"] == active), None)
-    label = cur["name"] if cur else I18N.t(lang, "all_projects")
+    # 英文页上当前项目要写英文名 —— 主标签跟页面语言一致，中文名退到副标签。
+    label = (cur["name"] if lang == "zh" else cur["en"]) if cur else I18N.t(lang, "all_projects")
     items = []
     for p in C.PROJECTS:
         state = " is-active" if p["key"] == active else ""
+        name, sub = (p["name"], p["en"]) if lang == "zh" else (p["en"], p["name"])
         items.append(
             f'<a class="proj-item{state}" href="{normalize_href(localize_href(p["path"], lang, routes)[0])}">'
-            f'<span class="proj-item-name">{html.escape(p["name"])}</span>'
-            f'<span class="proj-item-en">{html.escape(p["en"])}</span>'
+            f'<span class="proj-item-name">{html.escape(name)}</span>'
+            f'<span class="proj-item-en">{html.escape(sub)}</span>'
             f'<span class="proj-item-tag">{html.escape(pick(p, "tagline", lang))}</span>'
             f"</a>"
         )

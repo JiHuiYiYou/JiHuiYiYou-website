@@ -1372,7 +1372,7 @@
   "lang": "en",
   "title": "JHYY IDE",
   "desc": "A desktop workbench where block programming and text editing share one AST",
-  "text": "A desktop IDE for JHYY: **drag blocks, write code, talk to Claude Code on your own machine**. A VS Code-style workbench: two coding views share one AST, and diagnostics always come from a real `jhyy.exe`. ## Three panels - **Text view** — CodeMirror 6, just write code. Syntax highlighting, bracket matching, auto-close, indentation, completion (keywords, types, 8 standard library modules), and hover hints that give you the **spec section number**. Files open in tabs, and opening a second one does not evict the first; the little black dot is computed from content, so it disappears on its own onc",
+  "text": " Drag blocks, write code, change one side, the other follows. JHYY IDE — a VS Code-style desktop workbench. Blockly blocks and CodeMirror text share one AST ; diagnostics always come from a real jhyy.exe , never from the IDE guessing. Current version v0.2.1 . Download v0.2.1 Read the wiki Beta · v0.2.1 MIT license Windows x64 only Needs a JHYY compiler 01 / Four panels One workbench, four ways to look. Writing code, dragging blocks, talking to the model, reading diagnostics — four jobs, four panes. They look like four tools, but they share one AST and one real compiler . Text view CodeMirror 6",
   "headings": []
  },
  {
@@ -1396,7 +1396,7 @@
   "lang": "zh",
   "title": "JHYY IDE",
   "desc": "拖块编程与文本编辑共享同一棵 AST 的桌面工作台",
-  "text": "给 JHYY（机会翼游）做的桌面 IDE：**拖块写、写代码、跟本机的 Claude Code 聊**。 一个 VS Code 式的工作台，两个写代码的视图共享同一棵 AST，诊断永远来自真实的 `jhyy.exe`。 ## 三个面板 - **文本视图** —— CodeMirror 6，正常写代码。语法高亮、括号匹配、自动闭合、缩进、补全（关键字、类型、8 个标准库模块），悬停提示能给出**规范章节号**。文件开在标签页里，开第二个不会把第一个顶掉；小黑点按内容算，撤销回上次保存的版本就自动消失。 - **块视图** —— Blockly 13，拖块写程序。工具箱第一屏是「入门」：函数、打印、调用、数字/字符串、变量、返回，另有现成的 **C 函数声明**块（`printf` / `puts` / `malloc` / `free` / `exit`，参数表自动填好）—— 每个 JHYY 程序的第一行不用再靠「原始代码」逃生舱手打。 - **Claude Code** —— 右侧栏里的内嵌对话面板，驱动你机器上**已经装好的 `claude` CLI**（走 stdin 的流式模式，多轮上下文是连着的）。Claude 挂上了 jhyy MCP server，能调 `jhyy_check` 拿**真实编译器**的诊断，而不是靠猜。侧栏还有个「只读」开关，打开后系统提示里会写明「用户",
+  "text": " 拖块写，写代码， 改一边， 另一边跟着变。 JHYY IDE —— 一个 VS Code 式的桌面工作台。Blockly 积木与 CodeMirror 文本 共享同一棵 AST ；诊断永远来自真实的 jhyy.exe ，不是 IDE 自己猜的。当前版本 v0.2.1 。 下载 v0.2.1 读 Wiki 测试中 · v0.2.1 MIT 许可 Windows x64 only 需要一个 JHYY 编译器 01 / 四个面板 一个工作台， 四种看法。 写代码的、拖积木的、跟模型说话的、看诊断的 —— 四件事各占一格。 它们看着是四个工具，接的是 同一棵 AST 和 同一个真实编译器 。 文本视图 CodeMirror 6，正常写代码。语法高亮、括号匹配、自动闭合、缩进、补全（关键字、类型、8 个标准库模块），悬停提示能给出 规范章节号 。文件开在标签页里，开第二个不会把第一个顶掉；小黑点按内容算，撤销回上次保存的版本就自动消失。 · CodeMirror 6 · 悬停给规范章节号 · 8 个模块的补全 块视图 Blockly 13，拖块写程序。工具箱第一屏是「入门」：函数、打印、调用、数字/字符串、变量、返回；另有现成的 C 函数声明块 （ printf / puts / malloc / free / exit ，参数表自动填好）—— 每个 JHYY 程序的第一行不用再靠「原始代",
   "headings": []
  },
  {

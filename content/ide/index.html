@@ -1,0 +1,559 @@
+---
+title: JHYY IDE
+description: 拖块编程与文本编辑共享同一棵 AST 的桌面工作台
+layout: page
+project: ide
+zone: ide
+---
+
+<main id="top">
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-label="JHYY IDE">
+    <div class="container hero-inner">
+      <div class="hero-icon reveal" data-reveal-delay="0">
+        <div class="hero-icon-bezel">
+          <img src="/assets/img/jhyy-icon-animated.svg" class="hero-icon-img" width="120" height="120" alt="JHYY" />
+        </div>
+        <div class="hero-icon-ring" aria-hidden="true"></div>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="reveal-line"><span class="line-inner">拖块写，写代码，</span></span>
+        <span class="reveal-line"><span class="line-inner">改一边，</span></span>
+        <span class="reveal-line"><span class="line-inner accent">另一边跟着变。</span></span>
+      </h1>
+
+      <p class="hero-sub reveal" data-reveal-delay="700">
+        <span class="hero-sub-en"><strong>JHYY IDE</strong> —— 一个 VS Code 式的桌面工作台。Blockly 积木与 CodeMirror 文本<strong>共享同一棵 AST</strong>；诊断永远来自真实的 <code>jhyy.exe</code>，不是 IDE 自己猜的。当前版本 <code>v{{ide_version}}</code>。</span>
+      </p>
+
+      <div class="cta-row reveal" data-reveal-delay="900">
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/releases" class="btn-primary magnetic" data-magnetic>
+          <span class="btn-label">下载 v{{ide_version}}</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
+            </svg>
+          </span>
+        </a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/wiki" class="btn-ghost magnetic" data-magnetic>
+          <span class="btn-label">读 Wiki</span>
+          <span class="btn-icon-wrap">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <div class="hero-meta reveal" data-reveal-delay="1100">
+        <div class="meta-item">
+          <span class="meta-dot meta-dot--ok"></span>
+          <span>测试中 · v{{ide_version}}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot meta-dot--brand"></span>
+          <span>MIT 许可</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot"></span>
+          <span>Windows x64 only</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-dot"></span>
+          <span>需要一个 JHYY 编译器</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 01 · 四个面板 ============ -->
+  <section id="panels" class="section" aria-label="四个面板">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">01 / 四个面板</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">一个工作台，</span></span>
+          <span class="reveal-line"><span class="line-inner">四种看法。</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          写代码的、拖积木的、跟模型说话的、看诊断的 —— 四件事各占一格。
+          它们看着是四个工具，接的是<strong>同一棵 AST</strong>和<strong>同一个真实编译器</strong>。
+        </p>
+      </header>
+
+      <div class="tool-grid">
+        <article class="tool-card reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="16" rx="2" />
+                  <path d="M7 9h10M7 13h7M7 17h4" />
+                </svg>
+              </div>
+              <h3 class="tool-name">文本视图</h3>
+              <p class="tool-desc">
+                CodeMirror 6，正常写代码。语法高亮、括号匹配、自动闭合、缩进、补全（关键字、类型、{{stdlib_modules}} 个标准库模块），悬停提示能给出<strong>规范章节号</strong>。文件开在标签页里，开第二个不会把第一个顶掉；小黑点按内容算，撤销回上次保存的版本就自动消失。
+              </p>
+              <ul class="tool-meta">
+                <li><span>·</span>CodeMirror 6</li>
+                <li><span>·</span>悬停给规范章节号</li>
+                <li><span>·</span>{{stdlib_modules}} 个模块的补全</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="tool-card reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                  <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                  <rect x="8" y="14" width="8" height="7" rx="1.5" />
+                </svg>
+              </div>
+              <h3 class="tool-name">块视图</h3>
+              <p class="tool-desc">
+                Blockly 13，拖块写程序。工具箱第一屏是「入门」：函数、打印、调用、数字/字符串、变量、返回；另有现成的 <strong>C 函数声明块</strong>（<code>printf</code> / <code>puts</code> / <code>malloc</code> / <code>free</code> / <code>exit</code>，参数表自动填好）—— 每个 JHYY 程序的第一行不用再靠「原始代码」逃生舱手打。
+              </p>
+              <ul class="tool-meta">
+                <li><span>·</span>Blockly 13</li>
+                <li><span>·</span>独占整块编辑区</li>
+                <li><span>·</span>C 声明块现成</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="tool-card reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                </svg>
+              </div>
+              <h3 class="tool-name">Claude Code</h3>
+              <p class="tool-desc">
+                右侧栏里的内嵌对话面板，驱动你机器上<strong>已经装好的 <code>claude</code> CLI</strong>（走 stdin 的流式模式，多轮上下文是连着的）。Claude 挂上了 jhyy MCP server，能调 <code>jhyy_check</code> 拿<strong>真实编译器</strong>的诊断，而不是靠猜。侧栏还有个「只读」开关，打开后系统提示里会写明「用户要求你不要修改任何文件」。
+              </p>
+              <ul class="tool-meta">
+                <li><span>·</span>驱动本机 claude CLI</li>
+                <li><span>·</span>jhyy MCP server</li>
+                <li><span>·</span>只读开关</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="tool-card reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="tool-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="M6 9l3 3-3 3M12 15h5" />
+                </svg>
+              </div>
+              <h3 class="tool-name">底部面板</h3>
+              <p class="tool-desc">
+                默认收起的一块，点「检查」弹到<strong>问题</strong>页，点「运行」弹到<strong>终端</strong>页。终端是真 shell（默认 MSYS2 的 bash，PowerShell 和 <code>cmd</code> 也能切），优先走<strong>真 PTY</strong>；node-pty 装不上时退到管道，这时 <code>vim</code>、<code>top</code> 这类全屏 TUI 跑不了 —— 而且退的时候状态栏会显示徽标，不静默变假。
+              </p>
+              <ul class="tool-meta">
+                <li><span>·</span>问题 + 终端</li>
+                <li><span>·</span>真 PTY 优先</li>
+                <li><span>·</span>降级时显示徽标</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 · 一棵 AST，两个投影 ============ -->
+  <section id="ast" class="section" aria-label="一棵 AST，两个投影">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">02 / 一棵 AST，两个投影</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">最有说服力的一条：</span></span>
+          <span class="reveal-line"><span class="line-inner">积木和文本共享同一棵树。</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          不是两套代码生成器互相同步，是<strong>同一棵树的两个投影</strong>。
+        </p>
+      </header>
+
+      <div class="bento">
+        <article class="bento-card bento-card--lg reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">01</span>
+                <span class="card-tag">改块 → 文本</span>
+              </div>
+              <h3 class="card-title">改块，文本实时跟着变。</h3>
+              <p class="card-body">
+                IDE 重新生成整份源码并替换文本视图，光标按<strong>最长公共前缀 / 后缀</strong>映射回原位 —— 你不会看到光标莫名其妙跳到别处。
+              </p>
+              <div class="card-visual">
+                <div class="phase-pills">
+                  <span class="pp pp--active">改块</span>
+                  <span class="pp-arrow">→</span>
+                  <span class="pp pp--done">文本同步</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">02</span>
+                <span class="card-tag">改文本 → 积木</span>
+              </div>
+              <h3 class="card-title">改文本，切回时重建。</h3>
+              <p class="card-body">
+                每敲一个键就重建块，画布会抖到没法用 —— 所以 IDE <strong>不在打字时重建</strong>，等你切回块视图才重建。两条路的往返因此是无损的。
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">03</span>
+                <span class="card-tag">独占</span>
+              </div>
+              <h3 class="card-title">积木和文本从不同时占屏。</h3>
+              <p class="card-body">
+                块画布满整个编辑区，代码编辑器整个消失 —— 用标题栏的积木按钮、<code>Ctrl+Shift+B</code> 或命令面板切过去。切换时两边都<strong>保留状态</strong>：画布的缩放和平移留着，编辑器的撤销历史和光标位置也留着。
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--wide reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner bezel-inner--row">
+              <div class="card-half">
+                <div class="card-head">
+                  <span class="card-num">04</span>
+                  <span class="card-tag">不透明块</span>
+                </div>
+                <h3 class="card-title">表达不了的语法不会静默消失。</h3>
+                <p class="card-body">
+                  泛型、turbofish、闭包、指针、借用、切片、<code>defer</code>、<code>asm!</code>、属性 —— 这些落进一个<strong>不透明块</strong>，里面装着原始源码文本。挪它、删它都行；只要<strong>你</strong>不动它，那部分代码<strong>逐字节往返无损</strong>。
+                </p>
+              </div>
+              <div class="card-half card-half--visual">
+                <div class="doc-stamp">
+                  <div class="doc-stamp-line"><span>AST 位置</span><span class="stamp-val">src/lang/</span></div>
+                  <div class="doc-stamp-line"><span>语言内核</span><span class="stamp-val">纯 TypeScript</span></div>
+                  <div class="doc-stamp-line"><span>单测</span><span class="stamp-val">纯 Node 就能跑</span></div>
+                  <div class="doc-stamp-line"><span>块目录</span><span class="stamp-val">src/lang/blocks/tree.ts</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 · 现状与边界 ============ -->
+  <section id="status" class="section" aria-label="现状与边界">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">03 / 现状与边界</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">什么能用，</span></span>
+          <span class="reveal-line"><span class="line-inner">什么不能用。</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          这一屏把两边都写出来 —— 只讲做到了什么，等于不讲。
+        </p>
+      </header>
+
+      <div class="bento">
+        <article class="bento-card bento-card--sm reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">✓</span>
+                <span class="card-tag">已经成立</span>
+              </div>
+              <h3 class="card-title">裁判永远是真实编译器</h3>
+              <p class="card-body">
+                IDE 从不猜程序对不对，它去跑 <code>jhyy.exe</code>，解析它的 <code>file:line:col: error: …</code> 输出，把编译器自己的诊断显示给你。菜单栏、命令面板、快捷键是<strong>同一张命令表</strong>的三种看法，所以菜单里标出来的快捷键一定就是真能按的那个。
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">✗</span>
+                <span class="card-tag">还没有</span>
+              </div>
+              <h3 class="card-title">边界写在明面上</h3>
+              <p class="card-body">
+                只构建和验证了 <strong>Windows x64</strong>，Linux / macOS 未构建。IDE <strong>不含编译器</strong> —— 每次编译、每条诊断都由你自己装的 <code>jhyy.exe</code> 出（查找顺序：设置里配的路径 → 环境变量 <code>JHY_EXE</code> → 仓库旁的开发构建 → 官方安装版 → <code>PATH</code>）。安装包<strong>没有代码签名</strong>，SmartScreen 会拦一下。
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">→</span>
+                <span class="card-tag">正在推</span>
+              </div>
+              <h3 class="card-title">源码树领先于已发布版本</h3>
+              <p class="card-body">
+                <code>CHANGELOG.md</code> 顶部还有一节「未发布」（终端大改、设置对话框等）—— <strong>源码树已经领先于任何一个已发布版本</strong>。
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card bento-card--sm reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="card-head">
+                <span class="card-num">◆</span>
+                <span class="card-tag">一条重要的区分</span>
+              </div>
+              <h3 class="card-title">「共享 AST」证明的是什么</h3>
+              <p class="card-body">
+                两个视图共享一棵 AST，证明的是<strong>同一份真相</strong>——它们是同一棵树的两个投影。它<strong>不</strong>证明「积木能表达全部语法」：表达不了的部分以不透明块保留原始源码，那部分仍然<strong>只有文本视图能改</strong>。
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 · 看数字 ============ -->
+  <section id="numbers" class="section" aria-label="看数字">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">04 / 看数字</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">IDE 自己说的话，</span></span>
+          <span class="reveal-line"><span class="line-inner">不算数。</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          IDE 的解析器和打印器必须跟<strong>真实编译器</strong>说同样的话。这靠编译器仓库自己的示例程序来保证 ——
+          语料是编译器仓的 <code>compiler/tests/examples/</code>，会随编译器一起长。
+        </p>
+      </header>
+
+      <div class="perf-grid">
+        <div class="perf-cell reveal-card">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="perf-label">一致性门</div>
+              <div class="perf-value">{{ide_gate_pass}} / {{ide_gate_total}}</div>
+              <div class="perf-foot">IDE 解析 → IDE 打印 → <strong>真实 <code>jhyy.exe</code></strong> 编译（用 <code>--no-link</code> 跳过链接）→ 再真跑一遍，跟源码里的 <code>// EXPECT:</code> 指令比对。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="perf-cell reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="perf-label">一次「检查」</div>
+              <div class="perf-value">≈ 185 ms</div>
+              <div class="perf-foot">仓库 README 记的实测值（用 <code>--no-link</code> 跳过链接）。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="perf-cell reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="perf-label">IDE 词法</div>
+              <div class="perf-value">73 种</div>
+              <div class="perf-foot">IDE 自己的 token 种类，照着编译器仓的 <code>compiler/src0/lexer.jhyy</code> 写。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="perf-cell reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer">
+            <div class="bezel-inner">
+              <div class="perf-label">IDE 语法</div>
+              <div class="perf-value">57 种</div>
+              <div class="perf-foot">IDE 自己的节点种类，照着编译器仓的 <code>compiler/src0/ast.jhyy</code> 写。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="perf-note reveal">
+        <strong>语料口径跟语言仓库自己的规则一致：</strong>以 <code>_</code> 开头的文件不进语料（那批是环境相关 / 需手工准备的复现件）；
+        去掉没有入口函数的库文件、带 <code>SKIP</code> / <code>XFAIL</code> 指令的。全量 {{ide_gate_total}} 个要跑约 25 分钟，默认只跑一个代表性子集。
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 05 · 文档与仓库 ============ -->
+  <section id="docs" class="section" aria-label="文档与仓库">
+    <div class="container">
+      <header class="section-head">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">05 / 文档与仓库</span>
+        </div>
+        <h2 class="section-title">
+          <span class="reveal-line"><span class="line-inner">长文在仓库，</span></span>
+          <span class="reveal-line"><span class="line-inner">真相在源码。</span></span>
+        </h2>
+        <p class="section-sub reveal">
+          这一页是导览。Wiki、块子集说明与代码本身都在仓库里，冲突以仓库为准。
+        </p>
+      </header>
+
+      <div class="docs-grid">
+        <article class="docs-card reveal-card">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">Wiki</span>
+              <span class="docs-tag-version">中英双语 · 7 页</span>
+            </div>
+            <h3 class="docs-card-title">长文版指南</h3>
+            <p class="docs-card-body">快速上手、架构、块子集、Claude Code、疑难排查、怎么加一个新块、怎么贡献。</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/wiki" target="_blank" rel="noopener">
+              打开 <code>wiki</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="100">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">专项</span>
+              <span class="docs-tag-version">docs/blocks-subset.md</span>
+            </div>
+            <h3 class="docs-card-title">哪些语法有块</h3>
+            <p class="docs-card-body">哪些语法有块、哪些没有、为什么 —— 以及没有的那些在 IDE 里长什么样。</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/blob/main/docs/blocks-subset.md" target="_blank" rel="noopener">
+              打开 <code>blocks-subset</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="200">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">安装包</span>
+              <span class="docs-tag-version">已发布 v{{ide_version}}</span>
+            </div>
+            <h3 class="docs-card-title">Releases</h3>
+            <p class="docs-card-body">已发布 <strong>v{{ide_version}}</strong>（2026-10-30），每个版本带一个 x64 安装包和一份 <code>SHA256.txt</code>。⚠️ 仓库 README 顶部的徽章还写着 v0.1.0（徽章没跟上），<code>release/</code> 里留着的安装包也是 0.1.0 那一份（构建残留，不是发布渠道）。</p>
+            <a class="docs-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/releases" target="_blank" rel="noopener">
+              打开 <code>releases</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+
+        <article class="docs-card reveal-card" data-reveal-delay="300">
+          <div class="bezel-outer"><div class="bezel-inner">
+            <div class="docs-card-head">
+              <span class="docs-tag">语言侧</span>
+              <span class="docs-tag-version">站内文档</span>
+            </div>
+            <h3 class="docs-card-title">先装编译器</h3>
+            <p class="docs-card-body">IDE <strong>不含编译器</strong>。语言本身怎么写、怎么编译、怎么校验，去编译器那一侧的文档。</p>
+            <a class="docs-link" href="/compiler/docs/">
+              打开 <code>docs</code>
+              <span class="docs-link-arrow">↗</span>
+            </a>
+          </div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section id="get-started" class="section section-cta" aria-label="开始使用">
+    <div class="container">
+      <div class="cta-shell reveal">
+        <div class="cta-inner">
+          <div class="cta-glow" aria-hidden="true"></div>
+          <h2 class="cta-title">
+            <span class="reveal-line"><span class="line-inner">拖一块，</span></span>
+            <span class="reveal-line"><span class="line-inner"><em>看它变成代码。</em></span></span>
+          </h2>
+          <p class="cta-sub">下载安装包，装好编译器（IDE 不会替你装），然后从「入门」工具箱的第一块积木开始。</p>
+
+          <div class="cta-row">
+            <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/releases" class="btn-primary btn-primary--lg magnetic" data-magnetic>
+              <span class="btn-label">下载 v{{ide_version}}</span>
+              <span class="btn-icon-wrap">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
+                </svg>
+              </span>
+            </a>
+            <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/wiki" class="btn-ghost btn-ghost--lg magnetic" data-magnetic>
+              <span class="btn-label">读 Wiki</span>
+              <span class="btn-icon-wrap">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 17 L17 7 M9 7 L17 7 L17 15" />
+                </svg>
+              </span>
+            </a>
+            <a href="/compiler/download/" class="btn-ghost btn-ghost--lg magnetic" data-magnetic>
+              <span class="btn-label">先装编译器</span>
+              <span class="btn-icon-wrap">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
+                </svg>
+              </span>
+            </a>
+          </div>
+
+          <div class="cta-install-meta">
+            <span class="cim-item"><strong>v{{ide_version}}</strong> · 测试中 · Windows x64</span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item">一致性门 {{ide_gate_pass}}/{{ide_gate_total}}</span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/blob/main/CHANGELOG.md">变更日志</a></span>
+            <span class="cim-sep">·</span>
+            <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE/releases">SHA256</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

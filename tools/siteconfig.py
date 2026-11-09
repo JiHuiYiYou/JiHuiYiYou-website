@@ -249,16 +249,16 @@ COMPILER_NAV = [
 # 别为了凑导航栏造一个空的站内页面。
 PROJECT_NAV = {
     "ide": [
-        {"label": "概览", "label_en": "Overview", "href": "/ide/"},
+        {"key": "ide", "label": "概览", "label_en": "Overview", "href": "/ide/"},
         {"label": "文档", "label_en": "Docs", "href": f"{ORG_SITE}/JiHuiYiYou-IDE/tree/main/docs/wiki"},
         {"label": "Releases", "label_en": "Releases", "href": f"{ORG_SITE}/JiHuiYiYou-IDE/releases"},
     ],
     "os": [
-        {"label": "概览", "label_en": "Overview", "href": "/os/"},
+        {"key": "os", "label": "概览", "label_en": "Overview", "href": "/os/"},
         {"label": "Spike", "label_en": "Spike", "href": f"{ORG_SITE}/JiHuiYiYou-OS/tree/main/spike"},
     ],
     "vex": [
-        {"label": "概览", "label_en": "Overview", "href": "/vex/"},
+        {"key": "vex", "label": "概览", "label_en": "Overview", "href": "/vex/"},
         {"label": "事实基线", "label_en": "Fact baseline", "href": f"{ORG_SITE}/JiHuiYiYou-for-VEX/blob/main/docs/00-%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF.md"},
     ],
 }
