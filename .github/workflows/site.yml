@@ -110,17 +110,31 @@ jobs:
       - name: 文档示例真编译验证
         shell: msys2 {0}
         run: |
-          set -e
-          # 仓里跟踪的那份 jhyy.exe（安装器是 GUI bundle，CI 里不装）
           exe="$(pwd)/vendor/JiHuiYiYou/compiler/build/bin/jhyy.exe"
+          {
+            echo "### 示例真编译验证"
+            echo
+            echo "- exe: $exe"
+            echo "- exists: $([ -f "$exe" ] && echo yes || echo no)"
+            echo "- gcc: $(command -v gcc 2>&1)"
+            echo "- as: $(command -v as 2>&1)"
+            echo "- ld: $(command -v ld 2>&1)"
+            echo "- python: $(command -v python 2>&1)"
+            echo "- python version: $(python --version 2>&1)"
+            echo "- tempdir: $(python -c 'import tempfile;print(tempfile.gettempdir())' 2>&1)"
+            echo
+          } >> $GITHUB_STEP_SUMMARY
           if [ ! -f "$exe" ]; then
-            echo "::error::仓里没有 jhyy.exe —— 这道门不能空转"
+            echo "::error::仓里没有 jhyy.exe —— 这道门不能空转" >> $GITHUB_STEP_SUMMARY
             exit 1
           fi
           export JHYY="$(cygpath -w "$exe")"
           echo "JHYY = $JHYY"
-          which as ld python
-          python tools/check_examples.py
+          python tools/check_examples.py > examples.log 2>&1
+          rc=$?
+          cat examples.log >> $GITHUB_STEP_SUMMARY
+          cat examples.log
+          exit $rc
 
   deploy:
     needs: [build, twins]
