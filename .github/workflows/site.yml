@@ -1,9 +1,13 @@
 name: site
 
-# 官网的内容是「Markdown 源 → 生成 HTML」。这条流水线守三件事：
+# 官网的内容是「Markdown 源 → 生成 HTML」。这条流水线守六件事：
 #   1. 生成的 HTML 与 content/ 同步（有人改了 Markdown 忘了重建 → 红）
+#      —— 且未跟踪的生成物也算（git diff 看不见 untracked）
 #   2. 站内链接与锚点不断（改版时最容易悄悄坏掉的东西）
-#   3. 文档里的 .jhyy 示例真的能编过（读者照抄不能白费一次）
+#   3. 官网写的事实与编译器仓的 FACTS.md 一致（抄数字一定会漂 ⇒ 这道门）
+#   4. 中英两棵树页面集合一致（缺一个孪生页 → 切换器链到 404）
+#   5. 正文里没有手写的事实、没有混进来的中文（两种语言不可能对不上）
+#   6. 文档里的 .jhyy 示例真的能编过（读者照抄不能白费一次）
 
 on:
   push:
@@ -34,25 +38,81 @@ jobs:
             git --no-pager diff --stat -- '*.html' search-index.json
             exit 1
           fi
+          # git diff 看不见**未跟踪**的文件 ⇒ 新加的 content/en/** 页面
+          # 若产物从未提交，会从这道门的缝里溜过去。
+          untracked=$(git ls-files --others --exclude-standard -- '*.html' 'search-index.json')
+          if [ -n "$untracked" ]; then
+            echo "::error::有生成物未提交。跑 python tools/build.py 再提交。"
+            echo "$untracked"
+            exit 1
+          fi
 
       - name: 站内链接与锚点检查
         run: python tools/build.py --check
 
-      - name: 文档示例真编译验证（需要 JHYY 编译器，Windows）
-        if: runner.os == 'windows'
-        continue-on-error: true
+      # 事实门要跟编译器仓对拍 —— 把那个仓也取下来。
+      # 放在 vendor/ 下，tools/check_facts.py 会去那儿找。
+      - name: 取编译器仓（给事实门供料）
+        uses: actions/checkout@v4
+        with:
+          repository: JiHuiYiYou/JiHuiYiYou-compiler
+          path: vendor/JiHuiYiYou
+
+      - name: 事实对拍（siteconfig ↔ 编译器仓 FACTS.md）
+        run: python tools/check_facts.py
+
+      - name: 事实门自测（确认这道门真的会红）
+        run: python tools/check_facts.py --self-test
+
+      - name: i18n 一致性检查（字面量事实 / 英文页中文 / 术语）
+        run: python tools/check_i18n.py
+
+  # 孪生页门要求中英两棵树页面集合一致 —— 英文树还没写完时它会红，
+  # 所以单开一个 job，让「主线绿」和「双语完整性」两条信号不互相盖住。
+  twins:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 生成站点
+        run: python tools/build.py
+      - name: 孪生页检查（中英两版都在）
+        run: python tools/check_twins.py
+
+  # 文档示例的真编译验证需要 jhyy.exe —— 只能在 Windows 上跑。
+  # （原先它挂在 ubuntu runner 上加 `if: runner.os == 'windows'` ⇒ 恒不执行。）
+  examples:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 取编译器仓（给示例验证供料）
+        uses: actions/checkout@v4
+        with:
+          repository: JiHuiYiYou/JiHuiYiYou-compiler
+          path: vendor/JiHuiYiYou
+      - name: 定位编译器二进制
         shell: pwsh
         run: |
-          $jhyy = Get-ChildItem -Path "$env:GITHUB_WORKSPACE" -Recurse -Filter jhyy.exe -ErrorAction SilentlyContinue | Select-Object -First 1
-          if (-not $jhyy) {
-            Write-Host "::notice::找不到 jhyy.exe，跳过示例验证"
-            exit 0
+          # 安装器是 GUI bundle，CI 里不装 —— 直接用仓里跟踪的那份 jhyy.exe
+          $exe = "vendor/JiHuiYiYou/compiler/build/bin/jhyy.exe"
+          if (-not (Test-Path $exe)) {
+            Write-Host "::error::仓里没有 jhyy.exe（$exe）—— 这道门不能空转"
+            exit 1
           }
-          $env:JHYY = $jhyy.FullName
-          python tools/check_examples.py
+          $full = (Resolve-Path $exe).Path
+          Write-Host "JHYY = $full"
+          "JHYY=$full" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      - name: 文档示例真编译验证
+        shell: pwsh
+        run: python tools/check_examples.py
 
   deploy:
-    needs: build
+    needs: [build, twins]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
@@ -68,5 +128,6 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4

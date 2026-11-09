@@ -20,7 +20,7 @@ zone: os
 
 最近一次提交（2026-10-30）就是 **「清空原有设计文档 —— 重整设计基线」**：一次性删掉了
 `docs/` 下 17 份 v0.0.x 设计文档、`deep_research/` 下 9 份外部调研存档，外加 `README.md`
-和 `CLAUDE.md`。那批文档写于编译器 v1.8.3 时代（C 宿主 + QBE + ABI v1.0.0），
+和 `CLAUDE.md`。那批文档写于编译器 v1.8.3 时代（C 宿主 + QBE + ABI v{{legacy_abi_version}}），
 里面大量结论已被推翻或过时。
 
 内容没丢，**全在 git 历史里**：`24589bd` 是删除前的最后状态，`git show 24589bd:docs/<file>` 可以考古。
@@ -65,8 +65,8 @@ x86_64-w64-mingw32-gcc -nostdlib -Wl,--subsystem,10 \
 下面这些是**方向**，不是已冻结的实现方案：
 
 - **能力微内核 + `Cap<T>` capability** —— 编译器仓的[《JHYY OS 侧设计终版》](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/coordination/JHYY_OS%E4%BE%A7%E8%AE%BE%E8%AE%A1%E7%BB%88%E7%89%88.md)把内核身份锁定成
-  「能力微内核（长期）+ 特权分层（首版）」，理由是三份规范（语言规范 v4.0.0 / ABI v4.0.0 /
-  二进制格式 v1.0.0）已经提供对象分类 `type_tag`、cap 授权 `rights`/`depth`、IPC 原地 cap 传输
+  「能力微内核（长期）+ 特权分层（首版）」，理由是三份规范（语言规范 v{{spec_version}} / ABI v{{abi_version}} /
+  二进制格式 v{{binary_format_version}}）已经提供对象分类 `type_tag`、cap 授权 `rights`/`depth`、IPC 原地 cap 传输
   这套完整授权链条 —— 走传统混合内核，这套二进制格式会退化成装饰。
 - **lang-debug ABI** —— [语言规范 § 19](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md)的「Debug ABI」是跨项目契约：尺寸定案、`jhyy` 侧的
   类型表达、编译器不生成 DWARF debug info、FFI 边界提醒。
@@ -80,7 +80,7 @@ header、revoke 是否同步、中断是不是 capability、page fault 归内核
 排期上，整条 OS 线（编译器 [`docs/internal/FACTS.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md) § 4.3 里的 **OS-1 … OS-16** 十六个版本槽）
 排在编译器的 v4.6 → v4.15，**一个都还没开始**。
 
-想看旧的那批设计稿（v0.0.x 时代写的，C 宿主 + QBE + ABI v1.0.0 背景，多数结论已被推翻），
+想看旧的那批设计稿（v0.0.x 时代写的，C 宿主 + QBE + ABI v{{legacy_abi_version}} 背景，多数结论已被推翻），
 考古命令：
 
 ```bash

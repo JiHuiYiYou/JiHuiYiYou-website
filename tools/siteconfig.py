@@ -29,21 +29,21 @@ ORG_SITE = "https://github.com/JiHuiYiYou"
 
 # ── 编译器状态数字（全部来自 docs/internal/FACTS.md） ────────────────────────
 
-REGRESS_TOTAL = 299
-REGRESS_PASS = 279
+REGRESS_TOTAL = 301
+REGRESS_PASS = 281
 REGRESS_SKIP = 20
 REGRESS_FAILED = 0
-ASSERTIONS = 215
+ASSERTIONS = 217
 # 产物级门数 —— 真相源是编译器仓的 docs/internal/FACTS.md § 2.1（20 道）。
 # 之前这里写 19，官网 6 处跟着写 19，是一次静默漂移（artifact_checks.sh 实测 20 个 check_ 函数）。
 ARTIFACT_CHECKS = 20
 BENCH_TASKS = 9
 BENCH_AXES = 4
 
-WORKAROUNDS_TOTAL = 217
+WORKAROUNDS_TOTAL = 220
 WORKAROUNDS_ACTIVE = 0
 WORKAROUNDS_DEFERRED = 1
-WORKAROUNDS_RESOLVED = 194
+WORKAROUNDS_RESOLVED = 197
 WORKAROUNDS_SUPERSEDED = 19
 WORKAROUNDS_INVALID = 3
 
@@ -77,12 +77,15 @@ FACTS = {
     "workarounds_deferred": WORKAROUNDS_DEFERRED,
     "workarounds_resolved": WORKAROUNDS_RESOLVED,
     "workarounds_superseded": WORKAROUNDS_SUPERSEDED,
+    "workarounds_invalid": WORKAROUNDS_INVALID,
     "targets_count": 4,
     "stdlib_modules": 8,
-    # IDE —— 来源：JiHuiYiYou-IDE README「一致性门」一节
+    # 编译器 C 宿主时代（v1.8.3）那批已作废的 ABI 版本 —— **历史引用**，
+    # 不是当前契约。OS 页在讲「旧设计稿写于什么时候」时会提到它。
+    "legacy_abi_version": "1.0.0",
+    # IDE —— 来源：JiHuiYiYou-IDE README「一致性门」一节（IDE 仓自己的口径）
     "ide_gate_pass": 277,
     "ide_gate_total": 277,
-    "ide_corpus_files": 299,
     # OS —— 来源：JiHuiYiYou-OS spike/boot.s 头部注释「实测到的四件事」
     "os_spike_measured": 4,
     # for-VEX —— 来源：JiHuiYiYou-for-VEX docs/00-事实基线.md（八件事，七成一待测）

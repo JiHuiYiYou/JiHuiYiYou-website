@@ -65,7 +65,7 @@
 <p>菜单栏、命令面板、快捷键是<strong>同一张命令表</strong>的三种看法（<code>src/renderer/commands/registry.ts</code>），所以菜单里标出来的快捷键一定就是真能按的那个。</p>
 <ul class='md-list'><li><code>Ctrl+Shift+P</code> —— 命令面板</li><li><code>Ctrl+Shift+B</code> —— 切换块视图 / 文本视图</li><li><code>Ctrl+Shift+D</code> —— 检查</li><li><code>F5</code> / <code>Shift+F5</code> —— 运行 / 停止</li><li><code>Ctrl+J</code> —— 显示/隐藏底部面板</li><li><code>Ctrl+Shift+M</code> —— 问题</li><li>终端 —— <code>Ctrl</code> 加反引号；新建终端 —— <code>Ctrl+Shift+Backquote</code></li><li><code>Ctrl+Alt+B</code> —— 显示/隐藏聊天侧栏；<code>Ctrl+Alt+I</code> —— 聚焦聊天</li><li><code>Ctrl+S</code> / <code>Ctrl+O</code> / <code>Ctrl+Shift+S</code> —— 保存 / 打开 / 另存为</li><li><code>Ctrl+,</code> —— 设置</li></ul>
 <h2 id="一致性门277277">一致性门：277/277</h2>
-<p>IDE 的解析器和打印器必须跟<strong>真实编译器</strong>说同样的话。这靠编译器仓库自己的示例程序来保证 —— 语料是 <code>compiler/tests/examples/</code>（当前 299 个 <code>.jhyy</code> 文件；去掉 14 个没有入口函数的库文件、8 个带 <code>SKIP</code> / <code>XFAIL</code> 指令的，正好 <strong>277</strong> 个进 gate）。</p>
+<p>IDE 的解析器和打印器必须跟<strong>真实编译器</strong>说同样的话。这靠编译器仓库自己的示例程序来保证 —— 语料是编译器仓的 <code>compiler/tests/examples/</code>（会随编译器一起长）；去掉没有入口函数的库文件、带 <code>SKIP</code> / <code>XFAIL</code> 指令的、以及以 <code>_</code> 开头（环境相关 / 需手工准备）的那些，进 gate 的是 <strong>277</strong> 个 —— 这是 IDE 仓 CI 的全量口径。</p>
 <p>两道门：</p>
 <ol class='md-list'><li>IDE 解析 → IDE 打印 → <strong>真实 <code>jhyy.exe</code></strong> 编译（用 <code>--no-link</code>，跳过链接）；</li><li>再<strong>真跑一遍</strong>，跟源码里的 <code>// EXPECT:</code> 指令比对。</li></ol>
 <p>语料口径跟语言仓库自己的规则一致：<strong>以 <code>_</code> 开头的文件不进语料</strong> —— 那批是环境相关 / 需手工准备的复现件。全量 277 个要跑约 25 分钟，默认只跑一个代表性子集。</p>

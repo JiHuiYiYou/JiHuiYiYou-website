@@ -31,7 +31,7 @@ search: false
 
       <div class="cta-row reveal" data-reveal-delay="900">
         <a href="/compiler/download/" class="btn-primary magnetic" data-magnetic>
-          <span class="btn-label">下载编译器 v4.1.4</span>
+          <span class="btn-label">下载编译器 v{{site_version}}</span>
           <span class="btn-icon-wrap">
             <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
@@ -55,7 +55,7 @@ search: false
         </div>
         <div class="meta-item">
           <span class="meta-dot meta-dot--brand"></span>
-          <span>回归 279 PASS / 0 FAIL</span>
+          <span>回归 {{regress_pass}} PASS / 0 FAIL</span>
         </div>
         <div class="meta-item">
           <span class="meta-dot"></span>
@@ -79,7 +79,7 @@ search: false
               <span>hello.jhyy</span>
             </div>
             <div class="file-meta">
-              <span class="kbadge">v4.1.4</span>
+              <span class="kbadge">v{{site_version}}</span>
             </div>
           </div>
 
@@ -111,19 +111,19 @@ fn dist_sq(a: Point, b: Point) -> i32 {
     <div class="container version-gate-inner">
       <div class="vg-item vg-strong">
         <span class="vg-k">编译器</span>
-        <span class="vg-v">v4.1.4</span>
+        <span class="vg-v">v{{site_version}}</span>
         <span class="vg-d">2026-11-07</span>
       </div>
       <span class="vg-div" aria-hidden="true"></span>
       <div class="vg-item">
         <span class="vg-k">语言规范</span>
-        <span class="vg-v">v4.0.0</span>
+        <span class="vg-v">v{{spec_version}}</span>
         <span class="vg-d">locked</span>
       </div>
       <span class="vg-div" aria-hidden="true"></span>
       <div class="vg-item">
         <span class="vg-k">ABI</span>
-        <span class="vg-v">v4.0.0</span>
+        <span class="vg-v">v{{abi_version}}</span>
         <span class="vg-d">locked</span>
       </div>
       <span class="vg-div" aria-hidden="true"></span>
@@ -180,7 +180,7 @@ fn dist_sq(a: Point, b: Point) -> i32 {
             <div class="bezel-inner">
               <div class="card-head">
                 <span class="card-num">01</span>
-                <span class="card-tag">稳定 · v4.1.4</span>
+                <span class="card-tag">稳定 · v{{site_version}}</span>
               </div>
               <h3 class="card-title">JHYY 编译器</h3>
               <p class="card-body">
@@ -198,7 +198,7 @@ fn dist_sq(a: Point, b: Point) -> i32 {
                     </svg>
                   </span>
                 </a>
-                <span class="card-meta">回归 279 PASS · artifact 20 PASS · ACTIVE 问题 0</span>
+                <span class="card-meta">回归 {{regress_pass}} PASS · artifact {{artifact_checks}} PASS · ACTIVE 问题 {{workarounds_active}}</span>
               </div>
             </div>
           </div>
@@ -210,7 +210,7 @@ fn dist_sq(a: Point, b: Point) -> i32 {
             <div class="bezel-inner">
               <div class="card-head">
                 <span class="card-num">02</span>
-                <span class="card-tag">测试中 · v0.2.1</span>
+                <span class="card-tag">测试中 · v{{ide_version}}</span>
               </div>
               <h3 class="card-title">JHYY IDE</h3>
               <p class="card-body">
@@ -336,7 +336,7 @@ fn dist_sq(a: Point, b: Point) -> i32 {
               </div>
               <h3 class="card-title">编译器怎么搭的</h3>
               <p class="card-body">
-                前端 → IL 文本 → 自研 amd64 发射器 → PE/COFF 或 ELF。自举闭环的门在本地跑：N=10 代的 <code>.il</code> 与 <code>.s</code> 逐字节相等。语言规范与 ABI 锁在 v4.0.0，是可引用的契约。
+                前端 → IL 文本 → 自研 amd64 发射器 → PE/COFF 或 ELF。自举闭环的门在本地跑：N=10 代的 <code>.il</code> 与 <code>.s</code> 逐字节相等。语言规范与 ABI 锁在 v{{spec_version}}，是可引用的契约。
               </p>
               <div class="card-foot-row">
                 <a href="/compiler/docs/compiler.html" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>
@@ -356,7 +356,7 @@ fn dist_sq(a: Point, b: Point) -> i32 {
               </div>
               <h3 class="card-title">拿来教和拿来学</h3>
               <p class="card-body">
-                回归套件 299 条、示例集全部可编译可运行、问题台账 217 条公开维护（ACTIVE = 0）。语言贴近 C：显式指针、可预测的 C ABI、没有隐藏运行时——照着读源码就能讲清一遍编译流程。
+                回归套件 {{regress_total}} 条、示例集全部可编译可运行、问题台账 {{workarounds_total}} 条公开维护（ACTIVE = {{workarounds_active}}）。语言贴近 C：显式指针、可预测的 C ABI、没有隐藏运行时——照着读源码就能讲清一遍编译流程。
               </p>
               <div class="card-foot-row">
                 <a href="/compiler/docs/tour.html" class="btn-ghost btn-ghost--inline magnetic" data-magnetic>

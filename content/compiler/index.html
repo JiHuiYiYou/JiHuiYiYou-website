@@ -28,7 +28,7 @@ zone: home
         <!-- Sub -->
         <p class="hero-sub reveal" data-reveal-delay="700">
           <img src="/assets/img/jhyy-logo.png" class="logo-img logo-img--hero" height="44" alt="机会翼游" />
-          <span class="hero-sub-en">— a statically-typed, expression-oriented systems language. <strong>The compiler is written in itself</strong>: <code>compiler/src0/*.jhyy</code> is the only implementation, and the backend is a self-written amd64 emitter — no LLVM, no vendored QBE, no garbage collector. Currently <code>v4.1.4</code>.</span>
+          <span class="hero-sub-en">— a statically-typed, expression-oriented systems language. <strong>The compiler is written in itself</strong>: <code>compiler/src0/*.jhyy</code> is the only implementation, and the backend is a self-written amd64 emitter — no LLVM, no vendored QBE, no garbage collector. Currently <code>v{{site_version}}</code>.</span>
         </p>
 
         <!-- CTAs -->
@@ -84,7 +84,7 @@ zone: home
                 <span>hello.jhyy</span>
               </div>
               <div class="file-meta">
-                <span class="kbadge">v4.1.4</span>
+                <span class="kbadge">v{{site_version}}</span>
               </div>
             </div>
 
@@ -238,13 +238,13 @@ fn dist_sq(a: Point, b: Point) -> i32 {
                   </div>
                   <h3 class="card-title">One ABI to rule them all.</h3>
                   <p class="card-body">
-                    The language spec (<code>v4.0.0</code>) and the ABI (<code>v4.0.0</code>) are both locked. The spec is a <strong>citable contract</strong> — third parties can build compatible compilers against it, not just against some commit.
+                    The language spec (<code>v{{spec_version}}</code>) and the ABI (<code>v{{abi_version}}</code>) are both locked. The spec is a <strong>citable contract</strong> — third parties can build compatible compilers against it, not just against some commit.
                   </p>
                 </div>
                 <div class="card-half card-half--visual">
                   <div class="doc-stamp">
-                    <div class="doc-stamp-line"><span>SPEC</span><span class="stamp-val">v4.0.0</span></div>
-                    <div class="doc-stamp-line"><span>ABI</span><span class="stamp-val">v4.0.0 · locked</span></div>
+                    <div class="doc-stamp-line"><span>SPEC</span><span class="stamp-val">v{{spec_version}}</span></div>
+                    <div class="doc-stamp-line"><span>ABI</span><span class="stamp-val">v{{abi_version}} · locked</span></div>
                     <div class="doc-stamp-line"><span>BACKEND</span><span class="stamp-val">self-written amd64</span></div>
                     <div class="doc-stamp-line"><span>TARGET</span><span class="stamp-val">amd64_win</span></div>
                   </div>
@@ -298,7 +298,7 @@ Hello, world!
                 </div>
                 <div class="card-foot-row">
                   <a href="/compiler/download/" class="btn-primary magnetic" data-magnetic>
-                    <span class="btn-label">下载 v4.1.4 安装器</span>
+                    <span class="btn-label">下载 v{{site_version}} 安装器</span>
                     <span class="btn-icon-wrap">
                       <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
@@ -343,7 +343,7 @@ Hello, world!
                 </div>
                 <h3 class="card-title">Package managers.</h3>
                 <p class="card-body">
-                  v4.1.4 起提供 winget 与 scoop 入口。确切包标识见
+                  v{{site_version}} 起提供 winget 与 scoop 入口。确切包标识见
                   <a href="/compiler/download/#pkgmgr">下载页</a>。
                 </p>
                 <div class="card-foot-row">
@@ -368,7 +368,7 @@ Hello, world!
                   需要 MSYS2 + <code>mingw-w64-ucrt-x86_64-gcc</code> + binutils。一次 <code>make</code> 产出
                   <code>jhyy.exe</code>；自举闭环的门在本地跑——N=10 代的 <code>.il</code> 与 <code>.s</code>
                   逐字节相等。编译器本身约 <strong>3.9 万行 JHYY</strong>（51 个 <code>.jhyy</code> 文件），
-                  标准库另有 8 个模块约 1400 行。
+                  标准库另有 {{stdlib_modules}} 个模块约 1400 行。
                 </p>
                 <div class="cta-install reveal">
                   <span class="ci-prompt">$</span>
@@ -660,11 +660,11 @@ Hello, world!
                 <h3 class="card-title">自举，且被验证过</h3>
                 <p class="card-body">
                   编译器唯一的实现是 JHYY。它编译自己，再让编译出来的自己编译自己，门要求两代产出的汇编
-                  <strong>逐字节相同</strong>。回归 279 PASS / 0 FAIL / 20 SKIP（共 299 条），
-                  artifact 检查 20 PASS / 0 FAIL，问题台账 217 条里 ACTIVE = 0。
+                  <strong>逐字节相同</strong>。回归 {{regress_pass}} PASS / 0 FAIL / {{regress_skip}} SKIP（共 {{regress_total}} 条），
+                  artifact 检查 {{artifact_checks}} PASS / 0 FAIL，问题台账 {{workarounds_total}} 条里 ACTIVE = {{workarounds_active}}。
                 </p>
                 <div class="card-foot-row">
-                  <span class="card-meta">spec v4.0.0 · ABI v4.0.0 · binary format v1.0.0</span>
+                  <span class="card-meta">spec v{{spec_version}} · ABI v{{abi_version}} · binary format v{{binary_format_version}}</span>
                 </div>
               </div>
             </div>
@@ -782,8 +782,8 @@ Hello, world!
             <div class="bezel-outer">
               <div class="bezel-inner">
                 <div class="perf-label">回归基线</div>
-                <div class="perf-value">279 / 299</div>
-                <div class="perf-foot">PASS 279 · FAIL 0 · SKIP 20，共 299 条。另有 artifact 检查 20 PASS / 0 FAIL，问题台账 217 条中 ACTIVE = 0。</div>
+                <div class="perf-value">{{regress_pass}} / {{regress_total}}</div>
+                <div class="perf-foot">PASS {{regress_pass}} · FAIL 0 · SKIP {{regress_skip}}，共 {{regress_total}} 条。另有 artifact 检查 {{artifact_checks}} PASS / 0 FAIL，问题台账 {{workarounds_total}} 条中 ACTIVE = {{workarounds_active}}。</div>
               </div>
             </div>
           </div>
@@ -867,7 +867,7 @@ Hello, world!
                   <div class="id-row"><span>Email</span><span>15901598712@163.com</span></div>
                   <div class="id-row"><span>Community</span><span>QQ 429807125</span></div>
                   <div class="id-row"><span>License</span><span>MIT</span></div>
-                  <div class="id-row id-row--accent"><span>Current</span><span>v4.1.4</span></div>
+                  <div class="id-row id-row--accent"><span>Current</span><span>v{{site_version}}</span></div>
                 </div>
               </div>
             </div>
@@ -889,7 +889,7 @@ Hello, world!
             <span class="reveal-line"><span class="line-inner">not the marketing.</span></span>
           </h2>
           <p class="section-sub reveal">
-            语言规范锁在 <code>v4.0.0</code>，ABI 锁在 <code>v4.0.0</code>。
+            语言规范锁在 <code>v{{spec_version}}</code>，ABI 锁在 <code>v{{abi_version}}</code>。
             站内文档是导览，<strong>仓库里的原文才是真相源</strong>——两者冲突以仓库为准。
           </p>
         </header>
@@ -914,7 +914,7 @@ Hello, world!
             <div class="bezel-outer"><div class="bezel-inner">
               <div class="docs-card-head">
                 <span class="docs-tag">Reference</span>
-                <span class="docs-tag-version">v4.0.0 · locked</span>
+                <span class="docs-tag-version">v{{spec_version}} · locked</span>
               </div>
               <h3 class="docs-card-title">语言与 ABI 契约</h3>
               <p class="docs-card-body">语法与语义、类型布局、调用约定、struct 传参规则。第三方可以照着它写兼容编译器——不只对着某个提交写。</p>
@@ -1056,7 +1056,7 @@ Hello, world!
 
             <div class="cta-row">
               <a href="/compiler/download/" class="btn-primary btn-primary--lg magnetic" data-magnetic>
-                <span class="btn-label">Download v4.1.4</span>
+                <span class="btn-label">Download v{{site_version}}</span>
                 <span class="btn-icon-wrap">
                   <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
@@ -1082,7 +1082,7 @@ Hello, world!
             </div>
 
             <div class="cta-install-meta">
-              <span class="cim-item"><strong>v4.1.4</strong> · stable · amd64 · 279 / 299 PASS</span>
+              <span class="cim-item"><strong>v{{site_version}}</strong> · stable · amd64 · {{regress_pass}} / {{regress_total}} PASS</span>
               <span class="cim-sep">·</span>
               <span class="cim-item"><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></span>
               <span class="cim-sep">·</span>

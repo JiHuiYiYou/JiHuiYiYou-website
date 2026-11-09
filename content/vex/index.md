@@ -66,7 +66,7 @@ B 路出的是 ARM `.o`，然后链官方 SDK 的 `lscript.ld` / `stdlib_0.lib` 
 - **struct 布局实测**：packed 与非 packed 都有；C API 里**只有一个**按值传的 struct
   （`V5_DeviceVisionRgb`，≤4 B ⇒ 寄存器传参），其余一律指针传递。
 - **内存预算**：堆 1 MB，栈 14 KB —— 递归深度是硬约束。
-- **JHYY 侧的硬约束**（ABI v4.0.0）：不支持变参、不支持 struct 按值跨 FFI，
+- **JHYY 侧的硬约束**（ABI v{{abi_version}}）：不支持变参、不支持 struct 按值跨 FFI，
   且**指针宽度锁死 64 位** ⇒ ARM 目标必须先把指针宽度定成 4 字节，否则连 `extern fn` 都对不上。
 
 ## 三条坑（都在原文里被明确警告过）
