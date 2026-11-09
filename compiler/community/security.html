@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#050505" />
+  <meta name="theme-color" content="#0a0a0a" />
   <title>安全披露</title>
   <meta name="description" content="怎么报告安全问题，以及已知的信任边界" />
   <meta property="og:title" content="安全披露" />
   <meta property="og:description" content="怎么报告安全问题，以及已知的信任边界" />
   <meta property="og:type" content="website" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -28,11 +29,12 @@
       <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>编译器<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="机会翼游家族"><a class="proj-item is-active" href="../../compiler/index.html"><span class="proj-item-name">编译器</span><span class="proj-item-en">Compiler</span><span class="proj-item-tag">自举的系统编程语言编译器</span></a><a class="proj-item" href="../../ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">拖块编程 + 文本编辑 + Claude Code</span></a><a class="proj-item" href="../../os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">用 JHYY 写的操作系统</span></a><a class="proj-item" href="../../vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">把 JHYY 编译到 VEX V5 Brain</span></a></div></details>
       <nav class="doc-zones" aria-label="主导航"><a class="" href="../../compiler/index.html">首页</a><a class="" href="../../compiler/docs/index.html">文档</a><a class="" href="../../compiler/download/index.html">下载</a><a class="is-active" href="../../compiler/community/index.html">社区</a><a class="" href="../../compiler/governance/index.html">治理</a></nav>
       <div class="doc-topbar-right">
-        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../search-index.json" aria-label="搜索文档">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../search-index.json" data-search-lang="zh" aria-label="搜索文档">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
           <span>搜索文档</span><kbd>/</kbd>
         </button>
         <span class="doc-version" title="最新稳定版">v4.1.4</span>
+
         <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
       </div>
     </div>
@@ -41,7 +43,7 @@
 <div class="doc-shell">
   <aside class="doc-sidebar" aria-label="文档目录">
     <div class="doc-nav-group"><h4>社区</h4><ul><li><a class="" href="../../compiler/community/index.html">社区首页</a></li><li><a class="" href="../../compiler/community/conduct.html">行为准则</a></li><li><a class="" href="../../compiler/community/contributing.html">贡献指南</a></li><li><a class="is-active" href="../../compiler/community/security.html">安全披露</a></li></ul></div><div class="doc-nav-group"><h4>参与方式</h4><ul><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues" target="_blank" rel="noopener">提 Issue ↗</a></li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/pulls" target="_blank" rel="noopener">提 PR ↗</a></li><li><span class="doc-nav-text">QQ 群 429807125</span></li><li><a class="" href="../../compiler/governance/repo-map.html">代码所有权</a></li></ul></div>
-    
+
   </aside>
   <main class="doc-main" id="main">
     <div class="doc-article">
@@ -91,7 +93,7 @@
 <h2 id="接下来">接下来</h2>
 <ul class='md-list'><li><a href="../../compiler/community/contributing.html">贡献指南</a> —— 普通 bug 怎么报。</li><li><a href="../../compiler/community/conduct.html">行为准则</a> —— 举报渠道与处置阶梯。</li><li>原文：<a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer"><code>SECURITY.md</code></a></li></ul>
       <div class="doc-foot-row">
-        
+
         <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">报告问题 ↗</a>
       </div>
     </div>
@@ -110,7 +112,12 @@
       <div class="foot-cols">
         <div class="foot-col">
           <h4 class="foot-h">家族</h4>
-          <ul><li><a href="../../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li><li><a href="../../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li><li><a href="../../os/index.html">OS<span class="foot-sub">OS</span></a></li><li><a href="../../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li></ul>
+          <ul>
+            <li><a href="../../compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
         </div>
         <div class="foot-col">
           <h4 class="foot-h">编译器</h4>

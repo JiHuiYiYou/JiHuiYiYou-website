@@ -47,6 +47,50 @@ WORKAROUNDS_RESOLVED = 194
 WORKAROUNDS_SUPERSEDED = 19
 WORKAROUNDS_INVALID = 3
 
+# ── 事实占位符（两种语言共用这一份） ──────────────────────────────────────
+# 正文里写 {{key}}，构建器替换 —— **任何语言都拿不到第二份数字**。
+# 改数字只改这里；tools/check_facts.py 负责跟编译器仓的 FACTS.md 对拍。
+#
+# 值里不许出现 markdown 活跃字符（* _ ` [ ] | < >），否则替换后的正文会被
+# mdrender 二次解释。构建器会当场拒绝。
+FACTS = {
+    # 版本
+    "site_version": SITE_VERSION,
+    "site_version_date": SITE_VERSION_DATE,
+    "spec_version": SPEC_VERSION,
+    "spec_lock_note": SPEC_LOCK_NOTE,
+    "abi_version": ABI_VERSION,
+    "binary_format_version": BINARY_FORMAT_VERSION,
+    "ide_version": IDE_VERSION,
+    "ide_version_date": IDE_VERSION_DATE,
+    # 编译器状态
+    "regress_total": REGRESS_TOTAL,
+    "regress_pass": REGRESS_PASS,
+    "regress_skip": REGRESS_SKIP,
+    "regress_failed": REGRESS_FAILED,
+    "assertions": ASSERTIONS,
+    "artifact_checks": ARTIFACT_CHECKS,
+    "bench_tasks": BENCH_TASKS,
+    "bench_axes": BENCH_AXES,
+    "workarounds_total": WORKAROUNDS_TOTAL,
+    "workarounds_active": WORKAROUNDS_ACTIVE,
+    "workarounds_deferred": WORKAROUNDS_DEFERRED,
+    "workarounds_resolved": WORKAROUNDS_RESOLVED,
+    "workarounds_superseded": WORKAROUNDS_SUPERSEDED,
+    "targets_count": 4,
+    "stdlib_modules": 8,
+    # IDE —— 来源：JiHuiYiYou-IDE README「一致性门」一节
+    "ide_gate_pass": 277,
+    "ide_gate_total": 277,
+    "ide_corpus_files": 299,
+    # OS —— 来源：JiHuiYiYou-OS spike/boot.s 头部注释「实测到的四件事」
+    "os_spike_measured": 4,
+    # for-VEX —— 来源：JiHuiYiYou-for-VEX docs/00-事实基线.md（八件事，七成一待测）
+    "vex_baseline_total": 8,
+    "vex_baseline_done": 7,
+    "vex_baseline_pending": 1,
+}
+
 # ── 分发产物 ────────────────────────────────────────────────────────────────
 
 ARTIFACTS = [
@@ -126,10 +170,13 @@ PROJECTS = [
         "version": SITE_VERSION,
         "version_date": SITE_VERSION_DATE,
         "tagline": "自举的系统编程语言编译器",
+        "tagline_en": "The self-hosted systems language compiler",
         "desc": "用 JHYY 写的 JHYY 编译器。后端是自研 amd64 发射器，不是 LLVM，也不是 vendor 进来的 QBE。",
+        "desc_en": "The JHYY compiler, written in JHYY. The backend is a self-written amd64 emitter — not LLVM, and not a vendored QBE.",
         "repo": f"{ORG_SITE}/JiHuiYiYou-compiler",
         "status": "stable",
         "status_label": "稳定",
+        "status_label_en": "Stable",
     },
     {
         "key": "ide",
@@ -139,10 +186,13 @@ PROJECTS = [
         "version": IDE_VERSION,
         "version_date": IDE_VERSION_DATE,
         "tagline": "拖块编程 + 文本编辑 + Claude Code",
+        "tagline_en": "Block programming + text editing + Claude Code",
         "desc": "桌面工作台。Blockly 积木和 CodeMirror 文本共享同一棵 AST——改一边，另一边跟着变。",
+        "desc_en": "A desktop workbench. Blockly blocks and CodeMirror text share one AST — change one, the other follows.",
         "repo": f"{ORG_SITE}/JiHuiYiYou-IDE",
         "status": "beta",
         "status_label": "测试中",
+        "status_label_en": "Beta",
     },
     {
         "key": "os",
@@ -152,10 +202,13 @@ PROJECTS = [
         "version": "spike",
         "version_date": "",
         "tagline": "用 JHYY 写的操作系统",
+        "tagline_en": "An operating system written in JHYY",
         "desc": "设计基线正在重整。当前落地的只有 UEFI x64 引导 spike——把「能不能启动」这件事先变成实测值。",
+        "desc_en": "The design baseline is being rebuilt. All that exists today is a UEFI x64 boot spike — turning “can it boot?” into a measured value first.",
         "repo": f"{ORG_SITE}/JiHuiYiYou-OS",
         "status": "incubating",
         "status_label": "孵化中",
+        "status_label_en": "Incubating",
     },
     {
         "key": "vex",
@@ -165,21 +218,26 @@ PROJECTS = [
         "version": "day-0",
         "version_date": "2026-11-08",
         "tagline": "把 JHYY 编译到 VEX V5 Brain",
+        "tagline_en": "Compiling JHYY to the VEX V5 Brain",
         "desc": "嵌入式目标：Xilinx Zynq / Cortex-A9。路线是 JHYY 直出 ARM 机器码，链官方 SDK 出 .bin。",
+        "desc_en": "An embedded target: Xilinx Zynq / Cortex-A9. The route is JHYY emitting ARM machine code directly, linked against the official SDK into a .bin.",
         "repo": f"{ORG_SITE}/JiHuiYiYou-for-VEX",
         "status": "incubating",
         "status_label": "孵化中",
+        "status_label_en": "Incubating",
     },
 ]
 
 # ── 编译器五区导航 ──────────────────────────────────────────────────────────
+# 每项带 label_en —— 门脸层与文档层的导航都要出英文版。
+# 标签里的 {key} 由 FACTS 填充（版本号不许手写，见 FACTS）。
 
 COMPILER_NAV = [
-    {"key": "home", "label": "首页", "href": "/compiler/"},
-    {"key": "docs", "label": "文档", "href": "/compiler/docs/"},
-    {"key": "download", "label": "下载", "href": "/compiler/download/"},
-    {"key": "community", "label": "社区", "href": "/compiler/community/"},
-    {"key": "governance", "label": "治理", "href": "/compiler/governance/"},
+    {"key": "home", "label": "首页", "label_en": "Home", "href": "/compiler/"},
+    {"key": "docs", "label": "文档", "label_en": "Docs", "href": "/compiler/docs/"},
+    {"key": "download", "label": "下载", "label_en": "Download", "href": "/compiler/download/"},
+    {"key": "community", "label": "社区", "label_en": "Community", "href": "/compiler/community/"},
+    {"key": "governance", "label": "治理", "label_en": "Governance", "href": "/compiler/governance/"},
 ]
 
 # 各项目自己的分栏（IDE / OS / VEX 页面用）
@@ -187,53 +245,59 @@ COMPILER_NAV = [
 # 别为了凑导航栏造一个空的站内页面。
 PROJECT_NAV = {
     "ide": [
-        {"label": "概览", "href": "/ide/"},
-        {"label": "文档", "href": f"{ORG_SITE}/JiHuiYiYou-IDE/tree/main/docs/wiki"},
-        {"label": "Releases", "href": f"{ORG_SITE}/JiHuiYiYou-IDE/releases"},
+        {"label": "概览", "label_en": "Overview", "href": "/ide/"},
+        {"label": "文档", "label_en": "Docs", "href": f"{ORG_SITE}/JiHuiYiYou-IDE/tree/main/docs/wiki"},
+        {"label": "Releases", "label_en": "Releases", "href": f"{ORG_SITE}/JiHuiYiYou-IDE/releases"},
     ],
     "os": [
-        {"label": "概览", "href": "/os/"},
-        {"label": "Spike", "href": f"{ORG_SITE}/JiHuiYiYou-OS/tree/main/spike"},
+        {"label": "概览", "label_en": "Overview", "href": "/os/"},
+        {"label": "Spike", "label_en": "Spike", "href": f"{ORG_SITE}/JiHuiYiYou-OS/tree/main/spike"},
     ],
     "vex": [
-        {"label": "概览", "href": "/vex/"},
-        {"label": "事实基线", "href": f"{ORG_SITE}/JiHuiYiYou-for-VEX/blob/main/docs/00-%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF.md"},
+        {"label": "概览", "label_en": "Overview", "href": "/vex/"},
+        {"label": "事实基线", "label_en": "Fact baseline", "href": f"{ORG_SITE}/JiHuiYiYou-for-VEX/blob/main/docs/00-%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF.md"},
     ],
 }
 
 # ── 文档侧栏 ────────────────────────────────────────────────────────────────
+# items 的每一项是 (中文标签, English label, href)；href 为 None 表示纯文本项。
+# 标签里的 {key} 由 FACTS 填充。
 
 DOC_SIDEBAR = [
     {
         "title": "上手",
+        "title_en": "Getting started",
         "items": [
-            ("快速上手", "/compiler/docs/getting-started.html"),
-            ("语言导览", "/compiler/docs/tour.html"),
+            ("快速上手", "Getting started", "/compiler/docs/getting-started.html"),
+            ("语言导览", "Language tour", "/compiler/docs/tour.html"),
         ],
     },
     {
         "title": "语言参考",
+        "title_en": "Language reference",
         "items": [
-            ("参考总览", "/compiler/docs/reference.html"),
-            ("语言规范 v4.0.0", "/compiler/docs/spec.html"),
-            ("ABI v4.0.0", "/compiler/docs/abi.html"),
-            ("标准库", "/compiler/docs/stdlib.html"),
+            ("参考总览", "Reference overview", "/compiler/docs/reference.html"),
+            ("语言规范 v{spec_version}", "Language spec v{spec_version}", "/compiler/docs/spec.html"),
+            ("ABI v{abi_version}", "ABI v{abi_version}", "/compiler/docs/abi.html"),
+            ("标准库", "Standard library", "/compiler/docs/stdlib.html"),
         ],
     },
     {
         "title": "专项指南",
+        "title_en": "Deep dives",
         "items": [
-            ("Arena 内存管理", "/compiler/docs/arena.html"),
-            ("裸机与内核开发", "/compiler/docs/osdev.html"),
+            ("Arena 内存管理", "Arena memory management", "/compiler/docs/arena.html"),
+            ("裸机与内核开发", "Bare metal and kernel development", "/compiler/docs/osdev.html"),
         ],
     },
     {
         "title": "工具与实现",
+        "title_en": "Tools and internals",
         "items": [
-            ("CLI 参考", "/compiler/docs/cli.html"),
-            ("编译器实现", "/compiler/docs/compiler.html"),
-            ("构建与测试", "/compiler/docs/build-and-test.html"),
-            ("常见问题", "/compiler/docs/faq.html"),
+            ("CLI 参考", "CLI reference", "/compiler/docs/cli.html"),
+            ("编译器实现", "How the compiler works", "/compiler/docs/compiler.html"),
+            ("构建与测试", "Build and test", "/compiler/docs/build-and-test.html"),
+            ("常见问题", "FAQ", "/compiler/docs/faq.html"),
         ],
     },
 ]
@@ -241,27 +305,30 @@ DOC_SIDEBAR = [
 DOWNLOAD_SIDEBAR = [
     {
         "title": "下载",
+        "title_en": "Download",
         "items": [
-            ("下载首页", "/compiler/download/index.html"),
-            ("目标与交叉编译", "/compiler/download/targets.html"),
-            ("源码构建与自举", "/compiler/download/bootstrap.html"),
-            ("校验与签名", "/compiler/download/verify.html"),
+            ("下载首页", "Download home", "/compiler/download/index.html"),
+            ("目标与交叉编译", "Targets and cross-compilation", "/compiler/download/targets.html"),
+            ("源码构建与自举", "Build from source and bootstrap", "/compiler/download/bootstrap.html"),
+            ("校验与签名", "Verification and signing", "/compiler/download/verify.html"),
         ],
     },
     {
         "title": "产物",
+        "title_en": "Artifacts",
         "items": [
-            ("安装器（GUI）", "/compiler/download/index.html#installer"),
-            ("MSI（企业分发）", "/compiler/download/index.html#msi"),
-            ("VS Code 扩展", "/compiler/download/index.html#vsix"),
-            ("包管理器", "/compiler/download/index.html#pkgmgr"),
+            ("安装器（GUI）", "Installer (GUI)", "/compiler/download/index.html#installer"),
+            ("MSI（企业分发）", "MSI (enterprise)", "/compiler/download/index.html#msi"),
+            ("VS Code 扩展", "VS Code extension", "/compiler/download/index.html#vsix"),
+            ("包管理器", "Package managers", "/compiler/download/index.html#pkgmgr"),
         ],
     },
     {
         "title": "版本",
+        "title_en": "Versions",
         "items": [
-            ("v4.1.4（当前稳定）", "/compiler/download/index.html#current"),
-            ("历史归档", "/compiler/download/index.html#archive"),
+            ("v{site_version}（当前稳定）", "v{site_version} (current stable)", "/compiler/download/index.html#current"),
+            ("历史归档", "Archive", "/compiler/download/index.html#archive"),
         ],
     },
 ]
@@ -269,20 +336,22 @@ DOWNLOAD_SIDEBAR = [
 COMMUNITY_SIDEBAR = [
     {
         "title": "社区",
+        "title_en": "Community",
         "items": [
-            ("社区首页", "/compiler/community/index.html"),
-            ("行为准则", "/compiler/community/conduct.html"),
-            ("贡献指南", "/compiler/community/contributing.html"),
-            ("安全披露", "/compiler/community/security.html"),
+            ("社区首页", "Community home", "/compiler/community/index.html"),
+            ("行为准则", "Code of conduct", "/compiler/community/conduct.html"),
+            ("贡献指南", "Contributing", "/compiler/community/contributing.html"),
+            ("安全披露", "Security disclosure", "/compiler/community/security.html"),
         ],
     },
     {
         "title": "参与方式",
+        "title_en": "How to take part",
         "items": [
-            ("提 Issue", "https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues"),
-            ("提 PR", "https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/pulls"),
-            ("QQ 群 429807125", None),
-            ("代码所有权", "/compiler/governance/repo-map.html"),
+            ("提 Issue", "Open an issue", "https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues"),
+            ("提 PR", "Open a PR", "https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/pulls"),
+            ("QQ 群 429807125", "QQ group 429807125", None),
+            ("代码所有权", "Code ownership", "/compiler/governance/repo-map.html"),
         ],
     },
 ]
@@ -290,18 +359,20 @@ COMMUNITY_SIDEBAR = [
 GOVERNANCE_SIDEBAR = [
     {
         "title": "治理",
+        "title_en": "Governance",
         "items": [
-            ("治理总览", "/compiler/governance/index.html"),
-            ("许可证", "/compiler/governance/license.html"),
-            ("仓库地图", "/compiler/governance/repo-map.html"),
+            ("治理总览", "Governance overview", "/compiler/governance/index.html"),
+            ("许可证", "License", "/compiler/governance/license.html"),
+            ("仓库地图", "Repository map", "/compiler/governance/repo-map.html"),
         ],
     },
     {
         "title": "流程",
+        "title_en": "Process",
         "items": [
-            ("RFC 流程", "/compiler/governance/index.html#rfc"),
-            ("发布节奏", "/compiler/governance/index.html#release"),
-            ("贡献指南", "/compiler/community/contributing.html"),
+            ("RFC 流程", "RFC process", "/compiler/governance/index.html#rfc"),
+            ("发布节奏", "Release cadence", "/compiler/governance/index.html#release"),
+            ("贡献指南", "Contributing", "/compiler/community/contributing.html"),
         ],
     },
 ]

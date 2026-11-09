@@ -136,6 +136,39 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
 .doc-gh { display: inline-flex; color: var(--doc-ink-3); }
 .doc-gh:hover { color: var(--doc-ink); }
 
+/* ── 语言切换（文档层） ───────────────────────────────────
+   门脸层那份在 main.css；这里只换配色（浅色），
+   组件行为完全一致 —— 两层只共用 atoms。 */
+
+.doc-body .lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 999px;
+  background: var(--doc-surface-2);
+  border: 1px solid var(--doc-line);
+  flex: none;
+}
+.doc-body .lang-opt {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--doc-ink-3);
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+}
+.doc-body .lang-opt:hover { color: var(--doc-ink); text-decoration: none; }
+.doc-body .lang-opt.is-active {
+  color: var(--doc-accent);
+  background: var(--doc-surface);
+  box-shadow: inset 0 0 0 1px var(--doc-line-2);
+}
+
 @media (max-width: 860px) {
   .doc-search-btn span, .doc-search-btn kbd { display: none; }
   .doc-zones { font-size: 13px; }

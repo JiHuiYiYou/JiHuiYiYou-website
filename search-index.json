@@ -1,6 +1,7 @@
 [
  {
   "url": "/compiler/community/conduct.html",
+  "lang": "zh",
   "title": "行为准则",
   "desc": "参与这个项目的最低约定",
   "text": " 行为准则 这一页是仓库里 CODE_OF_CONDUCT.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CODE_OF_CONDUCT.md) 的 导读 ，不是它的副本。原文是英文的、条款式的；这里把它重写成能一眼读完的版本，遇到分歧以原文为准。 适用范围：仓库、issue、PR、review、discussion、wiki、release，以及 代表本项目在公开场合发言 的时候。 --- 核心约定 这四条是从原文里抽出来的实际要求： 1. 尊重 + 善意推定。 默认对方是在帮忙，哪怕效果是错的。 2. 区分「作品错了」和「人错了」。 给出并接受有建设性的技术反馈。这是编译器项目，几乎所有分歧都在于作品本身。 3. 分歧要有实质。 给理由、给证据、说清楚 什么能改变你的想法 。这是原文明确写的技术讨论标准——「这个设计是错的」永远没问题，「我要赢这个论辩」不是。 4. 报问题要精确具体。 原文的判断是：模糊的报告花掉维护者的时间比省下的多。 另外两条原文也写明的：把责任担起来、向受影响的人道歉并从错误里学；把重点放在对项目和使用者更好上，而不是赢一场争论。 --- 不可接受的行为 原文列得很短，这里照实列： - 性化的语言或图像，以及任何形式的性关注或性追求。 - 挑衅、侮辱或贬损的言论，人身攻击或",
@@ -45,6 +46,7 @@
  },
  {
   "url": "/compiler/community/contributing.html",
+  "lang": "zh",
   "title": "贡献指南",
   "desc": "从提 issue 到 PR 合并的完整路径",
   "text": " 贡献指南 这一页是仓库 CONTRIBUTING.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md) 的完整路径版：提 issue、跑门、写 PR。 动手前先确认你改的东西落在哪一档 。 --- 仓库地图（简短版） 你要改的东西 在哪 --- --- 编译器源码 + C 桥 compiler/src0/ （31 个 .jhyy 模块 + jhyy_helpers.c ）—— 唯一的实现 ，没有第二份 后端 compiler/src0/codegen_amd64_ .jhyy （自研 amd64 发射器） 标准库 compiler/src0/std/ （8 个模块： mem / fmt / io / math / string / vec / os / arena ） 测试 compiler/tests/examples/ + 仓库根的 regress.py 自举与门脚本 compiler/tests/bootstrap/ 语言 / ABI / 二进制格式契约 docs/abis/ 问题台账 docs/internal/workarounds.md （ 永不归档 ，条目只关不删） 会变的数字 docs/internal/FACTS.md （ 唯一真相源 ） 计划线 docs",
@@ -129,6 +131,7 @@
  },
  {
   "url": "/compiler/community/index.html",
+  "lang": "zh",
   "title": "社区",
   "desc": "去哪里问、怎么参与、当前的状态数字",
   "text": " 社区 这一页回答三件事： 问题往哪里问 、 不同类型的贡献分别怎么进来 、以及 这个项目此刻的数字是多少 。 先说清楚现状：这个项目由 一位维护者 主导，下面列的都是真实存在的渠道，不是设想的社区结构。渠道少，人也少——这是事实，不是谦辞。 --- 去哪里问 你要做的事 去哪 说明 --- --- --- 问「这个语言怎么写」 GitHub Discussions (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/discussions) 分类是 GitHub 默认的六类：Announcements / General / Ideas / Q&A / Show and tell / Polls 报「编译器做错了」 GitHub Issues (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues) → Compiler bug report 模板要求最小复现、实际与预期输出、版本、退出码 提「我想要这个功能」 同上 → Feature request 模板先问 你要解决的问题 ，方案可以留空 提一个改动 Pull requests (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/pulls) 走 贡献指南 (/com",
@@ -177,6 +180,7 @@
  },
  {
   "url": "/compiler/community/security.html",
+  "lang": "zh",
   "title": "安全披露",
   "desc": "怎么报告安全问题，以及已知的信任边界",
   "text": " 安全披露 这一页讲两件事： 怎么报告一个安全问题 （不把它变成公开 exploit），以及 这个项目已知的信任边界 （哪些地方编译器不给你保证）。 原文是仓库的 SECURITY.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/SECURITY.md)，这一页是它的导读。 --- 一句话版本 不要为疑似漏洞开公开 issue。 用 私有 advisory 表单 (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/security/advisories/new)。 公开 issue 会被索引、被镜像、被缓存—— 几分钟之内 。一份公开报告可以在补丁存在之前就把修复变成 exploit。 --- 报告渠道 优先级 渠道 --- --- 首选 GitHub 私有 advisory (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/security/advisories/new)——只有你和维护者看得见 备选 邮件 15901598712@163.com ，写同样的信息，并 要求回执确认 报告里要包含什么 项 为什么重要 --- --- 版本 ——仓库根的 VERSION 文件，或 jhyy --help 的",
@@ -233,6 +237,7 @@
  },
  {
   "url": "/compiler/docs/abi.html",
+  "lang": "zh",
   "title": "ABI v4.0.0",
   "desc": "类型布局、调用约定与链接规则——产物之间互认的契约",
   "text": " ABI v4.0.0 ABI 原文在仓库里，不在这里。 原文： docs/abis/jhyy-abi-v4.0.0.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md) 本页是那份 ABI 的 导读 ：目标与调用约定、类型布局、聚合类型传参、链接规则， 以及一份 已知偏离与未实装项 的摘要。 冲突时以仓库原文为准。 ABI 锁在 v4.0.0（2026-10-24 随 v4.0.0 final 一同锁版），与语言规范同代。 工具链版本是另一回事，见 参考总览 (/compiler/docs/reference.html)。 --- 目标与调用约定 目标三元组 调用约定 运行时 状态 --- --- --- --- amd64_win （默认） MS x64 hosted（链 C 运行时） stable amd64_sysv SysV AMD64 hosted stable amd64_win_freestanding MS x64 freestanding beta amd64_sysv_freestanding SysV AMD64 freestanding beta - 架构只有 x86-64。 aarch64 / riscv64 未实装（AB",
@@ -309,6 +314,7 @@
  },
  {
   "url": "/compiler/docs/arena.html",
+  "lang": "zh",
   "title": "Arena 内存管理",
   "desc": "arena 的心智模型、真实 API、生命周期与常见误用",
   "text": "JHYY 的 arena 是一个 bump allocator（撞针分配器） ：分配就是把游标往前推， 释放就是什么都不做。但它 不是 那种「只有 alloc、没有 free」的 arena —— 同一套 API 里既有复位（ arena_reset ，复用内存）也有整块释放（ arena_free ）。这页把它的 真实签名、内存布局、生命周期和几个会咬人的地方摊开。 先说最要紧的一句： JHYY 有两个 arena，编译器内部用的那一份和你 import arena; 拿到的那一份不是同一个东西。 API 等价、实现独立、互不 import。第 3 节讲清楚 怎么区分。 --- 1. 心智模型 一次分配做三件事： 1. 看当前块剩下的空间够不够； 2. 不够就新开一块（底层是 libc malloc ）； 3. 把游标 cur 推过去，返回对齐后的指针。 操作 内存发生了什么 --- --- arena_alloc / arena_calloc 游标前进；不够就新开一块 arena_reset 游标 回退 ； 不释放 任何块，内存留着复用 arena_free 遍历链表 逐块 free ；之后 arena 的指针字段归零 没有 GC，没有析构函数，没有引用计数。 谁分配，谁负责决定它什么时候失效。 --- 2. 真实 API 真相源是 compiler/src0/std/aren",
@@ -365,6 +371,7 @@
  },
  {
   "url": "/compiler/docs/build-and-test.html",
+  "lang": "zh",
   "title": "构建与测试",
   "desc": "从源码构建编译器，跑回归与自举闭环门",
   "text": " 构建与测试 这一页讲的是 改编译器 。只是 用 编译器，见 快速上手 。 --- 环境要求 宿主： Windows 10 + MSYS2（ C:\\msys64\\mingw64\\bin\\bash.exe ），外加 mingw-w64-ucrt-x86_64-gcc 与 mingw-w64-ucrt-x86_64-binutils 。 bash pacman -S --needed mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-binutils !IMPORTANT 不要 用 Git Bash 自带的那个 MinGW gcc （ /c/Program\\ Files/Git/mingw64/bin/gcc.exe ）——它不支持 PE+ 链接，会在链接阶段失败。 --- 构建 bash git clone https://github.com/JiHuiYiYou/JiHuiYiYou-compiler.git cd JiHuiYiYou-compiler make all → compiler/build/bin/jhyy.exe make 不只是编译：它会 把自举闭环迭代到不动点 。编译器编译自己，编译出来的那个 再编译自己，构建一直迭代，直到连续两代产出的汇编 逐字节相同 。这就是整个项目的 立身之本——不动点是跑出来的，不是假设",
@@ -421,6 +428,7 @@
  },
  {
   "url": "/compiler/docs/cli.html",
+  "lang": "zh",
   "title": "CLI 参考",
   "desc": "jhyy 编译器的命令、子命令、选项与退出码",
   "text": " jhyy 只有一个二进制、四个子命令、两个全局选项。下面是逐条核实过的行为表 —— 含产物名和退出码 —— 以及三个会咬人的命令行怪癖。 --- 1. 命令表 命令 用途 产物 --- --- --- jhyy compile <file.jhyy -o output 编译 + 链接 <output .exe ；中间的汇编（ <output + .s ）也留在盘上 jhyy build <file.jhyy -o base 只编译， 不 链接 <base .s jhyy run <file.jhyy 编译 + 链接 + 执行 临时产物 <name _run.exe （跑完留在盘上） jhyy dump <file.jhyy 只解析，打印 AST 树 打到 stdout 不带 -o 时，输出名取输入文件的基名： jhyy compile hello.jhyy ⇒ hello.exe ， jhyy build hello.jhyy ⇒ hello.s 。 -o 是 基名 ，后缀自动补： -o foo ⇒ foo.s / foo.exe ； -o foo.s ⇒ 仍是 foo.s （不会变成 foo.s.s ）， -o foo.exe ⇒ foo.exe （旁边的汇编是 foo.exe.s ）。 --- 2. 三个子命令的差别（重点） compile / build / run 是同一",
@@ -485,6 +493,7 @@
  },
  {
   "url": "/compiler/docs/compiler.html",
+  "lang": "zh",
   "title": "编译器实现",
   "desc": "编译器是怎么搭起来的：前端 → IL → amd64 后端 → 自举闭环",
   "text": " 架构 编译器是怎么搭起来的，以及为什么自举闭环是整个设计的中心。 仓内的文档是 docs/internal/architecture.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/architecture.md)； 这一页是导览版。 --- 流水线 mermaid flowchart TB src \".jhyy 源码\" -- lex \"词法分析 → token 流\" lex -- parse \"语法分析 → AST\" parse -- sema \"语义分析 → 带标注的 AST\" sema -- il \"codegen.jhyy<br/ 把 IL 文本生成到内存<br/ （JHYY 自己的格式，语法借鉴 QBE）\" il -- sb \"codegen_amd64_inmem<br/ 词法 → 解析 → 发射 → peephole\" sb -- asm \".s（amd64）\" asm -- ln \"as + ld（gcc）<br/ （仅 Windows 宿主）\" ln -- exe \".exe（PE/COFF）/ ELF\" 每个阶段都是用 JHYY 写的。树里没有 C 的 bootstrap 编译器——编译编译器的那个编译器， 就是编译器本身。 --- 自举闭环 这是这个项",
@@ -529,6 +538,7 @@
  },
  {
   "url": "/compiler/docs/faq.html",
+  "lang": "zh",
   "title": "常见问题",
   "desc": "反复被问到的问题与它们的答案",
   "text": " 常见问题 反复被问到的问题，以及当下为真的答案。答案变了就是仓库说了算——见 语言规范 (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) 和 FACTS.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md) 里的权威版本。 --- 用编译器 能在 Linux 或 macOS 上跑编译器吗？ 不能直接跑。 编译器是个 Windows 程序 —— jhyy.exe 是 PE 可执行文件，宿主必须是 Windows（或 Wine）。这是刻意的设计决定，不是疏漏。 可移植的是产出 ：SysV 目标产出 Linux ELF 汇编，CI 会在 Linux 上链接并运行它。 所以「JHYY 程序能在 Linux 上跑」成立，「JHYY 编译器能在 Linux 上跑」目前不成立。 怎么查版本？ jhyy --help 的第一行 就是版本横幅。没有 jhyy --version 这个选项——它从来没 存在过，这么写会打印 jhyy: unknown option --version 然后以 1 退出。 为什么入口是 main_jhyy ",
@@ -637,6 +647,7 @@
  },
  {
   "url": "/compiler/docs/getting-started.html",
+  "lang": "zh",
   "title": "快速上手",
   "desc": "5 分钟装好编译器并跑出第一个程序",
   "text": " 快速上手 下面全部用的是 发布版 编译器。想自己构建编译器，见 构建与测试 。 --- 1. 安装 编译器跑在 Windows x64 上。 宿主必须是 Windows（或 Wine）——这是设计决定，不是 缺陷。但 产出 不限于 Windows：SysV 目标产出的是 Linux ELF。 去 GitHub Releases (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/latest) 拿最新版本： 产物 是什么 --- --- jhyy-installer- .exe GUI 安装器 —— 编译器、 .jhyy 文件关联、VS Code 扩展、PATH jhyy-compiler- .msi 同样的内容，不要 GUI —— 给企业 / SCCM 分发用 jhyy-lang- .vsix 单独的 VS Code 扩展 使用编译器不需要 MSYS2。 工具链自带之后，安装器里带了一份最小原生 ucrt64 工具链。只有想 从源码构建编译器 时才需要 MSYS2。 每个产物旁边都有 SHA256.txt 校验和。 --- 2. 确认装好了 bash jhyy --help 输出的第一行就是版本横幅 —— 这是你确认自己手上是哪个编译器的办法。 !NOTE 没有 jhyy --version 这个选项。 它从来",
@@ -677,6 +688,7 @@
  },
  {
   "url": "/compiler/docs/index.html",
+  "lang": "zh",
   "title": "文档首页",
   "desc": "JHYY 文档首页 —— 从这里开始",
   "text": " JHYY（机会翼游）— Wiki 一门自举的、静态类型、面向表达式的系统编程语言。 这个 wiki 是仓库 README 的长文版：指南、导览，以及那些反复被问到的问题的答案。 README 是地图，这里是走一遍。 这里没有任何东西是真相源——仓库才是。 数字、排期、已知限制都会变；这个 wiki 只是 一份「真相在哪」的指南 。 每一页都指向真正拥有那个事实的文档。 如果 wiki 页面和仓库文档冲突， 以文档为准 ——请提个 issue，我们来把页面改对。 --- 从这里开始 你想…… 去这里 --- --- 装好编译器，跑第一个程序 快速上手 学这门语言 语言导览 从源码构建编译器、跑测试 构建与测试 搞清楚编译器是怎么搭起来的 架构 找一个反复出现的问题的答案 常见问题 贡献一个修复或一个功能 CONTRIBUTING.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md) 报告安全问题 SECURITY.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/SECURITY.md) --- 一段话讲清这个项目 JHYY 是一门 用自己写的 系统编程语言。 compiler/src0/ .jhy",
@@ -709,6 +721,7 @@
  },
  {
   "url": "/compiler/docs/osdev.html",
+  "lang": "zh",
   "title": "裸机与内核开发",
   "desc": "freestanding 目标、no_std、内联汇编与最小内核启动路径",
   "text": "「能不能用它写内核」这个问题在 JHYY 上要拆成三层看： 语言层 、 运行时层 、 ABI 层 。三层各管各的，混成一句「无标准库」就会得出错误结论。这页把三层 分开说清楚，再逐条核实「最小内核启动路径」上哪些真的能用、哪些目前还是空的。 一句话预告： 语言层的零件基本齐了，运行时层和链接层还没接上。 --- 1. 三层要分开 层 开关 管什么 明确不管什么 --- --- --- --- 语言层 源文件里的 no_std 属性 声明「这个模块不要 C 运行时」，并把入口符号换成 main 不决定调用约定，不决定链接器 运行时层 目标名里的 _freestanding 后缀 「没有操作系统运行时」这个目标形态 不切链接方式 ABI 层 --target=<triple 选哪套 calling convention（MS x64 / SysV AMD64） 不切 PE / ELF 产出（那由宿主 ld 决定） ABI § 1 的原话： 两个 freestanding 目标只切换「调用约定归属 + 入口钩子」，不切换 链接方式。 换句话说， --target=amd64_win_freestanding 跟 amd64_win 的寄存器 约定 逐字节相同 ，差别在别处（见第 2 节）。 --- 2. 链接行由 no_std 决定，不由 --target 决定 源文件里有 no_std",
@@ -757,6 +770,7 @@
  },
  {
   "url": "/compiler/docs/reference.html",
+  "lang": "zh",
   "title": "参考总览",
   "desc": "语言、契约、工具链三类参考的入口与它们各自保证什么",
   "text": " 参考总览 这一页是「语言参考」这一组的索引。JHYY 的参考分三层，每一层保证的东西不一样—— 把它们混在一起读，很容易把「这门语言怎么写」和「两个产物之间怎么互认」搞成同一件事。 三层参考 层 回答什么问题 它保证什么 版本性质 --- --- --- --- 语言规范（spec） 语法与语义 什么是合法程序、每条表达式什么意思、哪些行为被定义 锁定的契约 ABI 类型布局、调用约定、链接规则 编译器、产物、外部库之间怎么互认 锁定的契约 CLI / 标准库 具体工具和 API 怎么用 命令怎么敲、函数叫什么、返回什么 跟工具链版本走 前两层是 契约 ：实现必须遵守它们，遵守了才是「JHYY」。第三层是 用法 ， 它随着工具链演进，不承诺稳定。 --- 契约版本 ≠ 工具链版本 这是最容易被绕进去的一件事。 语言规范 v4.0.0 和 ABI v4.0.0 各自锁在 2026-10-24，随 v4.0.0 final 一同锁版。 工具链是另一条独立的线——当前稳定版是 v4.1.4（版本会变，以 下载页 (/compiler/download/index.html)为准）。 也就是说： v4.1.x 是对 v4.0.0 契约的实现演进，不是对契约的修改。 新版本编译器可能多支持一个语法糖、多修一个 bug，但只要规范和 ABI 还是 v4.0.0， 产物的互认规则就一个字没变。",
@@ -793,6 +807,7 @@
  },
  {
   "url": "/compiler/docs/spec.html",
+  "lang": "zh",
   "title": "语言规范 v4.0.0",
   "desc": "锁定的语言契约：语法、类型系统、语义边界",
   "text": " 语言规范 v4.0.0 规范全文在仓库里，不在这里。 原文： docs/abis/jhyy-lang-spec-v4.0.0.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) 本页是那份规范的 导读 + 索引 + 关键约定摘要 。规范正文的每一条都对应编译器源码中 可复现的行为；本页每一条也一样。 两者冲突时以仓库原文为准。 规范锁在 v4.0.0（2026-10-24 随 v4.0.0 final 一同锁版）。工具链版本是另一回事， 见 参考总览 (/compiler/docs/reference.html)。 --- 规范覆盖了什么 章 内容 --- --- § 1 程序结构： main_jhyy 入口、 import 多文件、注释、顶层声明 § 2 类型系统：基础类型、复合类型、别名、推断、字面量、 Cap<T 、 PhantomData<T 、 sizeof / alignof § 3 变量与绑定： let / let mut 、shadowing、顶层全局变量、复合赋值 § 4 运算符：12 级优先级、语义要点、聚合类型相等比较、 as 转换 § 5 控制流： if / else 、 while 、 for 、 break",
@@ -873,6 +888,7 @@
  },
  {
   "url": "/compiler/docs/stdlib.html",
+  "lang": "zh",
   "title": "标准库",
   "desc": "八个模块的真实 API：arena、mem、string、vec、fmt、io、math、os",
   "text": " 标准库 JHYY 自带一份小标准库， 8 个模块 ，随编译器一同安装。 本页的每个签名都是从源码逐字抄的—— compiler/src0/std/ .jhyy —— 没有改写，也没有补全源码里不存在的函数。 源码是唯一真相源 ： compiler/src0/std/ (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/src0/std) --- 怎么用 import 拉进来的是 模块 ， 不带 std:: 前缀 —— import std::vec; 是解析错误： jhyy import io; import vec; fn main_jhyy() - i32 { io::std_io_print(\"hello from the JHYY stdlib\\n\"); 0 } 两种调用写法都实测能编过： 写法 出处 --- --- io::std_io_print(...) 仓库 README、 compiler/tests/examples/std_io_import.jhyy 用的就是这一种 std_io_print(...) 规范 § 15 指定的写法（直接写源码里的函数名） ⚠ 规范 § 15 只承认后一种——它明确说「不是 io::std_io_print(...) 」； 但限定写法在实现",
@@ -925,6 +941,7 @@
  },
  {
   "url": "/compiler/docs/tour.html",
+  "lang": "zh",
   "title": "语言导览",
   "desc": "语言形态速览：类型、过程、模块、FFI",
   "text": " 语言导览 这是导览，不是规范。 语言规范 才是权威——它已锁定，已知限制集中在它的附录 B： 规范 (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md)。 --- 语言的整体形状 静态类型。面向表达式。编译成原生代码。 jhyy type Point = struct { x: i32, y: i32 } fn dist_sq(a: Point, b: Point) - i32 { let dx = a.x - b.x; let dy = a.y - b.y; dx dx + dy dy } fn classify(n: i32) - u8 { match n { 0 = \"zero\", 1..10 = \"single digit\", 10 20 = \"round number\", _ = \"other\", } } extern fn printf(fmt: u8, val: i32) - i32; fn main_jhyy() - i32 { let p = Point { x: 3, y: 4 }; let q = Point { x: 0, y: 0 }; printf(\"d² = %d\\n\", dist_sq(p, q)); prin",
@@ -969,6 +986,7 @@
  },
  {
   "url": "/compiler/download/bootstrap.html",
+  "lang": "zh",
   "title": "源码构建与自举",
   "desc": "从源码构建编译器，以及两阶段自举闭环怎么跑",
   "text": " 源码构建与自举 这一页讲怎么从源码把编译器编出来，以及「自举闭环」到底 证明 什么、 不证明 什么。第二件事比第一件重要。 --- 构建前置 需求 说明 --- --- 宿主 Windows x64 —— jhyy.exe 是 PE 可执行文件，自举闭环必须能执行它 MSYS2 构建宿主。 这是「从源码构建编译器」的需求；用安装器装编译器不需要 MSYS2 mingw-w64-ucrt-x86_64-gcc C 编译器 mingw-w64-ucrt-x86_64-binutils as / ld / objdump 等 bash pacman -S --needed mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-binutils !IMPORTANT 不要 用 Git Bash 自带的那个 MinGW gcc （ /c/Program\\ Files/Git/mingw64/bin/gcc.exe ）——它不支持 PE+ 链接， 会 一字不印 地卡在链接阶段。 !WARNING PATH 里 先出现哪个 gcc / ld 就用哪个 。Windows runner 镜像自带旧 MSYS2 在 C:\\mingw64 且排在前面，是最常见的翻车姿势。构建时把 MSYS2 根目录显式 传下去。 --- 构建 bash git clone h",
@@ -1013,6 +1031,7 @@
  },
  {
   "url": "/compiler/download/index.html",
+  "lang": "zh",
   "title": "下载",
   "desc": "最新稳定版的产物矩阵、校验方式与包管理器入口",
   "text": " 下载 这一页是当前稳定版的产物矩阵：三个可下载的文件、两条分发渠道，以及一条每个用户 都会先撞上的签名说明。版本号以本页为准；历史版本见 archive ( archive)。 !WARNING 安装器和 MSI 都没有代码签名 。Windows SmartScreen 首次运行会弹 「Windows 已保护你的电脑」，点「更多信息 → 仍要运行」。 未签名二进制也更容易被第三方杀软拦。企业分发策略可能直接拒收未签名 MSI。 下载完先核对哈希——方法见 校验与签名 (/compiler/download/verify.html)。 --- 当前稳定版 { current} 当前稳定版 v4.1.4 ，2026-11-07 发布。 产物 体积 是什么 --- --- --- jhyy-installer-4.1.4.exe ~55 MB GUI 安装器：编译器 + .jhyy 文件关联 + VS Code 扩展 + PATH + 内置 ucrt64 工具链 jhyy-compiler-4.1.4.msi ~28 MB MSI（企业分发）：同样的载荷，无 GUI 向导 jhyy-lang-4.1.4.vsix ~11 KB VS Code 扩展 体积是实测值（打包后量 installer/build-artifacts/ 里的产物），不是估的。 每个 release 都附带一个 S",
@@ -1065,6 +1084,7 @@
  },
  {
   "url": "/compiler/download/targets.html",
+  "lang": "zh",
   "title": "目标与交叉编译",
   "desc": "四个 target 的取舍、freestanding 的含义与裸机工具链最小组合",
   "text": " 目标与交叉编译 这一页回答四个问题： 目标只有哪几个 、每个目标产出什么、 freestanding 到底 改了什么 、以及裸机构建最少需要哪些工具。 --- 目标边界：只有 amd64 当前只有四个目标，全部是 x86-64。 没有 aarch64、没有 riscv64、没有 wasm。 目标三元组 ABI 产物 状态 说明 --- --- --- --- --- amd64_win MS x64 PE/COFF 可执行文件（ .exe ） 稳定 宿主默认目标。编译器自身就跑在这个目标上 amd64_sysv SysV AMD64 SysV 汇编（ .s ）→ 外部 ld 链成 ELF 稳定 产物是汇编文本，链接由外部 linker 完成 amd64_win_freestanding MS x64 UEFI 可执行映像（ .efi ） 测试中 调用约定与 amd64_win 逐字节相同；UEFI 入口路径尚未完工（ABI § 12.8） amd64_sysv_freestanding SysV AMD64 freestanding 汇编（ .s ） 测试中 裸机内核的主要入口目标；同样存在 UEFI 入口缺口 四个目标 全部 走自研的 amd64 后端（ target_backend_mode 一律返回 BACKEND_SELF ），没有 QBE 回退路径——QBE 早已从构建",
@@ -1101,6 +1121,7 @@
  },
  {
   "url": "/compiler/download/verify.html",
+  "lang": "zh",
   "title": "校验与签名",
   "desc": "SHA256 怎么核对、签名现状、以及发布产物如何验证来源",
   "text": " 校验与签名 这一页回答三个问题： 下载下来的字节是不是完整的 、 发布者是不是预期的那个 发布者 、以及 你手上的编译器是不是这一版 。 第二个问题的答案不太好看，先说在前面。 --- 签名现状：没有签名 !WARNING 安装器和 MSI 都没有代码签名 。Windows SmartScreen 首次运行会弹 「Windows 已保护你的电脑」，点「更多信息 → 仍要运行」。 未签名二进制也更容易被第三方杀软拦。企业分发策略可能直接拒收未签名 MSI。 具体会碰到什么： 场景 现象 --- --- 个人用户首次运行 SmartScreen 的蓝底提示框拦一道，需手动「更多信息 → 仍要运行」；「发布者」一栏显示未知发布者 第三方杀软 未签名二进制的启发式误报率明显更高，可能被隔离或要求加白名单 企业分发 很多组织的软件分发策略直接拒收未签名 MSI——不是装不上，是策略层面拉黑 强制签名环境 装不上，除非 IT 侧单独放行 没有 minisign、sigstore、cosign、GPG 签名的 detached signature； 没有 SLSA provenance、SBOM、attestation。发布流程产出的校验相关资产只有一个： SHA256.txt 。 所以本页不会给你一个签名验证流程——因为没有。这是有意的： 用一个不存在的 流程把「没签名」这件事说圆，比直接说",
@@ -1157,6 +1178,7 @@
  },
  {
   "url": "/compiler/governance/index.html",
+  "lang": "zh",
   "title": "治理",
   "desc": "谁决定、如何提议、如何发版——以及哪些地方还没有成文规则",
   "text": " 治理 这一页回答三个问题：谁说了算、一次改动怎么被提出来、一个版本怎么发出去。 最后一节列出 目前还没有成文规则的部分 ——那些条目宁可写「没有」，也不写成一句 听起来很成熟的话。 本页每一条规则都指向仓内的一个具体文件。找不到出处的，进最后一节的缺口表。 --- 决策方式 JHYY 是 由个人维护的 pre-1.0 编译器项目 。这是仓库自己在 SECURITY.md 开头写的一句话，不是本站的修辞。 决定什么 谁拍板 出处 --- --- --- 缺陷修复、诊断文案、构建脚本、工具链、文档 维护者本人 CONTRIBUTING.md 的 PR 流程 语言语法 / ABI / 内存模型 / 标准库稳定 API / 错误码语义 / 自举边界 维护者本人，但 必须先有一份书面提案 这六项正是 docs/abis/ 三份契约锁定的范围 版本号与发版时机 维护者本人 仓库根 VERSION 文件 + scripts/dev/bump_version.py 仓库里唯一成文的「提案体例」是 docs/plans/v4/<version -plan.md ——一格一个版本槽， 统一结构：Context（为什么是这一版）· Goal（可度量）· Scope（范围）· 验收门 · 启动时复核清单 · Critical files · Risks · Out of scope · Referenc",
@@ -1225,6 +1247,7 @@
  },
  {
   "url": "/compiler/governance/license.html",
+  "lang": "zh",
   "title": "许可证",
   "desc": "MIT 的确切条款，以及各仓库的许可现状",
   "text": " 许可证 四个仓库里三个用 MIT，一个还没有许可证文件。这一页写两件事：MIT 的确切条款是什么， 以及每个仓库实际是什么状态。 --- MIT 的条款 用的都是 MIT 官方模板，版权行是 Copyright (c) 2026 JHYY —— 署名主体是项目名， 不是某个自然人。 允许什么 获得软件及文档副本的人，可以 自由地 使用、复制、修改、合并、发布、分发、再授权、 出售这些副本， 不受任何限制 （\"without restriction\"）。这七个动词就是授权范围， 没有附加条件。 要求什么 唯一的一条要求 ：上述版权声明与本许可声明必须包含在软件的所有副本或实质性部分中 （\"The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software\"）。 也就是说：改代码可以，改文件名可以，闭源分发可以，商用可以 —— 只要那一段版权声明 和许可声明 跟着走 。 不保证什么 软件按「原样」提供， 不附带任何明示或默示的担保 ，包括但不限于对适销性、 特定用途适用性、不侵权的担保；作者或版权持有者不对任何直接、间接、附带、特殊、 后果性或惩罚性损害承担责任。 MIT 没有涵盖的 - 不要求声明你做",
@@ -1281,6 +1304,7 @@
  },
  {
   "url": "/compiler/governance/repo-map.html",
+  "lang": "zh",
   "title": "仓库地图",
   "desc": "四个仓库各管什么，编译器仓库内部每个目录干什么",
   "text": " 仓库地图 四个仓库，一件事一件分开。这一页先说四个仓库的边界，再逐个目录说明编译器仓库的 内部结构，最后给一张「我想改 X → 先读 Y」的对照表。 --- 四个仓库的职责边界 仓库 干什么 当前状态 GitHub 相关文档在哪 --- --- --- --- --- Compiler 语言 + 编译器 + 标准库。编译器唯一实现在 compiler/src0/ ，后端是自研 amd64 发射器 稳定（自举成立，回归全绿） JiHuiYiYou-compiler (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler) 仓内 docs/ ： abis/ 三份契约、 internal/FACTS.md 、 plans/v4/ IDE 桌面工作台。Blockly 拖块与 CodeMirror 文本共用同一棵 AST，右侧栏接本机的 Claude Code 测试中 JiHuiYiYou-IDE (https://github.com/JiHuiYiYou/JiHuiYiYou-IDE) IDE 仓 docs/wiki/ .zh-CN.md OS 用 JHYY 写的操作系统。仓里目前只有引导 spike（ boot.s + BOOTX64.EFI + esp_root/ + wrap_gpt.py ），原设计文档已随一次重整清空 孵化中 Ji",
@@ -1329,6 +1353,7 @@
  },
  {
   "url": "/compiler/index.html",
+  "lang": "zh",
   "title": "JHYY 编译器",
   "desc": "自举的系统编程语言编译器。编译器唯一的实现是 JHYY 自己，后端是自研的 amd64 发射器 —— 没有 LLVM，也没有 vendor 进来的 QBE。",
   "text": " A language that compiles itself. — a statically-typed, expression-oriented systems language. The compiler is written in itself : compiler/src0/*.jhyy is the only implementation, and the backend is a self-written amd64 emitter — no LLVM, no vendored QBE, no garbage collector. Currently v4.1.4 . Get started Read the spec Stage 2 byte-equal closed loop MIT licensed x86-64 &nbsp;·&nbsp; Windows hello.jhyy v4.1.4 i32 { let dx = a.x - b.x; let dy = a.y - b.y; dx * dx + dy * dy }\"> $ jhyy run hello.jhyy d² = 25 Scroll Statically typed ◆ Expression-oriented ◆ Compiled to native ◆ No garbage collector",
@@ -1336,6 +1361,7 @@
  },
  {
   "url": "/ide/index.html",
+  "lang": "zh",
   "title": "JHYY IDE",
   "desc": "拖块编程与文本编辑共享同一棵 AST 的桌面工作台",
   "text": "给 JHYY（机会翼游）做的桌面 IDE：**拖块写、写代码、跟本机的 Claude Code 聊**。 一个 VS Code 式的工作台，两个写代码的视图共享同一棵 AST，诊断永远来自真实的 `jhyy.exe`。 ## 三个面板 - **文本视图** —— CodeMirror 6，正常写代码。语法高亮、括号匹配、自动闭合、缩进、补全（关键字、类型、8 个标准库模块），悬停提示能给出**规范章节号**。文件开在标签页里，开第二个不会把第一个顶掉；小黑点按内容算，撤销回上次保存的版本就自动消失。 - **块视图** —— Blockly 13，拖块写程序。工具箱第一屏是「入门」：函数、打印、调用、数字/字符串、变量、返回，另有现成的 **C 函数声明**块（`printf` / `puts` / `malloc` / `free` / `exit`，参数表自动填好）—— 每个 JHYY 程序的第一行不用再靠「原始代码」逃生舱手打。 - **Claude Code** —— 右侧栏里的内嵌对话面板，驱动你机器上**已经装好的 `claude` CLI**（走 stdin 的流式模式，多轮上下文是连着的）。Claude 挂上了 jhyy MCP server，能调 `jhyy_check` 拿**真实编译器**的诊断，而不是靠猜。侧栏还有个「只读」开关，打开后系统提示里会写明「用户",
@@ -1343,6 +1369,7 @@
  },
  {
   "url": "/os/index.html",
+  "lang": "zh",
   "title": "JiHuiYiYou-OS",
   "desc": "用 JHYY 写的操作系统——从 UEFI 引导 spike 开始的实测路线",
   "text": "用 JHYY（机会翼游）写的操作系统。**它现在处在极早期** —— 仓库里只有一个 UEFI x64 引导 spike， 设计基线正在重整。这一页写的是**现状**，不是蓝图。 ## 仓库里现在有什么 仓库当前只有一个目录 `spike/`（外加一份 MIT 协议的 `LICENSE`）： - `spike/boot.s` —— UEFI x64 引导程序，Intel 语法。 - `spike/BOOTX64.EFI` —— 上面那个源文件的编译产物。 - `spike/esp_root/EFI/BOOT/BOOTX64.EFI` —— EFI 分区镜像里的引导文件。 - `spike/wrap_gpt.py` —— 把一份裸 FAT 镜像包进带**一个 EFI System Partition** 的 GPT 磁盘镜像（自己写保护 MBR、主/备 GPT 头和 CRC32，还会把 FAT 的 BPB 隐藏扇区数改成分区起始 LBA）。 最近一次提交（2026-10-30）就是 **「清空原有设计文档 —— 重整设计基线」**：一次性删掉了 `docs/` 下 17 份 v0.0.x 设计文档、`deep_research/` 下 9 份外部调研存档，外加 `README.md` 和 `CLAUDE.md`。那批文档写于编译器 v1.8.3 时代（C 宿主 + QBE + ABI",
@@ -1350,6 +1377,7 @@
  },
  {
   "url": "/vex/index.html",
+  "lang": "zh",
   "title": "JiHuiYiYou-for-VEX",
   "desc": "让 JHYY 直接跑在 VEX V5 Brain 上——实测优先的嵌入式目标路线",
   "text": "给 JHYY（机会翼游）加一个**嵌入式目标**：VEX V5 Brain。当前进度是**第 0 步已完成** —— 把 VEX 侧的未知数全部变成实测值，写成一份事实基线。 ## 目标硬件 VEX V5 Brain：ARM，**Xilinx Zynq**（Cortex-A9 + FPGA），有 VFPv3 + NEON。 DDR 基址 `0x03800000`（`lscript.ld` 里的 `ps7_ddr_0_S_AXI_BASEADDR`）， 入口钉在 `0x03800020`。 ## 路线 B 是「JHYY 直出 ARM 机器码」 不是「转译成 C++」。但边界要说清 —— **换掉的是 clang 的位置，`ld` 及以下原样不动**： - **A 路**（第 0 步，黄金参考）：JHYY → C 源码 → clang → `.bin` - **B 路**（目标）：JHYY → ARM 机器码（`.o`）→ 官方 SDK → `.bin` B 路出的是 ARM `.o`，然后链官方 SDK 的 `lscript.ld` / `stdlib_0.lib` / `libv5rt.a`， 最后 objcopy 出 `.bin`。 这跟 pros-rs 当年的**同构**（Rust 出 `.o`、链 libpros）是一个路子，区别是**带着实测重走**， 不带它的沉没成本。 ",

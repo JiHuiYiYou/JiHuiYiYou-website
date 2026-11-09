@@ -474,6 +474,38 @@ code, pre { font-family: var(--f-mono); }
   gap: 4px;
   padding-left: 4px;
 }
+
+/* 语言切换（门脸层）—— 普通 <a>，无 JS 依赖。
+   文档层那份在 docs.css（浅色），组件行为一致。 */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--r-pill);
+  background: var(--bg-glass);
+  border: 1px solid var(--hairline);
+  flex: none;
+}
+.lang-opt {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-3);
+  white-space: nowrap;
+  transition: color 0.2s var(--ease-soft), background 0.2s var(--ease-soft);
+}
+.lang-opt:hover { color: var(--text-1); }
+.lang-opt.is-active {
+  color: var(--brand-50);
+  background: var(--brand-glow-soft);
+  box-shadow: inset 0 0 0 1px var(--hairline-brand);
+}
+
 .nav-icon-btn {
   display: none;
   align-items: center;

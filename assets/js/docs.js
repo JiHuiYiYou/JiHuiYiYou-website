@@ -58,6 +58,8 @@
 
   var idxUrl = openBtn.getAttribute("data-search-index") || "search-index.json";
   var base = idxUrl.replace(/[^/]*$/, "");
+  // 站内搜索只出**当前语言**的结果 —— 两棵树共用一份索引，靠 lang 字段过滤。
+  var curLang = openBtn.getAttribute("data-search-lang") || "";
 
   function loadIndex() {
     if (idx || loading) return;
@@ -90,6 +92,7 @@
     }
     if (!idx) { loadIndex(); results.innerHTML = '<div class="doc-search-empty">索引加载中…</div>'; return; }
     hits = idx
+      .filter(function (e) { return !curLang || !e.lang || e.lang === curLang; })
       .map(function (e) { return { e: e, s: score(e, q) }; })
       .filter(function (r) { return r.s > 0; })
       .sort(function (a, b) { return b.s - a.s; })

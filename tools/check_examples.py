@@ -48,11 +48,20 @@ def classify(code: str) -> str:
 
 
 def extract() -> list[tuple[str, int, str, str]]:
+    """抽出所有 .jhyy 代码块。
+
+    **按代码内容去重** —— 中英两棵树里同一段示例会各出现一次，
+    编两遍是纯浪费；但英文页的示例同样要编（它坏了英文读者也照抄不动）。
+    """
     out = []
+    seen: set[str] = set()
     for path in sorted(CONTENT.rglob("*.md")):
         text = path.read_text(encoding="utf-8")
         for m in BLOCK.finditer(text):
             code = m.group(2)
+            if code in seen:
+                continue
+            seen.add(code)
             line = text[: m.start()].count("\n") + 1
             out.append((path.relative_to(ROOT).as_posix(), line, code, classify(code)))
     return out
