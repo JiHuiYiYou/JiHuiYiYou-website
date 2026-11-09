@@ -29,7 +29,7 @@ zone: docs
 这是最容易被绕进去的一件事。
 
 **语言规范 v4.0.0** 和 **ABI v4.0.0** 各自锁在 2026-10-24，随 `v4.0.0 final` 一同锁版。
-工具链是另一条独立的线——当前稳定版是 v4.1.4（版本会变，以[下载页](/compiler/download/index.html)为准）。
+工具链是另一条独立的线——当前稳定版是 v{{site_version}}（版本会变，以[下载页](/compiler/download/index.html)为准）。
 
 也就是说：
 

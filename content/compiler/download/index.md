@@ -22,13 +22,13 @@ zone: download
 
 ## 当前稳定版 {#current}
 
-**当前稳定版 v4.1.4**，2026-11-07 发布。
+**当前稳定版 v{{site_version}}**，{{site_version_date}} 发布。
 
 | 产物 | 体积 | 是什么 |
 |---|---|---|
-| `jhyy-installer-4.1.4.exe` | ~55 MB | GUI 安装器：编译器 + `.jhyy` 文件关联 + VS Code 扩展 + PATH + 内置 ucrt64 工具链 |
-| `jhyy-compiler-4.1.4.msi` | ~28 MB | MSI（企业分发）：同样的载荷，无 GUI 向导 |
-| `jhyy-lang-4.1.4.vsix` | ~11 KB | VS Code 扩展 |
+| `jhyy-installer-{{site_version}}.exe` | ~55 MB | GUI 安装器：编译器 + `.jhyy` 文件关联 + VS Code 扩展 + PATH + 内置 ucrt64 工具链 |
+| `jhyy-compiler-{{site_version}}.msi` | ~28 MB | MSI（企业分发）：同样的载荷，无 GUI 向导 |
+| `jhyy-lang-{{site_version}}.vsix` | ~11 KB | VS Code 扩展 |
 
 体积是实测值（打包后量 `installer/build-artifacts/` 里的产物），不是估的。
 
@@ -39,10 +39,10 @@ zone: download
 
 | 文件 | GitHub Releases | 本地镜像 |
 |---|---|---|
-| 安装器 | [jhyy-installer-4.1.4.exe](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v4.1.4/jhyy-installer-4.1.4.exe) | [/downloads/jhyy-installer-4.1.4.exe](/downloads/jhyy-installer-4.1.4.exe) |
-| MSI | [jhyy-compiler-4.1.4.msi](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v4.1.4/jhyy-compiler-4.1.4.msi) | [/downloads/jhyy-compiler-4.1.4.msi](/downloads/jhyy-compiler-4.1.4.msi) |
-| VS Code 扩展 | [jhyy-lang-4.1.4.vsix](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v4.1.4/jhyy-lang-4.1.4.vsix) | [/downloads/jhyy-lang-4.1.4.vsix](/downloads/jhyy-lang-4.1.4.vsix) |
-| 校验和清单 | [SHA256.txt](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v4.1.4/SHA256.txt) | [SHA256SUMS.txt](/downloads/SHA256SUMS.txt) |
+| 安装器 | [jhyy-installer-{{site_version}}.exe](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v{{site_version}}/jhyy-installer-{{site_version}}.exe) | [/downloads/jhyy-installer-{{site_version}}.exe](/downloads/jhyy-installer-{{site_version}}.exe) |
+| MSI | [jhyy-compiler-{{site_version}}.msi](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v{{site_version}}/jhyy-compiler-{{site_version}}.msi) | [/downloads/jhyy-compiler-{{site_version}}.msi](/downloads/jhyy-compiler-{{site_version}}.msi) |
+| VS Code 扩展 | [jhyy-lang-{{site_version}}.vsix](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v{{site_version}}/jhyy-lang-{{site_version}}.vsix) | [/downloads/jhyy-lang-{{site_version}}.vsix](/downloads/jhyy-lang-{{site_version}}.vsix) |
+| 校验和清单 | [SHA256.txt](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v{{site_version}}/SHA256.txt) | [SHA256SUMS.txt](/downloads/SHA256SUMS.txt) |
 
 > [!NOTE]
 > 编译器本体 `jhyy.exe` **不是** release 资产——它由安装器装到
@@ -52,7 +52,7 @@ zone: download
 
 ## 安装器（GUI） {#installer}
 
-`jhyy-installer-4.1.4.exe`（~55 MB）是给个人用户的那一个：**WiX 4 的 Burn bundle**，
+`jhyy-installer-{{site_version}}.exe`（~55 MB）是给个人用户的那一个：**WiX 4 的 Burn bundle**，
 双击走图形向导。
 
 装上这些东西：
@@ -74,7 +74,7 @@ gcc 15.2.0 / `x86_64-w64-mingw32`，379 个文件；编译器默认就用这份�
 静默安装（脚本或批量部署用）：
 
 ```powershell
-jhyy-installer-4.1.4.exe /quiet
+jhyy-installer-{{site_version}}.exe /quiet
 ```
 
 `/passive` 是「有进度条但无交互」，两者都是 Burn 的标准开关。
@@ -88,7 +88,7 @@ jhyy-installer-4.1.4.exe /quiet
 
 ## MSI（企业分发） {#msi}
 
-`jhyy-compiler-4.1.4.msi`（~28 MB）装的东西和安装器**完全一样**——
+`jhyy-compiler-{{site_version}}.msi`（~28 MB）装的东西和安装器**完全一样**——
 同一个 WiX MSI 里打的是同一份载荷。区别只有两点：**没有 GUI 向导**，以及
 **面向自动化分发**。
 
@@ -96,7 +96,7 @@ jhyy-installer-4.1.4.exe /quiet
 「下一步」。
 
 ```powershell
-msiexec /i jhyy-compiler-4.1.4.msi /qn
+msiexec /i jhyy-compiler-{{site_version}}.msi /qn
 ```
 
 `/qn` 是 msiexec 的静默安装开关。MSI 是**每台机器安装**（per-machine）：
@@ -116,7 +116,7 @@ msiexec /i jhyy-compiler-4.1.4.msi /qn
 
 ## VS Code 扩展 {#vsix}
 
-`jhyy-lang-4.1.4.vsix`（~11 KB）是 VS Code 扩展。装了它之后：
+`jhyy-lang-{{site_version}}.vsix`（~11 KB）是 VS Code 扩展。装了它之后：
 
 - `.jhyy` 文件有语法高亮（TextMate grammar，scope `source.jhyy`）；
 - 编辑器标题栏出现 **Run JHYY File**（快捷键 `Ctrl+F5`）与 **Compile JHYY File (no run)**；
@@ -127,7 +127,7 @@ msiexec /i jhyy-compiler-4.1.4.msi /qn
 装安装器或 MSI 时会一并装上扩展。单独装：
 
 ```powershell
-code --install-extension jhyy-lang-4.1.4.vsix
+code --install-extension jhyy-lang-{{site_version}}.vsix
 ```
 
 也可以在 VS Code 里走「扩展 → 右上角 ⋯ → 从 VSIX 安装」。
@@ -152,7 +152,7 @@ winget install JiHuiYiYou.JHYY
 
 > [!WARNING]
 > **上游还没合并。** manifest 已于 2026-11-07 提交到 `microsoft/winget-pkgs`
-> （PR 在 `JiHuiYiYou/winget-pkgs` 的 `jh-4.1.4` 分支上），但上游的自动校验
+> （PR 在 `JiHuiYiYou/winget-pkgs` 的 `jh-{{site_version}}` 分支上），但上游的自动校验
 > 与 CLA 签署流程还没走完——截至写这页，`manifests/j/JiHuiYiYou/JHYY` 在上游
 > 仓库里**还不存在**。所以 `winget install` 现在大概率报「找不到包」。
 > 合并之后这条命令才会生效。

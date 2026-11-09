@@ -43,16 +43,22 @@ ABI § 1 的原话：**两个 freestanding 目标只切换「调用约定归属 
 ⇒ 真正的 UEFI / 裸机镜像**不能**用这个链接行，得自己用 lld-link
 （`/SUBSYSTEM:EFI_APPLICATION /ENTRY:efi_main`）或自定义链接行完成。
 
-### 一个实测出来的坑
+### 一个曾经实测出来的坑（v4.1.5 已修）
 
-`#[no_std]` 的链接行分支是靠一个 side-file 标志传过去的
-（`compiler/build/obj/_no_std.flag.<pid>`），而**这个路径是相对当前工作目录的**。
+`#[no_std]` 的链接行分支是靠一个 side-file 标志传过去的，而**这个标志文件的路径
+曾经相对当前工作目录**：
 
 - 在编译器仓库根目录跑 `jhyy compile ns.jhyy` ⇒ 走 no_std 链接行 ⇒ 链接成功，程序返回 42，进程退出码 42。
 - 在任何一个没有 `compiler/build/obj/` 子目录的地方跑同一条命令 ⇒ 标志文件写不出来 ⇒ **回落到托管链接行** ⇒ 链接失败（`collect2.exe: error: ld returned 5 exit status`），退出码 1。
 
 这不是设计意图，是路径相对于 CWD 的副作用。写文档的时候把它记下来，是因为它
 很容易被误读成「`#[no_std]` 编不过」。
+
+**v4.1.5 修掉了它**：side-file 改成**操作系统临时目录下的绝对路径** ⇒ 任何工作
+目录都写得出，也不再往用户源码树里扔临时文件。写侧失败现在**是响亮的**（编译器
+不再编出「特性悄悄失效」的产物）。台账 W-224 另加了一道产物级门
+`no_std_any_cwd` —— 它**换 CWD 跑**：这条 bug 对「在仓库根目录跑」的所有现有门
+本来就不可见。
 
 ---
 
@@ -65,7 +71,6 @@ ABI § 1 的原话：**两个 freestanding 目标只切换「调用约定归属 
 | **交叉目标链接** | **故意拒绝**：非 `amd64_win` 的目标不带 `--no-link` 直接报错、退出 1 |
 | **panic handler** | 语言里**没有 panic 概念**。`compiler/runtime/no_std_core/panic_handler.jhyy` 是一个 M0 stub（死循环），而且**没有接进构建** —— 链接行里没有它 |
 | **串口输出** | 仓里没有 UART / COM1 / `0x3f8` 的任何代码。`std/io.jhyy` 的注释写明「OS kernel M11 launch 后再换 syscall 实现」 |
-| **`#[naked]` 的符号落位** | 见第 5 节：函数体在 `.s` 里**没有标签** |
 | **`.bss` 清零 / 起始栈** | 没有 CRT 启动代码 ⇒ 两样都没有（见第 6 节） |
 
 这些不是「暂时没写」，是**明确登记在案**的边界。ABI § 12 的偏离表是权威清单。
@@ -81,7 +86,7 @@ ABI § 1 的原话：**两个 freestanding 目标只切换「调用约定归属 
 | `volatile T` | 可用 | 只修饰**基础类型**（修饰 struct / 指针 / 数组是编译错误）；布局与 `T` 完全一致；保证单线程内每次访问命中内存、不重排。跨线程要配 `fence_*` |
 | `asm!("...")` | 可用但受限 | 单个字符串字面量；**没有操作数约束、没有 clobber 声明**；AT&T 语法；x86-64 only。返回值语义未定义 ⇒ 惯例写在语句位置 |
 | `fence_seq_cst()` / `fence_acquire()` / `fence_release()` | 可用 | 分别发射 `mfence` / `lfence` / `sfence`；只覆盖 x86-64 |
-| `#[naked]` | 能编，但有缺口 | 见第 5 节 |
+| `#[naked]` | 可用（v4.1.5 起） | 标签与函数体同通道，首指令即 `iret`；函数**不能带参数**（带参数曾让编译器自己段错误，已修） |
 | `defer` | 可用 | 只覆盖**显式 `return`** 路径；函数体末表达式的**隐式返回不触发** defer |
 
 实测产物（`volatile` + `asm!` + `fence` 一起用）：
@@ -99,12 +104,13 @@ mfence                 # fence_seq_cst() —— 内联在调用点
 
 ---
 
-## 5. `#[naked]`：能编，但符号落位目前不对
+## 5. `#[naked]`：标签与函数体曾经走两条通道（v4.1.5 已修）
 
 `#[naked]` 的契约：无 prologue / epilogue，完全控制寄存器与栈；函数体**只能**含
 `asm!(...)` 语句（局部变量 / 控制流 / `return` 是编译错误）。
 
-实测 `jhyy build` 出来的 `.s`：
+**v4.1.4 及以前**：标签走旁路文件、函数体走 IL 顶层 ⇒ 两者永不相遇。实测
+`jhyy build` 出来的 `.s`：
 
 ```asm
 pushq %r15
@@ -119,9 +125,18 @@ main_jhyy:
 `irq_entry:` 这个标签**没有出现** —— 函数体以**文件作用域**的形式落在 `.text`
 之前。链接后的 exe 里 `<irq_entry>` 指向的是一段对齐填充（`nop`），不是函数体。
 
-⇒ 结论：`#[naked]` 目前能编译，但**裸中断入口还不能真正被调用**。
-回归用例 `compiler/tests/examples/naked_interrupt_entry.jhyy` 只断言进程退出码 0
+⇒ 那时 `#[naked]` 能编译，但**裸中断入口调不通**。回归用例
+`compiler/tests/examples/naked_interrupt_entry.jhyy` 只断言进程退出码 0
 —— harness 看不到符号落位，所以这一条没被门挡住。
+
+**v4.1.5 起**：naked 的**两头合到同一条通道**（函数体也走旁路文件）⇒ 首指令
+就是 `iret`。台账 W-223 登记的那道产物级门 `naked_symbol` 原本是 KNOWN-FAIL，
+这一版**删掉 KNOWN_FAIL 里那一行** ⇒ 自动升级成真门。
+
+同版还修了另一条同源的问题：**带参数的 `#[naked]` 函数会让编译器自己段错误**
+（naked 的 IR 是空的，而 codegen 照常 emit 参数搬运，那些指令变成顶层指令，
+把 IL 弄坏）。现在 naked 函数不再登记参数、不 emit sret 搬运 —— 语义上也对：
+naked 没有 prologue，参数按 ABI 约定留在寄存器里。
 
 ---
 
@@ -175,7 +190,7 @@ efi_main:
 | `volatile` 访问 MMIO | **可用**（实测：真的走内存读写） |
 | 内联 `asm!` | **可用**，受限于单字符串字面量 |
 | 内存屏障 | **可用**（`mfence` / `lfence` / `sfence` 内联在调用点） |
-| `#[naked]` 中断入口 | **不可用**（符号落位不对） |
+| `#[naked]` 中断入口 | **可用**（v4.1.5 起：标签与函数体同通道，首指令即 `iret`） |
 | panic / 断言 / 栈回溯 | **未实装** |
 | 串口 / UART 输出 | **未实装** |
 | 中断控制器 / IDT / 页面表 | **未实装** |

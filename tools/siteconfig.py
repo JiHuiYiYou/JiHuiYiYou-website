@@ -11,8 +11,8 @@ from __future__ import annotations
 
 # ── 版本闸门 ────────────────────────────────────────────────────────────────
 
-SITE_VERSION = "4.1.4"
-SITE_VERSION_DATE = "2026-11-07"
+SITE_VERSION = "4.1.5"
+SITE_VERSION_DATE = "2026-11-09"
 SPEC_VERSION = "4.0.0"
 # 规范文档头部原文是「随 v4.0.0 final promote 一同锁版」——**没有写具体日期**。
 # 编译器 README 写的是 "(locked 2026-10-24)"，但那个日期在规范文档里的实际含义是

@@ -193,24 +193,31 @@ FACT_LINT_SCOPE = [
     "content/en/vex/index.md",
 ]
 
-# 特征字面量 → 对应的占位符键（键只用于报错文案，不参与替换）。
-LITERAL_FACTS = {
-    "4.1.4": "site_version",
-    "4.0.0": "spec_version / abi_version",
-    "1.0.0": "binary_format_version",
-    "0.2.1": "ide_version",
-    "279": "regress_pass",
-    "299": "regress_total",
-    "217": "workarounds_total",
-    "215": "assertions",
-    "277": "ide_gate_pass",
-    "20 SKIP": "regress_skip",
-    "8 个模块": "stdlib_modules",
-    "20 道": "artifact_checks",
-    "20 PASS": "artifact_checks",
-    "19 PASS": "artifact_checks",
-    "19 道": "artifact_checks",
-}
+# 事实字面量 —— **从 siteconfig.FACTS 派生**，这里只声明「哪个事实 +
+# 它在正文里长什么样」。
+#
+# ⚠️ 上一版这里写死了一串字面量（"4.1.4" / "279" / "299" …）⇒ 编译器仓把版本
+# 刷到 4.1.5、回归数改成 281 之后，这张表**只抓得到旧数字、抓不到新数字** ——
+# 等于放了几个月的空门。手写的清单必然随版本漂，值必须现算。
+#
+# 后缀是上下文：裸数字（"20"、"8"）在正文里太常见，只按「数字 + 后缀」匹配。
+LITERAL_FACT_PATTERNS = [
+    # (事实键, 正文里的后缀)
+    ("site_version", ""),
+    ("spec_version", ""),
+    ("abi_version", ""),
+    ("binary_format_version", ""),
+    ("ide_version", ""),
+    ("regress_pass", " PASS"),
+    ("regress_skip", " SKIP"),
+    ("regress_total", " 条"),
+    ("assertions", " 条"),
+    ("artifact_checks", " 道"),
+    ("artifact_checks", " PASS"),
+    ("workarounds_total", " 条"),
+    ("ide_gate_pass", "/"),
+    ("stdlib_modules", " 个模块"),
+]
 
 # ── 路由工具 ──────────────────────────────────────────────────────────────
 # route = 去掉语言段与后缀后的相对路径。

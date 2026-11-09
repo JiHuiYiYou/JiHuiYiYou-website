@@ -42,7 +42,7 @@
       <div class="nav-cta-group">
         <a href="https://github.com/JiHuiYiYou" class="nav-icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
         <a href="compiler/download/index.html" class="nav-cta magnetic" data-magnetic>
-          <span>下载 v4.1.4</span>
+          <span>下载 v4.1.5</span>
           <span class="btn-icon-wrap"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 L17 7 M9 7 L17 7 L17 15"/></svg></span>
         </a>
       </div>
@@ -73,7 +73,7 @@
 
       <div class="cta-row reveal" data-reveal-delay="900">
         <a href="compiler/download/" class="btn-primary magnetic" data-magnetic>
-          <span class="btn-label">下载编译器 v4.1.4</span>
+          <span class="btn-label">下载编译器 v4.1.5</span>
           <span class="btn-icon-wrap">
             <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
@@ -97,8 +97,8 @@
     <div class="container version-gate-inner">
       <div class="vg-item vg-strong">
         <span class="vg-k">编译器</span>
-        <span class="vg-v">v4.1.4</span>
-        <span class="vg-d">2026-11-07</span>
+        <span class="vg-v">v4.1.5</span>
+        <span class="vg-d">2026-11-09</span>
       </div>
       <span class="vg-div" aria-hidden="true"></span>
       <div class="vg-item">
@@ -146,7 +146,7 @@
             <div class="bezel-inner">
               <div class="card-head">
                 <span class="card-num">01</span>
-                <span class="card-tag">稳定 · <span class="card-tag-ver">v4.1.4</span></span>
+                <span class="card-tag">稳定 · <span class="card-tag-ver">v4.1.5</span></span>
               </div>
               <h3 class="card-title">JHYY 编译器</h3>
               <p class="card-body">
@@ -285,7 +285,7 @@
         <div class="fg-link" aria-hidden="true"></div>
 
         <div class="fg-row fg-core">
-          <span class="fg-chip fg-chip--core">编译器 v4.1.4</span>
+          <span class="fg-chip fg-chip--core">编译器 v4.1.5</span>
         </div>
 
         <div class="fg-link" aria-hidden="true"></div>
@@ -325,20 +325,19 @@
         </div>
         <h2 class="section-title">
           <span class="reveal-line"><span class="line-inner">这一版修的，</span></span>
-          <span class="reveal-line"><span class="line-inner">是四类「静默算错」。</span></span>
+          <span class="reveal-line"><span class="line-inner">是三个真 bug。</span></span>
         </h2>
       </header>
 
       <div class="change-grid">
         <div class="change-col reveal">
-          <h3 class="change-h">最近变化 · v4.1.4</h3>
+          <h3 class="change-h">最近变化 · v4.1.5</h3>
           <ul class="change-list">
-            <li>超过 16 个参数的调用会被静默丢弃 —— 20 个参数的求和返回 117 而不是 210。</li>
-            <li>SysV 栈传参会覆盖调用者自己的局部变量。</li>
-            <li>浮点栈传参会破坏 callee-saved 的 <code>%xmm15</code>。</li>
-            <li>带标识符端点的范围模式会静默匹配一切。</li>
+            <li><code>std::arena</code> 的 <code>arena_reset</code> 把可用窗口按默认块大小算 —— 复位后的分配能写穿块尾、踩坏堆（实测退出码 <code>0xC0000405</code>）。</li>
+            <li><code>#[naked]</code> 函数的标签与函数体走在两条通道上 —— 产物里的首指令是一串 <code>nop</code> 而不是 <code>iret</code>，裸中断入口调不通。</li>
+            <li>side-file 的路径相对当前工作目录 —— 在自己项目目录里编译，<code>#[no_std]</code> 会回落到托管链接行，然后链接失败。</li>
           </ul>
-          <p class="change-more">同版还修了：路径缓冲区改为按字节有界、stderr 管道不再死锁、用户程序的 stderr 不再被吞掉、深层嵌套表达式改为报错而不是栈溢出。</p>
+          <p class="change-more">同版还修了：<code>#[naked]</code> 函数带参数会让编译器自己段错误；<code>std::arena</code> 此前零测试覆盖 —— 新增两个回归用例，另加一道产物级门 <code>no_std_any_cwd</code>，<code>naked_symbol</code> 从 KNOWN-FAIL 升级成真门。</p>
           <a class="change-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">完整变更日志 ↗</a>
         </div>
 
@@ -420,7 +419,7 @@
         <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
         <div class="foot-status">
           <span class="status-led"></span>
-          <span>v4.1.4 · spec v4.0.0 · main</span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
         </div>
       </div>
     </div>

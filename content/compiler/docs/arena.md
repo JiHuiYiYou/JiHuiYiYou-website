@@ -154,8 +154,8 @@ fn main_jhyy() -> i32 {
 **4096 那块**的地址，不是第一次那块。更早的块仍然挂在链表上（`arena_free` 时
 才会一起释放），但 reset 之后不会再分配到它们。
 
-**二、reset 之后的可用窗口按 `def_size` 算，但那块内存不一定真有这么大。**
-`arena_reset` 把 `end` 设成 `start + def_size`，而实际块大小是「请求 + 对齐量」。
+**二、reset 之后的可用窗口曾经按 `def_size` 算 —— v4.1.5 已修。**
+`arena_reset` 曾经把 `end` 设成 `start + def_size`，而实际块大小是「请求 + 对齐量」。
 `def_size` 更大时，arena 会「以为」自己有一大块可用。
 
 实测后果（`arena_init(&a, 65536)` → `alloc(8)` → `reset` → `alloc(4096)` → 写满
@@ -165,14 +165,22 @@ fn main_jhyy() -> i32 {
 **触发区间是确定的**：分配尺寸落在 `(真实块大小, def_size]` 之间就会越界，
 两端反而安全——所以这个坑很容易漏掉。
 
-| 场景（`arena_init(&a, 1024)` → `alloc(8)` → `reset` → 分配 N 并写满 N 字节） | 结果 |
+| 场景（`arena_init(&a, 1024)` → `alloc(8)` → `reset` → 分配 N 并写满 N 字节） | v4.1.4 及以前的结果 |
 |---|---|
 | N = 16 / 32 / 64 | 通过（真实块 16 B + 堆余量够用） |
 | N = 128 / 256 / 500 / 1000 / 1024 | **越界 —— 段错误 / HEAP_CORRUPTION** |
 | N = 2000 | 通过（超过 `def_size`，走新建块路径） |
 | 同样程序**去掉** `reset` | 全部通过 |
 
-这条目前**不在问题台账里**，源码侧也还没有对应条目。
+**v4.1.5 的修法**：块大小改成 `max(def_size, 请求大小)`，并**记进块头**
+（`payload_size`）⇒ `arena_reset` 从块头读回真实大小，不再越界。台账 W-222。
+
+同版还补上了这块的**测试覆盖**：`std::arena` 此前**零测试覆盖** ——
+`compiler/tests/examples/arena_reset.jhyy` 是 inline 副本，而且实现更简单
+（只重置 `cur`、不碰 `end`）⇒ 真身从没被测过。现在有
+`compiler/tests/examples/std_arena_reset/std_arena_reset.jhyy`，
+它**必须**待在「没有本地 `arena.jhyy`」的目录里，否则 `import arena;`
+会命中那份副本。
 
 ### 5.2 安全用法
 

@@ -37,7 +37,7 @@
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
           <span>搜索文档</span><kbd>/</kbd>
         </button>
-        <span class="doc-version" title="最新稳定版">v4.1.4</span>
+        <span class="doc-version" title="最新稳定版">v4.1.5</span>
         <div class="lang-switch" role="navigation" aria-label="语言"><a class="lang-opt is-active" href="../../compiler/governance/index.html" hreflang="zh" aria-current="true">中文</a><a class="lang-opt" href="../../en/index.html" hreflang="en">English</a></div>
         <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
       </div>
@@ -102,7 +102,7 @@ python scripts/dev/bump_version.py check       # 零漂移门
 <p>下载页上标的 <code>stable</code> / <code>beta</code> 是<strong>目标成熟度</strong>（某个 target 三元组到哪一步了）， 不是发布通道。</p>
 <hr />
 <h2 id="契约版本与工具链版本是两件事">契约版本与工具链版本是两件事</h2>
-<div class="table-wrap"><table class="ref-table"><thead><tr><th></th><th>契约</th><th>工具链</th></tr></thead><tbody><tr><td>是什么</td><td>语言规范 / ABI / 二进制格式</td><td>编译器 + 标准库 + 安装器</td></tr><tr><td>版本</td><td>语言规范 v4.0.0 · ABI v4.0.0 · 二进制格式 v1.0.0（<strong>设计稿，未实装</strong>）</td><td>v4.1.4（2026-11-07）</td></tr><tr><td>什么时候变</td><td>改语义才动</td><td>缺陷修复天天动</td></tr></tbody></table></div>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th></th><th>契约</th><th>工具链</th></tr></thead><tbody><tr><td>是什么</td><td>语言规范 / ABI / 二进制格式</td><td>编译器 + 标准库 + 安装器</td></tr><tr><td>版本</td><td>语言规范 v4.0.0 · ABI v4.0.0 · 二进制格式 v1.0.0（<strong>设计稿，未实装</strong>）</td><td>v4.1.5（2026-11-09）</td></tr><tr><td>什么时候变</td><td>改语义才动</td><td>缺陷修复天天动</td></tr></tbody></table></div>
 <p>语言规范 v4.0.0 与 ABI v4.0.0 是 v4 世代的契约基线，规范文档头部标注的锁版日是 <strong>2026-10-24</strong>——那一天 <code>jhyy-lang-spec-v1.3.0.md</code> 及其 17 份 v3.x supplement 一并归档进 git 历史，因为它们互相矛盾：v1.3.0 文档化过从未实装的块表达式， 也文档化过会静默算错的字面量。</p>
 <p><strong>为什么这样切</strong>：契约改一次，编译器、已经在写的用户代码、OS 线、IDE 的块语法 全都要跟着动。所以契约用独立的版本号，改契约发一个契约版本；工具链的 patch 位 只装不改变语义的东西。v4.1.4 修的那一批——第 16 个之后的实参被丢弃、SysV 栈实参 覆盖调用者的局部变量、浮点栈实参路径踩坏 callee-saved 的 <code>%xmm15</code>——全是实现缺陷， 不动语义，所以只涨 patch。</p>
 <p>规范正文还有一条写法纪律：<strong>只写当前代码确实已实装的行为</strong>，未实装或受限的 统一收进附录 B。于是「契约页」写的是承诺，「工具链版本」写的是承诺兑现到哪一步 ——两件事，两个版本号。</p>
@@ -185,7 +185,7 @@ python scripts/dev/bump_version.py check       # 零漂移门
         <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
         <div class="foot-status">
           <span class="status-led"></span>
-          <span>v4.1.4 · spec v4.0.0 · main</span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
         </div>
       </div>
     </div>

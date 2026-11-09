@@ -75,7 +75,7 @@ sha256sum -c SHA256.txt
 只核对其中一个文件：
 
 ```bash
-sha256sum jhyy-installer-4.1.4.exe
+sha256sum jhyy-installer-{{site_version}}.exe
 ```
 
 把输出的哈希和 `SHA256.txt` 里那一行比对即可（文件里的哈希是小写）。
@@ -99,7 +99,7 @@ Get-Content .\SHA256.txt | ForEach-Object {
 单个文件：
 
 ```powershell
-Get-FileHash -Algorithm SHA256 .\jhyy-installer-4.1.4.exe
+Get-FileHash -Algorithm SHA256 .\jhyy-installer-{{site_version}}.exe
 ```
 
 `Get-FileHash` 输出的是**大写**十六进制，`SHA256.txt` 里是**小写**——比对时
@@ -136,7 +136,7 @@ Get-FileHash -Algorithm SHA256 .\jhyy-installer-4.1.4.exe
 `jhyy --help` 的**第一行**就是版本横幅：
 
 ```text
-jhyy compiler v4.1.4 (self-hosted)
+jhyy compiler v{{site_version}} (self-hosted)
 ```
 
 不带参数直接跑 `jhyy` 打的是同一份帮助文本。

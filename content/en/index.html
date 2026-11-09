@@ -283,8 +283,8 @@ search: false
           <span class="eyebrow-text">03 / What changed · What isn't done</span>
         </div>
         <h2 class="section-title">
-          <span class="reveal-line"><span class="line-inner">This release fixed four kinds</span></span>
-          <span class="reveal-line"><span class="line-inner">of silently wrong answers.</span></span>
+          <span class="reveal-line"><span class="line-inner">This release fixed</span></span>
+          <span class="reveal-line"><span class="line-inner">three real bugs.</span></span>
         </h2>
       </header>
 
@@ -292,12 +292,11 @@ search: false
         <div class="change-col reveal">
           <h3 class="change-h">What changed · v{{site_version}}</h3>
           <ul class="change-list">
-            <li>Calls with more than 16 arguments silently dropped arguments — a 20-argument sum returned 117 instead of 210.</li>
-            <li>SysV stack arguments overwrote the caller's own locals.</li>
-            <li>Floating-point stack arguments clobbered the callee-saved <code>%xmm15</code>.</li>
-            <li>A range pattern with identifier endpoints silently matched everything.</li>
+            <li><code>std::arena</code>'s <code>arena_reset</code> sized the free window by the default block size — an allocation after a reset could write past the real block and corrupt the heap (measured exit code <code>0xC0000405</code>).</li>
+            <li>A <code>#[naked]</code> function's label and body travelled on two different channels — the first instruction of the artifact was a run of <code>nop</code> instead of <code>iret</code>, so a bare interrupt entry could not be called.</li>
+            <li>The side-file path was relative to the current working directory — compiling inside your own project directory made <code>#[no_std]</code> fall back to the hosted link line, and the link failed.</li>
           </ul>
-          <p class="change-more">The same release also bounds path buffers byte-wise, stops the stderr pipe from deadlocking, stops swallowing a user program's stderr, and rejects deeply nested expressions with an error instead of overflowing the stack.</p>
+          <p class="change-more">The same release also fixed a <code>#[naked]</code> function with parameters segfaulting the compiler itself, and the fact that <code>std::arena</code> had zero test coverage — two regression cases were added, plus a new artifact check <code>no_std_any_cwd</code>; <code>naked_symbol</code> was promoted from KNOWN-FAIL to a real gate.</p>
           <a class="change-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Full changelog ↗</a>
         </div>
 

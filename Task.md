@@ -41,29 +41,28 @@
 
 ---
 
-## 等 v4.1.5 发布后（编译器仓在关的尾）
+## 编译器每次发版后要做的事（常备）
 
-### 5. 刷版本号与状态数字
+> 事实门（`tools/check_facts.py`）会在编译器仓发版后**当场变红** —— 它比编译器仓
+> 的 main 慢一步的那一次，就是官网还没跟上的证据。
 
-- **要做什么**：`tools/siteconfig.py` 的 `SITE_VERSION` / `SITE_VERSION_DATE`；
-  回归数、台账数走 `FACTS`（改一处即可）。
-- **归属**：官网仓（`tools/siteconfig.py`）。
-- **判据**：`python tools/check_facts.py` 全绿 —— 它会**先红**，那正是它的用处。
+### 5. 刷版本、镜像产物、改掉「已修却仍写成缺口」的表述
 
-### 6. 更新三条已修限制的表述
-
-- **要做什么**：`content/compiler/docs/osdev.md` 仍写「`#[naked]` 的符号落位不对，
-  裸中断入口不可用」（台账 W-223）、`content/compiler/docs/arena.md` 仍写
-  「`arena_reset` 把 `end` 设成 `start + def_size`」（W-222）、`osdev.md` 里
-  `#[no_std]` 侧文件那段的表述（W-124）—— 这三条在 v4.1.5 已 RESOLVED，
-  站点跟着版本走 ⇒ 必须改成已修状态。
-- **归属**：官网仓（`content/compiler/docs/**`）。
-- **判据**：三条表述与编译器仓台账状态一致（台账是唯一真相源），
-  数字全部走 `{{key}}` 占位符。
-
-> 这三条是复核编译器仓 `docs/internal/workarounds.md` 时发现的：台账早已 RESOLVED，
-> 官网仍当现存限制在讲。**结论：「缺口清单」这类会变的东西不能手抄进官网文档**，
-> 每次对着台账核 —— 抄一次就开始漂。
+- **要做什么**（每次发版照这个单子走）：
+  1. `tools/siteconfig.py` 的 `SITE_VERSION` / `SITE_VERSION_DATE` ——
+     事实门会直接报出差哪两条；回归数、台账数走 `FACTS`（改一处即可）；
+  2. 把三件产物镜像到 `downloads/`，`SHA256SUMS.txt` 与线上 `SHA256.txt`
+     **逐字节相同**（用 GitHub API 的 digest 对拍，别只信文件名）；
+  3. 首页与编译器落地页的「最近变化」改成新版本那一条；
+  4. **把新版本修好的限制从文档层改掉** —— 别再把已修的东西写成缺口
+     （v4.1.5 之前，官网把 `#[naked]` 的标签落位、`arena_reset` 的越界、
+     `#[no_std]` 的 side-file 路径三处**已修**的东西当成现存限制在讲）；
+  5. 仓库 `README.md` 里的版本串。
+- **归属**：官网仓。
+- **判据**：`python tools/check_facts.py` 全绿；三个产物的 sha256 与
+  GitHub Releases 的 digest 一致；全仓搜旧版本号只剩**历史事实**与占位符。
+- **顺带**：版本耦合的位置（下载页的文件名与 URL、校验页的命令、参考页的版本句）
+  已改成 `{{site_version}}` 占位符 ⇒ 下次发版这几页不用再动。
 
 ---
 

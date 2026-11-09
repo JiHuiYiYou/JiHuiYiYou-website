@@ -3,7 +3,7 @@
 
 | 规则 | 级别 | 为什么是这个级别 |
 |---|---|---|
-| **字面量事实**：正文里手写了「4.1.4 / 279 / 299」这类特征数字 | 错误 | 这些数字在本站没有别的含义 ⇒ 误报率≈0 ⇒ 可以当硬错误。**这是保证「两种语言不可能对不上数字」的主力机制** |
+| **字面量事实**：正文里手写了「当前版本号 / 回归数」这类特征值 | 错误 | 这些值在本站没有别的含义 ⇒ 误报率≈0 ⇒ 可以当硬错误。**这是保证「两种语言不可能对不上数字」的主力机制**（值从 `siteconfig.FACTS` 现算 —— 手写的清单会随版本漂） |
 | **英文页里出现中文** | 错误 | 「翻译没做完」的唯一可靠信号，误报≈0（代码块 / 行内代码 / HTML 属性 / 注释除外） |
 | **术语说法不一致** | 警告 | 中文页合法地用英文技术词（arena / no_std）⇒ 一刀切会误报 |
 
@@ -22,6 +22,7 @@ CONTENT = ROOT / "content"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import i18n as I18N  # noqa: E402
+import siteconfig  # noqa: E402
 
 # CJK 汉字 + CJK 标点 + 全角形式（不含日文假名以外的非汉字字符）
 CJK = re.compile(r"[⺀-鿿豈-﫿＀-￯]")
@@ -67,16 +68,32 @@ def literal_pattern(lit: str) -> re.Pattern:
     return re.compile(r"(?<![\d.])(?:" + re.escape(lit) + r")(?![\d.])")
 
 
+def literal_facts() -> dict[str, str]:
+    """事实字面量 → 占位符键。**值从 siteconfig.FACTS 现算**。
+
+    手写这张表会随版本漂 —— 上一版写死了 "4.1.4 / 279 / 299"，
+    编译器仓把版本刷到 4.1.5、回归数改成 281 之后，它只抓得到旧数字。
+    """
+    out: dict[str, str] = {}
+    for key, suffix in I18N.LITERAL_FACT_PATTERNS:
+        value = siteconfig.FACTS.get(key)
+        if value is None:
+            continue
+        out[f"{value}{suffix}"] = key
+    return out
+
+
 def check_literal_facts() -> list[str]:
     """正文里不该手写事实 —— 要写 {{key}}。"""
     problems: list[str] = []
+    facts = literal_facts()
     for rel in I18N.FACT_LINT_SCOPE:
         path = ROOT / rel
         if not path.exists():
             continue  # 还没写的页面 —— 孪生页门管这个
         text = path.read_text(encoding="utf-8")
         spans = code_spans(text)
-        for lit, key in I18N.LITERAL_FACTS.items():
+        for lit, key in facts.items():
             for m in literal_pattern(lit).finditer(text):
                 if in_spans(m.start(), spans):
                     continue

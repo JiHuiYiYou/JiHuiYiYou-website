@@ -124,8 +124,9 @@ zone: docs
 ```
 
 取值表在 `tools/siteconfig.py` 的 `FACTS`（**唯一副本**，机制见 `ARCHITECTURE.md` §4.2）。
-`tools/check_i18n.py` 会把正文里手写的特征数字（`4.1.4` / `279` / `299` …）
-当**错误**报出来；`tools/check_facts.py` 负责跟编译器仓那份真相对拍。
+`tools/check_i18n.py` 会把正文里手写的特征值（当前版本号、回归数、门数……
+**取值从 `siteconfig.FACTS` 现算**，不手写）当**错误**报出来；
+`tools/check_facts.py` 负责跟编译器仓那份真相对拍。
 
 常用键：`site_version` `site_version_date` `spec_version` `abi_version`
 `binary_format_version` `ide_version` `regress_total` `regress_pass`

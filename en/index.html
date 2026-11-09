@@ -42,7 +42,7 @@
       <div class="nav-cta-group">
         <a href="https://github.com/JiHuiYiYou" class="nav-icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
         <a href="../compiler/download/index.html" class="nav-cta magnetic" data-magnetic>
-          <span>Download v4.1.4</span>
+          <span>Download v4.1.5</span>
           <span class="btn-icon-wrap"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 L17 7 M9 7 L17 7 L17 15"/></svg></span>
         </a>
       </div>
@@ -73,7 +73,7 @@
 
       <div class="cta-row reveal" data-reveal-delay="900">
         <a href="../compiler/download/" class="btn-primary magnetic" data-magnetic title="Chinese only">
-          <span class="btn-label">Download v4.1.4</span>
+          <span class="btn-label">Download v4.1.5</span>
           <span class="btn-icon-wrap">
             <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" />
@@ -97,8 +97,8 @@
     <div class="container version-gate-inner">
       <div class="vg-item vg-strong">
         <span class="vg-k">Compiler</span>
-        <span class="vg-v">v4.1.4</span>
-        <span class="vg-d">2026-11-07</span>
+        <span class="vg-v">v4.1.5</span>
+        <span class="vg-d">2026-11-09</span>
       </div>
       <span class="vg-div" aria-hidden="true"></span>
       <div class="vg-item">
@@ -146,7 +146,7 @@
             <div class="bezel-inner">
               <div class="card-head">
                 <span class="card-num">01</span>
-                <span class="card-tag">Stable · <span class="card-tag-ver">v4.1.4</span></span>
+                <span class="card-tag">Stable · <span class="card-tag-ver">v4.1.5</span></span>
               </div>
               <h3 class="card-title">JHYY Compiler</h3>
               <p class="card-body">
@@ -286,7 +286,7 @@
         <div class="fg-link" aria-hidden="true"></div>
 
         <div class="fg-row fg-core">
-          <span class="fg-chip fg-chip--core">Compiler v4.1.4</span>
+          <span class="fg-chip fg-chip--core">Compiler v4.1.5</span>
         </div>
 
         <div class="fg-link" aria-hidden="true"></div>
@@ -325,21 +325,20 @@
           <span class="eyebrow-text">03 / What changed · What isn't done</span>
         </div>
         <h2 class="section-title">
-          <span class="reveal-line"><span class="line-inner">This release fixed four kinds</span></span>
-          <span class="reveal-line"><span class="line-inner">of silently wrong answers.</span></span>
+          <span class="reveal-line"><span class="line-inner">This release fixed</span></span>
+          <span class="reveal-line"><span class="line-inner">three real bugs.</span></span>
         </h2>
       </header>
 
       <div class="change-grid">
         <div class="change-col reveal">
-          <h3 class="change-h">What changed · v4.1.4</h3>
+          <h3 class="change-h">What changed · v4.1.5</h3>
           <ul class="change-list">
-            <li>Calls with more than 16 arguments silently dropped arguments — a 20-argument sum returned 117 instead of 210.</li>
-            <li>SysV stack arguments overwrote the caller's own locals.</li>
-            <li>Floating-point stack arguments clobbered the callee-saved <code>%xmm15</code>.</li>
-            <li>A range pattern with identifier endpoints silently matched everything.</li>
+            <li><code>std::arena</code>'s <code>arena_reset</code> sized the free window by the default block size — an allocation after a reset could write past the real block and corrupt the heap (measured exit code <code>0xC0000405</code>).</li>
+            <li>A <code>#[naked]</code> function's label and body travelled on two different channels — the first instruction of the artifact was a run of <code>nop</code> instead of <code>iret</code>, so a bare interrupt entry could not be called.</li>
+            <li>The side-file path was relative to the current working directory — compiling inside your own project directory made <code>#[no_std]</code> fall back to the hosted link line, and the link failed.</li>
           </ul>
-          <p class="change-more">The same release also bounds path buffers byte-wise, stops the stderr pipe from deadlocking, stops swallowing a user program's stderr, and rejects deeply nested expressions with an error instead of overflowing the stack.</p>
+          <p class="change-more">The same release also fixed a <code>#[naked]</code> function with parameters segfaulting the compiler itself, and the fact that <code>std::arena</code> had zero test coverage — two regression cases were added, plus a new artifact check <code>no_std_any_cwd</code>; <code>naked_symbol</code> was promoted from KNOWN-FAIL to a real gate.</p>
           <a class="change-link" href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Full changelog ↗</a>
         </div>
 
@@ -421,7 +420,7 @@
         <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
         <div class="foot-status">
           <span class="status-led"></span>
-          <span>v4.1.4 · spec v4.0.0 · main</span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
         </div>
       </div>
     </div>

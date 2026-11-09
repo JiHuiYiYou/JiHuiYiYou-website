@@ -8,7 +8,7 @@
 
 | 项目 | 状态 | 说明 |
 |---|---|---|
-| [JHYY 编译器](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler) | v4.1.4 · 稳定 | 自举的系统编程语言编译器。编译器唯一实现是 JHYY 自己，后端是自研 amd64 发射器 |
+| [JHYY 编译器](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler) | v4.1.5 · 稳定 | 自举的系统编程语言编译器。编译器唯一实现是 JHYY 自己，后端是自研 amd64 发射器 |
 | [JHYY IDE](https://github.com/JiHuiYiYou/JiHuiYiYou-IDE) | v0.2.1 | 拖块编程与文本编辑共享同一棵 AST 的桌面工作台 |
 | [JiHuiYiYou-OS](https://github.com/JiHuiYiYou/JiHuiYiYou-OS) | 孵化中 | 用这门语言写的 microkernel；当前只有 UEFI x64 引导 spike |
 | [JiHuiYiYou-for-VEX](https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX) | Day 0 完成 | 让 JHYY 直出 ARM 机器码，链官方 SDK 跑在 VEX V5 Brain 上 |
@@ -66,7 +66,7 @@ content/          内容源（Markdown + 少量 HTML 片段）
 tools/            生成器、Markdown 渲染器、站点配置、写作规约
 assets/css/       main.css（门脸层）/ docs.css（文档层）
 assets/js/        main.js（门脸层动效）/ docs.js（文档层搜索）
-downloads/        v4.1.4 发行件镜像 + SHA256SUMS.txt
+downloads/        v4.1.5 发行件镜像 + SHA256SUMS.txt
 ```
 
 ## License
