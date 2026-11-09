@@ -612,7 +612,6 @@ code, pre { font-family: var(--f-mono); }
   margin: 0 auto;
 }
 .hero-inner > * { width: 100%; }
-.hero-inner .hero-code { max-width: 720px; }
 
 /* Big hero icon — Double-Bezel with rotating halo */
 .hero-icon {
@@ -771,7 +770,6 @@ code, pre { font-family: var(--f-mono); }
 /* ============================================================
    Code Window (Double-Bezel)
    ============================================================ */
-.hero-code { position: relative; z-index: 2; }
 
 .code-shell {
   position: relative;

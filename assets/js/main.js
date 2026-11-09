@@ -392,28 +392,7 @@
     });
   });
 
-  // ---- 12. Hero code typewriter (one-shot) -------------------
-  const heroCode = document.getElementById('heroCode');
-  if (heroCode) {
-    const src = heroCode.dataset.src || '';
-    if (src) {
-      if (REDUCED) {
-        // 减少动态效果：直接给全文，不逐字写
-        heroCode.textContent = src;
-      } else {
-        heroCode.textContent = '';
-        let i = 0;
-        const type = () => {
-          if (i >= src.length) return;
-          heroCode.textContent = src.slice(0, i + 1);
-          i++;
-          const ch = src[i - 1];
-          const delay = ch === '\n' ? 60 : (ch === ' ' ? 12 : 18);
-          setTimeout(type, delay);
-        };
-        // Start after a short delay so reveal completes first
-        setTimeout(type, 900);
-      }
-    }
-  }
+  // 12. Hero 代码打字机 —— **已删**：hero 不再放代码窗口（DESIGN.md §3.5），
+  //    代码只在「一点语言的样子」那一屏（showcase）里出现。
+  //    留着一个找不到 #heroCode 的打字机，就是等着被下一个人当成活的。
 })();

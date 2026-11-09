@@ -1356,7 +1356,7 @@
   "lang": "zh",
   "title": "JHYY 编译器",
   "desc": "自举的系统编程语言编译器。编译器唯一的实现是 JHYY 自己，后端是自研的 amd64 发射器 —— 没有 LLVM，也没有 vendor 进来的 QBE。",
-  "text": " 一门 能 编译自己 的语言。 — 一门静态类型、面向表达式的系统编程语言。 编译器用这门语言自己写 ： compiler/src0/*.jhyy 是唯一的实现，后端是自研的 amd64 发射器——没有 LLVM，没有 vendor 进来的 QBE，也没有垃圾回收器。当前版本 v4.1.5 。 开始使用 读规范 Stage 2 逐字节闭环 MIT 许可 x86-64 &nbsp;·&nbsp; Windows hello.jhyy v4.1.5 i32 { let dx = a.x - b.x; let dy = a.y - b.y; dx * dx + dy * dy }\"> $ jhyy run hello.jhyy d² = 25 向下滚动 静态类型 ◆ 面向表达式 ◆ 编译为本地代码 ◆ 无垃圾回收 ◆ 一等 C FFI ◆ 穷尽式模式匹配 ◆ 静态类型 ◆ 面向表达式 ◆ 编译为本地代码 ◆ 无垃圾回收 ◆ 一等 C FFI ◆ 穷尽式模式匹配 ◆ 01 / 为什么是 JHYY 一门语言， 不是一个框架。 四条不让步的立场。每条都是一个小而具体的承诺，不是营销口号。 01 类型系统 静态，不是渐进。 类型在编译期检查。没有 any ，没有隐式转换，没有逃生口。值一旦是 i32 ，在程序余下部分它就是 i32 。 type Point = struct { x: i32 ,",
+  "text": " 一门 能 编译自己 的语言。 — 一门静态类型、面向表达式的系统编程语言。 编译器用这门语言自己写 ： compiler/src0/*.jhyy 是唯一的实现，后端是自研的 amd64 发射器——没有 LLVM，没有 vendor 进来的 QBE，也没有垃圾回收器。当前版本 v4.1.5 。 开始使用 读规范 Stage 2 逐字节闭环 MIT 许可 x86-64 &nbsp;·&nbsp; Windows 向下滚动 静态类型 ◆ 面向表达式 ◆ 编译为本地代码 ◆ 无垃圾回收 ◆ 一等 C FFI ◆ 穷尽式模式匹配 ◆ 静态类型 ◆ 面向表达式 ◆ 编译为本地代码 ◆ 无垃圾回收 ◆ 一等 C FFI ◆ 穷尽式模式匹配 ◆ 01 / 为什么是 JHYY 一门语言， 不是一个框架。 四条不让步的立场。每条都是一个小而具体的承诺，不是营销口号。 01 类型系统 静态，不是渐进。 类型在编译期检查。没有 any ，没有隐式转换，没有逃生口。值一旦是 i32 ，在程序余下部分它就是 i32 。 any 不存在 隐式转换 没有 逃逸口 没有 02 控制流 表达式，不是语句。 if 、 match 和块都返回值。函数的最后一个表达式就是返回值——不需要 return 关键字。 if / match / 块 → 都是值 03 路线 一个能编译自己的编译器。 编译器用这门语言自己写。它编译",
   "headings": []
  },
  {
@@ -1364,7 +1364,7 @@
   "lang": "en",
   "title": "JHYY Compiler",
   "desc": "A self-hosted, statically typed, expression-oriented systems programming language. The compiler is written in itself; the backend is a self-written amd64 emitter — no LLVM, and no vendored QBE.",
-  "text": " A language that compiles itself. — a statically-typed, expression-oriented systems language. The compiler is written in itself : compiler/src0/*.jhyy is the only implementation, and the backend is a self-written amd64 emitter — no LLVM, no vendored QBE, no garbage collector. Currently v4.1.5 . Get started Read the spec Stage 2 byte-equal closed loop MIT licensed x86-64 &nbsp;·&nbsp; Windows hello.jhyy v4.1.5 i32 { let dx = a.x - b.x; let dy = a.y - b.y; dx * dx + dy * dy }\"> $ jhyy run hello.jhyy d² = 25 Scroll Statically typed ◆ Expression-oriented ◆ Compiled to native ◆ No garbage collector",
+  "text": " A language that compiles itself. — a statically-typed, expression-oriented systems language. The compiler is written in itself : compiler/src0/*.jhyy is the only implementation, and the backend is a self-written amd64 emitter — no LLVM, no vendored QBE, no garbage collector. Currently v4.1.5 . Get started Read the spec Stage 2 byte-equal closed loop MIT licensed x86-64 &nbsp;·&nbsp; Windows Scroll Statically typed ◆ Expression-oriented ◆ Compiled to native ◆ No garbage collector ◆ First-class FFI to C ◆ Exhaustive pattern match ◆ Statically typed ◆ Expression-oriented ◆ Compiled to native ◆ N",
   "headings": []
  },
  {
