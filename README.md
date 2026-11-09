@@ -50,7 +50,8 @@ python tools/check_examples.py
 
 | 文档 | 只管什么 |
 |---|---|
-| [`DESIGN.md`](DESIGN.md) | 站点结构、视觉与内容决策、决策记录、现状与待办 |
+| [`DESIGN.md`](DESIGN.md) | 站点结构、视觉与内容决策、决策记录、现状 |
+| [`Task.md`](Task.md) | 还没做的事：要做什么、归属、判据 |
 | [`tools/CONTENT_GUIDE.md`](tools/CONTENT_GUIDE.md) | 写 `content/**` 的规约：front matter、Markdown 方言、文风、事实来源 |
 | [`assets/fonts/README.md`](assets/fonts/README.md) | 字体资产清单与许可 |
 
