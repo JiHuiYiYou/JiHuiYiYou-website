@@ -141,10 +141,13 @@ jobs:
           echo "::notice::PY=$PY"
           export JHYY="$(cygpath -w "$exe")"
           echo "::notice::JHYY=$JHYY"
-          "$PY" tools/check_examples.py > examples.log 2>&1
-          rc=$?
+          # ⚠️ msys2 的 shell 默认带 -e —— 检查一失败就中断整个脚本，
+          #    后面打印日志那几行根本走不到（失败信息全丢）。这里自己收退出码。
+          rc=0
+          "$PY" tools/check_examples.py > examples.log 2>&1 || rc=$?
           cat examples.log
-          # 把失败原因做成 annotation（公开可读）
+          # 把日志与失败原因做成 annotation（公开可读，不用 admin 权限下日志）
+          echo "::notice::log=$(head -c 1500 examples.log | tr '\n' '|')"
           grep -E "错误|失败|error|Error|not found|无法|找不到" examples.log | head -8 | sed 's/^/::error::/' || true
           exit $rc
 
