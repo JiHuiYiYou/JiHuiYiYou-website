@@ -85,18 +85,18 @@
 <p><code>Arena</code> 的字节布局（源码注释里写着）：<code>start</code>(8) + <code>cur</code>(8) + <code>end</code>(8) + <code>blocks</code>(8) + <code>def_size</code>(8) = <strong>40 字节</strong>。<code>blocks</code> 是链表头 —— JHYY 不支持自引用 struct，所以它在 源码里占位成 <code>*u8</code>，使用处再 cast。</p>
 <hr />
 <h2 id="3-两个-arena-并存">3. 两个 Arena 并存</h2>
-<div class="table-wrap"><table class="ref-table"><thead><tr><th></th><th>编译器内部那份</th><th>用户侧标准库那份</th></tr></thead><tbody><tr><td>文件</td><td><code>compiler/src0/arena.jhyy</code></td><td><code>compiler/src0/std/arena.jhyy</code></td></tr><tr><td>谁在用</td><td>编译器自己（AST / IL / codegen 节点全在里面）</td><td>你的程序：<code>import arena;</code></td></tr><tr><td>块头大小</td><td>16 字节</td><td>8 字节</td></tr><tr><td>分块大小</td><td><code>max(def_size, 本次请求 + 对齐量)</code></td><td><code>本次请求 + 对齐量</code>（<strong>完全不看 <code>def_size</code></strong>）</td></tr><tr><td>额外函数</td><td>多一个 <code>arena_strdup</code></td><td>无</td></tr></tbody></table></div>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th></th><th>编译器内部那份</th><th>用户侧标准库那份</th></tr></thead><tbody><tr><td>文件</td><td><code>compiler/src0/arena.jhyy</code></td><td><code>compiler/src0/std/arena.jhyy</code></td></tr><tr><td>谁在用</td><td>编译器自己（AST / IL / codegen 节点全在里面）</td><td>你的程序：<code>import arena;</code></td></tr><tr><td>块头大小</td><td>16 字节</td><td>16 字节（v4.1.5 起：<code>next(8) + payload_size(8)</code>）</td></tr><tr><td>分块大小</td><td><code>max(def_size, 本次请求 + 对齐量)</code></td><td><code>max(def_size, 本次请求 + 对齐量)</code>（<strong>v4.1.5 起与内部那份同一套规矩</strong>）</td></tr><tr><td>额外函数</td><td>多一个 <code>arena_strdup</code></td><td>无</td></tr></tbody></table></div>
 <p><strong>为什么分开</strong>（源码注释原话）：内部 jhyy-side 实现不 import <code>src0/arena.jhyy</code>， <strong>避免 mangle 复杂度</strong>；两个 Arena 并存 —— compiler 用 <code>src0/arena.jhyy</code>， std lib user 用 <code>std::Arena</code>。</p>
 <p><strong>怎么区分</strong>：<code>import arena;</code> 的查找顺序是 <strong>main 文件旁边 → 标准库目录</strong>（两级回落）。</p>
 <ul class='md-list'><li>编译器自举时 main 文件是 <code>compiler/src0/main.jhyy</code>，旁边就有 <code>arena.jhyy</code> ⇒ 编译器拿到内部那份。</li><li>你的程序旁边没有 <code>arena.jhyy</code> ⇒ 落到标准库目录 ⇒ 拿到 <code>std/arena.jhyy</code> 那份。</li></ul>
-<p>你不需要在代码里区分这件事，但<strong>要知道你拿到的不是编译器内部那份</strong> —— 两者的分块 策略不一样，而这一点会直接影响 <code>arena_reset</code> 的行为（见 5.1）。</p>
+<p>你不需要在代码里区分这件事，但<strong>要知道你拿到的不是编译器内部那份</strong> —— 两者的<strong>分块</strong> 在 v4.1.5 起已经统一（都是 <code>max(def_size, 请求量)</code>），<strong>仍不同的是 <code>arena_reset</code> 怎么 摆 <code>end</code></strong>（见 5.1）。</p>
 <hr />
 <h2 id="4-增长策略m0-简化">4. 增长策略：M0 简化</h2>
 <p>源码注释原话：</p>
 <blockquote class="callout"><p>后端 alloc 走 libc malloc（M0 简化，MMAP 后端留 v3.x 中末）</p></blockquote>
 <p>也就是说：<strong>底层就是 libc <code>malloc</code></strong>。没有 mmap、没有页分配、没有大页。MMAP 后端 是后来的版本才计划的事，现在没有。</p>
-<p>由此带来一个反直觉的实测结果：<code>arena_init(&amp;a, 65536)</code> <strong>并不预分配 64 KB</strong>。 实测第一个块的数据区只有 <strong>16 字节</strong>（= 8 字节请求 + 8 字节对齐量）。</p>
-<p><code>def_size</code> 在标准库那份实现里<strong>只被 <code>arena_reset</code> 用到</strong> —— 分配路径完全不看它。</p>
+<p>由此带来一个反直觉的结果：<code>arena_init(&amp;a, 65536)</code> <strong>不预分配任何块</strong>（它只记下 <code>def_size</code>）—— 第一个块是<strong>第一次 <code>arena_alloc</code></strong> 触发的，而它的尺寸是 <code>max(def_size, 请求量 + 对齐量)</code> ⇒ <strong><code>def_size</code> = 65536 时，第一块就是 64 KB</strong> （不是「8 字节请求 + 8 字节对齐量」那么小）。</p>
+<p><code>def_size</code> 在标准库那份实现里<strong>是分配路径要看的东西</strong> —— 它是「默认块大小」： 请求比它小就整块给它，请求比它大就按请求量给。</p>
 <hr />
 <h2 id="5-一个完整的生命周期">5. 一个完整的生命周期</h2>
 <pre><code class="language-jhyy">import arena;
@@ -126,7 +126,8 @@ fn main_jhyy() -&gt; i32 {
 </code></pre>
 <p>模块里的函数也可以用限定名调用：<code>arena::arena_init(&amp;a, 65536)</code>、 <code>arena::arena_alloc(&amp;a, 8)</code> —— 两种写法等价。</p>
 <h3 id="51-reset-的两个反直觉之处">5.1 reset 的两个反直觉之处</h3>
-<p><strong>一、reset 回到的是「最新那块」的起点，不是 arena 的起点。</strong> 源码里 <code>blocks</code> 是栈式链表（新块挂到表头），<code>arena_reset</code> 取的是表头那块。实测： 先 <code>alloc(8)</code>，再 <code>alloc(4096)</code>（触发新块），<code>reset</code> 之后再 <code>alloc(8)</code> 拿到的是 <strong>4096 那块</strong>的地址，不是第一次那块。更早的块仍然挂在链表上（<code>arena_free</code> 时 才会一起释放），但 reset 之后不会再分配到它们。</p>
+<p><strong>一、reset 回到的是「最新那块」的起点，不是 arena 的起点。</strong> 源码里 <code>blocks</code> 是栈式链表（新块挂到表头），<code>arena_reset</code> 取的是表头那块。 实测（<code>arena_init(&amp;a, 16)</code> —— 让第一次那块小到装不下第二次请求）：先 <code>alloc(8)</code>， 再 <code>alloc(4096)</code>（触发新块），<code>reset</code> 之后再 <code>alloc(8)</code> 拿到的是 <strong>4096 那块</strong>的 地址，不是第一次那块。更早的块仍然挂在链表上（<code>arena_free</code> 时才会一起释放）， 但 reset 之后不会再分配到它们。</p>
+<blockquote class="callout"><p>⚠ <code>def_size</code> 够大时<strong>看不到这个现象</strong>：<code>arena_init(&amp;a, 65536)</code> 之后 <code>alloc(8)</code> 就直接开出一整块 64 KB，再 <code>alloc(4096)</code> 还在<strong>同一块</strong>里 ⇒ 压根不触发新块。</p></blockquote>
 <p><strong>二、reset 之后的可用窗口曾经按 <code>def_size</code> 算 —— v4.1.5 已修。</strong> <code>arena_reset</code> 曾经把 <code>end</code> 设成 <code>start + def_size</code>，而实际块大小是「请求 + 对齐量」。 <code>def_size</code> 更大时，arena 会「以为」自己有一大块可用。</p>
 <p>实测后果（<code>arena_init(&amp;a, 65536)</code> → <code>alloc(8)</code> → <code>reset</code> → <code>alloc(4096)</code> → 写满 4096 字节）：<code>alloc(4096)</code> 返回的指针落在实际块<strong>之外</strong>；进程退出时被 Windows 报 <strong>HEAP_CORRUPTION</strong>（<code>0xC0000374</code>）。</p>
 <p><strong>触发区间是确定的</strong>：分配尺寸落在 <code>(真实块大小, def_size]</code> 之间就会越界， 两端反而安全——所以这个坑很容易漏掉。</p>

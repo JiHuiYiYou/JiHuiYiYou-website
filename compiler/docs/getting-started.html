@@ -105,6 +105,12 @@ flags:
   --target=&lt;triple&gt;  select target (default amd64_win); see targets below
   --no-link          compile to .s only, skip the link step (required for cross targets)
   --help             show this message and exit
+
+targets:
+  amd64_win                x86-64-w64-mingw32 (default; hosted Windows) - the only target this build can link
+  amd64_win_freestanding   x86-64-w64-none (UEFI; freestanding, no libc) - .s only (--no-link)
+  amd64_sysv               x86-64-linux-none (Linux; SysV ABI) - .s only (--no-link)
+  amd64_sysv_freestanding  x86-64-linux-none-freestanding (Linux; no libc) - .s only (--no-link)
 </code></pre>
 <p>翻成中文就是：<code>compile</code> 编译并链接出 <code>.exe</code>（没有 <code>main</code> 的库文件只编译不链接）， <code>build</code> 只编译出 <code>.s</code>（<code>-o</code> 是基名，<code>.s</code> 后缀自动加）， <code>run</code> 编译、链接并执行，<code>dump</code> 只解析、打印 AST 树（不跑语义分析也不生成代码）。</p>
 <blockquote class="callout"><p><strong>这是两个不同的「build」。</strong> <code>jhyy build</code> 是「把一个 <code>.jhyy</code> 编译成汇编」； <code>make all</code> 是「构建编译器」。两者毫无关系——给任何一个改名都是破坏性变更。</p></blockquote>

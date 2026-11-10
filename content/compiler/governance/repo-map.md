@@ -38,7 +38,6 @@ zone: governance
 | `compiler/src0/jhyy_helpers.c` | 编译器与 libc 之间的 C 桥。其中 4 个必需 FFI 符号只在 `#ifdef _WIN32` 内定义且没有 `#else` ⇒ **宿主只能是 Windows** |
 | `compiler/src0/bootstrap/v1.0/` | 早期自举阶段的历史材料，不是当前路径 |
 | `compiler/src0/scripts/dev/` | 源码树内的开发脚本 |
-| `compiler/src0/main_run.s` | 生成的汇编产物，不是手写的 |
 
 ### 运行时
 

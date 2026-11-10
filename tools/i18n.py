@@ -214,6 +214,10 @@ FACT_LINT_EXCEPTIONS = [
     ("content/en/compiler/docs/arena.md", r"v4\.1\.5"),
     ("content/compiler/docs/osdev.md", r"v4\.1\.5"),
     ("content/en/compiler/docs/osdev.md", r"v4\.1\.5"),
+    # stdlib.md 里那两处 v4.1.5 说的是「v4.1.5 真修了 std::arena 的块大小」
+    # （台账 W-222）⇒ **历史引用**，与 arena.md / osdev.md 同理 ⇒ 同样放行。
+    ("content/compiler/docs/stdlib.md", r"v4\.1\.5"),
+    ("content/en/compiler/docs/stdlib.md", r"v4\.1\.5"),
     ("content/compiler/governance/index.md", r"v4\.0\.0-rc1"),
     ("content/en/compiler/governance/index.md", r"v4\.0\.0-rc1"),
 ]

@@ -87,7 +87,7 @@ fn main_jhyy() -> i32 {
 - 失败语义：长度 `< 0` 返 `0` / null（不允许）；长度 `0` 是 no-op。
 - ⚠️ **`mem_set` 假设 `dst` 是 8 字节对齐**。`std::arena` 的 `arena_alloc` 保证这一点，
   但**外部 caller 不保证**——非 8 对齐的 `dst` 会触发 i64 store 的 `#GP`。
-- `mem_set` 走 i64-store 批量写 + i32-store 尾段（W-075 真修）。
+- `mem_set` 走 i64-store 批量写 + u8-store 尾段（每次 1 字节；W-075 真修）。
   更早的版本用 `*i32` 宽度写 1 字节步进的循环，**请求 n 字节实际写 4n 字节**，
   多出来的部分踩掉调用方的缓冲区（W-139 已修）。
 
@@ -216,22 +216,23 @@ fn main_jhyy() -> i32 {
 | `fn align_up(x: i64, align: i64) -> i64` | 把 x 上调到 align 的倍数（align 须为 2 的幂） |
 | `fn ptr_add(p: *u8, off: i64) -> *u8` | 本地指针算术 helper |
 | `fn ARENA_SIZE() -> i64` | `Arena` 字节数（40） |
-| `fn ARENA_BLOCK_HEADER() -> i64` | block 头字节数（8） |
+| `fn ARENA_BLOCK_HEADER() -> i64` | block 头字节数（16） |
 
 `Arena` 的布局是 `start` / `cur` / `end` / `blocks`（都是 `*u8`）+ `def_size: i64`，共 40 字节。
 
 **坑**
 
-- ⚠️ **`arena_reset` 会把可用空间算成 `def_size`（默认 1 MB），但实际 block 没那么大。**
+- ⚠️ **`arena_reset` 曾经会把可用空间算成 `def_size`（默认 1 MB），而实际 block 没那么大
+  —— v4.1.5 已修（台账 W-222）。**
   `arena_init` 只记录 `def_size`、**不分配任何 block**；真正的 block 是
-  `arena_alloc` 触发的，尺寸是 `size + align`，**不是** `def_size`。
-  `arena_reset` 却把 `end` 设成 `start + def_size` ⇒ arena 以为自己有 1 MB 可用，
+  `arena_alloc` 触发的，尺寸是 `max(def_size, size + align)`。
+  **修复前** `arena_reset` 把 `end` 设成 `start + def_size` ⇒ arena 以为自己有 1 MB 可用，
   实际脚下只有几十字节 ⇒ **后续分配会写穿 malloc 出来的块**。
 
   **触发条件是分配尺寸落在 `(真实 block 大小, def_size]` 这个区间里。**
-  实测（2026-11-08，v4.1.4 自举编译器，本机）：
+  实测（2026-11-08，v4.1.4 自举编译器，本机）—— **这是修复前的行为**：
 
-  | 场景 | 结果 |
+  | 场景 | v4.1.4 及以前的结果 |
   |---|---|
   | `alloc(8)` → `reset` → `alloc(16/32/64)` | 通过（真实块 16B + 堆余量够用） |
   | `alloc(8)` → `reset` → `alloc(128/256/500/1000/1024)` | **ACCESS_VIOLATION（段错误）** |
@@ -258,9 +259,12 @@ fn main_jhyy() -> i32 {
 
   两端都安全，所以这个坑很容易漏掉：小分配塞得下，超大分配会另开一块，
   只有「中等大小 + reset 之后」这一档会炸。
-  （编译器自用的那份 arena——`compiler/src0/arena.jhyy`——block 尺寸取
-  `max(def_size, min_size)`，没有这个问题；**两份实现的行为不一致**。）
-  **这条目前不在问题台账里。**
+
+  **v4.1.5 的修法**：块头从 8 字节变成 `next(8) + payload_size(8) = 16`，
+  **块的真实大小记进块头**；`arena_reset` 改成从块头读回真实大小摆 `end`
+  ⇒ 不再越界。台账 **W-222**（2026-11-09 真修，RESOLVED）。
+  修完之后，标准库那份与编译器自用的那份（`compiler/src0/arena.jhyy`）
+  **分块规则一致**（都是 `max(def_size, 请求量)`）。
 - `blocks` 字段走 `*u8` 占位（JHYY 不支持自引用 struct），使用处要 cast 成
   `*ArenaBlock`。
 - `arena_alloc_aligned` 与 `arena_new_block` 在源码注释里标为**私有 API**——
@@ -324,7 +328,7 @@ fn main_jhyy() -> i32 {
   用法是 `os::OS_O_CREAT()`——不带括号会得到 `expected (, got ;`。
 - ⚠️ **`O_*` 是 POSIX 值**（`O_CREAT = 0x40`），与 Windows 的 `_O_*`
   （`O_CREAT = 0x100`）不同。平台差异在 C bridge 那一层翻译，jhyy 侧保持 POSIX 语义。
-- ⚠️ **`std_os_*` 走 `jhyy_helpers.c` 的 5 个 libc bridge**，所以它们**又依赖 C 运行时**
+- ⚠️ **`std_os_*` 走 `jhyy_helpers.c` 的 6 个 libc bridge**，所以它们**又依赖 C 运行时**
   ——与「删 C runtime / 0-C 闭环」的方向相反（W-103 登记了这个取舍）。
   真要 0-C 时要换掉的是 bridge 的**实现**，`std/os.jhyy` 一行都不用动。
 - `std_os_open` 做输入验证：`path == 0`、`flags < 0`、`mode < 0`、`mode > 0777`

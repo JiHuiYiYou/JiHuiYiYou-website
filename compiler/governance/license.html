@@ -57,7 +57,7 @@
 <h2 id="mit-的条款">MIT 的条款</h2>
 <p>用的都是 MIT 官方模板，版权行是 <code>Copyright (c) 2026 JHYY</code> —— 署名主体是项目名， 不是某个自然人。</p>
 <h3 id="允许什么">允许什么</h3>
-<p>获得软件及文档副本的人，可以<strong>自由地</strong>使用、复制、修改、合并、发布、分发、再授权、 出售这些副本，<strong>不受任何限制</strong>（"without restriction"）。这七个动词就是授权范围， 没有附加条件。</p>
+<p>获得软件及文档副本的人，可以<strong>自由地</strong>使用、复制、修改、合并、发布、分发、再授权、 出售这些副本，<strong>不受任何限制</strong>（"without restriction"）。这八个动词就是授权范围， 没有附加条件。</p>
 <h3 id="要求什么">要求什么</h3>
 <p><strong>唯一的一条要求</strong>：上述版权声明与本许可声明必须包含在软件的所有副本或实质性部分中 （"The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software"）。</p>
 <p>也就是说：改代码可以，改文件名可以，闭源分发可以，商用可以 —— 只要那一段版权声明 和许可声明<strong>跟着走</strong>。</p>
@@ -67,9 +67,9 @@
 <ul class='md-list'><li>不要求声明你做了哪些修改</li><li>不含明示的专利授权条款</li><li>不含互操作例外（不像 GPL 那样写明兼容哪些许可证）</li><li><strong>不授予商标权</strong>（见最后一节）</li></ul>
 <hr />
 <h2 id="四个仓库的许可现状">四个仓库的许可现状</h2>
-<div class="table-wrap"><table class="ref-table"><thead><tr><th>仓库</th><th>许可证文件</th><th>版权行</th><th>状态</th></tr></thead><tbody><tr><td>Compiler（<code>JiHuiYiYou-compiler</code>）</td><td>根目录 <code>LICENSE</code></td><td>Copyright (c) 2026 JHYY</td><td>MIT，与官方模板一致</td></tr><tr><td>IDE（<code>JiHuiYiYou-IDE</code>）</td><td>根目录 <code>LICENSE</code></td><td>Copyright (c) 2026 JHYY</td><td>MIT，与 Compiler 那份<strong>逐字节相同</strong></td></tr><tr><td>OS（<code>JiHuiYiYou-OS</code>）</td><td>根目录 <code>LICENSE</code></td><td>Copyright (c) 2026 JHYY</td><td>MIT，与 Compiler 那份逐字节相同；唯一差别是文件末尾没有换行符</td></tr><tr><td>for-VEX（<code>JiHuiYiYou-for-VEX</code>）</td><td><strong>没有</strong></td><td>—</td><td>仓库根只有 <code>.gitignore</code> / <code>CLAUDE.md</code> / <code>README.md</code> / <code>docs/</code> / <code>scripts/</code> / <code>spike/</code> ⇒ 目前的默认状态是「保留一切权利」，不是 MIT</td></tr></tbody></table></div>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>仓库</th><th>许可证文件</th><th>版权行</th><th>状态</th></tr></thead><tbody><tr><td>Compiler（<code>JiHuiYiYou-compiler</code>）</td><td>根目录 <code>LICENSE</code></td><td>Copyright (c) 2026 JHYY</td><td>MIT，与官方模板一致</td></tr><tr><td>IDE（<code>JiHuiYiYou-IDE</code>）</td><td>根目录 <code>LICENSE</code></td><td>Copyright (c) 2026 JHYY</td><td>MIT，与 Compiler 那份<strong>逐字节相同</strong></td></tr><tr><td>OS（<code>JiHuiYiYou-OS</code>）</td><td>根目录 <code>LICENSE</code></td><td>Copyright (c) 2026 JHYY</td><td>MIT，与 Compiler 那份逐字节相同；唯一差别是文件末尾没有换行符</td></tr><tr><td>for-VEX（<code>JiHuiYiYou-for-VEX</code>）</td><td>根目录 <code>LICENSE</code></td><td>Copyright (c) 2026 JHYY</td><td>MIT，与 Compiler 那份<strong>逐字节相同</strong>（2026-11-08 补上）</td></tr></tbody></table></div>
 <p>编译器仓里另有一份 <code>vscode-ext/LICENSE</code>，也是同样的 MIT，随扩展一起分发。</p>
-<p><strong>for-VEX 是唯一的缺口，而且是硬的</strong>：没有 LICENSE 文件意味着默认版权规则适用， 不是「宽松」。补齐计划见<a href="../../compiler/governance/index.html">治理总览</a>的缺口表。</p>
+<p>四个仓现在<strong>都有</strong> MIT 许可文件（for-VEX 那份是 2026-11-08 补上的，与 Compiler 逐字节相同）；OS 那份只差一个末尾换行符。</p>
 <hr />
 <h2 id="依赖与第三方代码">依赖与第三方代码</h2>
 <p>MIT 只覆盖 JHYY 自己写的代码。仓库里自有的部分很干净：</p>

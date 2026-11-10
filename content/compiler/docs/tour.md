@@ -106,7 +106,7 @@ fn main_jhyy() -> i32 {
 | `math` | `std_math_sin` / `std_math_cos` / `std_math_sqrt` / `std_math_pow` |
 | `string` | 带长度前缀的字符串：`str_from_cstr` / `str_concat` / `str_find` / `str_len` |
 | `vec` | `std_vec_new` / `std_vec_push` / `std_vec_get` —— 字节向量，**还做不到泛型元素** |
-| `os` | 裸的 POSIX / Win32 文件描述符 + `getenv` |
+| `os` | 裸的 POSIX / Win32 文件描述符 + `std_os_getenv` |
 | `arena` | bump 分配器：`arena_init` / `arena_alloc` / `arena_reset` |
 
 ---

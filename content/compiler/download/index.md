@@ -151,11 +151,11 @@ winget install JiHuiYiYou.JHYY
 ```
 
 > [!WARNING]
-> **上游还没合并。** manifest 已于 2026-11-07 提交到 `microsoft/winget-pkgs`
-> （PR 在 `JiHuiYiYou/winget-pkgs` 的 `jh-{{site_version}}` 分支上），但上游的自动校验
-> 与 CLA 签署流程还没走完——截至写这页，`manifests/j/JiHuiYiYou/JHYY` 在上游
-> 仓库里**还不存在**。所以 `winget install` 现在大概率报「找不到包」。
-> 合并之后这条命令才会生效。
+> **上游还没合并。** manifest 已于 2026-11-09 提交到 `microsoft/winget-pkgs`
+> （PR **#475435**，分支 `JiHuiYiYou/winget-pkgs` 的 `jh-{{site_version}}`），**CLA 已签**
+> （账号级 ⇒ 覆盖之后所有 PR）、**上游自动校验全绿** —— 现在只差**社区版主审批**。
+> 所以 `manifests/j/JiHuiYiYou/JHYY` 在上游仓库里**还不存在**，
+> `winget install` 现在大概率报「找不到包」。合并之后这条命令才会生效。
 
 仓内的 manifest 在 `installer/distribution/winget/manifests/j/JiHuiYiYou/JHYY/<版本>/`
 （三件套：版本 / 安装器 / locale）。

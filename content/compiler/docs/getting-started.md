@@ -90,6 +90,12 @@ flags:
   --target=<triple>  select target (default amd64_win); see targets below
   --no-link          compile to .s only, skip the link step (required for cross targets)
   --help             show this message and exit
+
+targets:
+  amd64_win                x86-64-w64-mingw32 (default; hosted Windows) - the only target this build can link
+  amd64_win_freestanding   x86-64-w64-none (UEFI; freestanding, no libc) - .s only (--no-link)
+  amd64_sysv               x86-64-linux-none (Linux; SysV ABI) - .s only (--no-link)
+  amd64_sysv_freestanding  x86-64-linux-none-freestanding (Linux; no libc) - .s only (--no-link)
 ```
 
 翻成中文就是：`compile` 编译并链接出 `.exe`（没有 `main` 的库文件只编译不链接），

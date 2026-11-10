@@ -21,7 +21,7 @@ zone: governance
 ### 允许什么
 
 获得软件及文档副本的人，可以**自由地**使用、复制、修改、合并、发布、分发、再授权、
-出售这些副本，**不受任何限制**（"without restriction"）。这七个动词就是授权范围，
+出售这些副本，**不受任何限制**（"without restriction"）。这八个动词就是授权范围，
 没有附加条件。
 
 ### 要求什么
@@ -55,12 +55,12 @@ or substantial portions of the Software"）。
 | Compiler（`JiHuiYiYou-compiler`） | 根目录 `LICENSE` | Copyright (c) 2026 JHYY | MIT，与官方模板一致 |
 | IDE（`JiHuiYiYou-IDE`） | 根目录 `LICENSE` | Copyright (c) 2026 JHYY | MIT，与 Compiler 那份**逐字节相同** |
 | OS（`JiHuiYiYou-OS`） | 根目录 `LICENSE` | Copyright (c) 2026 JHYY | MIT，与 Compiler 那份逐字节相同；唯一差别是文件末尾没有换行符 |
-| for-VEX（`JiHuiYiYou-for-VEX`） | **没有** | — | 仓库根只有 `.gitignore` / `CLAUDE.md` / `README.md` / `docs/` / `scripts/` / `spike/` ⇒ 目前的默认状态是「保留一切权利」，不是 MIT |
+| for-VEX（`JiHuiYiYou-for-VEX`） | 根目录 `LICENSE` | Copyright (c) 2026 JHYY | MIT，与 Compiler 那份**逐字节相同**（2026-11-08 补上） |
 
 编译器仓里另有一份 `vscode-ext/LICENSE`，也是同样的 MIT，随扩展一起分发。
 
-**for-VEX 是唯一的缺口，而且是硬的**：没有 LICENSE 文件意味着默认版权规则适用，
-不是「宽松」。补齐计划见[治理总览](/compiler/governance/index.html)的缺口表。
+四个仓现在**都有** MIT 许可文件（for-VEX 那份是 2026-11-08 补上的，与 Compiler
+逐字节相同）；OS 那份只差一个末尾换行符。
 
 ---
 

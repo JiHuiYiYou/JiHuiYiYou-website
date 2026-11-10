@@ -91,7 +91,7 @@ The first time you use a module, copy the names from the table below.
 - ⚠️ **`mem_set` assumes `dst` is 8-byte aligned.** `arena_alloc` in `std::arena` guarantees
   that, but an **external caller does not** — a `dst` that is not 8-aligned triggers the `#GP` of
   the i64 store.
-- `mem_set` writes in i64-store batches plus an i32-store tail (W-075 really fixed).
+- `mem_set` writes in i64-store batches plus a u8-store tail (one byte per store; W-075 really fixed).
   Earlier versions used a loop of `*i32`-width stores stepping 1 byte at a time, so **asking for n
   bytes actually wrote 4n bytes**, and the extra part ran over the caller's buffer (W-139 fixed).
 
@@ -167,7 +167,7 @@ The layout of `StringHeader` is `data: *u8` + `len: i64`, 16 bytes in total.
   payload sitting exactly on top of the next pointer's slot
   ⇒ the bytes of the first allocation overwrite the block's next pointer, the linked list is
   corrupted on the spot, and the bump pointer does not advance
-  ⇒ allocating more than two strings in a row gives you an ACCESS_VIOLATION (W-141 fixed it to
+  ⇒ allocating two or more strings in a row gives you an ACCESS_VIOLATION (W-141 fixed it to
   `[next(8B)][payload_size(8B)][payload...]`).
 
 ---
@@ -231,25 +231,26 @@ pointer linearly inside a block, and can reuse or release a whole block when nee
 | `fn align_up(x: i64, align: i64) -> i64` | Rounds x up to a multiple of align (align must be a power of 2) |
 | `fn ptr_add(p: *u8, off: i64) -> *u8` | Local pointer arithmetic helper |
 | `fn ARENA_SIZE() -> i64` | The byte size of `Arena` (40) |
-| `fn ARENA_BLOCK_HEADER() -> i64` | The byte size of the block header (8) |
+| `fn ARENA_BLOCK_HEADER() -> i64` | The byte size of the block header (16) |
 
 The layout of `Arena` is `start` / `cur` / `end` / `blocks` (all `*u8`) + `def_size: i64`, 40
 bytes in total.
 
 **Traps**
 
-- ⚠️ **`arena_reset` computes the usable space as `def_size` (1 MB by default), but the actual
-  block is not that big.**
+- ⚠️ **`arena_reset` used to compute the usable space as `def_size` (1 MB by default),
+  while the actual block was not that big — fixed in v4.1.5 (ledger W-222).**
   `arena_init` only records `def_size` and **allocates no block at all**; the real block is
-  triggered by `arena_alloc`, and its size is `size + align`, **not** `def_size`.
-  `arena_reset` nevertheless sets `end` to `start + def_size` ⇒ the arena thinks it has 1 MB
-  available, while under its feet there are only a few dozen bytes ⇒ **later allocations write
-  straight through the malloc'd block**.
+  triggered by `arena_alloc`, and its size is `max(def_size, size + align)`.
+  **Before the fix** `arena_reset` set `end` to `start + def_size` ⇒ the arena thought it had
+  1 MB available, while under its feet there were only a few dozen bytes ⇒ **later
+  allocations wrote straight through the malloc'd block**.
 
   **The trigger is an allocation size that lands in the `(real block size, def_size]` interval.**
-  Measured (2026-11-08, v4.1.4 self-hosted compiler, local machine):
+  Measured (2026-11-08, v4.1.4 self-hosted compiler, local machine) — **this is the
+  pre-fix behaviour**:
 
-  | Scenario | Result |
+  | Scenario | Result on v4.1.4 and earlier |
   |---|---|
   | `alloc(8)` → `reset` → `alloc(16/32/64)` | Passes (the real 16B block + heap slack is enough) |
   | `alloc(8)` → `reset` → `alloc(128/256/500/1000/1024)` | **ACCESS_VIOLATION (segmentation fault)** |
@@ -276,10 +277,13 @@ bytes in total.
 
   Both ends are safe, so this trap is easy to miss: small allocations fit, huge allocations open
   another block, and only the "medium size + after a reset" band blows up.
-  (The arena the compiler uses itself — `compiler/src0/arena.jhyy` — takes the block size as
-  `max(def_size, min_size)` and does not have this problem; **the two implementations behave
-  differently**.)
-  **This one is not in the workaround ledger yet.**
+
+  **The v4.1.5 fix**: the block header grew from 8 bytes to `next(8) + payload_size(8) = 16`,
+  so the **real block size is recorded in the block header**; `arena_reset` now reads it
+  back and places `end` there ⇒ no more out-of-bounds writes. Ledger **W-222** (fixed for
+  real on 2026-11-09, RESOLVED). After the fix, the standard library copy and the compiler's
+  own copy (`compiler/src0/arena.jhyy`) use the **same block-sizing rule**
+  (`max(def_size, requested size)`).
 - The `blocks` field uses a `*u8` placeholder (JHYY has no self-referential struct), so at the use
   site it has to be cast to `*ArenaBlock`.
 - `arena_alloc_aligned` and `arena_new_block` are marked as **private API** in the source
@@ -347,7 +351,7 @@ The backend goes through libc's `fopen` / `fread` / `fwrite` / `fclose`.
 - ⚠️ **The `O_*` values are POSIX values** (`O_CREAT = 0x40`), which differ from Windows' `_O_*`
   (`O_CREAT = 0x100`). The platform difference is translated at the C bridge layer; the jhyy side
   keeps POSIX semantics.
-- ⚠️ **`std_os_*` go through the 5 libc bridges in `jhyy_helpers.c`**, so they **depend on the C
+- ⚠️ **`std_os_*` go through the 6 libc bridges in `jhyy_helpers.c`**, so they **depend on the C
   runtime again** — the opposite of the "drop the C runtime / zero-C closed loop" direction (W-103
   registered this trade-off).
   For a genuine zero-C setup, what has to be replaced is the **implementation** of the bridges;
@@ -392,7 +396,7 @@ library documentation itself (extracting the signatures from `compiler/src0/std/
 pipeline does not exist yet — so the signatures may drift from the source. **If they do not match,
 the source wins**, and then file an issue.
 
-The related trap ledger is in
+The related workaround ledger is in
 [`docs/internal/workarounds.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md),
 and the language-level limitations are in appendix B of the
 [language spec v{{spec_version}}](/compiler/docs/spec.html).

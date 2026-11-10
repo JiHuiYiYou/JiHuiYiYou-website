@@ -22,7 +22,7 @@ attribution holder is the project name, not an individual.
 
 Whoever obtains a copy of the software and the documentation may **freely** use, copy, modify, merge,
 publish, distribute, sublicense, and sell those copies, **without any restriction**
-("without restriction"). Those seven verbs are the scope of the grant; there are no additional conditions.
+("without restriction"). Those eight verbs are the scope of the grant; there are no additional conditions.
 
 ### What is required
 
@@ -57,14 +57,13 @@ consequential, or punitive damages.
 | Compiler (`JiHuiYiYou-compiler`) | `LICENSE` at the root | Copyright (c) 2026 JHYY | MIT, identical to the official template |
 | IDE (`JiHuiYiYou-IDE`) | `LICENSE` at the root | Copyright (c) 2026 JHYY | MIT, **byte-identical** to the Compiler one |
 | OS (`JiHuiYiYou-OS`) | `LICENSE` at the root | Copyright (c) 2026 JHYY | MIT, byte-identical to the Compiler one; the only difference is that the file has no trailing newline |
-| for-VEX (`JiHuiYiYou-for-VEX`) | **None** | — | The repository root only has `.gitignore` / `CLAUDE.md` / `README.md` / `docs/` / `scripts/` / `spike/` ⇒ the current default status is "all rights reserved", not MIT |
+| for-VEX (`JiHuiYiYou-for-VEX`) | `LICENSE` at the root | Copyright (c) 2026 JHYY | MIT, **byte-identical** to the Compiler one (added on 2026-11-08) |
 
 The compiler repository also carries a `vscode-ext/LICENSE`, the same MIT, shipped together with the
 extension.
 
-**for-VEX is the only gap, and it is a hard one**: having no LICENSE file means the default copyright rules
-apply, not "permissive". The plan for closing it is in the gap table of the
-[governance overview](/compiler/governance/index.html).
+All four repositories now carry an MIT license file (for-VEX's was added on 2026-11-08 and is
+byte-identical to the Compiler one); the OS one differs only by a trailing newline.
 
 ---
 

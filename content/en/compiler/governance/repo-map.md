@@ -40,7 +40,6 @@ the compiler repository instead of one copy per repository).
 | `compiler/src0/jhyy_helpers.c` | The C bridge between the compiler and libc. 4 of the required FFI symbols are defined only inside `#ifdef _WIN32` with no `#else` ⇒ **the host can only be Windows** |
 | `compiler/src0/bootstrap/v1.0/` | Historical material from the early self-hosting stage; not the current path |
 | `compiler/src0/scripts/dev/` | Development scripts inside the source tree |
-| `compiler/src0/main_run.s` | A generated assembly artifact, not hand-written |
 
 ### Runtime
 

@@ -152,7 +152,7 @@ statements are in the corresponding chapters of the original spec.
 | `asm!("...")` | A single string literal; **no operand constraints, no template placeholders, no clobber declarations**; AT&T syntax, x86-64 only |
 | Placement | **Inlined at the current position in the function body** (hex-encoded into the `dbgasm` channel of the IL, and the backend decodes it back in place into the `.s`) — the early implementation appended it to the end of the `.s`, which made it dead bytes |
 | Expression position | Syntactically usable, but **the return value semantics are undefined** ⇒ by convention it is written in statement position |
-| `volatile T` | Qualifies **primitive types only**; the layout is exactly the same as `T`; it guarantees that every load hits memory, that every store writes back, and that they are not reordered |
+| `volatile T` | Qualifies **primitive types only**; the layout is exactly the same as `T`; within a single thread it guarantees that every load hits memory, that every store writes back, and that they are not reordered |
 | `fence_*` | `fence_seq_cst()` / `fence_acquire()` / `fence_release()` → `mfence` / `lfence` / `sfence`; inlined at the call site; **covers x86-64 only** |
 | Across threads | `volatile` **does not provide** ordering guarantees across threads — that is what `fence_*` is for |
 

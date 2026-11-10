@@ -57,7 +57,7 @@ It installs these things:
 - **The `.jhyy` file association** — double-clicking a `.jhyy` file hands it straight to the compiler;
 - **The VS Code extension** — installed into the user's VS Code;
 - **PATH** — written into the system environment variable, so `jhyy` works in any terminal once the install is done;
-- **A bundled minimal native ucrt64 toolchain** (gcc + binutils + CRT + headers), installed under `<安装目录>\toolchain\`.
+- **A bundled minimal native ucrt64 toolchain** (gcc + binutils + CRT + headers), installed under `<install dir>\toolchain\`.
 
 The last one is the change as of v4.1.0: **MSYS2 is not needed after installing.** The toolchain manifest records gcc 15.2.0 / `x86_64-w64-mingw32`, 379 files; the compiler uses this bundled one by default and does not read the `gcc` on the user's PATH (the repository's build documentation has the search order).
 
@@ -131,10 +131,10 @@ winget install JiHuiYiYou.JHYY
 ```
 
 > [!WARNING]
-> **Upstream has not merged it yet.** The manifest was submitted to `microsoft/winget-pkgs` on 2026-11-07 (the PR is on the `jh-{{site_version}}` branch of `JiHuiYiYou/winget-pkgs`), but upstream's automatic validation and CLA signing process is not finished — as of writing this page, `manifests/j/JiHuiYiYou/JHYY` still **does not exist** in the upstream repository. So `winget install` will most likely report "no package found" for now.
+> **Upstream has not merged it yet.** The manifest was submitted to `microsoft/winget-pkgs` on 2026-11-09 (PR **#475435**, on the `jh-{{site_version}}` branch of `JiHuiYiYou/winget-pkgs`). The **CLA is already signed** (account-level ⇒ it covers every later PR) and **upstream's automatic validation is green** — all that is left is **the community maintainer's approval**. So `manifests/j/JiHuiYiYou/JHYY` still **does not exist** in the upstream repository, and `winget install` will most likely report "no package found" for now.
 > The command only takes effect after the merge.
 
-The in-repo manifest is at `installer/distribution/winget/manifests/j/JiHuiYiYou/JHYY/<版本>/` (the three pieces: version / installer / locale).
+The in-repo manifest is at `installer/distribution/winget/manifests/j/JiHuiYiYou/JHYY/<version>/` (the three pieces: version / installer / locale).
 
 ### scoop
 

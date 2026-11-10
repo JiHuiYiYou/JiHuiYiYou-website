@@ -123,7 +123,7 @@ the compiler you install reports the previous version number.
 
 A release = a batch of changes landing on some version slot + a tag + a GitHub Release + three artifacts
 (the GUI installer EXE / the enterprise distribution MSI / the VS Code extension VSIX) + the body of one
-`installer/release-notes/<版本号>.md`.
+`installer/release-notes/<version>.md`.
 
 The change record has two layers, and **this is a convention written down in the repository**:
 
@@ -146,7 +146,7 @@ Every release gate in `release.yml` carries a `# gate:` marker:
 | `release-anchor` | The artifacts from that release build and the one committed into the repository produce byte-identical assembly from the same source |
 | `release-build` | Burn bundle + MSI + VSIX build successfully |
 | `release-sha256` | `SHA256.txt` matches the artifacts one by one |
-| `release-notes` | A placeholder is unfilled ⇒ refuse to release; a missing `installer/release-notes/<版本号>.md` ⇒ fail outright |
+| `release-notes` | A placeholder is unfilled ⇒ refuse to release; a missing `installer/release-notes/<version>.md` ⇒ fail outright |
 | `release-msi` | `wix msi validate` |
 | `release-artifacts` | Not one expected artifact may be missing |
 
@@ -219,11 +219,10 @@ against the current state of the repository**; none of it is speculation.
 | Release owner | There is no second role. `SECURITY.md` describes itself as "maintained by one person" | In the short term the maintainer takes it on; once there is a second person who can run the release chain independently, write down a rotation rule |
 | Trademark policy | The repository has **no trademark / logo usage policy file at all** | Write `TRADEMARK.md`: allow descriptive uses, forbid suggesting official endorsement, forbid modifying the logo |
 | Branch protection and merge rules | No written requirement. `docs/internal/build.md` records one fact: `enforce_admins` is off, so administrators can bypass the required status check on `main` | Make "run the gates yourself before merging" a documented requirement, and turn `enforce_admins` on on the GitHub side |
-| Cross-repository coverage of the code of conduct | The compiler repository has `CODE_OF_CONDUCT.md`; **IDE / OS / for-VEX do not** | Add one to the latter three, or state explicitly "the compiler repository's version governs" |
-| Cross-repository coverage of security disclosure | The compiler and IDE repositories have `SECURITY.md`; **the OS and for-VEX repositories do not** | Add a minimal version to the latter two, or state that they go through the compiler repository's private channel |
-| for-VEX's license | **The for-VEX repository has no LICENSE file at its root** — the only one of the four | Add the same MIT as the other three (`Copyright (c) 2026 JHYY`) |
+| Cross-repository coverage of the code of conduct | The compiler and for-VEX repositories have `CODE_OF_CONDUCT.md`; **the IDE and OS repositories do not** | Add one to the latter two, or state explicitly "the compiler repository's version applies" |
+| Cross-repository coverage of security disclosure | The compiler, IDE and for-VEX repositories have `SECURITY.md`; **only the OS repository does not** | Add a minimal version to the OS repository, or state that it goes through the compiler repository's private channel |
 | Contributor agreement (CLA / DCO) | No requirement | Do not introduce one for now. If one is introduced, first write down clearly "what happens to historical PRs after it is introduced" |
-| i18n policy | None | The site starts monolingual (Chinese); the English version opens once someone is maintaining it long-term |
+| i18n policy | None | The site is already fully bilingual (every route has a Chinese and an English version since 2026-11-10), but the repositories have **no written i18n policy** — who maintains the English pages, and what happens when a translation drifts from the original, is not written down |
 
 **Why these are written out**: the thing that most often goes wrong in a small team is not "the rules are
 not strict enough" but "the rules point at a person who does not exist". Every one of the above has to name

@@ -105,6 +105,12 @@ flags:
   --target=&lt;triple&gt;  select target (default amd64_win); see targets below
   --no-link          compile to .s only, skip the link step (required for cross targets)
   --help             show this message and exit
+
+targets:
+  amd64_win                x86-64-w64-mingw32 (default; hosted Windows) - the only target this build can link
+  amd64_win_freestanding   x86-64-w64-none (UEFI; freestanding, no libc) - .s only (--no-link)
+  amd64_sysv               x86-64-linux-none (Linux; SysV ABI) - .s only (--no-link)
+  amd64_sysv_freestanding  x86-64-linux-none-freestanding (Linux; no libc) - .s only (--no-link)
 </code></pre>
 <p>In plain terms: <code>compile</code> compiles and links to a <code>.exe</code> (a library file without <code>main</code> is only compiled, not linked), <code>build</code> only compiles to <code>.s</code> (<code>-o</code> is a base name, the <code>.s</code> suffix is appended automatically), <code>run</code> compiles, links and executes, and <code>dump</code> only parses and prints the AST tree (no semantic analysis, no code generation).</p>
 <blockquote class="callout"><p><strong>These are two different "build"s.</strong> <code>jhyy build</code> means "compile one <code>.jhyy</code> into assembly"; <code>make all</code> means "build the compiler". The two are unrelated — renaming either one is a breaking change.</p></blockquote>

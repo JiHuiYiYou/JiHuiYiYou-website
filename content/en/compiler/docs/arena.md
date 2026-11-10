@@ -92,8 +92,8 @@ placeholder of type `*u8` and is cast at the use site.
 |---|---|---|
 | File | `compiler/src0/arena.jhyy` | `compiler/src0/std/arena.jhyy` |
 | Who uses it | The compiler itself (AST / IL / codegen nodes all live in it) | Your program: `import arena;` |
-| Block header size | 16 bytes | 8 bytes |
-| Block size | `max(def_size, this request + alignment padding)` | `this request + alignment padding` (**`def_size` is ignored entirely**) |
+| Block header size | 16 bytes | 16 bytes (since v4.1.5: `next(8) + payload_size(8)`) |
+| Block size | `max(def_size, this request + alignment padding)` | `max(def_size, this request + alignment padding)` (**since v4.1.5 the two use the same rule**) |
 | Extra functions | One extra `arena_strdup` | None |
 
 **Why they are separate** (the source comment says): the internal jhyy-side
@@ -110,8 +110,9 @@ file → the standard library directory** (a two-level fallback).
   library directory ⇒ you get the `std/arena.jhyy` one.
 
 You do not have to distinguish this in your code, but **you have to know that what you
-got is not the compiler's internal one** — the two have different block-sizing
-strategies, and that directly affects the behavior of `arena_reset` (see 5.1).
+got is not the compiler's internal one** — since v4.1.5 the two use the **same** block
+sizing rule (`max(def_size, requested size)`); what still differs is how `arena_reset`
+places `end` (see 5.1).
 
 ---
 
@@ -126,12 +127,15 @@ In other words: **the underlying allocator is libc `malloc`**. No mmap, no page
 allocation, no huge pages. The MMAP backend is something planned for a later version;
 it does not exist now.
 
-This leads to a counterintuitive measured result: `arena_init(&a, 65536)` **does not
-preallocate 64 KB**. Measured, the data area of the first block is only **16 bytes**
-(= an 8-byte request + 8 bytes of alignment padding).
+This leads to a counterintuitive result: `arena_init(&a, 65536)` **does not
+preallocate any block** (it only records `def_size`) — the first block is created by
+the **first `arena_alloc`**, and its size is `max(def_size, requested size + alignment
+padding)` ⇒ **with `def_size` = 65536 the first block is 64 KB**, not "8 bytes of
+request plus 8 bytes of alignment padding".
 
-In the standard library implementation, `def_size` **is only used by `arena_reset`** —
-the allocation path never looks at it.
+In the standard library implementation, `def_size` **is something the allocation path
+looks at** — it is the *default* block size: a request smaller than it still gets a
+whole block, a request larger than it gets a block of its own size.
 
 ---
 
@@ -172,11 +176,16 @@ equivalent.
 
 **One: reset returns to the start of "the most recent block", not to the start of the
 arena.** In the source, `blocks` is a stack-like list (new blocks are pushed onto the
-head), and `arena_reset` takes the block at the head. Measured: `alloc(8)` first, then
-`alloc(4096)` (which triggers a new block); after `reset`, a further `alloc(8)` gets
-the address of **the 4096 block**, not the first one. The earlier blocks are still
-hanging on the list (they are only freed together by `arena_free`), but after a reset
-they are never allocated from again.
+head), and `arena_reset` takes the block at the head. Measured (with
+`arena_init(&a, 16)` — small enough that the second request does not fit in the first
+block): `alloc(8)` first, then `alloc(4096)` (which triggers a new block); after `reset`,
+a further `alloc(8)` gets the address of **the 4096 block**, not the first one. The
+earlier blocks are still hanging on the list (they are only freed together by
+`arena_free`), but after a reset they are never allocated from again.
+
+> ⚠ You will not see this when `def_size` is large: after `arena_init(&a, 65536)` the
+> very first `alloc(8)` opens a whole 64 KB block, and `alloc(4096)` still lands in
+> **the same block** ⇒ no new block is triggered at all.
 
 **Two: the usable window after a reset used to be computed from `def_size` — fixed in
 v4.1.5.** `arena_reset` used to set `end` to `start + def_size`, while the actual

@@ -102,7 +102,7 @@
 <p>包标识 <strong><code>JiHuiYiYou.JHYY</code></strong>：</p>
 <pre><code class="language-powershell">winget install JiHuiYiYou.JHYY
 </code></pre>
-<blockquote class="callout warn"><p><strong>上游还没合并。</strong> manifest 已于 2026-11-07 提交到 <code>microsoft/winget-pkgs</code> （PR 在 <code>JiHuiYiYou/winget-pkgs</code> 的 <code>jh-4.1.5</code> 分支上），但上游的自动校验 与 CLA 签署流程还没走完——截至写这页，<code>manifests/j/JiHuiYiYou/JHYY</code> 在上游 仓库里<strong>还不存在</strong>。所以 <code>winget install</code> 现在大概率报「找不到包」。 合并之后这条命令才会生效。</p></blockquote>
+<blockquote class="callout warn"><p><strong>上游还没合并。</strong> manifest 已于 2026-11-09 提交到 <code>microsoft/winget-pkgs</code> （PR <strong>#475435</strong>，分支 <code>JiHuiYiYou/winget-pkgs</code> 的 <code>jh-4.1.5</code>），<strong>CLA 已签</strong> （账号级 ⇒ 覆盖之后所有 PR）、<strong>上游自动校验全绿</strong> —— 现在只差<strong>社区版主审批</strong>。 所以 <code>manifests/j/JiHuiYiYou/JHYY</code> 在上游仓库里<strong>还不存在</strong>， <code>winget install</code> 现在大概率报「找不到包」。合并之后这条命令才会生效。</p></blockquote>
 <p>仓内的 manifest 在 <code>installer/distribution/winget/manifests/j/JiHuiYiYou/JHYY/&lt;版本&gt;/</code> （三件套：版本 / 安装器 / locale）。</p>
 <h3 id="scoop">scoop</h3>
 <p>用的是<strong>个人 bucket</strong>（进 Main bucket 是另一个决定，尚未做）：</p>

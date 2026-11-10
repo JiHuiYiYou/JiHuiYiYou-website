@@ -1250,7 +1250,7 @@
   "lang": "zh",
   "title": "许可证",
   "desc": "MIT 的确切条款，以及各仓库的许可现状",
-  "text": " 许可证 四个仓库里三个用 MIT，一个还没有许可证文件。这一页写两件事：MIT 的确切条款是什么， 以及每个仓库实际是什么状态。 --- MIT 的条款 用的都是 MIT 官方模板，版权行是 Copyright (c) 2026 JHYY —— 署名主体是项目名， 不是某个自然人。 允许什么 获得软件及文档副本的人，可以 自由地 使用、复制、修改、合并、发布、分发、再授权、 出售这些副本， 不受任何限制 （\"without restriction\"）。这七个动词就是授权范围， 没有附加条件。 要求什么 唯一的一条要求 ：上述版权声明与本许可声明必须包含在软件的所有副本或实质性部分中 （\"The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software\"）。 也就是说：改代码可以，改文件名可以，闭源分发可以，商用可以 —— 只要那一段版权声明 和许可声明 跟着走 。 不保证什么 软件按「原样」提供， 不附带任何明示或默示的担保 ，包括但不限于对适销性、 特定用途适用性、不侵权的担保；作者或版权持有者不对任何直接、间接、附带、特殊、 后果性或惩罚性损害承担责任。 MIT 没有涵盖的 - 不要求声明你做",
+  "text": " 许可证 四个仓库里三个用 MIT，一个还没有许可证文件。这一页写两件事：MIT 的确切条款是什么， 以及每个仓库实际是什么状态。 --- MIT 的条款 用的都是 MIT 官方模板，版权行是 Copyright (c) 2026 JHYY —— 署名主体是项目名， 不是某个自然人。 允许什么 获得软件及文档副本的人，可以 自由地 使用、复制、修改、合并、发布、分发、再授权、 出售这些副本， 不受任何限制 （\"without restriction\"）。这八个动词就是授权范围， 没有附加条件。 要求什么 唯一的一条要求 ：上述版权声明与本许可声明必须包含在软件的所有副本或实质性部分中 （\"The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software\"）。 也就是说：改代码可以，改文件名可以，闭源分发可以，商用可以 —— 只要那一段版权声明 和许可声明 跟着走 。 不保证什么 软件按「原样」提供， 不附带任何明示或默示的担保 ，包括但不限于对适销性、 特定用途适用性、不侵权的担保；作者或版权持有者不对任何直接、间接、附带、特殊、 后果性或惩罚性损害承担责任。 MIT 没有涵盖的 - 不要求声明你做",
   "headings": [
    {
     "text": "许可证",
@@ -2610,7 +2610,7 @@
   "lang": "en",
   "title": "License",
   "desc": "The exact terms of the MIT license, and the licensing status of each repository",
-  "text": " License Three of the four repositories use MIT; one still has no license file. This page covers two things: what the exact terms of MIT are, and what state each repository is actually in. --- The terms of MIT All of them use the official MIT template, and the copyright line is Copyright (c) 2026 JHYY — the attribution holder is the project name, not an individual. What is allowed Whoever obtains a copy of the software and the documentation may freely use, copy, modify, merge, publish, distribute, sublicense, and sell those copies, without any restriction (\"without restriction\"). Those seven v",
+  "text": " License Three of the four repositories use MIT; one still has no license file. This page covers two things: what the exact terms of MIT are, and what state each repository is actually in. --- The terms of MIT All of them use the official MIT template, and the copyright line is Copyright (c) 2026 JHYY — the attribution holder is the project name, not an individual. What is allowed Whoever obtains a copy of the software and the documentation may freely use, copy, modify, merge, publish, distribute, sublicense, and sell those copies, without any restriction (\"without restriction\"). Those eight v",
   "headings": [
    {
     "text": "License",
