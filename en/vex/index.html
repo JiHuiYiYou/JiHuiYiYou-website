@@ -507,7 +507,7 @@
               </div>
               <h3 class="card-title">The remaining holes are written down here</h3>
               <p class="card-body">
-                The display details (<code>bOpaque</code> semantics, text coordinate units) are still to be measured; the motor direction flag shows no effect on read-back (the probe order is suspected); the SD card <code>program.bin</code> burn flow was not walked through (no card inserted this round). In the schedule, <strong>Days 1–2 / Day 3 / the B phase have not started at all</strong>.
+                The display details (<code>bOpaque</code> semantics, text coordinate units) are still to be measured; the motor direction flag shows no effect on read-back (the probe order is suspected); the SD card <code>program.bin</code> burn flow was not walked through (no card inserted this round). In the schedule, <strong>Day 3 and the B phase have not started at all</strong>; Days 1–2 are underway (see the next card).
               </p>
             </div>
           </div>
@@ -518,11 +518,11 @@
             <div class="bezel-inner">
               <div class="card-head">
                 <span class="card-num">→</span>
-                <span class="card-tag">Next stretch</span>
+                <span class="card-tag">In flight</span>
               </div>
               <h3 class="card-title">Days 1–2: the emitter emits C</h3>
               <p class="card-body">
-                A minimal subset plus the minimal binding surface (to start with just <code>vexDeviceGetByIndex</code> / <code>vexDeviceMotorVelocitySet</code> / <code>vexDelay</code> / <code>jhyy_vex_display_puts</code>). <strong>C, not C++</strong>.
+                <strong>The first closed loop works</strong> (2026-11-10): the same <code>hello.jhyy</code>, compiled through the main repo's compiler and through this repo's emitter, produces <strong>byte-identical stdout and the same exit code</strong>. The first program written in actual JHYY (<code>vex_demo.jhyy</code>) also compiles into a V5 binary (2516 B), and its binding-surface object is <strong>byte-identical</strong> to the golden reference's — so the JHYY route and the hand-written C route provably call the same symbol. A minimal subset plus the minimal binding surface (to start with just <code>vexDeviceGetByIndex</code> / <code>vexDeviceMotorVelocitySet</code> / <code>vexDelay</code> / <code>jhyy_vex_display_puts</code>) — <strong>C, not C++</strong>. Next: the VEX <code>.bin</code> and a run on the real robot.
               </p>
             </div>
           </div>
@@ -545,7 +545,7 @@
       </div>
 
       <p class="perf-note reveal">
-        <strong>Three rules:</strong> do not touch the JHYY main repository directly — experiments happen here, and only a measured result goes back to the main repo, with a separate review;
+        <strong>Three rules:</strong> <strong>a permanent bypass</strong> — the main repo keeps the language, this repo keeps the VEX target support; nothing is pushed back into the main repo, the main repo's working tree is never touched, and the compiler is consumed read-only, pinned to a commit, through a shadow build;
         <strong>the output of step 0 is knowledge, not code</strong> — the emitter is a probe and must not grow into a product;
         artifacts stay local and are not committed — the <code>.bin</code> / ELF contain <code>libv5rt.a</code> code (VEX-proprietary), so they stay out of the public repo until the "SDK redistribution" question is settled; what is kept is <strong>local + a reproducible script + a hash manifest</strong>.
       </p>

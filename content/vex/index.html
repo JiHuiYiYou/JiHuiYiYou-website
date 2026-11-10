@@ -464,7 +464,7 @@ zone: vex
               </div>
               <h3 class="card-title">剩下的洞都写在这儿</h3>
               <p class="card-body">
-                屏显细节（<code>bOpaque</code> 语义、文字坐标单位）仍待测；电机反转标志在读回层面看不到影响（探针顺序有嫌疑）；SD 卡 <code>program.bin</code> 的烧录流程没走通（本轮没插卡）。排期上，<strong>Day 1–2 / Day 3 / B 阶段一个都还没开始</strong>。
+                屏显细节（<code>bOpaque</code> 语义、文字坐标单位）仍待测；电机反转标志在读回层面看不到影响（探针顺序有嫌疑）；SD 卡 <code>program.bin</code> 的烧录流程没走通（本轮没插卡）。排期上，<strong>Day 3 与 B 阶段一个都还没开始</strong>；Day 1–2 已开工（见下一卡）。
               </p>
             </div>
           </div>
@@ -475,11 +475,11 @@ zone: vex
             <div class="bezel-inner">
               <div class="card-head">
                 <span class="card-num">→</span>
-                <span class="card-tag">下一段</span>
+                <span class="card-tag">正在做</span>
               </div>
               <h3 class="card-title">Day 1–2：emitter 发 C</h3>
               <p class="card-body">
-                最小子集 + 最小绑定面（先只绑 <code>vexDeviceGetByIndex</code> / <code>vexDeviceMotorVelocitySet</code> / <code>vexDelay</code> / <code>jhyy_vex_display_puts</code>）。<strong>发 C，不发 C++</strong>。
+                <strong>第一个闭环已通</strong>（2026-11-10）：同一个 <code>hello.jhyy</code>，主仓编译器那条路与本仓 emitter 那条路，<strong>stdout 逐字相同 + 返回码相同</strong>。第一份真 JHYY 程序（<code>vex_demo.jhyy</code>）也编出了 V5 二进制（2516 B），它的绑定面对象与黄金参考<strong>逐字节相同</strong> ⇒ JHYY 路与手写 C 路调的是同一个符号。最小子集 + 最小绑定面（先只绑 <code>vexDeviceGetByIndex</code> / <code>vexDeviceMotorVelocitySet</code> / <code>vexDelay</code> / <code>jhyy_vex_display_puts</code>）—— <strong>发 C，不发 C++</strong>。下一步：VEX 的 <code>.bin</code> + 真机跑。
               </p>
             </div>
           </div>
@@ -502,7 +502,7 @@ zone: vex
       </div>
 
       <p class="perf-note reveal">
-        <strong>三条纪律：</strong>不直接改 JHYY 主仓 —— 实验在本仓做，拿到实测再回主仓落地，单独评审；
+        <strong>三条纪律：</strong><strong>永久旁路</strong> —— 主仓管语言，本仓管 VEX 目标支持；不回推主仓，主仓工作树从不被碰，编译器只读、按 commit 钉住、走影子构建；
         <strong>第 0 步的产出是知识，不是代码</strong> —— emitter 是探针，不许长成产品；
         产物本地留存，不进版本库 —— <code>.bin</code> / ELF 含 <code>libv5rt.a</code> 的代码（VEX 专有），在「SDK 再分发」拍板前不进公开 repo；留存靠<strong>本地 + 可复现脚本 + 哈希清单</strong>。
       </p>
