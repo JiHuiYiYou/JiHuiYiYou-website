@@ -256,6 +256,11 @@ LITERAL_FACT_PATTERNS = [
     ("targets_count", " 个目标"),
     ("targets_count", " 个 target "),
     ("targets_count", " targets"),
+    # route 数 —— 2026-11-10 抓到的第四处漂移：文档里写死「28 个 route 全部
+    # 双语」，实际 29（24 页文档层 + 5 页门脸）⇒ 加减法就错了。
+    # 散文里不许复述这个数 ⇒ 要写就写 `{{site_routes}}`。
+    ("site_routes", " 个 route"),
+    ("site_routes", " routes"),
 ]
 
 # ── 路由工具 ──────────────────────────────────────────────────────────────

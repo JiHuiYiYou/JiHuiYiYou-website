@@ -14,6 +14,8 @@
 6. **结构对拍**（只查 `.md` 的孪生页）：中英两页的标题层级、代码块行数、
    表格行数、列表条数、callout、事实占位符必须一致 —— 翻译最怕的不是译错，
    是**漏译**：少一节、少一行表格、少一段代码，没有任何别的门会红
+7. **route 数对拍**：实际 route 数必须等于 `siteconfig.FACTS["site_routes"]`
+   —— 加了页面忘了改那个数就红（散文里复述 route 数必然漂）
 
 用法：
     python tools/check_twins.py
@@ -29,6 +31,7 @@ CONTENT = ROOT / "content"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import i18n as I18N  # noqa: E402
+import siteconfig as C  # noqa: E402
 
 
 def collect() -> dict[str, dict[str, str]]:
@@ -166,6 +169,14 @@ def main() -> int:
     par_err, par_warn = compare_structures(routes)
     errors.extend(par_err)
     warnings.extend(par_warn)
+
+    # 7. route 数对拍 —— 加了页面忘了改 siteconfig.FACTS["site_routes"] 就红
+    declared = C.FACTS["site_routes"]
+    if len(routes) != declared:
+        errors.append(
+            f"route 数对不上：实际 {len(routes)} 个，siteconfig.FACTS['site_routes'] "
+            f"写着 {declared} —— 加/删页面后改那个 fact（散文里别再复述这个数）"
+        )
 
     print(f"孪生页检查：{len(routes)} 个 route")
     if warnings:

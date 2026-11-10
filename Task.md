@@ -17,7 +17,8 @@
 
 - 三个项目页（IDE / OS / for-VEX）的门脸结构重做 —— 已完成（中英同构）；
 - 编译器落地页 12 屏按「一屏一主题」收一遍 —— 已完成；
-- 文档层 24 页的英文版 —— 已完成，**28 个 route 全部双语**，
+- 文档层 24 页的英文版 —— 已完成，**每个 route 都双语**（route 数记在
+  `siteconfig.FACTS["site_routes"]`，孪生页门守着），
   `i18n.TWIN_EXEMPT_PREFIXES` 已清空；
 - 仓库 `README.md` 改英文 + `README.zh-CN.md` —— 已完成。
 

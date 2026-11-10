@@ -84,6 +84,12 @@ FACTS = {
     "workarounds_invalid": WORKAROUNDS_INVALID,
     "targets_count": 4,
     "stdlib_modules": 8,
+    # 全站的 route 数（一个 route = 一个中英两版共有的页面）。
+    # ⚠️ 2026-11-10 抓到第四处漂移：文档里写「28 个 route 全部双语」，
+    # 实际是 **29**（24 页文档层 + 5 页门脸）—— 加减法就错了。
+    # ⇒ 这个数不许再写进散文；由 `tools/check_twins.py` 的规则 7 对拍
+    # 「实际 route 数 == 这个 fact」⇒ 加页面忘了改这里，当场红。
+    "site_routes": 29,
     # 编译器 C 宿主时代（v1.8.3）那批已作废的 ABI 版本 —— **历史引用**，
     # 不是当前契约。OS 页在讲「旧设计稿写于什么时候」时会提到它。
     "legacy_abi_version": "1.0.0",
