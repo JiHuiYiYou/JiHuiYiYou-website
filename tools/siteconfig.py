@@ -27,6 +27,9 @@ IDE_VERSION_DATE = "2026-10-30"
 ORG = "JiHuiYiYou"
 ORG_SITE = "https://github.com/JiHuiYiYou"
 
+# 本仓（官网）自己的仓库 —— 文档页的「编辑此页」链接指向它。
+SITE_REPO = f"{ORG_SITE}/JiHuiYiYou-website"
+
 # ── 编译器状态数字（全部来自 docs/internal/FACTS.md） ────────────────────────
 
 REGRESS_TOTAL = 301

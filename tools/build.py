@@ -788,6 +788,12 @@ def build() -> int:
             renderer = Renderer(C.WIKI_LINKS, lambda lv, t, s: headings.append((lv, t, s)))
             body_html = renderer.render(body)
             body_html = localize_body_links(body_html, lang, routes)
+            # 「编辑此页」：按**源文件路径**推出来 —— 页面文案说「每页底部都有
+            # 「编辑此页」和「报告问题」的入口」，那就得真的有。front matter 里
+            # 写了 edit 就用写的，没写就按 content/ 下的源文件推。
+            if not meta.get("edit"):
+                rel_src = src.relative_to(CONTENT).as_posix()
+                meta["edit"] = f"{C.SITE_REPO}/edit/main/content/{rel_src}"
             page = render_docs_layout(meta, body_html, prefix, out, headings, ctx)
             # 侧栏当前项高亮：按 self 匹配
             page = page.replace('class="doc-nav-group"', 'class="doc-nav-group"', 1)

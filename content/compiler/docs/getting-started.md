@@ -73,17 +73,28 @@ jhyy run hello.jhyy
 
 ## 4. 命令行
 
-```text
-jhyy compile <file.jhyy> [-o output]   编译 + 链接 -> .exe
-jhyy build   <file.jhyy> [-o base]     只编译 -> .s（不链接；-o 是基名）
-jhyy run     <file.jhyy>              编译 + 链接 + 执行
-jhyy dump    <file.jhyy>              打印解析出的 AST 树（只解析）
+下面是 `jhyy --help` 的**原样输出**（编译器打印的帮助是英文的，只有这一份）：
 
-选项：
-  --target=<triple>  选目标（默认 amd64_win）
-  --no-link          只编译到 .s，跳过链接
-  --help             显示帮助并退出
+```text
+jhyy compiler v{{site_version}} (self-hosted)
+
+usage: jhyy [--target=<triple>] [--no-link] <command> [args]
+
+commands:
+  compile <file.jhyy> [-o output]   compile + link -> .exe (a lib without main is compiled only)
+  build   <file.jhyy> [-o base]     compile only -> .s (no link; -o is a base name, .s appended)
+  run     <file.jhyy>              compile + link + execute
+  dump    <file.jhyy>              print the parsed AST tree (parse only; no sema/codegen)
+
+flags:
+  --target=<triple>  select target (default amd64_win); see targets below
+  --no-link          compile to .s only, skip the link step (required for cross targets)
+  --help             show this message and exit
 ```
+
+翻成中文就是：`compile` 编译并链接出 `.exe`（没有 `main` 的库文件只编译不链接），
+`build` 只编译出 `.s`（`-o` 是基名，`.s` 后缀自动加），
+`run` 编译、链接并执行，`dump` 只解析、打印 AST 树（不跑语义分析也不生成代码）。
 
 > [!NOTE]
 > **这是两个不同的「build」。** `jhyy build` 是「把一个 `.jhyy` 编译成汇编」；
