@@ -216,11 +216,11 @@
                 <span class="card-num">01</span>
                 <span class="card-tag">A 路 / B 路</span>
               </div>
-              <h3 class="card-title">黄金参考 vs 目标。</h3>
+              <h3 class="card-title">黄金参考 vs 目标 —— 两条路都以探针形式跑通了。</h3>
               <p class="card-body">
                 <strong>A 路（第 0 步，黄金参考）</strong>：JHYY → C 源码 → clang → <code>.bin</code>。<br/>
-                <strong>B 路（目标）</strong>：JHYY → ARM 机器码（<code>.o</code>）→ 官方 SDK → <code>.bin</code>。<br/>
-                B 路出的是 ARM <code>.o</code>，然后链官方 SDK 的 <code>lscript.ld</code> / <code>stdlib_0.lib</code> / <code>libv5rt.a</code>，最后 <code>objcopy</code> 出 <code>.bin</code>。
+                <strong>B 路（目标）</strong>：JHYY → ARM 机器码 → 官方 SDK → <code>.bin</code>。<br/>
+                <strong>两条路现在都跑通了</strong>（2026-11-10）：A 路发 C，编出 <code>day1vex.bin</code>（2516 B）；B 路直接发 <strong>ARM 汇编</strong>，编出 <code>routebvex.bin</code>（2580 B）—— 换掉的是 clang 的<strong>代码生成</strong>那一步，汇编与链接仍由它做，最后 <code>objcopy</code> 出 <code>.bin</code>。
               </p>
               <div class="card-visual">
                 <div class="phase-pills">
@@ -275,6 +275,8 @@
                 <p class="card-body">
                   ABI v4.0.0 把<strong>指针宽度锁死 64 位</strong>，四个目标全是 amd64；而 <code>V5_DeviceT</code> 是 <strong>4 字节</strong>的 C 指针。
                   ⇒ ARM 目标必须<strong>先把指针宽度定成 4 字节</strong>，不定，连 <code>extern fn</code> 都对不上。这是 B 阶段的第一块硬骨头 —— 写进规格书，免得有人用最贵的方式发现它。
+                  <br/><br/>
+                  <strong>探针已经绕开它了</strong>：B 路那个 emitter <strong>自己定</strong>寄存器与宽度，不经过编译器那两处 64 位假设 ⇒ <strong>原型不需要给编译器打补丁</strong>，「要不要给编译器加一个真 ARM 后端」这个决定因此可以往后放。
                 </p>
               </div>
               <div class="card-half card-half--visual">
@@ -507,7 +509,7 @@
               </div>
               <h3 class="card-title">剩下的洞都写在这儿</h3>
               <p class="card-body">
-                屏显细节（<code>bOpaque</code> 语义、文字坐标单位）仍待测；电机反转标志在读回层面看不到影响（探针顺序有嫌疑）；SD 卡 <code>program.bin</code> 的烧录流程没走通（本轮没插卡）。排期上，<strong>Day 3 与 B 阶段一个都还没开始</strong>；Day 1–2 已开工（见下一卡）。
+                屏显细节（<code>bOpaque</code> 语义、文字坐标单位）仍待测；电机反转标志在读回层面看不到影响（探针顺序有嫌疑）；SD 卡 <code>program.bin</code> 的烧录流程没走通（本轮没插卡）。排期上，<strong>Day 3 与 B 阶段（编译器里的真 ARM 后端）一个都还没开始</strong>；Day 1–2 与 B 路探针都已开工（见后两张卡）。
               </p>
             </div>
           </div>
@@ -520,9 +522,11 @@
                 <span class="card-num">→</span>
                 <span class="card-tag">正在做</span>
               </div>
-              <h3 class="card-title">Day 1–2：emitter 发 C</h3>
+              <h3 class="card-title">两个 emitter：A 路发 C，B 路发 ARM 汇编</h3>
               <p class="card-body">
-                <strong>第一个闭环已通</strong>（2026-11-10）：同一个 <code>hello.jhyy</code>，主仓编译器那条路与本仓 emitter 那条路，<strong>stdout 逐字相同 + 返回码相同</strong>。第一份真 JHYY 程序（<code>vex_demo.jhyy</code>）也编出了 V5 二进制（2516 B），它的绑定面对象与黄金参考<strong>逐字节相同</strong> ⇒ JHYY 路与手写 C 路调的是同一个符号。最小子集 + 最小绑定面（先只绑 <code>vexDeviceGetByIndex</code> / <code>vexDeviceMotorVelocitySet</code> / <code>vexDelay</code> / <code>jhyy_vex_display_puts</code>）—— <strong>发 C，不发 C++</strong>。下一步：VEX 的 <code>.bin</code> + 真机跑。
+                <strong>A 路第一个闭环已通</strong>（2026-11-10）：同一个 <code>hello.jhyy</code>，主仓编译器那条路与本仓 emitter 那条路，<strong>stdout 逐字相同 + 返回码相同</strong>。第一份真 JHYY 程序（<code>vex_demo.jhyy</code>）也编出了 V5 二进制（2516 B）。最小子集 + 最小绑定面（先只绑 <code>vexDeviceGetByIndex</code> / <code>vexDeviceMotorVelocitySet</code> / <code>vexDelay</code> / <code>jhyy_vex_display_puts</code>）—— <strong>发 C，不发 C++</strong>。<br/>
+                <strong>B 路同日也走通了</strong>：<code>spike/route-b/</code> 把同一份 JHYY 源码变成 <strong>ARM 汇编</strong>，编出 <code>routebvex.bin</code>（2580 B），<strong>主仓一行都不用改</strong>。<br/>
+                <strong>三条路的绑定面对象哈希完全相同</strong>（黄金参考 / A 路 / B 路）⇒ 调的是同一个绑定面符号，字节层面坐实。<strong>剩下的只有真机跑</strong> —— 两份 <code>.bin</code> 都已经在本地编出来了。
               </p>
             </div>
           </div>
@@ -537,7 +541,8 @@
               </div>
               <h3 class="card-title">Day 3 的「一致」指的是行为，不是字节</h3>
               <p class="card-body">
-                A 路和 B 路是两个不同的代码生成器（<code>.s</code> 必然不同，<code>.o</code> 段布局也可能不同）⇒ <code>.s</code> / <code>.o</code> / ELF / <code>.map</code> / <code>.bin</code> 五层产物是<strong>各自的诊断证据</strong>，不是逐字节比对对象。逐层比对只是为了<strong>定位</strong>不一致发生在哪一层。
+                A 路和 B 路是两个不同的代码生成器（<code>.s</code> 必然不同，<code>.o</code> 段布局也可能不同）⇒ <code>.s</code> / <code>.o</code> / ELF / <code>.map</code> / <code>.bin</code> 五层产物是<strong>各自的诊断证据</strong>，不是逐字节比对对象。逐层比对只是为了<strong>定位</strong>不一致发生在哪一层。<br/>
+                <strong>唯一坐实到字节的那一层是绑定面</strong> —— <code>jhyy_vex.o</code> 是刻意抽出来的最小对象（只装 <code>extern fn</code> 对应的那几个符号），三条路哈希完全相同；整份产物则不同（2516 B vs 2580 B）。
               </p>
             </div>
           </div>

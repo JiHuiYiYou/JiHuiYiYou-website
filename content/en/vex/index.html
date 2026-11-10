@@ -173,11 +173,11 @@ zone: vex
                 <span class="card-num">01</span>
                 <span class="card-tag">Route A / Route B</span>
               </div>
-              <h3 class="card-title">Golden reference vs the target.</h3>
+              <h3 class="card-title">Golden reference vs the target — both routes now work as probes.</h3>
               <p class="card-body">
                 <strong>Route A (step 0, the golden reference)</strong>: JHYY → C source → clang → <code>.bin</code>.<br/>
-                <strong>Route B (the goal)</strong>: JHYY → ARM machine code (<code>.o</code>) → the official SDK → <code>.bin</code>.<br/>
-                Route B emits an ARM <code>.o</code>, which is then linked against the SDK's <code>lscript.ld</code> / <code>stdlib_0.lib</code> / <code>libv5rt.a</code>, and <code>objcopy</code> produces the <code>.bin</code>.
+                <strong>Route B (the goal)</strong>: JHYY → ARM machine code → the official SDK → <code>.bin</code>.<br/>
+                <strong>Both routes now work</strong> (2026-11-10): Route A emits C and produces <code>day1vex.bin</code> (2516 B); Route B emits <strong>ARM assembly</strong> directly and produces <code>routebvex.bin</code> (2580 B) — what it replaces is clang's <strong>code generation</strong> step; clang still assembles and links, and <code>objcopy</code> produces the <code>.bin</code>.
               </p>
               <div class="card-visual">
                 <div class="phase-pills">
@@ -232,6 +232,8 @@ zone: vex
                 <p class="card-body">
                   ABI v{{abi_version}} locks the <strong>pointer width at 64 bits</strong>, and all four targets are amd64; but <code>V5_DeviceT</code> is a <strong>4-byte</strong> C pointer.
                   ⇒ The ARM target must <strong>set the pointer width to 4 bytes first</strong>; otherwise even <code>extern fn</code> will not line up. This is the first hard blocker of the B phase — it is written into the spec so nobody discovers it the expensive way.
+                  <br/><br/>
+                  <strong>The probe already goes around it</strong>: route B's emitter <strong>picks the registers and widths itself</strong>, never passing through the compiler's two 64-bit assumptions ⇒ <strong>the prototype needs no compiler patch</strong>, so the decision of whether to give the compiler a real ARM backend can be deferred.
                 </p>
               </div>
               <div class="card-half card-half--visual">
@@ -464,7 +466,7 @@ zone: vex
               </div>
               <h3 class="card-title">The remaining holes are written down here</h3>
               <p class="card-body">
-                The display details (<code>bOpaque</code> semantics, text coordinate units) are still to be measured; the motor direction flag shows no effect on read-back (the probe order is suspected); the SD card <code>program.bin</code> burn flow was not walked through (no card inserted this round). In the schedule, <strong>Day 3 and the B phase have not started at all</strong>; Days 1–2 are underway (see the next card).
+                The display details (<code>bOpaque</code> semantics, text coordinate units) are still to be measured; the motor direction flag shows no effect on read-back (the probe order is suspected); the SD card <code>program.bin</code> burn flow was not walked through (no card inserted this round). In the schedule, <strong>Day 3 and the B phase (a real ARM backend inside the compiler) have not started at all</strong>; Days 1–2 and the route B probe are underway (see the next two cards).
               </p>
             </div>
           </div>
@@ -477,9 +479,11 @@ zone: vex
                 <span class="card-num">→</span>
                 <span class="card-tag">In flight</span>
               </div>
-              <h3 class="card-title">Days 1–2: the emitter emits C</h3>
+              <h3 class="card-title">Two emitters: route A emits C, route B emits ARM assembly</h3>
               <p class="card-body">
-                <strong>The first closed loop works</strong> (2026-11-10): the same <code>hello.jhyy</code>, compiled through the main repo's compiler and through this repo's emitter, produces <strong>byte-identical stdout and the same exit code</strong>. The first program written in actual JHYY (<code>vex_demo.jhyy</code>) also compiles into a V5 binary (2516 B), and its binding-surface object is <strong>byte-identical</strong> to the golden reference's — so the JHYY route and the hand-written C route provably call the same symbol. A minimal subset plus the minimal binding surface (to start with just <code>vexDeviceGetByIndex</code> / <code>vexDeviceMotorVelocitySet</code> / <code>vexDelay</code> / <code>jhyy_vex_display_puts</code>) — <strong>C, not C++</strong>. Next: the VEX <code>.bin</code> and a run on the real robot.
+                <strong>Route A's first closed loop works</strong> (2026-11-10): the same <code>hello.jhyy</code>, compiled through the main repo's compiler and through this repo's emitter, produces <strong>byte-identical stdout and the same exit code</strong>. The first program written in actual JHYY (<code>vex_demo.jhyy</code>) also compiles into a V5 binary (2516 B). A minimal subset plus the minimal binding surface (to start with just <code>vexDeviceGetByIndex</code> / <code>vexDeviceMotorVelocitySet</code> / <code>vexDelay</code> / <code>jhyy_vex_display_puts</code>) — <strong>C, not C++</strong>.<br/>
+                <strong>Route B works too</strong>, on the same day: <code>spike/route-b/</code> turns the same JHYY source into <strong>ARM assembly</strong> and produces <code>routebvex.bin</code> (2580 B), <strong>without touching a single line of the main repo</strong>.<br/>
+                <strong>The binding-surface object hashes identically across all three routes</strong> (golden reference / route A / route B) ⇒ they provably call the same binding-surface symbol, down to the byte. <strong>What is left is a run on the real robot</strong> — both <code>.bin</code> files are already built locally.
               </p>
             </div>
           </div>
@@ -494,7 +498,8 @@ zone: vex
               </div>
               <h3 class="card-title">On Day 3, "identical" means behaviour, not bytes</h3>
               <p class="card-body">
-                Routes A and B are two different code generators (the <code>.s</code> is bound to differ, and the <code>.o</code> section layout may differ too) ⇒ the five artifact layers <code>.s</code> / <code>.o</code> / ELF / <code>.map</code> / <code>.bin</code> are <strong>separate diagnostic evidence</strong>, not byte-comparison targets. Comparing layer by layer only exists to <strong>locate</strong> where the two disagree.
+                Routes A and B are two different code generators (the <code>.s</code> is bound to differ, and the <code>.o</code> section layout may differ too) ⇒ the five artifact layers <code>.s</code> / <code>.o</code> / ELF / <code>.map</code> / <code>.bin</code> are <strong>separate diagnostic evidence</strong>, not byte-comparison targets. Comparing layer by layer only exists to <strong>locate</strong> where the two disagree.<br/>
+                <strong>The one layer pinned down to the byte is the binding surface</strong> — <code>jhyy_vex.o</code> is a deliberately minimal object (only the few symbols the <code>extern fn</code>s map to), and its hash is identical across all three routes; the full artifacts differ (2516 B vs 2580 B).
               </p>
             </div>
           </div>
