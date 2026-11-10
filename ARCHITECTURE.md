@@ -162,6 +162,15 @@ PASS」，编译器仓已经改成 281 了，没有任何门会红）。
 **「文档示例真编译」那道门红了不许上线**（原来只挂 `[build, twins]`，
 workflow 自己的注释写着「守六件事」，实际第六件拦不住部署）。
 
+⚠️ **但光改 `needs` 还不够**：GitHub Pages 原先配的是 **「Deploy from a
+branch」**（`build_type: legacy`）⇒ 每次 push 到 main，GitHub **自己**那个
+内部的「pages build and deployment」工作流也会把仓库内容发布一遍 ——
+**它不等我们的门**。实测：commit `fc25708` 的站点内容在 `examples` 还在跑
+的时候就上线了 ⇒ 那道门当时是**装饰**。
+⇒ 已把 Pages 切成 **`build_type: workflow`**（只认 Actions 部署）。
+**这个设置不在仓里**（是仓库设置，一行 API 就能改回去），但改完发布路径
+就只剩一条 ⇒ 门才算真的拦得住。
+
 事实门上线以来抓到过两次真漂移：产物级门数从 19 漂到 21，以及编译器仓发 v4.1.5
 之后官网的版本号没跟上。**它不是空门。**
 

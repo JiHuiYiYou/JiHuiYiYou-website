@@ -15,6 +15,10 @@
 
 - **`deploy` 的 `needs` 挂上 `examples`** —— 「文档示例真编译」那道门红了
   不再照样上线（它只跑 1 分钟，代价可忽略）；
+- **GitHub Pages 从「Deploy from a branch」切成「GitHub Actions」**
+  （`build_type: legacy → workflow`）—— 原来有**两条发布路径**：GitHub 自己
+  那个内部工作流不等我们的门就发布了 ⇒ 那道门当时是装饰。**这个设置不在
+  仓里**，是仓库设置；
 - **`sitemap.xml` / `robots.txt` / `404.html` 补上** —— 三个都**从 route
   映射生成** ⇒ 加页面不会跟 sitemap 脱节；同步门的范围也跟着加了。
 
