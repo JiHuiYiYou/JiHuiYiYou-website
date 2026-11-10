@@ -69,6 +69,14 @@
   --f-serif: "Instrument Serif", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Hiragino Sans GB", ui-sans-serif, system-ui, sans-serif;
   --f-sans: "Space Grotesk", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
   --f-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* 页面级缩放（规则与理由 ⇒ DESIGN.md §2.4） */
+  /* 整层按 67% 缩 —— 等价于「浏览器 67% 缩放」：布局视口按 1/0.67 展开，
+     一屏能看到的内容比原来多 1.5 倍；CSS 里的字号一个数字没改，
+     落到屏幕上按 67% 画。 */
+  --page-scale: 0.67;
+  /* 灵动岛与页脚是「外壳」：跟着缩到 67% 就太小了，只缩到 80%。 */
+  --chrome-scale: 0.8;
 }
 
 /* ============================================================
@@ -86,7 +94,7 @@ body {
   font-weight: 400;
   overflow-x: hidden;
   position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh / var(--page-scale));
 }
 img, svg { display: block; max-width: 100%; }
 button { background: none; border: 0; color: inherit; font: inherit; cursor: pointer; }
@@ -102,6 +110,25 @@ code, pre { font-family: var(--f-mono); }
   outline-offset: 3px;
   border-radius: 4px;
 }
+
+/* ============================================================
+   页面级缩放 —— 等价于「浏览器 67% 缩放」
+   ------------------------------------------------------------
+   门脸层整体按 --page-scale（0.67）缩：Chromium 里给 <html> 设 zoom，
+   布局视口会按 1/0.67 展开 ⇒ 一屏看到的内容多 1.5 倍，而字号不变。
+   （文档层不跟：它自己有一套密度，见 DESIGN.md §4 —— html:has(body.doc-body)
+   把两个变量都拨回 1。）
+
+   ⚠️ 根 zoom **不会**放大视口单位：`100vh` / `100vw` 仍按未缩放的视口算，
+   而布局视口已经展开 ⇒ 用视口单位的地方要自己除掉 --page-scale
+   （.hero 的整屏高度、.cracks 的整屏画布），否则它们会短一截。
+   ============================================================ */
+html { zoom: var(--page-scale); }
+html:has(body.doc-body) { zoom: 1; --page-scale: 1; --chrome-scale: 1; }
+
+/* 灵动岛与页脚只缩到 80%（--chrome-scale）—— 它们是外壳，不该跟着正文
+   缩到 67%（那太小了）。这里给它们一个反向缩放：0.8 / 0.67 ≈ 1.194。 */
+.floating-nav, .site-foot { zoom: calc(var(--chrome-scale) / var(--page-scale)); }
 
 /* Theme helper class shortcuts */
 .bg-bg { background: var(--bg-deep); }
@@ -587,7 +614,8 @@ code, pre { font-family: var(--f-mono); }
    ============================================================ */
 .hero {
   position: relative;
-  min-height: 100dvh;
+  /* 除以 --page-scale：根 zoom 不放大视口单位，不除的话 hero 会短一截 */
+  min-height: calc(100dvh / var(--page-scale));
   display: flex;
   align-items: center;
   padding-top: 96px;
@@ -1784,8 +1812,9 @@ code, pre { font-family: var(--f-mono); }
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  /* 画布要盖满整屏 —— 根 zoom 下视口单位不跟着布局视口走，除掉缩放系数 */
+  width: calc(100vw / var(--page-scale));
+  height: calc(100vh / var(--page-scale));
   pointer-events: none;
   z-index: 50;
   overflow: hidden;

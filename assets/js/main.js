@@ -13,6 +13,20 @@
     motionQuery.addEventListener('change', (e) => { REDUCED = e.matches; });
   } catch (_) { /* 老浏览器没有 addEventListener，忽略 */ }
 
+  // ---- 0. 页面级缩放（main.css 的 --page-scale）------------------
+  //
+  // 根缩放之后，页面里有**两套坐标系**：
+  //   · 鼠标事件坐标（clientX/clientY）与 getBoundingClientRect()
+  //     给的是**设备像素**（缩放之后画在屏幕上的尺寸）；
+  //   · CSS transform 的 px 是**根坐标**（还要再乘一次缩放才落到屏幕上）。
+  // 两者差一个缩放系数 —— 不换算的话，光点会落在鼠标右边三分之一处，
+  // 雾气被推开的半径会大 1.5 倍，磁吸按钮会软一半。
+  // ⇒ 本文件里凡是「写进 style 的坐标」一律先除以 PAGE_ZOOM。
+  const PAGE_ZOOM = (() => {
+    const z = parseFloat(getComputedStyle(document.documentElement).zoom);
+    return Number.isFinite(z) && z > 0 ? z : 1;
+  })();
+
   // ---- 1. Scroll reveal via IntersectionObserver ------------
   const reveal = (el, delay = 0) => {
     el.style.transitionDelay = delay + 'ms';
@@ -45,14 +59,14 @@
   //
   // 原生光标**保留** —— 之前全局 cursor:none 让全站没有文本 I 形光标。
   // 光点继续跟着鼠标跑，但它是**拖影装饰**，不是指针替身。
-  const lastMouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  const lastMouse = { x: window.innerWidth / 2 / PAGE_ZOOM, y: window.innerHeight / 2 / PAGE_ZOOM };
   const dot = document.querySelector('.cursor-dot');
   const cracksSvg = document.getElementById('cracks');
   const layer = cracksSvg && cracksSvg.querySelector('.cracks-layer');
 
   // 光点位置（弹簧跟随）
-  let cx = window.innerWidth / 2;
-  let cy = window.innerHeight / 2;
+  let cx = window.innerWidth / 2 / PAGE_ZOOM;
+  let cy = window.innerHeight / 2 / PAGE_ZOOM;
   if (dot) dot.style.transform = 'translate3d(' + (cx - 2) + 'px,' + (cy - 2) + 'px,0)';
 
   // 碎片状态
@@ -79,8 +93,8 @@
 
   mists.forEach((m) => {
     const rect = m.getBoundingClientRect();
-    m._cx = rect.left + rect.width / 2;
-    m._cy = rect.top + rect.height / 2;
+    m._cx = (rect.left + rect.width / 2) / PAGE_ZOOM;
+    m._cy = (rect.top + rect.height / 2) / PAGE_ZOOM;
     m._px = 0; m._py = 0;    // current offset
     m._vx = 0; m._vy = 0;    // velocity
   });
@@ -160,8 +174,8 @@
       const strength = 0.35;
       btn.addEventListener('mousemove', (e) => {
         const r = btn.getBoundingClientRect();
-        const x = e.clientX - (r.left + r.width / 2);
-        const y = e.clientY - (r.top + r.height / 2);
+        const x = (e.clientX - (r.left + r.width / 2)) / PAGE_ZOOM;
+        const y = (e.clientY - (r.top + r.height / 2)) / PAGE_ZOOM;
         btn.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
       });
       btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
@@ -172,36 +186,46 @@
   let pendingMx = 0, pendingMy = 0, pendingMove = false;
 
   window.addEventListener('mousemove', (e) => {
-    lastMouse.x = e.clientX;
-    lastMouse.y = e.clientY;
-    pendingMx = e.clientX;
-    pendingMy = e.clientY;
+    // 鼠标给的是设备像素 ⇒ 换算成根坐标，后面写进 style 的都用它
+    const mx = e.clientX / PAGE_ZOOM;
+    const my = e.clientY / PAGE_ZOOM;
+    lastMouse.x = mx;
+    lastMouse.y = my;
+    pendingMx = mx;
+    pendingMy = my;
     pendingMove = true;
 
     // 玻璃碎片
     if (!REDUCED && layer) {
       if (lastSampleX < -9000) {
-        lastSampleX = e.clientX;
-        lastSampleY = e.clientY;
-        spawnShard(e.clientX, e.clientY);
+        lastSampleX = mx;
+        lastSampleY = my;
+        spawnShard(mx, my);
       } else {
-        burstBetween(lastSampleX, lastSampleY, e.clientX, e.clientY);
-        lastSampleX = e.clientX;
-        lastSampleY = e.clientY;
+        burstBetween(lastSampleX, lastSampleY, mx, my);
+        lastSampleX = mx;
+        lastSampleY = my;
       }
     }
   }, { passive: true });
 
+  // 碎片画布：viewBox 用根坐标 —— 碎片就是按根坐标画的
+  const sizeCracks = () => {
+    if (!cracksSvg) return;
+    const w = window.innerWidth / PAGE_ZOOM;
+    const h = window.innerHeight / PAGE_ZOOM;
+    cracksSvg.setAttribute('width', w);
+    cracksSvg.setAttribute('height', h);
+    cracksSvg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+  };
+  sizeCracks();
+
   window.addEventListener('resize', () => {
-    if (cracksSvg) {
-      cracksSvg.setAttribute('width', window.innerWidth);
-      cracksSvg.setAttribute('height', window.innerHeight);
-      cracksSvg.setAttribute('viewBox', '0 0 ' + window.innerWidth + ' ' + window.innerHeight);
-    }
+    sizeCracks();
     mists.forEach((m) => {
       const rect = m.getBoundingClientRect();
-      m._cx = rect.left + rect.width / 2;
-      m._cy = rect.top + rect.height / 2;
+      m._cx = (rect.left + rect.width / 2) / PAGE_ZOOM;
+      m._cy = (rect.top + rect.height / 2) / PAGE_ZOOM;
     });
   }, { passive: true });
 
