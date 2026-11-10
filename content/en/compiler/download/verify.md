@@ -1,0 +1,176 @@
+---
+title: Verification and signing
+description: How to check the SHA256, the state of signing, and how to verify where a released artifact comes from
+layout: docs
+project: compiler
+zone: download
+---
+
+# Verification and signing
+
+This page answers three questions: **whether the bytes you downloaded are intact**, **whether the publisher is the publisher you expected**, and **whether the compiler in your hands is this version**.
+
+The answer to the second question is not a pretty one, so it comes first.
+
+---
+
+## The state of signing: no signature
+
+> [!WARNING]
+> The installer and the MSI **have no code signature**. On the first run Windows SmartScreen shows "Windows protected your PC" — click "More info → Run anyway".
+> Unsigned binaries are also more easily blocked by third-party antivirus. Enterprise distribution policies may reject unsigned MSIs outright.
+
+Here is what you actually run into:
+
+| Scenario | What happens |
+|---|---|
+| An individual user on the first run | SmartScreen's blue-background prompt gets in the way; you have to click "More info → Run anyway" by hand, and the "Publisher" field shows an unknown publisher |
+| Third-party antivirus | The heuristic false positive rate for unsigned binaries is noticeably higher; the file may be quarantined, or a whitelist entry may be requested |
+| Enterprise distribution | Many organizations' software distribution policies reject unsigned MSIs outright — not that it fails to install, but that the policy blacklists it |
+| Environments that enforce signing | It does not install, unless IT gives a separate exemption |
+
+There are **no** detached signatures from minisign, sigstore, cosign or GPG;
+**no** SLSA provenance, SBOM or attestation. The only verification-related asset the release process produces is:
+`SHA256.txt`.
+
+So this page will not give you a signature verification procedure — because there is none. That is deliberate:
+**spending a procedure that does not exist on talking around the fact that nothing is signed is worse than just saying nothing is signed.**
+
+### What SHA256 can and cannot prove
+
+`SHA256.txt` and the artifacts it checks come from **the same publisher**. That decides the limits of what it can do:
+
+- It **can** prove the file was not corrupted or truncated in transit, and that you did not download the wrong version;
+- It **cannot** prove that the publisher is trustworthy — if someone can change your download source, they can change
+  `SHA256.txt` at the same time.
+
+In other words, this is an **integrity** check, not a **source authentication**. To actually authenticate the source you need a signature or a transparency log — and the project currently has neither.
+
+---
+
+## How to check the SHA256
+
+Every release ships a `SHA256.txt` asset whose contents are a manifest in `sha256sum` format:
+
+```text
+<64 hex digits>  <file name>
+```
+
+Two spaces separate the two fields, UTF-8 without BOM, **LF line endings** (generated on Windows, but deliberately written as LF —
+CRLF would make `sha256sum -c` on Linux treat the `\r` as part of the file name).
+
+### bash
+
+Put the three artifacts and `SHA256.txt` in the same directory, then:
+
+```bash
+sha256sum -c SHA256.txt
+```
+
+The output is one `文件名: OK` per line; any line that says `FAILED` means it does not match.
+
+To check only one file:
+
+```bash
+sha256sum jhyy-installer-{{site_version}}.exe
+```
+
+Compare the hash it prints with the matching line in `SHA256.txt` (the hashes in the file are lower case).
+
+> [!NOTE]
+> The authoritative manifest is the `SHA256.txt` on the release. The local mirror under `/downloads/` on this site stores
+> the same manifest under the name `SHA256SUMS.txt` — a different file name, the same content format.
+
+### PowerShell
+
+To check every file in the manifest at once:
+
+```powershell
+Get-Content .\SHA256.txt | ForEach-Object {
+    $p = $_ -split '\s+', 2
+    $actual = (Get-FileHash -Algorithm SHA256 -Path $p[1]).Hash.ToLower()
+    if ($actual -eq $p[0].ToLower()) { "OK   $($p[1])" } else { "FAIL $($p[1])" }
+}
+```
+
+A single file:
+
+```powershell
+Get-FileHash -Algorithm SHA256 .\jhyy-installer-{{site_version}}.exe
+```
+
+`Get-FileHash` prints **upper case** hex, while `SHA256.txt` is **lower case** — convert to lower case before
+comparing (the command above already does that).
+
+---
+
+## What a failed check usually means
+
+In order of how often it happens:
+
+1. **The download was truncated.** A network interruption, a proxy cache, or a resumed browser download all leave half a file behind.
+   Download the whole thing again; do not use the half file that came out of a resume.
+2. **The line endings were changed.** `SHA256.txt` has to be LF. If it was opened in an editor and saved (or converted to
+   CRLF by some tool on Windows), `sha256sum -c` reports
+   `No such file or directory` — because it treats the trailing `\r` as part of the file name.
+   **Do not edit this file**, run the check against the original file.
+3. **What you got is not the original file.** Something saved from the **HTML download page** of a GitHub release is not
+   guaranteed to be the released artifact itself. Use the tag direct link:
+   `https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v<版本>/<文件名>`
+4. **The version number is wrong.** `SHA256.txt` **travels with the version** — running an old version's checksum against a new
+   version's artifact will never match. On top of that, the v1.5.5 / v1.5.6 releases in the archive are historical
+   placeholders whose assets already return 404, so the hashes in their manifests match no existing download.
+5. **You checked the wrong file.** `SHA256.txt` lists the three released artifacts: the installer, the MSI and the VSIX.
+   The compiler binary `jhyy.exe` is **not** a release asset — it is inside the installer and under
+   `compiler/build/bin/` in the repository.
+
+---
+
+## How to confirm that what you have really is this version
+
+### The version banner
+
+The **first line** of `jhyy --help` is the version banner:
+
+```text
+jhyy compiler v{{site_version}} (self-hosted)
+```
+
+Running `jhyy` with no arguments prints the same help text.
+
+> [!NOTE]
+> **There is no `jhyy --version`** — that subcommand does not exist. The version banner is only on the first line of
+> `--help`, so do not go looking for a command that is not there.
+
+### The version embedded in the compiled artifact
+
+The version number is a **string literal** in the compiler source (the line that `compiler/src0/main.jhyy` `printf`s
+out), it goes into the binary at compile time, so you can search for it in the binary directly:
+
+```bash
+strings jhyy.exe | grep "jhyy compiler v"
+```
+
+This needs the `strings` of binutils (MSYS2 and Git Bash both have it).
+
+### After installing
+
+```powershell
+where jhyy
+jhyy --help
+```
+
+`where jhyy` is expected to point at `C:\Program Files\JHYY\bin\jhyy.exe`; the version on the first line of `--help`
+should match the current stable release written on this page.
+
+For the VS Code extension, look at the file name and the version number: the artifact is called
+`jhyy-lang-<版本>.vsix`, and the `version` field inside the extension is aligned with the same version number at
+packaging time (`installer/vscode-ext/package.ps1` in the repository is what changes it).
+
+---
+
+## Next
+
+- [Download](/compiler/download/index.html) — the artifact matrix and the download links.
+- [Build from source and bootstrap](/compiler/download/bootstrap.html) — why the self-hosted closure, the gate where
+  "the thing that was compiled, compiled again, still comes out the same", has to be passed before a release.

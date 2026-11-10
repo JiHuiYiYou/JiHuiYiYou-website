@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Build from source and bootstrap</title>
+  <meta name="description" content="Building the compiler from source, and how the two-stage self-hosted closure runs" />
+  <meta property="og:title" content="Build from source and bootstrap" />
+  <meta property="og:description" content="Building the compiler from source, and how the two-stage self-hosted closure runs" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/download/bootstrap.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="" href="../../../en/compiler/docs/index.html">Docs</a><a class="is-active" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/download/bootstrap.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/download/bootstrap.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Download</h4><ul><li><a class="" href="../../../en/compiler/download/index.html">Download home</a></li><li><a class="" href="../../../en/compiler/download/targets.html">Targets and cross-compilation</a></li><li><a class="is-active" href="../../../en/compiler/download/bootstrap.html">Build from source and bootstrap</a></li><li><a class="" href="../../../en/compiler/download/verify.html">Verification and signing</a></li></ul></div><div class="doc-nav-group"><h4>Artifacts</h4><ul><li><a class="" href="../../../en/compiler/download/index.html">Installer (GUI)</a></li><li><a class="" href="../../../en/compiler/download/index.html">MSI (enterprise)</a></li><li><a class="" href="../../../en/compiler/download/index.html">VS Code extension</a></li><li><a class="" href="../../../en/compiler/download/index.html">Package managers</a></li></ul></div><div class="doc-nav-group"><h4>Versions</h4><ul><li><a class="" href="../../../en/compiler/download/index.html">v4.1.5 (current stable)</a></li><li><a class="" href="../../../en/compiler/download/index.html">Archive</a></li></ul></div>
+
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="build-from-source-and-bootstrap">Build from source and bootstrap</h1>
+<p>This page explains how to build the compiler from source, and what the "self-hosted closure" actually <strong>proves</strong> and what it <strong>does not prove</strong>. The second question matters more than the first.</p>
+<hr />
+<h2 id="build-prerequisites">Build prerequisites</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Requirement</th><th>Explanation</th></tr></thead><tbody><tr><td>Host</td><td><strong>Windows x64</strong> — <code>jhyy.exe</code> is a PE executable, and the self-hosted closure has to be able to execute it</td></tr><tr><td>MSYS2</td><td>The build host. <strong>This is a requirement of "building the compiler from source"; installing the compiler with the installer does not need MSYS2</strong></td></tr><tr><td><code>mingw-w64-ucrt-x86_64-gcc</code></td><td>C compiler</td></tr><tr><td><code>mingw-w64-ucrt-x86_64-binutils</code></td><td>as / ld / objdump and the rest</td></tr></tbody></table></div>
+<pre><code class="language-bash">pacman -S --needed mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-binutils
+</code></pre>
+<blockquote class="callout warn"><p><strong>Do not</strong> use the MinGW <code>gcc</code> that ships with Git Bash (<code>/c/Program\ Files/Git/mingw64/bin/gcc.exe</code>) — it does not support PE+ linking, and it will get stuck in the linking stage <strong>without printing a single character</strong>.</p>
+<p>[!WARNING] Whichever <code>gcc</code> / <code>ld</code> appears <strong>first on PATH is the one that gets used</strong>. The Windows runner image ships an old MSYS2 in <code>C:\mingw64</code> placed ahead of the rest, which is the most common way this goes wrong. Pass the MSYS2 root directory explicitly when building.</p></blockquote>
+<hr />
+<h2 id="build">Build</h2>
+<pre><code class="language-bash">git clone https://github.com/JiHuiYiYou/JiHuiYiYou-compiler.git
+cd JiHuiYiYou-compiler
+make all        # → compiler/build/bin/jhyy.exe（~2 MB）
+</code></pre>
+<p><code>make</code> now has only two targets:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>target</th><th>What it does</th></tr></thead><tbody><tr><td><code>all</code></td><td>The default target: builds <code>runtime.o</code> / <code>helpers.o</code>, runs the self-hosted closure check, and produces <code>jhyy.exe</code> plus its copy <code>jhyy_v1.exe.exe</code></td></tr><tr><td><code>clean</code></td><td>Removes the build outputs (<strong>keeps</strong> <code>jhyy.exe</code> — delete it and the repository is unusable on the spot)</td></tr></tbody></table></div>
+<p><code>make stage0</code>, <code>make selfhost</code> and <code>make test</code> <strong>have all been removed</strong>, so don't go looking for them in the old documentation: the C-side compiler was removed wholesale in v4.0.21, and <code>stage0</code> disappeared with it; <code>selfhost</code> and <code>test</code> were removed on 2026-11-03 — the check the former ran is already guaranteed by <code>make</code> itself (a permanently green gate is noise), and the latter was only ever a shell of an <code>echo &quot;TODO: test runner&quot;</code>.</p>
+<h3 id="directory-layout">Directory layout</h3>
+<p><strong>This repository has no stage0 any more.</strong> The bootstrap binary is the <strong>committed one</strong> that already sits in the repository, <code>compiler/build/bin/jhyy.exe</code> — a fresh clone has it, because it is a git-tracked artifact. The compiler compiles <code>compiler/src0/</code> <strong>by itself</strong>:</p>
+<pre><code>JiHuiYiYou-compiler/
+├── compiler/
+│   ├── src0/                   compiler sources (the only implementation, 31 modules)
+│   │   ├── std/                standard library, 8 modules: mem / fmt / io / math / string / vec / os / arena
+│   │   └── codegen_amd64_*.jhyy self-written backend: IL lexer / emit_* / peephole / register cache
+│   ├── runtime/runtime.c       C runtime (arena + main entry)
+│   ├── src0/jhyy_helpers.c     C bridge: the extern declarations between the compiler and Win32
+│   ├── tests/
+│   │   ├── examples/           regression cases, 299 in total
+│   │   └── bootstrap/          fixed_point.sh · closure_check.sh · artifact_checks.sh · byte_equal*.sh
+│   └── build/
+│       ├── obj/                prebuilt _jhyy_runtime.o / _jhyy_helpers.o
+│       └── bin/                jhyy.exe (the git-tracked anchor) + jhyy_v1.exe.exe (a byte-identical copy regenerated by every make)
+├── runtime/linux_elf/          Linux ELF runtime (crt0.S + link.ld)
+├── bench/                      benchmark suite
+├── regress.py                  regression test suite (repository root)
+└── installer/                  WiX installer + bundled ucrt64 toolchain
+</code></pre>
+<p>The double extension of <code>jhyy_v1.exe.exe</code> is not a typo: <code>make</code> regenerates it on every build (it is a byte-identical copy of <code>jhyy.exe</code>), and the local closure gates refer to it by that name.</p>
+<hr />
+<h2 id="the-self-hosted-closure">The self-hosted closure</h2>
+<p>The <code>jhyy.exe</code> rule of <code>make</code> does three things:</p>
+<ol class='md-list'><li>Copies <strong>the current</strong> (committed) <code>jhyy.exe</code> into <code>_boot_anchor.exe</code>;</li><li><code>_boot_anchor.exe</code> compiles <code>src0/main.jhyy</code> → <code>_boot_new</code> (with the <code>.s</code>), and <code>_boot_new.exe</code> compiles it once more → <code>_boot_new2</code> (with the <code>.s</code>);</li><li><strong>Closure check</strong>: <code>cmp -s _boot_new.s _boot_new2.s</code> — the output of the new compiler compiling src0 must be byte-identical to the output of that compiler compiling itself.</li></ol>
+<p>The third step is not "compile two generations and compare once", it <strong>iterates to a fixed point</strong>: if they differ, the anchor is advanced by one generation, at most 3 rounds; <strong>in the round that converges, generation N is the fixed point</strong> (generation N+1 produces the same artifact), and installing that one is correct. Three rounds without convergence ⇒ hard failure.</p>
+<blockquote class="callout warn"><p><strong>The fixed point is run to, not assumed.</strong> And this step carries a non-empty guard: comparing two <strong>empty files</strong> would also be judged "identical", so a compiler that "silently exits 0 but produces no <code>.s</code>" gives a false green — this guard was only added on 2026-11-03.</p></blockquote>
+<p>There is a <strong>drift check</strong> after that: when <code>src0</code> / <code>runtime</code> agree with HEAD, the new artifact must be byte-identical to <strong>the one committed into the repository</strong>, otherwise <code>make</code> fails (<code>STRICT_TOOLCHAIN=1</code>, on by default). CI passes <code>STRICT_TOOLCHAIN=0</code> — that is not loosening the criterion, it is drawing a line of responsibility: CI does not publish, it verifies the artifact that was committed into the repository; the drift check governs "should this compiler be published", not "can it be built".</p>
+<p>Comparing the <code>.s</code> and not the <code>.exe</code> is deliberate: the <code>.s</code> is a function of (source × compiler) and is independent of the host gcc version; the <code>.exe</code> is a function of (source × gcc version), and comparing across toolchains is guaranteed to produce false positives.</p>
+<hr />
+<h2 id="where-each-of-the-three-closure-gates-runs">Where each of the three closure gates runs</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Script</th><th>Criterion</th><th>Where it runs</th></tr></thead><tbody><tr><td><code>compiler/tests/bootstrap/fixed_point.sh</code></td><td>Cross-generation <code>.il</code> + <code>.s</code> byte-identical at N=10 (plus a cross-generation exit code of 42 for <code>cap_test.jhyy</code>). N=3 is the main gate, N=4..10 are informational</td><td><strong>Local gate</strong>: <code>python regress.py --fixed-point</code></td></tr><tr><td><code>compiler/tests/bootstrap/closure_check.sh</code></td><td><code>v2.s == v3.s</code> (Stage 2 and Stage 3 byte-identical)</td><td><strong>Local gate</strong>: <code>bash compiler/tests/bootstrap/closure_check.sh</code></td></tr><tr><td><code>compiler/tests/bootstrap/artifact_checks.sh</code></td><td>20 artifact checks (expected-FAIL model)</td><td><strong>CI gate</strong>: <code>bash compiler/tests/bootstrap/artifact_checks.sh</code></td></tr></tbody></table></div>
+<blockquote class="callout"><p>Neither <code>fixed_point.sh</code> nor <code>closure_check.sh</code> <strong>is wired into CI</strong>. The former is a release-grade procedure (run it after changing <code>src0</code>), the latter was deleted from CI on 2026-11-03 — the closure in CI is already covered by <code>make</code> itself, and running it again just restates the same conclusion; a permanently green gate is noise. <code>artifact_checks.sh</code> is the CI gate: its 20 artifact checks run in CI.</p></blockquote>
+<p>The value of <code>artifact_checks.sh</code> lies in the fact that the failure modes it verifies are <strong>not in the program's return value</strong> but in the byte layout of the artifact: a defect like the 1024 cap on the per-fn table passes when written as a <code>.jhyy</code> test case (all results correct, recursion depth unchanged), and only shows up as <code>subq $N, %rsp</code> jumping in the <code>.s</code> from 8368 to 96928.</p>
+<hr />
+<h2 id="determinism-correctness">Determinism ≠ correctness</h2>
+<p>This is the most important sentence on the page.</p>
+<p><strong>What the self-hosted closure proves is "generational determinism"</strong>: given the same source, the assembly produced by the second generation is byte-identical to the one produced by the first.</p>
+<p><strong>It does not prove semantic correctness.</strong> A deterministic but wrong compiler closes the loop perfectly — compile <code>+</code> into <code>-</code> and the two generations still agree. This is the classic trusting trust gap.</p>
+<p>Semantic correctness is covered by the <strong>regression suite</strong>: <strong>279 PASS / 0 FAIL / 20 SKIP, 299 in total</strong>. The assertion strength audit counts separately <strong>215 real assertions</strong>, with 0 zero-signal cases (no case reports a pass without checking anything at all).</p>
+<pre><code class="language-bash">python regress.py                       # full regression
+python scripts/dev/audit_test_assertions.py --strict   # assertion strength audit
+</code></pre>
+<p>The two gates have a clear division of labour: <strong>the closure governs "two compilations of the same source agree", the regression governs "whether the thing that came out behaves correctly".</strong> If the first passes and the second does not, the compiler is stably getting the same thing wrong; if the second passes and the first does not, the emit layer is non-deterministic — both cases mean stop.</p>
+<hr />
+<h2 id="what-a-reproducible-build-has-to-pin-down">What a reproducible build has to pin down</h2>
+<p>The parts that the repository can actually vouch for:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Pinned item</th><th>Value / How</th></tr></thead><tbody><tr><td>Timestamp</td><td><code>SOURCE_DATE_EPOCH = 1234567890</code> (nailed down in the Makefile; the compiler also sets it before spawning the linker subprocess)</td></tr><tr><td>Debug info</td><td><code>-g0</code> — otherwise the build path that the mingw-w64 CRT pulls in would break the byte-identical comparison</td></tr><tr><td>build-id</td><td><code>-Wl,--build-id=none</code> — same reason</td></tr><tr><td>Compile flags</td><td><code>CFLAGS_REPRO = -std=c11 -Wall -Wextra -g0 -Wl,--build-id=none</code></td></tr><tr><td>Toolchain layout</td><td>gcc derives <code>cc1</code> / <code>collect2</code> / <code>as</code> / <code>ld</code> from its own location; the toolchain directories <strong>must not be flattened</strong>, and the <code>ucrt64/</code> level <strong>must not be renamed</strong></td></tr></tbody></table></div>
+<blockquote class="callout"><p>Full <strong>cross-machine reproducibility</strong> is still one step short: the <code>.exe</code> is a function of (source × gcc version), so anything built with a different gcc version is necessarily different. That is why cross-machine comparison has to compare the <code>.s</code>, not the <code>.exe</code>.</p>
+<p>On top of that, the repository currently does <strong>not</strong> ship a "committed-state sha manifest" with the tarball — the archive downloaded from GitHub codeload has no git metadata, the byte-level drift check has nothing to compare against, and <code>make</code> says so explicitly ("skip") instead of pretending to pass.</p></blockquote>
+<hr />
+<h2 id="next">Next</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/docs/build-and-test.html">Build and test</a> — the complete build and test documentation in the repository.</li><li><a href="../../../en/compiler/download/targets.html">Targets and cross-compilation</a> — the four targets and the bare metal toolchain.</li><li><a href="../../../en/compiler/download/verify.html">Verification and signing</a> — how to check the released artifacts.</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/download/bootstrap.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#build-from-source-and-bootstrap">Build from source and bootstrap</a><a class="anchor-l2" href="#build-prerequisites">Build prerequisites</a><a class="anchor-l2" href="#build">Build</a><a class="anchor-l3" href="#directory-layout">Directory layout</a><a class="anchor-l2" href="#the-self-hosted-closure">The self-hosted closure</a><a class="anchor-l2" href="#where-each-of-the-three-closure-gates-runs">Where each of the three closure gates runs</a><a class="anchor-l2" href="#determinism-correctness">Determinism ≠ correctness</a><a class="anchor-l2" href="#what-a-reproducible-build-has-to-pin-down">What a reproducible build has to pin down</a><a class="anchor-l2" href="#next">Next</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

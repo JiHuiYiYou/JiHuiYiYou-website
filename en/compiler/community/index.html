@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Community</title>
+  <meta name="description" content="Where to ask, how to contribute, and the current status numbers" />
+  <meta property="og:title" content="Community" />
+  <meta property="og:description" content="Where to ask, how to contribute, and the current status numbers" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/community/index.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="is-active" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/community/index.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/community/index.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Community</h4><ul><li><a class="is-active" href="../../../en/compiler/community/index.html">Community home</a></li><li><a class="" href="../../../en/compiler/community/conduct.html">Code of conduct</a></li><li><a class="" href="../../../en/compiler/community/contributing.html">Contributing</a></li><li><a class="" href="../../../en/compiler/community/security.html">Security disclosure</a></li></ul></div><div class="doc-nav-group"><h4>How to take part</h4><ul><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues" target="_blank" rel="noopener">Open an issue ↗</a></li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/pulls" target="_blank" rel="noopener">Open a PR ↗</a></li><li><span class="doc-nav-text">QQ group 429807125</span></li><li><a class="" href="../../../en/compiler/governance/repo-map.html">Code ownership</a></li></ul></div>
+
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="community">Community</h1>
+<p>This page answers three things: <strong>where to ask questions</strong>, <strong>how each kind of contribution gets in</strong>, and <strong>what this project's numbers are right now</strong>.</p>
+<p>First, the situation as it stands: this project is led by <strong>a single maintainer</strong>, and everything listed below is a channel that really exists, not an imagined community structure. There are few channels and few people — that is a fact, not false modesty.</p>
+<hr />
+<h2 id="where-to-ask">Where to ask</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>What you want to do</th><th>Where</th><th>Notes</th></tr></thead><tbody><tr><td>Ask "how do I write this in this language"</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a></td><td>The categories are GitHub's default six: Announcements / General / Ideas / Q&A / Show and tell / Polls</td></tr><tr><td>Report "the compiler did the wrong thing"</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a> → <em>Compiler bug report</em></td><td>The template asks for a minimal reproducer, actual vs expected output, the version, and the exit code</td></tr><tr><td>Request "I want this feature"</td><td>Same as above → <em>Feature request</em></td><td>The template first asks <strong>the problem you want solved</strong>; the proposal may be left empty</td></tr><tr><td>Propose a change</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/pulls" target="_blank" rel="noopener noreferrer">Pull requests</a></td><td>Follow the <a href="../../../en/compiler/community/contributing.html">contributing guide</a></td></tr><tr><td>Report a security issue</td><td><strong>A private advisory</strong> — do not open a public issue</td><td>See <a href="../../../en/compiler/community/security.html">security disclosure</a></td></tr><tr><td>Chat casually, ask about progress</td><td>QQ group <strong>429807125</strong></td><td>Search for the group number to join</td></tr><tr><td>Email</td><td><strong>15901598712@163.com</strong></td><td>The fallback channel for code of conduct reports and security reports</td></tr></tbody></table></div>
+<p>The repository also has a <strong>Wiki</strong> (for long-form writing) and <strong>Projects</strong> (project boards). Issues also allow a blank issue — the templates are guidance, not a gate.</p>
+<blockquote class="callout"><p>The Discussions channel is open, but there are no posts in it yet. It is a channel that has just started; the first person to explain a question clearly will save a lot of trouble for everyone after them.</p></blockquote>
+<hr />
+<h2 id="the-status-numbers-right-now">The status numbers right now</h2>
+<p>What follows are <strong>numbers that change</strong>. The single source of truth is the repository's <code>docs/internal/FACTS.md</code>; the website's copy is in <code>tools/siteconfig.py</code>.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead><tbody><tr><td>Self-hosted closure</td><td><code>make</code> iterates to a fixed point; the <code>.s</code> produced across generations is <strong>byte-identical</strong></td><td>FACTS § 2</td></tr><tr><td>Regression suite</td><td><strong>279 PASS / 0 FAIL / 20 SKIP</strong> (299 in total)</td><td>FACTS § 2</td></tr><tr><td>Assertion strength</td><td>215 real assertions, <strong>zero-signal cases 0</strong></td><td>FACTS § 2</td></tr><tr><td>Artifact checks</td><td>20</td><td>FACTS § 2</td></tr><tr><td>Workaround ledger</td><td>217 entries: <strong>ACTIVE 0</strong> / DEFERRED 1 / RESOLVED 194 / SUPERSEDED 19 / INVALID 3</td><td>FACTS § 3</td></tr><tr><td>Host platform</td><td><strong>1</strong> (Windows x64)</td><td>build.md</td></tr><tr><td>Target triple</td><td><strong>4</strong> (2 stable / 2 beta)</td><td>FACTS § 5</td></tr><tr><td>License</td><td>MIT</td><td><code>LICENSE</code> at the repository root</td></tr></tbody></table></div>
+<p><strong>The boundary of each of these numbers</strong> — do not read past it:</p>
+<ul class='md-list'><li>"Byte-identical across generations" proves <strong>generation determinism</strong>, not semantic correctness. A deterministic but wrong compiler can close the loop perfectly too — this is the classic trusting trust gap, and the regression suite gate is what covers it.</li><li>"ACTIVE 0" means there are <strong>no registered</strong> unfixed compiler bugs; it is not proof that "bugs do not exist". The ledger is public and anyone can check it: <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener noreferrer"><code>docs/internal/workarounds.md</code></a>.</li><li>The 20 SKIP in "279 PASS / 20 SKIP" are cases carrying a <code>// SKIP:</code> directive and library modules with no entry point — not "runs that failed and got skipped".</li></ul>
+<hr />
+<h2 id="how-to-contribute">How to contribute</h2>
+<p>The four kinds of contribution have different entry points and different thresholds. First work out which kind your task falls into, then read the matching requirements.</p>
+<h3 id="compiler-changes">Compiler changes</h3>
+<p>Entry point: the <a href="../../../en/compiler/community/contributing.html">contributing guide</a>. The highest threshold, and the most valuable — because the compiler is self-hosted, changing <code>compiler/src0/*.jhyy</code> shifts the self-hosted anchor. <strong>Required</strong>: an IR example (the <code>JHY_WRITE_IL=1</code> <code>.il</code> output), new regression cases, and a description of the performance and correctness impact.</p>
+<h3 id="documentation">Documentation</h3>
+<p>Entry point: also a PR. Threshold: the change <strong>still has to be fact-checked</strong> — is that limitation still in place? Did the sprint that fixes it really ship? A wrong document is worse than an outdated one. Every number that changes lives only in <code>FACTS.md</code>, and all other documents reference it; documentation changes are also cross-checked against CI's facts gate.</p>
+<h3 id="teaching-material">Teaching material</h3>
+<p>Entry point: tutorials, lecture notes, sample code. Threshold: <strong>a complete, runnable <code>.jhyy</code> file plus the expected output (stdout and exit code) is required</strong>. The best samples are the ones that can go straight into <code>compiler/tests/examples/</code> as a regression case — then the sample is both teaching material and a test.</p>
+<h3 id="os-and-bare-metal">OS and bare metal</h3>
+<p>Entry point: the cross-project design baseline in <code>docs/coordination/</code> (one final version on the compiler side and one on the OS side) is the only basis that crosses the boundary; read it before changing OS-related design. Threshold: for the bare metal and kernel development path, see <a href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a>.</p>
+<hr />
+<h2 id="the-plain-truth-about-community">The plain truth about "community"</h2>
+<p>As of 2026-11-08, the repository has accumulated <strong>9 issues and 8 PRs, all submitted by the maintainer and all closed</strong>; the number of open issues right now is <strong>0</strong>, with 8 stars and 0 forks.</p>
+<p>This is not meant to discourage you. What it means:</p>
+<ul class='md-list'><li><strong>Your issue will not be drowned out</strong> — there is no queue to wait in.</li><li><strong>But there is also no second person to review for you.</strong> PR review is currently done by the maintainer alone, and the feedback cycle depends on how their day goes; we are not going to invent a fake SLA for that.</li><li>The maintainer has a clear response target for <strong>security issues</strong> (see <a href="../../../en/compiler/community/security.html">security disclosure</a>); for <strong>ordinary issues and PRs</strong> there is currently no written response deadline — we are working on that one.</li></ul>
+<p>The least-effortful way to take part in this project is to get your question clear in <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/discussions" target="_blank" rel="noopener noreferrer">Discussions</a> first, then decide whether to write it up as a PR.</p>
+<hr />
+<h2 id="next">Next</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/community/contributing.html">Contributing guide</a> — the full path from opening an issue to merging a PR.</li><li><a href="../../../en/compiler/community/conduct.html">Code of conduct</a> — the minimum agreement for taking part in this project.</li><li><a href="../../../en/compiler/community/security.html">Security disclosure</a> — reporting security issues, and the known trust boundaries.</li><li><a href="../../../en/compiler/governance/repo-map.html">Repository map</a> — who owns each directory.</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/community/index.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#community">Community</a><a class="anchor-l2" href="#where-to-ask">Where to ask</a><a class="anchor-l2" href="#the-status-numbers-right-now">The status numbers right now</a><a class="anchor-l2" href="#how-to-contribute">How to contribute</a><a class="anchor-l3" href="#compiler-changes">Compiler changes</a><a class="anchor-l3" href="#documentation">Documentation</a><a class="anchor-l3" href="#teaching-material">Teaching material</a><a class="anchor-l3" href="#os-and-bare-metal">OS and bare metal</a><a class="anchor-l2" href="#the-plain-truth-about-community">The plain truth about &quot;community&quot;</a><a class="anchor-l2" href="#next">Next</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

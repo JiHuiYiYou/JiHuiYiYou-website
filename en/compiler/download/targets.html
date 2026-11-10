@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Targets and cross-compilation</title>
+  <meta name="description" content="The trade-offs of the four targets, what freestanding means, and the minimal bare metal toolchain" />
+  <meta property="og:title" content="Targets and cross-compilation" />
+  <meta property="og:description" content="The trade-offs of the four targets, what freestanding means, and the minimal bare metal toolchain" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/download/targets.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="" href="../../../en/compiler/docs/index.html">Docs</a><a class="is-active" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/download/targets.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/download/targets.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Download</h4><ul><li><a class="" href="../../../en/compiler/download/index.html">Download home</a></li><li><a class="is-active" href="../../../en/compiler/download/targets.html">Targets and cross-compilation</a></li><li><a class="" href="../../../en/compiler/download/bootstrap.html">Build from source and bootstrap</a></li><li><a class="" href="../../../en/compiler/download/verify.html">Verification and signing</a></li></ul></div><div class="doc-nav-group"><h4>Artifacts</h4><ul><li><a class="" href="../../../en/compiler/download/index.html">Installer (GUI)</a></li><li><a class="" href="../../../en/compiler/download/index.html">MSI (enterprise)</a></li><li><a class="" href="../../../en/compiler/download/index.html">VS Code extension</a></li><li><a class="" href="../../../en/compiler/download/index.html">Package managers</a></li></ul></div><div class="doc-nav-group"><h4>Versions</h4><ul><li><a class="" href="../../../en/compiler/download/index.html">v4.1.5 (current stable)</a></li><li><a class="" href="../../../en/compiler/download/index.html">Archive</a></li></ul></div>
+
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="targets-and-cross-compilation">Targets and cross-compilation</h1>
+<p>This page answers four questions: <strong>which targets exist</strong>, what each target produces, <strong>what freestanding actually changes</strong>, and which tools a bare metal build minimally needs.</p>
+<hr />
+<h2 id="target-boundary-amd64-only">Target boundary: amd64 only</h2>
+<p>There are currently four targets, all of them x86-64. <strong>No aarch64, no riscv64, no wasm.</strong></p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Target triple</th><th>ABI</th><th>Artifact</th><th>Status</th><th>Explanation</th></tr></thead><tbody><tr><td><code>amd64_win</code></td><td>MS x64</td><td>PE/COFF executable (<code>.exe</code>)</td><td>Stable</td><td>The host's default target. The compiler itself runs on this target</td></tr><tr><td><code>amd64_sysv</code></td><td>SysV AMD64</td><td>SysV assembly (<code>.s</code>) → linked into an ELF by an external ld</td><td>Stable</td><td>The artifact is assembly text; the linking is done by the external linker</td></tr><tr><td><code>amd64_win_freestanding</code></td><td>MS x64</td><td>UEFI executable image (<code>.efi</code>)</td><td>Under test</td><td>The calling convention is byte-identical with <code>amd64_win</code>; the UEFI entry path is not finished yet (ABI § 12.8)</td></tr><tr><td><code>amd64_sysv_freestanding</code></td><td>SysV AMD64</td><td>freestanding assembly (<code>.s</code>)</td><td>Under test</td><td>The main entry target for bare metal kernels; it has the same UEFI entry gap</td></tr></tbody></table></div>
+<p>All four targets <strong>go through</strong> the self-written amd64 backend (<code>target_backend_mode</code> always returns <code>BACKEND_SELF</code>), and there is no QBE fallback path — QBE was removed from the build chain long ago.</p>
+<blockquote class="callout warn"><p>This is <strong>the current boundary</strong>: the compiler itself only has an amd64 backend. The ARM target is being worked on in another project — <a href="../../../en/vex/index.html">for-VEX</a> goes with JHYY emitting ARM machine code (<code>.o</code>) directly and then linking the official SDK into a <code>.bin</code>; that route is currently still at the fact-baseline stage, the ARM backend has not been started. "Multi-architecture ABI" is an unscheduled item after v4.16 in the release plan.</p></blockquote>
+<p>The ABI side registers this explicitly: § 12.10 "no aarch64 / riscv64", and the <code>.jhyynb</code> native binary format is still a design draft.</p>
+<hr />
+<h2 id="what-freestanding-changes">What freestanding changes</h2>
+<p>This is the easiest one to misread. <strong>freestanding only switches the "calling convention ownership + entry hooks", it does not switch the way things get linked.</strong></p>
+<p>What the link line ends up being is decided by <strong>whether the source file has <code>#[no_std]</code></strong>, not by <code>--target</code> (ABI § 7):</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Source file</th><th>Link line</th></tr></thead><tbody><tr><td>No <code>#[no_std]</code></td><td>Links <code>runtime.o</code> + <code>helpers.o</code> (the C runtime bridge)</td></tr><tr><td>Has <code>#[no_std]</code></td><td>Links neither of the two, and adds <code>-nostartfiles -nodefaultlibs -Wl,--entry=main -lgcc</code></td></tr></tbody></table></div>
+<p>Both branches carry the same string of link flags:</p>
+<pre><code class="language-text">-g0 -Wl,--build-id=none -Wl,--stack,67108864 … -lm -lkernel32 -luser32 -lshell32 -ladvapi32
+</code></pre>
+<p><strong>The Windows system libraries and <code>-lm</code> are added unconditionally</strong>, <code>#[no_std]</code> not excluded. So a genuinely freestanding image has to be finished with <code>lld-link</code> or a custom link line of its own.</p>
+<p>Two practical consequences follow:</p>
+<ul class='md-list'><li><strong>The output container format is not decided by <code>--target</code></strong>, it is decided by the <code>ld</code> of the host toolchain (<code>link_with_gcc</code> has no target parameter, ABI § 12.9). The PE / ELF in the table are just what each target conventionally produces.</li><li><strong>Targets other than <code>amd64_win</code> have to be given <code>--no-link</code> explicitly.</strong> Without it the compiler refuses outright:</li></ul>
+<pre><code class="language-text">  jhyy: refusing to link a cross target - this build's linker always emits a Windows .exe (via the bundled toolchain).
+        Use --no-link, then link the .s with a toolchain that matches the target.
+</code></pre>
+<p>That guard has its reason: link SysV assembly with a Windows linker and what comes out <strong>has zero warnings at compile time and a runtime error</strong>.</p>
+<hr />
+<h2 id="crossing-over-to-linux">Crossing over to Linux</h2>
+<p>The <code>amd64_sysv*</code> targets produce SysV assembly, which is linked and run on Linux. Three steps in all:</p>
+<pre><code class="language-bash"># 1. on Windows — emit the .s (a cross target must not be linked)
+./compiler/build/bin/jhyy.exe compile --target=amd64_sysv_freestanding --no-link prog.jhyy -o prog
+#    ⇒ prog.s
+
+# 2. on Linux — link it into a static ELF
+gcc -nostdlib -static -T runtime/linux_elf/link.ld -o prog.elf \
+    runtime/linux_elf/crt0.S prog.s
+
+# 3. run it
+./prog.elf
+</code></pre>
+<p>The Linux runtime calls <code>main_jhyy</code> (not <code>main</code>) and exits with its return value, so the entry convention is the same as on the hosted side — but the linking is <code>-nostdlib</code>, so a freestanding program cannot call libc.</p>
+<p>This is exactly the chain CI runs on <code>ubuntu-latest</code>.</p>
+<blockquote class="callout"><p><strong>The compiler itself only runs on Windows.</strong> <code>jhyy.exe</code> is a PE executable, and the self-hosted closure has to execute it; the C-side compiler has been removed, so there is no "build a native ELF jhyy with the Linux gcc" path. The <strong>artifacts</strong> are not bound by this.</p></blockquote>
+<hr />
+<h2 id="the-minimal-bare-metal-toolchain">The minimal bare metal toolchain</h2>
+<p>To actually build a bare metal image you need at least the following. Checked against JHYY's status item by item:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Stage</th><th>What it needs</th><th>JHYY status</th></tr></thead><tbody><tr><td>The compiler itself</td><td><code>jhyy.exe</code></td><td>The self-hosted anchor, <code>compiler/build/bin/jhyy.exe</code> (the repository already has a copy)</td></tr><tr><td>Assembler</td><td><strong>The self-written amd64 emitter</strong></td><td>The backend emits <code>.s</code> in GAS / AT&T syntax directly; there is no standalone assembler binary</td></tr><tr><td>System assembler</td><td>GNU <code>as</code> (invoked through <code>gcc -c</code>)</td><td>Only needed when turning the <code>.s</code> into an object file</td></tr><tr><td>Target linker</td><td>See below</td><td>An external <code>ld</code>, whose container format is decided by the host toolchain</td></tr><tr><td><code>objcopy</code> / <code>objdump</code></td><td>binutils</td><td><strong>Not needed</strong> for compiling itself: <code>objdump</code> is only used in the artifact checks to verify by disassembly, <code>objcopy</code> shows up on the ARM route of for-VEX (the official SDK ships with it)</td></tr><tr><td>QEMU</td><td><code>qemu-system-x86_64</code></td><td>For running UEFI images, <strong>not</strong> a step of the compile</td></tr><tr><td>UEFI firmware</td><td>OVMF (<code>edk2-x86_64-code.fd</code> + <code>edk2-vars.fd</code>)</td><td>The repository's <code>scripts/dev/install/install-freestanding-toolchain.sh</code> copies them out of MSYS2's QEMU share</td></tr><tr><td>GRUB / limine</td><td>None</td><td><strong>Not in the repository</strong>; the main line goes with OVMF + QEMU, and the spike of the OS project uses its own <code>BOOTX64.EFI</code></td></tr></tbody></table></div>
+<p><strong>A bare metal build still needs an external ld.</strong> ABI § 7 puts it very plainly: the link line is gcc's as + ld, <code>link_with_gcc</code> has no target parameter, and the output container is decided by the host <code>ld</code>. JHYY itself only takes care of "turning the source into a <code>.s</code>"; everything from the <code>.s</code> to the executable image is the job of the external toolchain.</p>
+<p>Each of the three kinds of target needs its own linker:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Target</th><th>Linker</th><th>Command shape</th></tr></thead><tbody><tr><td><code>amd64_win</code></td><td>Host gcc → ld (PE)</td><td>The compiler links it itself and produces a <code>.exe</code></td></tr><tr><td><code>amd64_win_freestanding</code></td><td><code>lld-link</code></td><td><code>lld-link /SUBSYSTEM:EFI_APPLICATION /ENTRY:efi_main /MACHINE:X64</code></td></tr><tr><td><code>amd64_sysv*</code></td><td>External gcc / ld (ELF)</td><td>On Linux, with <code>-nostdlib -static</code> and its own <code>link.ld</code></td></tr></tbody></table></div>
+<p>The complete four steps of the UEFI route are already written as scripts in the repository:</p>
+<pre><code class="language-bash"># 1. jhyy compile → .s
+scripts/dev/build/build-efi.sh compiler/tests/examples/hello-freestanding/efi.jhyy
+# 2. gcc -c .s → .obj     3. gcc -c efi_helpers.s → .obj
+# 4. lld-link → .efi
+# Then:
+scripts/dev/test/run-ovmf.sh hello-freestanding.efi
+</code></pre>
+<p><code>lld-link</code> comes from the <code>mingw-w64-x86_64-lld</code> package of MSYS2; <code>run-ovmf.sh</code> starts EDK2 with QEMU and grabs ConOut through debugcon.</p>
+<hr />
+<h2 id="known-gaps">Known gaps</h2>
+<p>The parts of the freestanding side that are not finished are all registered in ABI § 12:</p>
+<ul class='md-list'><li><strong>§ 12.8 · UEFI EFIAPI wrapper not implemented</strong>: the two hooks of freestanding (<code>emit_entry_point</code> / <code>no_crt_init</code>) are <strong>both empty implementations</strong> — the compiler generates no EFIAPI wrapper and does not automatically suppress the CRT / runtime linking. The entry symbol is supplied by the user (<code>efi_main</code> / <code>_start</code>).</li><li><strong>§ 12.9 · No cross-compilation container backend</strong>: <code>--target</code> does not switch the PE / ELF output.</li><li><strong>§ 12.10 · No aarch64 / riscv64</strong>.</li><li><strong>§ 12.1 · struct / enum return values unconditionally go through sret on all targets</strong>, with no size threshold; this does not match the SysV standard when interoperating across languages.</li><li><strong>§ 12.6 · Stack slots are only guaranteed to be 8-byte aligned</strong> (there is currently no type with 16-byte alignment, so it is not triggered).</li></ul>
+<hr />
+<h2 id="next">Next</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a> — the contract itself.</li><li><a href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a> — what it actually takes to write a bare metal program.</li><li><a href="../../../en/compiler/download/bootstrap.html">Build from source and bootstrap</a> — building the compiler from source.</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/download/targets.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#targets-and-cross-compilation">Targets and cross-compilation</a><a class="anchor-l2" href="#target-boundary-amd64-only">Target boundary: amd64 only</a><a class="anchor-l2" href="#what-freestanding-changes">What freestanding changes</a><a class="anchor-l2" href="#crossing-over-to-linux">Crossing over to Linux</a><a class="anchor-l2" href="#the-minimal-bare-metal-toolchain">The minimal bare metal toolchain</a><a class="anchor-l2" href="#known-gaps">Known gaps</a><a class="anchor-l2" href="#next">Next</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

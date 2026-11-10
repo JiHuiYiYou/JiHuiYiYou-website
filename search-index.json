@@ -1360,6 +1360,1358 @@
   "headings": []
  },
  {
+  "url": "/en/compiler/community/conduct.html",
+  "lang": "en",
+  "title": "Code of conduct",
+  "desc": "The minimum agreement for taking part in this project",
+  "text": " Code of conduct This page is a reading guide for the repository's CODE_OF_CONDUCT.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CODE_OF_CONDUCT.md), not a copy of it. The original is in English and written as a list of clauses; here it is rewritten into a version you can read at a glance. Where the two differ, the original wins. Scope: the repository, issues, PRs, reviews, discussions, the wiki, releases, and speaking on behalf of this project in public . --- Core agreements These four are the actual requirements extracted from the original: 1. Respect + assuming good faith.",
+  "headings": [
+   {
+    "text": "Code of conduct",
+    "slug": "code-of-conduct"
+   },
+   {
+    "text": "Core agreements",
+    "slug": "core-agreements"
+   },
+   {
+    "text": "Unacceptable behavior",
+    "slug": "unacceptable-behavior"
+   },
+   {
+    "text": "How to report",
+    "slug": "how-to-report"
+   },
+   {
+    "text": "Enforcement ladder",
+    "slug": "enforcement-ladder"
+   },
+   {
+    "text": "The maintainer's response commitments",
+    "slug": "the-maintainers-response-commitments"
+   },
+   {
+    "text": "The limits of a single maintainer (the original states this plainly)",
+    "slug": "the-limits-of-a-single-maintainer-the-original-states-this-plainly"
+   },
+   {
+    "text": "Relation to the upstream standard",
+    "slug": "relation-to-the-upstream-standard"
+   },
+   {
+    "text": "Next",
+    "slug": "next"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/community/contributing.html",
+  "lang": "en",
+  "title": "Contributing",
+  "desc": "The full path from filing an issue to merging a PR",
+  "text": " Contributing This page is the full-path version of the repository's CONTRIBUTING.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md): filing issues, running the gates, writing the PR. Before you start, work out which tier your change falls into. --- Repository map (short version) What you want to change Where --- --- Compiler source + the C bridge compiler/src0/ (31 .jhyy modules + jhyy_helpers.c ) — the only implementation , there is no second copy Backend compiler/src0/codegen_amd64_ .jhyy (the self-written amd64 emitter) Standard library compiler/src0/std/ (8 m",
+  "headings": [
+   {
+    "text": "Contributing",
+    "slug": "contributing"
+   },
+   {
+    "text": "Repository map (short version)",
+    "slug": "repository-map-short-version"
+   },
+   {
+    "text": "Build and test",
+    "slug": "build-and-test"
+   },
+   {
+    "text": "What each gate covers",
+    "slug": "what-each-gate-covers"
+   },
+   {
+    "text": "Which one to run before committing",
+    "slug": "which-one-to-run-before-committing"
+   },
+   {
+    "text": "Change classification and the matching thresholds",
+    "slug": "change-classification-and-the-matching-thresholds"
+   },
+   {
+    "text": "These must be designed first, then implemented",
+    "slug": "these-must-be-designed-first-then-implemented"
+   },
+   {
+    "text": "Small changes",
+    "slug": "small-changes"
+   },
+   {
+    "text": "Commit and PR conventions",
+    "slug": "commit-and-pr-conventions"
+   },
+   {
+    "text": "Changing compiler source = a release-grade process",
+    "slug": "changing-compiler-source-a-release-grade-process"
+   },
+   {
+    "text": "Code style",
+    "slug": "code-style"
+   },
+   {
+    "text": "Test layering",
+    "slug": "test-layering"
+   },
+   {
+    "text": "Signature requirements and backporting",
+    "slug": "signature-requirements-and-backporting"
+   },
+   {
+    "text": "Two contribution templates",
+    "slug": "two-contribution-templates"
+   },
+   {
+    "text": "Teaching contributions (tutorials / lecture notes / samples)",
+    "slug": "teaching-contributions-tutorials-lecture-notes-samples"
+   },
+   {
+    "text": "Compiler contributions",
+    "slug": "compiler-contributions"
+   },
+   {
+    "text": "Issue format",
+    "slug": "issue-format"
+   },
+   {
+    "text": "The issue label system",
+    "slug": "the-issue-label-system"
+   },
+   {
+    "text": "Next",
+    "slug": "next"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/community/index.html",
+  "lang": "en",
+  "title": "Community",
+  "desc": "Where to ask, how to contribute, and the current status numbers",
+  "text": " Community This page answers three things: where to ask questions , how each kind of contribution gets in , and what this project's numbers are right now . First, the situation as it stands: this project is led by a single maintainer , and everything listed below is a channel that really exists, not an imagined community structure. There are few channels and few people — that is a fact, not false modesty. --- Where to ask What you want to do Where Notes --- --- --- Ask \"how do I write this in this language\" GitHub Discussions (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/discussions) The ",
+  "headings": [
+   {
+    "text": "Community",
+    "slug": "community"
+   },
+   {
+    "text": "Where to ask",
+    "slug": "where-to-ask"
+   },
+   {
+    "text": "The status numbers right now",
+    "slug": "the-status-numbers-right-now"
+   },
+   {
+    "text": "How to contribute",
+    "slug": "how-to-contribute"
+   },
+   {
+    "text": "Compiler changes",
+    "slug": "compiler-changes"
+   },
+   {
+    "text": "Documentation",
+    "slug": "documentation"
+   },
+   {
+    "text": "Teaching material",
+    "slug": "teaching-material"
+   },
+   {
+    "text": "OS and bare metal",
+    "slug": "os-and-bare-metal"
+   },
+   {
+    "text": "The plain truth about \"community\"",
+    "slug": "the-plain-truth-about-community"
+   },
+   {
+    "text": "Next",
+    "slug": "next"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/community/security.html",
+  "lang": "en",
+  "title": "Security disclosure",
+  "desc": "How to report a security issue, and the known trust boundaries",
+  "text": " Security disclosure This page covers two things: how to report a security issue (without turning it into a public exploit), and the trust boundaries this project knows about (where the compiler gives you no guarantees). The original is the repository's SECURITY.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/SECURITY.md), and this page is a reading guide for it. --- The one-line version Do not open a public issue for a suspected vulnerability. Use the private advisory form (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/security/advisories/new). Public issues get indexed, m",
+  "headings": [
+   {
+    "text": "Security disclosure",
+    "slug": "security-disclosure"
+   },
+   {
+    "text": "The one-line version",
+    "slug": "the-one-line-version"
+   },
+   {
+    "text": "Reporting channels",
+    "slug": "reporting-channels"
+   },
+   {
+    "text": "What to include in the report",
+    "slug": "what-to-include-in-the-report"
+   },
+   {
+    "text": "What counts as a vulnerability",
+    "slug": "what-counts-as-a-vulnerability"
+   },
+   {
+    "text": "Which versions are supported",
+    "slug": "which-versions-are-supported"
+   },
+   {
+    "text": "What happens after you report",
+    "slug": "what-happens-after-you-report"
+   },
+   {
+    "text": "Public disclosure",
+    "slug": "public-disclosure"
+   },
+   {
+    "text": "Known trust boundaries",
+    "slug": "known-trust-boundaries"
+   },
+   {
+    "text": "Compiler bug or user-program bug?",
+    "slug": "compiler-bug-or-user-program-bug"
+   },
+   {
+    "text": "What is still missing",
+    "slug": "what-is-still-missing"
+   },
+   {
+    "text": "Next",
+    "slug": "next"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/docs/abi.html",
+  "lang": "en",
+  "title": "ABI v4.0.0",
+  "desc": "Type layout, calling convention and linking rules — the contract by which artifacts recognize each other",
+  "text": " ABI v4.0.0 The original ABI lives in the repository, not here. Original: docs/abis/jhyy-abi-v4.0.0.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md) This page is that ABI's guided reading : targets and calling convention, type layout, aggregate argument passing, linking rules, and a summary of the known deviations and unimplemented items . Where they conflict, the original in the repository wins. The ABI is locked at v4.0.0 (2026-10-24, locked together with v4.0.0 final ), the same generation as the language spec. The toolchain version is a separate",
+  "headings": [
+   {
+    "text": "ABI v4.0.0",
+    "slug": "abi-v400"
+   },
+   {
+    "text": "Targets and calling convention",
+    "slug": "targets-and-calling-convention"
+   },
+   {
+    "text": "MS x64 (amd64_win / amd64_win_freestanding)",
+    "slug": "ms-x64-amd64-win-amd64-win-freestanding"
+   },
+   {
+    "text": "SysV AMD64 (amd64_sysv / amd64_sysv_freestanding)",
+    "slug": "sysv-amd64-amd64-sysv-amd64-sysv-freestanding"
+   },
+   {
+    "text": "Type layout",
+    "slug": "type-layout"
+   },
+   {
+    "text": "Aggregate argument passing",
+    "slug": "aggregate-argument-passing"
+   },
+   {
+    "text": "Win",
+    "slug": "win"
+   },
+   {
+    "text": "SysV",
+    "slug": "sysv"
+   },
+   {
+    "text": "Return values",
+    "slug": "return-values"
+   },
+   {
+    "text": "Name mangling",
+    "slug": "name-mangling"
+   },
+   {
+    "text": "Program entry and linking",
+    "slug": "program-entry-and-linking"
+   },
+   {
+    "text": "freestanding does not switch the linking mode",
+    "slug": "freestanding-does-not-switch-the-linking-mode"
+   },
+   {
+    "text": "Target → ABI → linking mode",
+    "slug": "target-abi-linking-mode"
+   },
+   {
+    "text": "FFI",
+    "slug": "ffi"
+   },
+   {
+    "text": "Known deviations and unimplemented items",
+    "slug": "known-deviations-and-unimplemented-items"
+   },
+   {
+    "text": "Stability promise",
+    "slug": "stability-promise"
+   },
+   {
+    "text": "The original",
+    "slug": "the-original"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/docs/arena.html",
+  "lang": "en",
+  "title": "Arena memory management",
+  "desc": "The mental model behind arena, the real API, its lifetime, and common misuse",
+  "text": "JHYY's arena is a bump allocator : allocating pushes the cursor forward, and freeing does nothing. But it is not the kind of arena that has \"only alloc, no free\" — the same API offers both a reset ( arena_reset , which reuses the memory) and a whole-block free ( arena_free ). This page lays out its real signatures, its memory layout, its lifetime, and a few places that bite. First, the most important thing: JHYY has two arenas, and the one the compiler uses internally is not the same thing as the one you get from import arena; . Their APIs are equivalent, their implementations are separate, an",
+  "headings": [
+   {
+    "text": "1. Mental model",
+    "slug": "1-mental-model"
+   },
+   {
+    "text": "2. The real API",
+    "slug": "2-the-real-api"
+   },
+   {
+    "text": "3. Two arenas side by side",
+    "slug": "3-two-arenas-side-by-side"
+   },
+   {
+    "text": "4. Growth strategy: the M0 simplification",
+    "slug": "4-growth-strategy-the-m0-simplification"
+   },
+   {
+    "text": "5. A complete lifetime",
+    "slug": "5-a-complete-lifetime"
+   },
+   {
+    "text": "5.1 Two counterintuitive things about reset",
+    "slug": "51-two-counterintuitive-things-about-reset"
+   },
+   {
+    "text": "5.2 Safe usage",
+    "slug": "52-safe-usage"
+   },
+   {
+    "text": "5.3 When to reset, when to free",
+    "slug": "53-when-to-reset-when-to-free"
+   },
+   {
+    "text": "5.4 Choosing between arena, Vec, and malloc",
+    "slug": "54-choosing-between-arena-vec-and-malloc"
+   },
+   {
+    "text": "6. Relationship to inline assembly / DMA / MMIO",
+    "slug": "6-relationship-to-inline-assembly-dma-mmio"
+   },
+   {
+    "text": "7. Anti-patterns",
+    "slug": "7-anti-patterns"
+   },
+   {
+    "text": "8. Related pages",
+    "slug": "8-related-pages"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/docs/build-and-test.html",
+  "lang": "en",
+  "title": "Build and test",
+  "desc": "Build the compiler from source, run the regression suite and the self-hosted closed-loop gate",
+  "text": " Build and Test This page is about changing the compiler . To merely use the compiler, see Getting-Started . --- Requirements Host: Windows 10 + MSYS2 ( C:\\msys64\\mingw64\\bin\\bash.exe ), plus mingw-w64-ucrt-x86_64-gcc and mingw-w64-ucrt-x86_64-binutils . bash pacman -S --needed mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-binutils !IMPORTANT Do not use the MinGW gcc that ships with Git Bash ( /c/Program\\ Files/Git/mingw64/bin/gcc.exe ) — it does not support PE+ linking and fails at the link stage. --- Building bash git clone https://github.com/JiHuiYiYou/JiHuiYiYou-compiler.git cd JiHuiYiYo",
+  "headings": [
+   {
+    "text": "Build and Test",
+    "slug": "build-and-test"
+   },
+   {
+    "text": "Requirements",
+    "slug": "requirements"
+   },
+   {
+    "text": "Building",
+    "slug": "building"
+   },
+   {
+    "text": "Testing",
+    "slug": "testing"
+   },
+   {
+    "text": "Assertion strength",
+    "slug": "assertion-strength"
+   },
+   {
+    "text": "The gates",
+    "slug": "the-gates"
+   },
+   {
+    "text": "Cross-compiling to Linux",
+    "slug": "cross-compiling-to-linux"
+   },
+   {
+    "text": "Releasing a version",
+    "slug": "releasing-a-version"
+   },
+   {
+    "text": "Companion tools",
+    "slug": "companion-tools"
+   },
+   {
+    "text": "The MCP service for Claude Code",
+    "slug": "the-mcp-service-for-claude-code"
+   },
+   {
+    "text": "The VS Code extension",
+    "slug": "the-vs-code-extension"
+   },
+   {
+    "text": "Next",
+    "slug": "next"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/docs/cli.html",
+  "lang": "en",
+  "title": "CLI reference",
+  "desc": "The jhyy compiler's commands, subcommands, options, and exit codes",
+  "text": " jhyy has exactly one binary, four subcommands, and two global options. Below is a behavior table verified item by item — including artifact names and exit codes — plus three command-line quirks that bite. --- 1. Command table Command Purpose Artifact --- --- --- jhyy compile <file.jhyy -o output Compile + link <output .exe ; the intermediate assembly ( <output + .s ) is left on disk too jhyy build <file.jhyy -o base Compile only, no link <base .s jhyy run <file.jhyy Compile + link + execute A temporary artifact <name _run.exe (left on disk after the run) jhyy dump <file.jhyy Parse only, print",
+  "headings": [
+   {
+    "text": "1. Command table",
+    "slug": "1-command-table"
+   },
+   {
+    "text": "2. The difference between the three subcommands (key point)",
+    "slug": "2-the-difference-between-the-three-subcommands-key-point"
+   },
+   {
+    "text": "Two equivalent paths",
+    "slug": "two-equivalent-paths"
+   },
+   {
+    "text": "One place that disagrees with the help text",
+    "slug": "one-place-that-disagrees-with-the-help-text"
+   },
+   {
+    "text": "3. Options",
+    "slug": "3-options"
+   },
+   {
+    "text": "The four targets",
+    "slug": "the-four-targets"
+   },
+   {
+    "text": "The full three-step cross-compilation",
+    "slug": "the-full-three-step-cross-compilation"
+   },
+   {
+    "text": "4. Three quirks you have to know",
+    "slug": "4-three-quirks-you-have-to-know"
+   },
+   {
+    "text": "4.1 There is no jhyy --version",
+    "slug": "41-there-is-no-jhyy---version"
+   },
+   {
+    "text": "4.2 The command line accepts only one input file",
+    "slug": "42-the-command-line-accepts-only-one-input-file"
+   },
+   {
+    "text": "4.3 Unrecognized options are rejected",
+    "slug": "43-unrecognized-options-are-rejected"
+   },
+   {
+    "text": "5. Exit codes",
+    "slug": "5-exit-codes"
+   },
+   {
+    "text": "6. Quick reference",
+    "slug": "6-quick-reference"
+   },
+   {
+    "text": "7. Related pages",
+    "slug": "7-related-pages"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/docs/compiler.html",
+  "lang": "en",
+  "title": "How the compiler works",
+  "desc": "How the compiler is put together: frontend → IL → amd64 backend → the self-hosting closed loop",
+  "text": " Architecture How the compiler is put together, and why the self-hosted closed loop sits at the center of the whole design. The in-repository document is docs/internal/architecture.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/architecture.md); this page is the guided tour version. --- Pipeline mermaid flowchart TB src \".jhyy source\" -- lex \"Lexer → token stream\" lex -- parse \"Parser → AST\" parse -- sema \"Sema → annotated AST\" sema -- il \"codegen.jhyy<br/ generates the IL text into memory<br/ (JHYY's own format, QBE-style syntax)\" il -- sb \"codegen_amd64_inmem<b",
+  "headings": [
+   {
+    "text": "Architecture",
+    "slug": "architecture"
+   },
+   {
+    "text": "Pipeline",
+    "slug": "pipeline"
+   },
+   {
+    "text": "The self-hosting closed loop",
+    "slug": "the-self-hosting-closed-loop"
+   },
+   {
+    "text": "Intermediate representation",
+    "slug": "intermediate-representation"
+   },
+   {
+    "text": "Backend",
+    "slug": "backend"
+   },
+   {
+    "text": "Target triples",
+    "slug": "target-triples"
+   },
+   {
+    "text": "Runtime",
+    "slug": "runtime"
+   },
+   {
+    "text": "Source layout",
+    "slug": "source-layout"
+   },
+   {
+    "text": "Next",
+    "slug": "next"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/docs/faq.html",
+  "lang": "en",
+  "title": "FAQ",
+  "desc": "Questions that keep coming back, and their answers",
+  "text": " FAQ The questions that keep coming back, and the answers that are true right now. When an answer changes, the repository has the final say — see the authoritative versions in the language spec (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) and FACTS.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md). --- Using the compiler Can the compiler run on Linux or macOS? Not directly. The compiler is a Windows program — jhyy.exe is a PE executable, so the host must be Windows (or Wine). This is a deliberate design d",
+  "headings": [
+   {
+    "text": "FAQ",
+    "slug": "faq"
+   },
+   {
+    "text": "Using the compiler",
+    "slug": "using-the-compiler"
+   },
+   {
+    "text": "Can the compiler run on Linux or macOS?",
+    "slug": "can-the-compiler-run-on-linux-or-macos"
+   },
+   {
+    "text": "How do I check the version?",
+    "slug": "how-do-i-check-the-version"
+   },
+   {
+    "text": "Why is the entry point main_jhyy and not main?",
+    "slug": "why-is-the-entry-point-main-jhyy-and-not-main"
+   },
+   {
+    "text": "Why does jhyy compile a.jhyy b.jhyy ignore b.jhyy?",
+    "slug": "why-does-jhyy-compile-ajhyy-bjhyy-ignore-bjhyy"
+   },
+   {
+    "text": "Why does my exit code look wrong?",
+    "slug": "why-does-my-exit-code-look-wrong"
+   },
+   {
+    "text": "Why doesn't the compiler link my Linux program for me?",
+    "slug": "why-doesnt-the-compiler-link-my-linux-program-for-me"
+   },
+   {
+    "text": "Do I need MSYS2 to use JHYY?",
+    "slug": "do-i-need-msys2-to-use-jhyy"
+   },
+   {
+    "text": "Language",
+    "slug": "language"
+   },
+   {
+    "text": "Is there garbage collection? Allocators? RAII?",
+    "slug": "is-there-garbage-collection-allocators-raii"
+   },
+   {
+    "text": "Why is there no std:: prefix?",
+    "slug": "why-is-there-no-std-prefix"
+   },
+   {
+    "text": "Can I call C libraries?",
+    "slug": "can-i-call-c-libraries"
+   },
+   {
+    "text": "Can I write closures that capture variables?",
+    "slug": "can-i-write-closures-that-capture-variables"
+   },
+   {
+    "text": "Are generics and traits done?",
+    "slug": "are-generics-and-traits-done"
+   },
+   {
+    "text": "What about floating point?",
+    "slug": "what-about-floating-point"
+   },
+   {
+    "text": "Is JHYY production-ready?",
+    "slug": "is-jhyy-production-ready"
+   },
+   {
+    "text": "Project",
+    "slug": "project"
+   },
+   {
+    "text": "If the intermediate representation is \"QBE-style\", why is there no QBE?",
+    "slug": "if-the-intermediate-representation-is-qbe-style-why-is-there-no-qbe"
+   },
+   {
+    "text": "Does \"the compiler compiles itself byte-identically\" mean the compiler is correct?",
+    "slug": "does-the-compiler-compiles-itself-byte-identically-mean-the-compiler-is-correct"
+   },
+   {
+    "text": "Why does the repository publicly maintain a ledger of known defects?",
+    "slug": "why-does-the-repository-publicly-maintain-a-ledger-of-known-defects"
+   },
+   {
+    "text": "How do I report a bug?",
+    "slug": "how-do-i-report-a-bug"
+   },
+   {
+    "text": "How do I report a security issue?",
+    "slug": "how-do-i-report-a-security-issue"
+   },
+   {
+    "text": "Where is the roadmap?",
+    "slug": "where-is-the-roadmap"
+   },
+   {
+    "text": "Still stuck?",
+    "slug": "still-stuck"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/docs/getting-started.html",
+  "lang": "en",
+  "title": "Getting Started",
+  "desc": "Set up the compiler in 5 minutes and run your first program",
+  "text": " Getting Started Everything below uses the release compiler. To build the compiler yourself, see Build-and-Test . --- 1. Install The compiler runs on Windows x64. The host must be Windows (or Wine) — this is a design decision, not a flaw. But the artifacts are not limited to Windows: the SysV target produces Linux ELF. Go to GitHub Releases (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/latest) and grab the latest version: Artifact What it is --- --- jhyy-installer- .exe GUI installer — the compiler, .jhyy file association, VS Code extension, PATH jhyy-compiler- .msi The same payl",
+  "headings": [
+   {
+    "text": "Getting Started",
+    "slug": "getting-started"
+   },
+   {
+    "text": "1. Install",
+    "slug": "1-install"
+   },
+   {
+    "text": "2. Confirm the install",
+    "slug": "2-confirm-the-install"
+   },
+   {
+    "text": "3. Your first program",
+    "slug": "3-your-first-program"
+   },
+   {
+    "text": "4. Command line",
+    "slug": "4-command-line"
+   },
+   {
+    "text": "Target triples",
+    "slug": "target-triples"
+   },
+   {
+    "text": "5. The traps newcomers hit first",
+    "slug": "5-the-traps-newcomers-hit-first"
+   },
+   {
+    "text": "6. What's next",
+    "slug": "6-whats-next"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/docs/index.html",
+  "lang": "en",
+  "title": "Docs home",
+  "desc": "JHYY docs home — start here",
+  "text": " JHYY (机会翼游) — Wiki A self-hosted, statically typed, expression-oriented systems programming language. This wiki is the long-form version of the repository README: guides, a tour, and the answers to the questions that keep coming back. The README is the map; this is the walkthrough. Nothing here is the source of truth — the repository is. Numbers, schedules, and known limitations change; this wiki is only a guide to where the truth lives . Every page points at the document that actually owns that fact. If a wiki page conflicts with a repository document, the document wins — please open an issu",
+  "headings": [
+   {
+    "text": "JHYY (机会翼游) — Wiki",
+    "slug": "jhyy-机会翼游-wiki"
+   },
+   {
+    "text": "Start here",
+    "slug": "start-here"
+   },
+   {
+    "text": "The project in one paragraph",
+    "slug": "the-project-in-one-paragraph"
+   },
+   {
+    "text": "Three things that are different",
+    "slug": "three-things-that-are-different"
+   },
+   {
+    "text": "Where the truth lives",
+    "slug": "where-the-truth-lives"
+   },
+   {
+    "text": "How this wiki is maintained",
+    "slug": "how-this-wiki-is-maintained"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/docs/osdev.html",
+  "lang": "en",
+  "title": "Bare metal and kernel development",
+  "desc": "freestanding targets, no_std, inline assembly, and the minimal kernel boot path",
+  "text": "The question \"can I use it to write a kernel\" has to be split into three layers for JHYY: the language layer , the runtime layer , and the ABI layer . Each layer handles its own business; collapsing them into a single phrase like \"no standard library\" leads to the wrong conclusion. This page keeps the three layers apart, then goes through the \"minimal kernel boot path\" item by item to check what really works and what is still empty. One-line preview: the parts of the language layer are basically all there; the runtime layer and the link layer are not wired up yet. --- 1. Three layers to keep a",
+  "headings": [
+   {
+    "text": "1. Three layers to keep apart",
+    "slug": "1-three-layers-to-keep-apart"
+   },
+   {
+    "text": "2. The link line is decided by #[no_std], not by --target",
+    "slug": "2-the-link-line-is-decided-by-no-std-not-by---target"
+   },
+   {
+    "text": "A pitfall that was once measured (fixed in v4.1.5)",
+    "slug": "a-pitfall-that-was-once-measured-fixed-in-v415"
+   },
+   {
+    "text": "3. Known gaps (honest disclosure)",
+    "slug": "3-known-gaps-honest-disclosure"
+   },
+   {
+    "text": "4. The bare metal language surface that is available",
+    "slug": "4-the-bare-metal-language-surface-that-is-available"
+   },
+   {
+    "text": "5. #[naked]: the label and the function body once took two different channels (fixed in v4.1.5)",
+    "slug": "5-naked-the-label-and-the-function-body-once-took-two-different-channels-fixed-in-v415"
+   },
+   {
+    "text": "6. The minimal kernel boot path: checked item by item",
+    "slug": "6-the-minimal-kernel-boot-path-checked-item-by-item"
+   },
+   {
+    "text": "7. Evidence: the UEFI x64 boot spike",
+    "slug": "7-evidence-the-uefi-x64-boot-spike"
+   },
+   {
+    "text": "8. Status table of OS / embedded capabilities",
+    "slug": "8-status-table-of-os-embedded-capabilities"
+   },
+   {
+    "text": "9. Related pages",
+    "slug": "9-related-pages"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/docs/reference.html",
+  "lang": "en",
+  "title": "Reference Overview",
+  "desc": "The entry points to the three kinds of reference — language, contracts, toolchain — and what each one guarantees",
+  "text": " Reference Overview This page is the index of the \"language reference\" group. JHYY's reference material comes in three layers, and each layer guarantees something different — read them mixed together and it is easy to confuse \"how do you write this language\" with \"how do two artifacts recognize each other\". The three layers of reference Layer What question it answers What it guarantees Version nature --- --- --- --- Language spec Syntax and semantics What a legal program is, what each expression means, which behaviours are defined A locked contract ABI Type layout, calling convention, linking ",
+  "headings": [
+   {
+    "text": "Reference Overview",
+    "slug": "reference-overview"
+   },
+   {
+    "text": "The three layers of reference",
+    "slug": "the-three-layers-of-reference"
+   },
+   {
+    "text": "Contract version ≠ toolchain version",
+    "slug": "contract-version-toolchain-version"
+   },
+   {
+    "text": "The four references",
+    "slug": "the-four-references"
+   },
+   {
+    "text": "The docs are not the source of truth — the repository is",
+    "slug": "the-docs-are-not-the-source-of-truth-the-repository-is"
+   },
+   {
+    "text": "One document outside this group",
+    "slug": "one-document-outside-this-group"
+   },
+   {
+    "text": "What's next",
+    "slug": "whats-next"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/docs/spec.html",
+  "lang": "en",
+  "title": "Language Spec v4.0.0",
+  "desc": "The locked language contract: syntax, type system, semantic boundaries",
+  "text": " Language Spec v4.0.0 The full spec lives in the repository, not here. Original: docs/abis/jhyy-lang-spec-v4.0.0.md (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) This page is that spec's guided reading + index + summary of the key conventions . Every item in the body of the spec corresponds to reproducible behaviour in the compiler source; every item on this page does too. Where the two conflict, the original in the repository wins. The spec is locked at v4.0.0 (2026-10-24, locked together with v4.0.0 final ). The toolchain version is a separa",
+  "headings": [
+   {
+    "text": "Language Spec v4.0.0",
+    "slug": "language-spec-v400"
+   },
+   {
+    "text": "What the spec covers",
+    "slug": "what-the-spec-covers"
+   },
+   {
+    "text": "Key conventions",
+    "slug": "key-conventions"
+   },
+   {
+    "text": "Type system",
+    "slug": "type-system"
+   },
+   {
+    "text": "Literals",
+    "slug": "literals"
+   },
+   {
+    "text": "Functions and procedures",
+    "slug": "functions-and-procedures"
+   },
+   {
+    "text": "Modules and imports",
+    "slug": "modules-and-imports"
+   },
+   {
+    "text": "enum and match",
+    "slug": "enum-and-match"
+   },
+   {
+    "text": "Pointers and borrows",
+    "slug": "pointers-and-borrows"
+   },
+   {
+    "text": "FFI (extern fn)",
+    "slug": "ffi-extern-fn"
+   },
+   {
+    "text": "Attributes",
+    "slug": "attributes"
+   },
+   {
+    "text": "Inline assembly and memory barriers",
+    "slug": "inline-assembly-and-memory-barriers"
+   },
+   {
+    "text": "Other easy traps",
+    "slug": "other-easy-traps"
+   },
+   {
+    "text": "The pre-1.0 boundaries",
+    "slug": "the-pre-10-boundaries"
+   },
+   {
+    "text": "Explicit gaps (not implemented)",
+    "slug": "explicit-gaps-not-implemented"
+   },
+   {
+    "text": "Implemented but limited (easy to misjudge as a bug)",
+    "slug": "implemented-but-limited-easy-to-misjudge-as-a-bug"
+   },
+   {
+    "text": "How spec changes go through",
+    "slug": "how-spec-changes-go-through"
+   },
+   {
+    "text": "The original",
+    "slug": "the-original"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/docs/stdlib.html",
+  "lang": "en",
+  "title": "Standard Library",
+  "desc": "The real API of the eight modules: arena, mem, string, vec, fmt, io, math, os",
+  "text": " Standard Library JHYY ships with a small standard library of 8 modules , installed together with the compiler. Every signature on this page is copied verbatim from the source — compiler/src0/std/ .jhyy — nothing rewritten, and no function filled in that does not exist in the source. The source is the only source of truth : compiler/src0/std/ (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/src0/std) --- How to use it import pulls in a module , without the std:: prefix — import std::vec; is a parse error: jhyy import io; import vec; fn main_jhyy() - i32 { io::std_io_print(",
+  "headings": [
+   {
+    "text": "Standard Library",
+    "slug": "standard-library"
+   },
+   {
+    "text": "How to use it",
+    "slug": "how-to-use-it"
+   },
+   {
+    "text": "mem",
+    "slug": "mem"
+   },
+   {
+    "text": "fmt",
+    "slug": "fmt"
+   },
+   {
+    "text": "string",
+    "slug": "string"
+   },
+   {
+    "text": "vec",
+    "slug": "vec"
+   },
+   {
+    "text": "arena",
+    "slug": "arena"
+   },
+   {
+    "text": "io",
+    "slug": "io"
+   },
+   {
+    "text": "os",
+    "slug": "os"
+   },
+   {
+    "text": "math",
+    "slug": "math"
+   },
+   {
+    "text": "Status",
+    "slug": "status"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/docs/tour.html",
+  "lang": "en",
+  "title": "Language Tour",
+  "desc": "A quick look at the shape of the language: types, procedures, modules, FFI",
+  "text": " Language Tour This is a tour, not the spec. The language spec is the authority — it is locked, and the known limitations are collected in its appendix B: spec (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md). --- The overall shape of the language Statically typed. Expression-oriented. Compiled to native code. jhyy type Point = struct { x: i32, y: i32 } fn dist_sq(a: Point, b: Point) - i32 { let dx = a.x - b.x; let dy = a.y - b.y; dx dx + dy dy } fn classify(n: i32) - u8 { match n { 0 = \"zero\", 1..10 = \"single digit\", 10 20 = \"round number\", _ = ",
+  "headings": [
+   {
+    "text": "Language Tour",
+    "slug": "language-tour"
+   },
+   {
+    "text": "The overall shape of the language",
+    "slug": "the-overall-shape-of-the-language"
+   },
+   {
+    "text": "What is supported",
+    "slug": "what-is-supported"
+   },
+   {
+    "text": "Four capabilities that are most often misread",
+    "slug": "four-capabilities-that-are-most-often-misread"
+   },
+   {
+    "text": "Modules and the standard library",
+    "slug": "modules-and-the-standard-library"
+   },
+   {
+    "text": "Talking to C",
+    "slug": "talking-to-c"
+   },
+   {
+    "text": "Memory",
+    "slug": "memory"
+   },
+   {
+    "text": "What is not there yet",
+    "slug": "what-is-not-there-yet"
+   },
+   {
+    "text": "What's next",
+    "slug": "whats-next"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/download/bootstrap.html",
+  "lang": "en",
+  "title": "Build from source and bootstrap",
+  "desc": "Building the compiler from source, and how the two-stage self-hosted closure runs",
+  "text": " Build from source and bootstrap This page explains how to build the compiler from source, and what the \"self-hosted closure\" actually proves and what it does not prove . The second question matters more than the first. --- Build prerequisites Requirement Explanation --- --- Host Windows x64 — jhyy.exe is a PE executable, and the self-hosted closure has to be able to execute it MSYS2 The build host. This is a requirement of \"building the compiler from source\"; installing the compiler with the installer does not need MSYS2 mingw-w64-ucrt-x86_64-gcc C compiler mingw-w64-ucrt-x86_64-binutils as /",
+  "headings": [
+   {
+    "text": "Build from source and bootstrap",
+    "slug": "build-from-source-and-bootstrap"
+   },
+   {
+    "text": "Build prerequisites",
+    "slug": "build-prerequisites"
+   },
+   {
+    "text": "Build",
+    "slug": "build"
+   },
+   {
+    "text": "Directory layout",
+    "slug": "directory-layout"
+   },
+   {
+    "text": "The self-hosted closure",
+    "slug": "the-self-hosted-closure"
+   },
+   {
+    "text": "Where each of the three closure gates runs",
+    "slug": "where-each-of-the-three-closure-gates-runs"
+   },
+   {
+    "text": "Determinism ≠ correctness",
+    "slug": "determinism-correctness"
+   },
+   {
+    "text": "What a reproducible build has to pin down",
+    "slug": "what-a-reproducible-build-has-to-pin-down"
+   },
+   {
+    "text": "Next",
+    "slug": "next"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/download/index.html",
+  "lang": "en",
+  "title": "Download",
+  "desc": "The artifact matrix of the latest stable release, how to verify it, and the package manager entry points",
+  "text": " Download This page is the artifact matrix of the current stable release: three downloadable files, two distribution channels, and one signing note that every user runs into first. The version number on this page is authoritative; for historical releases see archive ( archive). !WARNING The installer and the MSI have no code signature . On the first run, Windows SmartScreen shows \"Windows protected your PC\" — click \"More info → Run anyway\". Unsigned binaries are also more easily blocked by third-party antivirus. Enterprise distribution policies may reject unsigned MSIs outright. Verify the has",
+  "headings": [
+   {
+    "text": "Download",
+    "slug": "download"
+   },
+   {
+    "text": "Current stable release",
+    "slug": "current"
+   },
+   {
+    "text": "Download",
+    "slug": "download"
+   },
+   {
+    "text": "Installer (GUI)",
+    "slug": "installer"
+   },
+   {
+    "text": "MSI (enterprise distribution)",
+    "slug": "msi"
+   },
+   {
+    "text": "VS Code extension",
+    "slug": "vsix"
+   },
+   {
+    "text": "Package managers",
+    "slug": "pkgmgr"
+   },
+   {
+    "text": "winget",
+    "slug": "winget"
+   },
+   {
+    "text": "scoop",
+    "slug": "scoop"
+   },
+   {
+    "text": "Release archive",
+    "slug": "archive"
+   },
+   {
+    "text": "Next",
+    "slug": "next"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/download/targets.html",
+  "lang": "en",
+  "title": "Targets and cross-compilation",
+  "desc": "The trade-offs of the four targets, what freestanding means, and the minimal bare metal toolchain",
+  "text": " Targets and cross-compilation This page answers four questions: which targets exist , what each target produces, what freestanding actually changes , and which tools a bare metal build minimally needs. --- Target boundary: amd64 only There are currently four targets, all of them x86-64. No aarch64, no riscv64, no wasm. Target triple ABI Artifact Status Explanation --- --- --- --- --- amd64_win MS x64 PE/COFF executable ( .exe ) Stable The host's default target. The compiler itself runs on this target amd64_sysv SysV AMD64 SysV assembly ( .s ) → linked into an ELF by an external ld Stable The ",
+  "headings": [
+   {
+    "text": "Targets and cross-compilation",
+    "slug": "targets-and-cross-compilation"
+   },
+   {
+    "text": "Target boundary: amd64 only",
+    "slug": "target-boundary-amd64-only"
+   },
+   {
+    "text": "What freestanding changes",
+    "slug": "what-freestanding-changes"
+   },
+   {
+    "text": "Crossing over to Linux",
+    "slug": "crossing-over-to-linux"
+   },
+   {
+    "text": "The minimal bare metal toolchain",
+    "slug": "the-minimal-bare-metal-toolchain"
+   },
+   {
+    "text": "Known gaps",
+    "slug": "known-gaps"
+   },
+   {
+    "text": "Next",
+    "slug": "next"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/download/verify.html",
+  "lang": "en",
+  "title": "Verification and signing",
+  "desc": "How to check the SHA256, the state of signing, and how to verify where a released artifact comes from",
+  "text": " Verification and signing This page answers three questions: whether the bytes you downloaded are intact , whether the publisher is the publisher you expected , and whether the compiler in your hands is this version . The answer to the second question is not a pretty one, so it comes first. --- The state of signing: no signature !WARNING The installer and the MSI have no code signature . On the first run Windows SmartScreen shows \"Windows protected your PC\" — click \"More info → Run anyway\". Unsigned binaries are also more easily blocked by third-party antivirus. Enterprise distribution policie",
+  "headings": [
+   {
+    "text": "Verification and signing",
+    "slug": "verification-and-signing"
+   },
+   {
+    "text": "The state of signing: no signature",
+    "slug": "the-state-of-signing-no-signature"
+   },
+   {
+    "text": "What SHA256 can and cannot prove",
+    "slug": "what-sha256-can-and-cannot-prove"
+   },
+   {
+    "text": "How to check the SHA256",
+    "slug": "how-to-check-the-sha256"
+   },
+   {
+    "text": "bash",
+    "slug": "bash"
+   },
+   {
+    "text": "PowerShell",
+    "slug": "powershell"
+   },
+   {
+    "text": "What a failed check usually means",
+    "slug": "what-a-failed-check-usually-means"
+   },
+   {
+    "text": "How to confirm that what you have really is this version",
+    "slug": "how-to-confirm-that-what-you-have-really-is-this-version"
+   },
+   {
+    "text": "The version banner",
+    "slug": "the-version-banner"
+   },
+   {
+    "text": "The version embedded in the compiled artifact",
+    "slug": "the-version-embedded-in-the-compiled-artifact"
+   },
+   {
+    "text": "After installing",
+    "slug": "after-installing"
+   },
+   {
+    "text": "Next",
+    "slug": "next"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/governance/index.html",
+  "lang": "en",
+  "title": "Governance",
+  "desc": "Who decides, how a change gets proposed, how a version ships — and which parts still have no written rules",
+  "text": " Governance This page answers three questions: who has the final say, how a change gets proposed, how a version ships. The last section lists the parts that still have no written rules — for those entries, writing \"none\" is better than writing a sentence that sounds mature. Every rule on this page points at one specific file in the repository. Anything whose source cannot be found goes into the gap table in the last section. --- How decisions are made JHYY is a personally maintained pre-1.0 compiler project . That is a sentence the repository itself writes at the top of SECURITY.md , not rheto",
+  "headings": [
+   {
+    "text": "Governance",
+    "slug": "governance"
+   },
+   {
+    "text": "How decisions are made",
+    "slug": "how-decisions-are-made"
+   },
+   {
+    "text": "RFC",
+    "slug": "rfc"
+   },
+   {
+    "text": "Which changes require a written proposal first",
+    "slug": "which-changes-require-a-written-proposal-first"
+   },
+   {
+    "text": "Which changes can go straight to issue + design note + PR",
+    "slug": "which-changes-can-go-straight-to-issue-design-note-pr"
+   },
+   {
+    "text": "What a proposal should contain",
+    "slug": "what-a-proposal-should-contain"
+   },
+   {
+    "text": "How it is meant to be filled in",
+    "slug": "how-it-is-meant-to-be-filled-in"
+   },
+   {
+    "text": "Release",
+    "slug": "release"
+   },
+   {
+    "text": "How the version number goes up",
+    "slug": "how-the-version-number-goes-up"
+   },
+   {
+    "text": "What a release contains",
+    "slug": "what-a-release-contains"
+   },
+   {
+    "text": "The gates a release has to pass",
+    "slug": "the-gates-a-release-has-to-pass"
+   },
+   {
+    "text": "There are no three channels",
+    "slug": "there-are-no-three-channels"
+   },
+   {
+    "text": "Contract versions and toolchain versions are two different things",
+    "slug": "contract-versions-and-toolchain-versions-are-two-different-things"
+   },
+   {
+    "text": "What still has no written rules",
+    "slug": "what-still-has-no-written-rules"
+   },
+   {
+    "text": "Related",
+    "slug": "related"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/governance/license.html",
+  "lang": "en",
+  "title": "License",
+  "desc": "The exact terms of the MIT license, and the licensing status of each repository",
+  "text": " License Three of the four repositories use MIT; one still has no license file. This page covers two things: what the exact terms of MIT are, and what state each repository is actually in. --- The terms of MIT All of them use the official MIT template, and the copyright line is Copyright (c) 2026 JHYY — the attribution holder is the project name, not an individual. What is allowed Whoever obtains a copy of the software and the documentation may freely use, copy, modify, merge, publish, distribute, sublicense, and sell those copies, without any restriction (\"without restriction\"). Those seven v",
+  "headings": [
+   {
+    "text": "License",
+    "slug": "license"
+   },
+   {
+    "text": "The terms of MIT",
+    "slug": "the-terms-of-mit"
+   },
+   {
+    "text": "What is allowed",
+    "slug": "what-is-allowed"
+   },
+   {
+    "text": "What is required",
+    "slug": "what-is-required"
+   },
+   {
+    "text": "What is not guaranteed",
+    "slug": "what-is-not-guaranteed"
+   },
+   {
+    "text": "What MIT does not cover",
+    "slug": "what-mit-does-not-cover"
+   },
+   {
+    "text": "Licensing status of the four repositories",
+    "slug": "licensing-status-of-the-four-repositories"
+   },
+   {
+    "text": "Dependencies and third-party code",
+    "slug": "dependencies-and-third-party-code"
+   },
+   {
+    "text": "What really needs to be inventoried is what ships with the package",
+    "slug": "what-really-needs-to-be-inventoried-is-what-ships-with-the-package"
+   },
+   {
+    "text": "What needs to be inventoried item by item",
+    "slug": "what-needs-to-be-inventoried-item-by-item"
+   },
+   {
+    "text": "Trademarks",
+    "slug": "trademarks"
+   },
+   {
+    "text": "Related",
+    "slug": "related"
+   }
+  ]
+ },
+ {
+  "url": "/en/compiler/governance/repo-map.html",
+  "lang": "en",
+  "title": "Repository Map",
+  "desc": "What each of the four repositories is responsible for, and what every directory inside the compiler repository does",
+  "text": " Repository Map Four repositories, one job each. This page first draws the boundary between the four repositories, then walks through the internal structure of the compiler repository directory by directory, and finally gives a \"if I want to change X → read Y first\" lookup table. --- The responsibility boundary of the four repositories Repository What it does Current state GitHub Where the related docs are --- --- --- --- --- Compiler Language + compiler + standard library. The compiler's only implementation is in compiler/src0/ , and the backend is a self-written amd64 emitter Stable (self-ho",
+  "headings": [
+   {
+    "text": "Repository Map",
+    "slug": "repository-map"
+   },
+   {
+    "text": "The responsibility boundary of the four repositories",
+    "slug": "the-responsibility-boundary-of-the-four-repositories"
+   },
+   {
+    "text": "The directory map of the compiler repository",
+    "slug": "the-directory-map-of-the-compiler-repository"
+   },
+   {
+    "text": "The compiler itself",
+    "slug": "the-compiler-itself"
+   },
+   {
+    "text": "Runtime",
+    "slug": "runtime"
+   },
+   {
+    "text": "Tests and artifacts",
+    "slug": "tests-and-artifacts"
+   },
+   {
+    "text": "Documentation",
+    "slug": "documentation"
+   },
+   {
+    "text": "Tools and distribution",
+    "slug": "tools-and-distribution"
+   },
+   {
+    "text": "If I want to change X, read Y first",
+    "slug": "if-i-want-to-change-x-read-y-first"
+   },
+   {
+    "text": "Related",
+    "slug": "related"
+   }
+  ]
+ },
+ {
   "url": "/en/compiler/index.html",
   "lang": "en",
   "title": "JHYY Compiler",

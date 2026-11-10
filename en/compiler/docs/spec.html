@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Language Spec v4.0.0</title>
+  <meta name="description" content="The locked language contract: syntax, type system, semantic boundaries" />
+  <meta property="og:title" content="Language Spec v4.0.0" />
+  <meta property="og:description" content="The locked language contract: syntax, type system, semantic boundaries" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/docs/spec.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="is-active" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/docs/spec.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/docs/spec.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Getting started</h4><ul><li><a class="" href="../../../en/compiler/docs/getting-started.html">Getting started</a></li><li><a class="" href="../../../en/compiler/docs/tour.html">Language tour</a></li></ul></div><div class="doc-nav-group"><h4>Language reference</h4><ul><li><a class="" href="../../../en/compiler/docs/reference.html">Reference overview</a></li><li><a class="is-active" href="../../../en/compiler/docs/spec.html">Language spec v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/stdlib.html">Standard library</a></li></ul></div><div class="doc-nav-group"><h4>Deep dives</h4><ul><li><a class="" href="../../../en/compiler/docs/arena.html">Arena memory management</a></li><li><a class="" href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a></li></ul></div><div class="doc-nav-group"><h4>Tools and internals</h4><ul><li><a class="" href="../../../en/compiler/docs/cli.html">CLI reference</a></li><li><a class="" href="../../../en/compiler/docs/compiler.html">How the compiler works</a></li><li><a class="" href="../../../en/compiler/docs/build-and-test.html">Build and test</a></li><li><a class="" href="../../../en/compiler/docs/faq.html">FAQ</a></li></ul></div>
+
+    <div class="doc-nav-group doc-nav-external">
+      <h4>Spec sources</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">Language spec v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">Workaround ledger ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="language-spec-v400">Language Spec v4.0.0</h1>
+<p><strong>The full spec lives in the repository, not here.</strong> Original: <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer"><code>docs/abis/jhyy-lang-spec-v4.0.0.md</code></a></p>
+<p>This page is that spec's <strong>guided reading + index + summary of the key conventions</strong>. Every item in the body of the spec corresponds to reproducible behaviour in the compiler source; every item on this page does too. <strong>Where the two conflict, the original in the repository wins.</strong></p>
+<p>The spec is locked at v4.0.0 (2026-10-24, locked together with <code>v4.0.0 final</code>). The toolchain version is a separate matter, see the <a href="../../../en/compiler/docs/reference.html">reference overview</a>.</p>
+<hr />
+<h2 id="what-the-spec-covers">What the spec covers</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Chapter</th><th>Contents</th></tr></thead><tbody><tr><td>§ 1</td><td>Program structure: the <code>main_jhyy</code> entry point, <code>import</code> across multiple files, comments, top-level declarations</td></tr><tr><td>§ 2</td><td>Type system: primitive types, compound types, aliases, inference, literals, <code>Cap&lt;T&gt;</code>, <code>PhantomData&lt;T&gt;</code>, <code>sizeof</code>/<code>alignof</code></td></tr><tr><td>§ 3</td><td>Variables and bindings: <code>let</code> / <code>let mut</code>, shadowing, top-level global variables, compound assignment</td></tr><tr><td>§ 4</td><td>Operators: 12 precedence levels, semantic essentials, equality comparison for aggregate types, <code>as</code> conversion</td></tr><tr><td>§ 5</td><td>Control flow: <code>if</code>/<code>else</code>, <code>while</code>, <code>for</code>, <code>break</code>/<code>continue</code>, <code>return</code>, <code>match</code>, closures</td></tr><tr><td>§ 6</td><td>Functions: signatures, recursion, <code>defer</code>, attributes</td></tr><tr><td>§ 7</td><td>Pointers and borrows: <code>&amp;x</code>, pointer arithmetic, <code>&amp;T</code> / <code>&amp;mut T</code></td></tr><tr><td>§ 8–9</td><td><code>struct</code>, <code>enum</code></td></tr><tr><td>§ 10</td><td>Fixed-length arrays and slices</td></tr><tr><td>§ 11</td><td>Generics: struct / enum / functions, turbofish, inference at the call site</td></tr><tr><td>§ 12</td><td>Top-level <code>const</code> arrays</td></tr><tr><td>§ 13</td><td>Modules and imports</td></tr><tr><td>§ 14</td><td>FFI (<code>extern fn</code>)</td></tr><tr><td>§ 15</td><td>Standard library (8 modules)</td></tr><tr><td>§ 16</td><td>Command line</td></tr><tr><td>§ 17</td><td>Low-level and OS extensions: <code>volatile</code>, <code>asm!</code>, <code>#[naked]</code>, <code>#[link_section]</code>, <code>#[no_std]</code>, memory barriers, freestanding</td></tr><tr><td>§ 18</td><td>Error codes and diagnostics</td></tr><tr><td>§ 19–20</td><td>Debug ABI and wire format (cross-project contracts)</td></tr><tr><td>Appendices A–D</td><td>Differences from v1.3.0, the list of what is not implemented, self-hosting compatibility, complete examples</td></tr></tbody></table></div>
+<hr />
+<h2 id="key-conventions">Key conventions</h2>
+<p>The table below is <strong>the batch you are most likely to get wrong while writing code</strong>. The full statements are in the corresponding chapters of the original spec.</p>
+<h3 id="type-system">Type system</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Convention</th><th>Content</th></tr></thead><tbody><tr><td>Primitive types</td><td><code>i8 i16 i32 i64 u8 u16 u32 u64 f32 f64 bool</code>, plus the zero-sized type <code>()</code></td></tr><tr><td>No <code>char</code></td><td>The type of a character literal is <code>i32</code>, and the value is the Unicode codepoint (the full range U+0000–U+10FFFF)</td></tr><tr><td><code>()</code></td><td>Is a ZST (sizeof 0 / alignof 1), but <strong>the type position does not accept it</strong>: <code>let x: () = ();</code> is a parse error</td></tr><tr><td>Compound types</td><td><code>*T</code> / <code>[T; N]</code> / <code>[*]T</code> / <code>struct</code> / <code>enum</code> / <code>&amp;T</code> / <code>&amp;mut T</code> / <code>Cap&lt;T&gt;</code> / <code>PhantomData&lt;T&gt;</code> / <code>volatile T</code></td></tr><tr><td><code>fn(...)</code> type</td><td><strong>The type position does not accept this syntax</strong> ⇒ a closure value cannot be passed as a function value</td></tr><tr><td>Nominal types</td><td><code>struct</code> / <code>enum</code> are compared <strong>by declaration name</strong>, not by layout — the same layout with a different name is a different type</td></tr><tr><td>Type aliases</td><td>Transparent: <code>type Age = i32</code> is exactly equivalent to <code>i32</code></td></tr><tr><td>Inference</td><td>Parameters <strong>must</strong> be annotated explicitly; local variables are inferred from the initializer expression</td></tr><tr><td>Default literal types</td><td>Unsuffixed integer → <code>i32</code>; unsuffixed float → <code>f64</code></td></tr><tr><td>Implicit conversions</td><td>Integer ↔ float <strong>not allowed</strong>, <code>as</code> is required</td></tr></tbody></table></div>
+<h3 id="literals">Literals</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Convention</th><th>Content</th></tr></thead><tbody><tr><td>Integer bases</td><td>Decimal / <code>0x</code> / <code>0X</code> / <code>0o</code> / <code>0O</code> / <code>0b</code> / <code>0B</code>; <strong>a leading zero means octal</strong> (<code>077</code> = 63)</td></tr><tr><td>Underscore separators</td><td><code>1_000_000</code> is <strong>not supported</strong> (parse error)</td></tr><tr><td>Integer suffixes</td><td><code>i8 i16 i32 i64 u8 u16 u32 u64</code></td></tr><tr><td>Integer value range</td><td>Evaluated exactly as <code>u64</code>; out of range is a <strong>compile error</strong> (<code>integer literal out of range</code>), <strong>no silent saturation</strong></td></tr><tr><td>Float forms</td><td>Only <code>N.M</code> (suffixes allowed) — <strong>the exponent form <code>1.0e10</code> fails to parse</strong></td></tr><tr><td>Float suffixes</td><td><code>f32</code> / <code>f64</code> / <code>f</code> (<code>f</code> = <code>f64</code>)</td></tr><tr><td>Strings</td><td>The type is <code>*u8</code> (a NUL-terminated UTF-8 byte string), placed in the <strong><code>.data</code> section</strong>; <strong>no implicit decay</strong> to <code>[*]u8</code></td></tr><tr><td>Booleans</td><td><code>true</code> / <code>false</code>; the compiler <strong>does not normalize to 0/1</strong> — a <code>bool</code> that does not come from a literal may be any byte</td></tr></tbody></table></div>
+<h3 id="functions-and-procedures">Functions and procedures</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Convention</th><th>Content</th></tr></thead><tbody><tr><td>Return value</td><td>The <strong>last expression</strong> of the function body is the return value, no <code>return</code> needed</td></tr><tr><td>Parameters</td><td>Must be annotated explicitly; <strong>default parameters and variadic parameters are not supported</strong></td></tr><tr><td>Nesting</td><td><strong>Nested functions are not supported</strong> — every function must be declared at the top level</td></tr><tr><td><code>defer</code></td><td>Runs LIFO on the <strong>explicit <code>return</code></strong> path; ⚠️ <strong>the implicit return of the trailing expression does not trigger defer</strong></td></tr><tr><td><code>#[inline]</code></td><td>Actually inlined only when the <strong>function body is a single <code>return &lt;expr&gt;;</code></strong>; multiple statements / if-else / loops / recursion all fall back to a plain <code>call</code></td></tr></tbody></table></div>
+<h3 id="modules-and-imports">Modules and imports</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Convention</th><th>Content</th></tr></thead><tbody><tr><td>Syntax</td><td>A single identifier: <code>import mylib;</code> — <strong>without the <code>std::</code> prefix</strong> (<code>import std::vec;</code> is a parse error)</td></tr><tr><td>Lookup order</td><td>Next to the main file → the standard library directory (two-level fallback)</td></tr><tr><td>Transitivity</td><td>Recursive: with <code>main → a → b</code>, <code>main</code> can use the declarations of <code>b</code></td></tr><tr><td>Cycles</td><td>A cycle reports <code>circular import &#x27;...&#x27;</code>, it does not crash</td></tr><tr><td>Namespaces</td><td>Different modules may define functions with the same name; qualify the call with <code>mod::fn()</code></td></tr><tr><td>Multiple files</td><td>Composition is done with <code>import</code>, <strong>not on the command line</strong> — the command line accepts only one input file, and extra <code>.jhyy</code> arguments are <strong>silently ignored</strong></td></tr></tbody></table></div>
+<h3 id="enum-and-match">enum and match</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Convention</th><th>Content</th></tr></thead><tbody><tr><td>enum layout</td><td>The tag is <code>i32</code>, offset 0, increasing from 0 in declaration order</td></tr><tr><td>Payload</td><td><strong>At most one payload per variant</strong> (<code>Rect(i32, i32)</code> is a parse error) — to hold several fields, replace the payload with a struct</td></tr><tr><td>match patterns</td><td>Literal / <code>_</code> / multi-value `pat1 \</td></tr><tr><td>Range semantics</td><td>⚠️ <strong><code>0..10</code> in a match is a closed interval (both ends included)</strong>, while <code>for i in 0..10</code> is a half-open interval</td></tr><tr><td>arm body</td><td>Must be a <strong>single expression</strong> — you cannot write <code>return</code>, and you cannot write a statement block</td></tr><tr><td>arm scope</td><td>Each arm is independent, pattern bindings <strong>shadow</strong> outer variables of the same name, and they do not leak out after the arm ends</td></tr><tr><td>Exhaustiveness</td><td>Implemented: every variant of an enum must be covered or caught by <code>_</code>, otherwise <code>non-exhaustive match: missing variant</code> is reported</td></tr><tr><td>Not supported</td><td><strong>Guard patterns</strong> (<code>Some(x) if x &gt; 0</code>); <strong>nested patterns beyond the second level</strong> (rejected at compile time)</td></tr></tbody></table></div>
+<h3 id="pointers-and-borrows">Pointers and borrows</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Convention</th><th>Content</th></tr></thead><tbody><tr><td>Pointer width</td><td>8 bytes; a null pointer is the integer 0; the arithmetic step is <code>sizeof(T)</code></td></tr><tr><td><code>&amp;x</code></td><td>The type is <code>*i32</code>; ⚠️ the compiler <strong>does not check</strong> whether <code>x</code> is mutable — an immutable binding can have its address taken</td></tr><tr><td>Pointer difference</td><td>The result of <code>p - q</code> is the <strong>number of elements</strong> (<code>i64</code>), not the difference in bytes</td></tr><tr><td>Member access</td><td>⚠️ <strong><code>-&gt;</code> is not the member access operator</strong> — to reach a field through a pointer write <code>(*p).field</code></td></tr><tr><td><code>&amp;T</code> / <code>&amp;mut T</code></td><td>Both are 8-byte single pointers; <code>is_mut</code> is a compile-time marker and takes no memory</td></tr><tr><td>Not supported</td><td>Chained <code>&amp;&amp;T</code>; lifetime annotations <code>&#x27;a</code>; reborrow</td></tr><tr><td>Borrow checking</td><td>Only a minimum is done — repeated <code>&amp;mut</code> of the same variable in one scope is rejected; full NLL / Polonius is <strong>not implemented</strong></td></tr></tbody></table></div>
+<h3 id="ffi-extern-fn">FFI (<code>extern fn</code>)</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Convention</th><th>Content</th></tr></thead><tbody><tr><td>Semantics</td><td>Declaration only, no function body is generated; the symbol is resolved by <code>ld</code> at link time</td></tr><tr><td>Symbols</td><td>Assembly symbols are <strong>unmangled</strong></td></tr><tr><td>Variadic</td><td><strong>Not supported</strong> — every argument of <code>printf</code> must be listed one by one on the JHYY side</td></tr><tr><td>Callbacks</td><td><strong>Not supported</strong></td></tr><tr><td>struct / enum by value</td><td><strong>Not supported</strong> across the FFI boundary</td></tr><tr><td>⚠️ No type checking</td><td>The parameter / return types of <code>extern fn</code> are <strong>not restricted at compile time</strong> — declaring a struct parameter compiles, but it is actually passed by address, which does not match the C ABI (silently mismatched, no error)</td></tr></tbody></table></div>
+<h3 id="attributes">Attributes</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Attribute</th><th>What it does</th></tr></thead><tbody><tr><td><code>#[inline]</code></td><td>Hints at inlining (see above)</td></tr><tr><td><code>#[naked]</code></td><td>No prologue / epilogue; the function body may <strong>only</strong> contain <code>asm!(...)</code>; it does not take part in sret; the callee has to save the callee-saved registers itself</td></tr><tr><td><code>#[link_section(&quot;...&quot;)]</code></td><td>Only changes the section the symbol lands in, it <strong>does not change the calling convention</strong>; the section name must be printable ASCII</td></tr><tr><td><code>#[no_std]</code></td><td>A <strong>module-level</strong> attribute; does not link the C runtime startup file, and the entry symbol becomes <code>main</code>; without <code>fn main</code> it reports <code>error: #[no_std] module must define &#x27;fn main()&#x27;</code></td></tr></tbody></table></div>
+<h3 id="inline-assembly-and-memory-barriers">Inline assembly and memory barriers</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Convention</th><th>Content</th></tr></thead><tbody><tr><td><code>asm!(&quot;...&quot;)</code></td><td>A single string literal; <strong>no operand constraints, no template placeholders, no clobber declarations</strong>; AT&T syntax, x86-64 only</td></tr><tr><td>Placement</td><td><strong>Inlined at the current position in the function body</strong> (hex-encoded into the <code>dbgasm</code> channel of the IL, and the backend decodes it back in place into the <code>.s</code>) — the early implementation appended it to the end of the <code>.s</code>, which made it dead bytes</td></tr><tr><td>Expression position</td><td>Syntactically usable, but <strong>the return value semantics are undefined</strong> ⇒ by convention it is written in statement position</td></tr><tr><td><code>volatile T</code></td><td>Qualifies <strong>primitive types only</strong>; the layout is exactly the same as <code>T</code>; it guarantees that every load hits memory, that every store writes back, and that they are not reordered</td></tr><tr><td><code>fence_*</code></td><td><code>fence_seq_cst()</code> / <code>fence_acquire()</code> / <code>fence_release()</code> → <code>mfence</code> / <code>lfence</code> / <code>sfence</code>; inlined at the call site; <strong>covers x86-64 only</strong></td></tr><tr><td>Across threads</td><td><code>volatile</code> <strong>does not provide</strong> ordering guarantees across threads — that is what <code>fence_*</code> is for</td></tr></tbody></table></div>
+<h3 id="other-easy-traps">Other easy traps</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Convention</th><th>Content</th></tr></thead><tbody><tr><td>Top-level <code>let mut</code></td><td>It is a <strong>runtime global variable</strong>, but the initializer <strong>must be an integer constant expression</strong>; an initializer of a non-integer type is discarded (you read 0 or garbage)</td></tr><tr><td>Top-level <code>const</code></td><td>Only <strong>top-level</strong> <code>const</code> arrays are supported; putting a function call in an element position compiles, but it is not evaluated (you get 0 at runtime)</td></tr><tr><td><code>sizeof</code> / <code>alignof</code></td><td>Take a <strong>type</strong> (not an expression) and return <code>i64</code>; <code>alignof(enum)</code> is always 4</td></tr><tr><td><code>type X = ...</code></td><td><strong>No trailing semicolon</strong> (with <code>;</code> it reports <code>unexpected token &#x27;;&#x27; in expression</code>)</td></tr><tr><td>Aggregate equality</td><td><code>struct</code> / <code>enum</code> / arrays / slices are compared <strong>by value</strong>; a slice compares only its <strong>head</strong> (pointer + length), not element by element</td></tr><tr><td>Aggregate size comparison</td><td><code>a &lt; b</code> and the like on aggregate types is a <strong>compile-time error</strong></td></tr><tr><td>Overflow</td><td>Signed integer overflow is <strong>defined behaviour</strong> (two's-complement wraparound), with no runtime check</td></tr></tbody></table></div>
+<hr />
+<h2 id="the-pre-10-boundaries">The pre-1.0 boundaries</h2>
+<p>The spec draws two lines itself: the <strong>body</strong> only documents what is implemented, and <strong>appendix B</strong> collects every gap.</p>
+<h3 id="explicit-gaps-not-implemented">Explicit gaps (not implemented)</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Area</th><th>Gap</th></tr></thead><tbody><tr><td>Types</td><td><code>()</code> in type position; the <code>fn(...)</code> function pointer type syntax (⇒ a closure cannot be passed as a function value)</td></tr><tr><td>Borrows</td><td>Full NLL / Polonius borrow checking, lifetime annotations <code>&#x27;a</code>, reborrow, borrows across functions</td></tr><tr><td>Closures</td><td>Capturing outer variables — <strong>an explicit compile-time error</strong>, no silently generated wrong code</td></tr><tr><td>Expressions</td><td>Block expressions (<code>let v = { ... };</code>); a match arm whose body is a statement block</td></tr><tr><td>Generics</td><td>Constraints <code>&lt;T: Ord&gt;</code>, lifetime generics, const generics, trait objects, HKT</td></tr><tr><td>FFI</td><td>Variadic functions, callback functions, struct / enum by value across the FFI boundary</td></tr><tr><td><code>Cap&lt;T&gt;</code></td><td>Field access (<code>.cnode_idx</code> / <code>.depth</code> / <code>.rights</code>); <code>T</code> itself is <strong>not parsed</strong></td></tr><tr><td>Standard library</td><td>The f32 versions of <code>std::math</code> and <code>tan</code> / <code>log</code> / <code>exp</code> / <code>floor</code> / <code>ceil</code></td></tr><tr><td>Other</td><td>async / await, <code>std::map</code>, aarch64 / riscv64, the <code>.jhyynb</code> native binary format, the operand constraints of <code>asm!</code> and Intel syntax, guard patterns in match, the exponent form for floats</td></tr></tbody></table></div>
+<h3 id="implemented-but-limited-easy-to-misjudge-as-a-bug">Implemented but limited (easy to misjudge as a bug)</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Item</th><th>Symptom</th></tr></thead><tbody><tr><td>The type of <code>argv</code></td><td>It is written <code>*u8</code>, but it is actually <code>char **</code> ⇒ <code>*argv</code> only loads 1 byte; to read <code>argv[i]</code> you must first do <code>argv as **u8</code></td></tr><tr><td>Operands of aggregate <code>==</code></td><td><strong>The result of a function call</strong> is not accepted (<code>make_p(1) == make_p(2)</code> is a compile-time error); storing it in a variable first with <code>let a = ...;</code> is safe</td></tr><tr><td>Fields omitted from a struct literal</td><td>They are <strong>uninitialized</strong> (garbage on the stack), <strong>not 0</strong>; the compiler does not report a "missing field" either</td></tr><tr><td>The type of a struct literal field value</td><td>It must <strong>exactly match</strong> the field type — writing <code>7</code> (inferred as <code>i32</code>) in a <code>u8</code> field reports <code>field type mismatch</code></td></tr><tr><td>Write protection of immutability</td><td>Not implemented — <code>&amp;x</code> on an immutable binding is legal, and <code>*p = v</code> neither reports an error nor <strong>takes effect</strong></td></tr><tr><td>Function argument types</td><td><strong>Not checked</strong> — passing an <code>i32</code> to a struct parameter compiles, and at runtime the registers are read with the struct layout ⇒ access violation crash</td></tr><tr><td>Top-level global variables</td><td>Only <strong>integer-typed</strong> initializers are evaluated correctly; <code>f64</code> reads 0, pointers / structs read garbage</td></tr><tr><td><code>const</code> elements</td><td>No const checking — a function call in an element position is not evaluated, and you get 0 at runtime</td></tr><tr><td><code>match</code> ranges</td><td>Closed intervals (the opposite of <code>for</code>)</td></tr><tr><td><code>defer</code></td><td>Does not cover the implicit return path</td></tr><tr><td>Nested patterns</td><td>Beyond the second level they are <strong>not supported</strong> (rejected at compile time); the outer tag comparison and the inner payload extraction are both not implemented</td></tr></tbody></table></div>
+<p>The complete item-by-item list is in <strong>appendix B</strong> of the spec; the entries that carry a ledger number are in <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener noreferrer"><code>docs/internal/workarounds.md</code></a>.</p>
+<hr />
+<h2 id="how-spec-changes-go-through">How spec changes go through</h2>
+<p>The spec is a <strong>locked contract</strong> — not a document you edit casually.</p>
+<ul class='md-list'><li>Any change goes through the <a href="../../../en/compiler/governance/index.html">RFC process</a>, it does not edit <code>docs/abis/</code> directly.</li><li>Locking is more than tagging a release: every "implemented" item in the body of the spec has to find its implementation in <code>compiler/src0/*.jhyy</code> — <strong>the self-hosted compiler is the biggest consumer of the spec</strong>.</li><li>After a change to <code>docs/abis/*</code> you have to run the regression suite once (a spec change may affect parsing on the JHYY side).</li></ul>
+<hr />
+<h2 id="the-original">The original</h2>
+<ul class='md-list'><li>Language spec v4.0.0 (locked) — <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer"><code>docs/abis/jhyy-lang-spec-v4.0.0.md</code></a></li><li>Companion ABI v4.0.0 (locked) — <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener noreferrer"><code>docs/abis/jhyy-abi-v4.0.0.md</code></a></li><li>The archived old versions (v1.3.0 and its 17 v3.x supplements) exist only in git history: <code>git show &lt;sha&gt;:docs/abis/&lt;name&gt;</code></li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/docs/spec.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#language-spec-v400">Language Spec v4.0.0</a><a class="anchor-l2" href="#what-the-spec-covers">What the spec covers</a><a class="anchor-l2" href="#key-conventions">Key conventions</a><a class="anchor-l3" href="#type-system">Type system</a><a class="anchor-l3" href="#literals">Literals</a><a class="anchor-l3" href="#functions-and-procedures">Functions and procedures</a><a class="anchor-l3" href="#modules-and-imports">Modules and imports</a><a class="anchor-l3" href="#enum-and-match">enum and match</a><a class="anchor-l3" href="#pointers-and-borrows">Pointers and borrows</a><a class="anchor-l3" href="#ffi-extern-fn">FFI (extern fn)</a><a class="anchor-l3" href="#attributes">Attributes</a><a class="anchor-l3" href="#inline-assembly-and-memory-barriers">Inline assembly and memory barriers</a><a class="anchor-l3" href="#other-easy-traps">Other easy traps</a><a class="anchor-l2" href="#the-pre-10-boundaries">The pre-1.0 boundaries</a><a class="anchor-l3" href="#explicit-gaps-not-implemented">Explicit gaps (not implemented)</a><a class="anchor-l3" href="#implemented-but-limited-easy-to-misjudge-as-a-bug">Implemented but limited (easy to misjudge as a bug)</a><a class="anchor-l2" href="#how-spec-changes-go-through">How spec changes go through</a><a class="anchor-l2" href="#the-original">The original</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

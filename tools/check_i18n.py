@@ -137,13 +137,20 @@ def twins() -> dict[str, dict[str, Path]]:
 
 
 def prose_only(text: str) -> str:
-    """只留**可见正文** —— 去掉 HTML 标签（含属性）与事实占位符。
+    """只留**可见正文** —— 去掉 HTML 标签（含属性）、事实占位符与**代码**。
 
     术语检查要看的是「人读到的说法」，不是 class 名（`class="family-graph"` 里
     的 "family" 不是说法），也不是占位符名（`{{artifact_checks}}` 里的
     "artifact_checks" 不是说法）。
+
+    **代码里的字面量也不是说法** —— `--fixed-point` 是命令行选项、
+    `fixed_point.sh` 是文件名、编译器自己的版本横幅写着 `(self-hosted)`：
+    这些必须逐字保留，翻译它们就是改错了。把围栏代码块与行内代码一起去掉，
+    免得术语检查对着一个选项名报警（2026-11-10 翻译文档层时误报了 5 条）。
     """
+    text = re.sub(r"```.*?```", " ", text, flags=re.S)
     text = re.sub(r"<[^>]*>", " ", text)
+    text = re.sub(r"`[^`]*`", " ", text)
     return re.sub(r"\{\{[A-Za-z0-9_]+\}\}", " ", text)
 
 

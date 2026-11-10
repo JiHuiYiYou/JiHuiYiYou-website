@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Repository Map</title>
+  <meta name="description" content="What each of the four repositories is responsible for, and what every directory inside the compiler repository does" />
+  <meta property="og:title" content="Repository Map" />
+  <meta property="og:description" content="What each of the four repositories is responsible for, and what every directory inside the compiler repository does" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/governance/repo-map.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="is-active" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/governance/repo-map.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/governance/repo-map.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Governance</h4><ul><li><a class="" href="../../../en/compiler/governance/index.html">Governance overview</a></li><li><a class="" href="../../../en/compiler/governance/license.html">License</a></li><li><a class="is-active" href="../../../en/compiler/governance/repo-map.html">Repository map</a></li></ul></div><div class="doc-nav-group"><h4>Process</h4><ul><li><a class="" href="../../../en/compiler/governance/index.html">RFC process</a></li><li><a class="" href="../../../en/compiler/governance/index.html">Release cadence</a></li><li><a class="" href="../../../en/compiler/community/contributing.html">Contributing</a></li></ul></div>
+
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="repository-map">Repository Map</h1>
+<p>Four repositories, one job each. This page first draws the boundary between the four repositories, then walks through the internal structure of the compiler repository directory by directory, and finally gives a "if I want to change X → read Y first" lookup table.</p>
+<hr />
+<h2 id="the-responsibility-boundary-of-the-four-repositories">The responsibility boundary of the four repositories</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Repository</th><th>What it does</th><th>Current state</th><th>GitHub</th><th>Where the related docs are</th></tr></thead><tbody><tr><td><strong>Compiler</strong></td><td>Language + compiler + standard library. The compiler's only implementation is in <code>compiler/src0/</code>, and the backend is a self-written amd64 emitter</td><td>Stable (self-hosted, the regression suite is green)</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" target="_blank" rel="noopener noreferrer">JiHuiYiYou-compiler</a></td><td><code>docs/</code> in the repository: the three contracts in <code>abis/</code>, <code>internal/FACTS.md</code>, <code>plans/v4/</code></td></tr><tr><td><strong>IDE</strong></td><td>Desktop workbench. Blockly drag-and-drop blocks and CodeMirror text share one AST, and the right-hand panel hooks up the local Claude Code</td><td>Under test</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE" target="_blank" rel="noopener noreferrer">JiHuiYiYou-IDE</a></td><td><code>docs/wiki/*.zh-CN.md</code> in the IDE repository</td></tr><tr><td><strong>OS</strong></td><td>An operating system written in JHYY. The repository currently holds only a boot spike (<code>boot.s</code> + <code>BOOTX64.EFI</code> + <code>esp_root/</code> + <code>wrap_gpt.py</code>); the original design document was emptied out in a reorganization</td><td>Incubating</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS" target="_blank" rel="noopener noreferrer">JiHuiYiYou-OS</a></td><td><code>docs/coordination/JHYY_OS侧设计终版.md</code> in the compiler repository</td></tr><tr><td><strong>for-VEX</strong></td><td>The VEX V5 Brain embedded target (Xilinx Zynq / Cortex-A9). The route is JHYY emitting ARM machine code directly and linking the official SDK to produce a <code>.bin</code></td><td>Incubating (the step 0 measurement stage)</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX" target="_blank" rel="noopener noreferrer">JiHuiYiYou-for-VEX</a></td><td><code>docs/00-事实基线.md</code> and <code>docs/第0步-验收线.md</code> in the for-VEX repository</td></tr></tbody></table></div>
+<p>There are only two couplings between the four: <strong>the IDE and for-VEX depend on the compiler</strong>; <strong>the OS and the compiler share an ABI</strong> (which is why the cross-project design baseline lives in <code>docs/coordination/</code> of the compiler repository instead of one copy per repository).</p>
+<hr />
+<h2 id="the-directory-map-of-the-compiler-repository">The directory map of the compiler repository</h2>
+<h3 id="the-compiler-itself">The compiler itself</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Directory</th><th>What it is responsible for</th></tr></thead><tbody><tr><td><code>compiler/src0/</code></td><td><strong>The compiler's only implementation</strong>, <code>.jhyy</code> source. The frontend (<code>lexer</code> / <code>parser</code> / <code>ast</code> / <code>sema</code> / <code>types</code> / <code>symtab</code> / <code>mono</code> / <code>ir</code> / <code>ffi</code>), the backend (<code>codegen</code> / <code>codegen_amd64_*</code>), the ABI implementation (<code>abi_amd64_*</code>) and the CLI (<code>main.jhyy</code>) are all here. <strong>There is no C side in the repository</strong> (the old <code>compiler/src/*.c</code> has been deleted) ⇒ there is no such thing as "parity between two implementations"</td></tr><tr><td><code>compiler/src0/std/</code></td><td>The user-side standard library, <strong>8 modules</strong>: <code>mem</code> <code>fmt</code> <code>io</code> <code>math</code> <code>string</code> <code>vec</code> <code>os</code> <code>arena</code>. The module name is the module name, <strong>there is no <code>std::</code> prefix</strong></td></tr><tr><td><code>compiler/src0/jhyy_helpers.c</code></td><td>The C bridge between the compiler and libc. 4 of the required FFI symbols are defined only inside <code>#ifdef _WIN32</code> with no <code>#else</code> ⇒ <strong>the host can only be Windows</strong></td></tr><tr><td><code>compiler/src0/bootstrap/v1.0/</code></td><td>Historical material from the early self-hosting stage; not the current path</td></tr><tr><td><code>compiler/src0/scripts/dev/</code></td><td>Development scripts inside the source tree</td></tr><tr><td><code>compiler/src0/main_run.s</code></td><td>A generated assembly artifact, not hand-written</td></tr></tbody></table></div>
+<h3 id="runtime">Runtime</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Directory</th><th>What it is responsible for</th></tr></thead><tbody><tr><td><code>compiler/runtime/</code></td><td><strong>The C support runtime</strong>: <code>runtime.c</code> (the one linked into user programs) + <code>runtime.h</code>. <code>no_std_core/</code> is the substitute implementation for <code>#[no_std]</code> (memcpy / memset / panic_handler / <code>__start_kernel</code>, all written in <code>.jhyy</code>) — in that case <code>runtime.c</code> <strong>does not take part in linking</strong></td></tr><tr><td><code>runtime/linux_elf/</code></td><td>Another <code>runtime</code> at the repository root: <strong>the static, libc-free Linux ELF64 runtime for the <code>amd64_sysv_freestanding</code> target</strong> (<code>crt0.S</code> + <code>link.ld</code>). It is not the same thing as <code>compiler/runtime/</code>; the names just collide</td></tr></tbody></table></div>
+<h3 id="tests-and-artifacts">Tests and artifacts</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Directory</th><th>What it is responsible for</th></tr></thead><tbody><tr><td><code>compiler/tests/examples/</code></td><td>The sources of the regression cases (<code>.jhyy</code>); the ones whose names start with an underscore are helper fixtures, not cases</td></tr><tr><td><code>compiler/tests/golden/</code></td><td>AST golden files (<code>*.ast.txt</code>)</td></tr><tr><td><code>compiler/tests/bootstrap/</code></td><td>The self-hosting and cross-validation scripts: <code>closure_check.sh</code> (cross-generation closure), <code>fixed_point.sh</code> (cross-generation fixed point), <code>byte_equal.sh</code>, <code>artifact_checks.sh</code> (artifact-level assertions), <code>artifact_fresh_check.sh</code> (committed artifact vs freshly built artifact), <code>sysv_*.sh</code> (SysV ABI gates), <code>bench.sh</code>, <code>mutation_test.py</code></td></tr><tr><td><code>compiler/build/</code></td><td>The build artifacts: <code>bin/</code> (<code>jhyy.exe</code> is the <strong>git-tracked self-hosting anchor</strong>), <code>obj/</code>, <code>regalloc/</code>. Change <code>src0</code> without committing a new binary and CI's <code>artifact-fresh</code> gate turns red</td></tr><tr><td><code>regress.py</code></td><td>The regression driver at the repository root</td></tr><tr><td><code>Makefile</code></td><td>At the repository root. <code>make</code> = build the C bridge + iterate the self-hosting closure to a fixed point</td></tr></tbody></table></div>
+<h3 id="documentation">Documentation</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Directory</th><th>What it is responsible for</th></tr></thead><tbody><tr><td><code>docs/abis/</code></td><td><strong>The three contracts</strong>: language spec v4.0.0 (locked), ABI v4.0.0 (locked), binary format v1.0.0 (<strong>design draft, not implemented</strong>)</td></tr><tr><td><code>docs/internal/</code></td><td>Internal documentation: <code>FACTS.md</code> (the single source of truth for facts), <code>workarounds.md</code> (the workaround ledger, <strong>never archived</strong>), <code>architecture.md</code>, <code>build.md</code>, <code>feedback-codes.md</code>, <code>README.md</code> (the documentation index)</td></tr><tr><td><code>docs/archive/</code></td><td>The historical archive: <code>logs/</code> (the changelog + sprint logs of each axis), <code>plans/</code> (the sprint plans of each axis), <code>perf/</code> (performance measurements that have been superseded), <code>audit/</code> (a deep review of codegen + RCAs). <strong>The archive is not edited</strong> — it describes the world as it was then</td></tr><tr><td><code>docs/plans/v4/</code></td><td>The current plan line; one <code>vX.Y.Z-plan.md</code> per version slot</td></tr><tr><td><code>docs/coordination/</code></td><td>The cross-project design baseline (one final version each on the compiler side / the OS side)</td></tr><tr><td><code>docs/perf/</code></td><td>The current performance baseline (frame size / memory-access share / regression ratio)</td></tr></tbody></table></div>
+<h3 id="tools-and-distribution">Tools and distribution</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Directory</th><th>What it is responsible for</th></tr></thead><tbody><tr><td><code>vscode-ext/</code></td><td>The VS Code extension <code>jhyy-lang</code>: TextMate syntax highlighting + native run / compile commands + terminal profile detection. <code>jhyy-lang-*.vsix</code> are the built artifacts</td></tr><tr><td><code>mcp-jhyy/</code></td><td>The MCP service for Claude Code (compile / run / inspect the IL / query the ledger / run the regression), implemented in Python, gated by <code>mcp-pytest</code></td></tr><tr><td><code>installer/</code></td><td>Windows installation: WiX (Burn bundle EXE + MSI) + the bundled ucrt64 toolchain + <code>release-notes/</code> (the body of each release note) + <code>distribution/</code> (scoop / winget manifests) + <code>GUIDS.md</code> (the installer's GUID registry)</td></tr><tr><td><code>scripts/dev/</code></td><td>The gate scripts and development tools: <code>bump_version.py</code> (version automation), <code>check_arch_claims.py</code>, <code>check_spec_consistency.py</code>, <code>check_binary_format_layout.py</code>, <code>check_regalloc_parity.py</code>, <code>docs_facts_check.py</code>, <code>audit_test_assertions.py</code>, <code>check_regress_facts.py</code>, <code>test_docs_gate_mutations.py</code>, <code>bench/runtime_perf.py</code>, <code>regalloc_reference.py</code></td></tr><tr><td><code>bench/</code></td><td>The benchmark suite: <code>tasks/</code> (the problems), <code>bench.py</code> (the driver), <code>difftest.py</code> (random-program differential testing), <code>METHODOLOGY.md</code> (the measurement conventions), <code>seeds/</code>, <code>baseline/</code></td></tr></tbody></table></div>
+<p>There are a few more files at the repository root, each responsible for one thing: <code>VERSION</code> (the single source of truth for the version number), <code>CHANGELOG.md</code>, <code>CONTRIBUTING.md</code>, <code>SECURITY.md</code>, <code>CODE_OF_CONDUCT.md</code>.</p>
+<hr />
+<h2 id="if-i-want-to-change-x-read-y-first">If I want to change X, read Y first</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>If I want to change…</th><th>Read first</th><th>Then read</th></tr></thead><tbody><tr><td>Language syntax or semantics</td><td><code>docs/abis/jhyy-lang-spec-v4.0.0.md</code> (the body + appendix B)</td><td><code>compiler/src0/parser.jhyy</code> / <code>sema.jhyy</code>; contract changes go through a proposal</td></tr><tr><td>FFI, struct passing, calling convention</td><td><code>docs/abis/jhyy-abi-v4.0.0.md</code></td><td><code>compiler/src0/abi_amd64_*.jhyy</code></td></tr><tr><td>The backend (codegen / emission)</td><td><code>docs/internal/architecture.md</code></td><td><code>compiler/src0/codegen_amd64_*.jhyy</code>; touching <code>src0</code> ⇒ the release-level process</td></tr><tr><td>Diagnostic messages, error wording</td><td><code>docs/internal/workarounds.md</code> (check whether it is a known problem first)</td><td><code>compiler/src0/lexer.jhyy</code> / <code>sema.jhyy</code></td></tr><tr><td>The standard library</td><td><code>compiler/src0/std/*.jhyy</code> (the real API is here, not in the docs)</td><td><code>docs/internal/workarounds.md</code>; changing a stable API goes through a proposal</td></tr><tr><td>The build, the toolchain, the gates</td><td><code>docs/internal/build.md</code></td><td><code>Makefile</code>, <code>scripts/dev/</code>, <code>.github/workflows/</code></td></tr><tr><td>The <code>.jhyynb</code> binary format</td><td><code>docs/abis/jhyy-binary-format-v1.0.0.md</code> (<strong>design draft, not implemented</strong>)</td><td><code>scripts/dev/check_binary_format_layout.py</code></td></tr><tr><td>The installer and distribution</td><td><code>installer/README.md</code></td><td><code>installer/build.ps1</code>, <code>installer/wix/</code>, <code>installer/distribution/</code></td></tr><tr><td>The VS Code extension</td><td><code>vscode-ext/README.md</code></td><td><code>vscode-ext/src/</code>, <code>syntaxes/</code></td></tr><tr><td>The MCP service</td><td><code>mcp-jhyy/README.md</code></td><td><code>mcp-jhyy/server.py</code></td></tr><tr><td>Benchmarks and measurement conventions</td><td><code>bench/METHODOLOGY.md</code></td><td><code>bench/tasks/</code>, <code>bench/bench.py</code></td></tr><tr><td>OS-related design</td><td><code>docs/coordination/JHYY_OS侧设计终版.md</code></td><td><code>docs/coordination/JHYY_编译器侧设计终版.md</code></td></tr><tr><td>Citing "a number that changes"</td><td><code>docs/internal/FACTS.md</code></td><td>— (do not restate it elsewhere; restating it is how it drifts)</td></tr><tr><td>Knowing "why this line was written that way"</td><td><code>docs/archive/</code> (look up the changelog and the RCAs by axis)</td><td>—</td></tr></tbody></table></div>
+<hr />
+<h2 id="related">Related</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/docs/compiler.html">Compiler implementation</a> — how the pipeline and the backend run</li><li><a href="../../../en/compiler/docs/build-and-test.html">Build and test</a> — how to get it running</li><li><a href="../../../en/compiler/community/contributing.html">Contributing guide</a> — the concrete steps for filing an issue and opening a PR</li><li><a href="../../../en/compiler/governance/license.html">License</a> — the licensing status of each repository</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/governance/repo-map.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#repository-map">Repository Map</a><a class="anchor-l2" href="#the-responsibility-boundary-of-the-four-repositories">The responsibility boundary of the four repositories</a><a class="anchor-l2" href="#the-directory-map-of-the-compiler-repository">The directory map of the compiler repository</a><a class="anchor-l3" href="#the-compiler-itself">The compiler itself</a><a class="anchor-l3" href="#runtime">Runtime</a><a class="anchor-l3" href="#tests-and-artifacts">Tests and artifacts</a><a class="anchor-l3" href="#documentation">Documentation</a><a class="anchor-l3" href="#tools-and-distribution">Tools and distribution</a><a class="anchor-l2" href="#if-i-want-to-change-x-read-y-first">If I want to change X, read Y first</a><a class="anchor-l2" href="#related">Related</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

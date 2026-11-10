@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Code of conduct</title>
+  <meta name="description" content="The minimum agreement for taking part in this project" />
+  <meta property="og:title" content="Code of conduct" />
+  <meta property="og:description" content="The minimum agreement for taking part in this project" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/community/conduct.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="is-active" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/community/conduct.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/community/conduct.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Community</h4><ul><li><a class="" href="../../../en/compiler/community/index.html">Community home</a></li><li><a class="is-active" href="../../../en/compiler/community/conduct.html">Code of conduct</a></li><li><a class="" href="../../../en/compiler/community/contributing.html">Contributing</a></li><li><a class="" href="../../../en/compiler/community/security.html">Security disclosure</a></li></ul></div><div class="doc-nav-group"><h4>How to take part</h4><ul><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues" target="_blank" rel="noopener">Open an issue ↗</a></li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/pulls" target="_blank" rel="noopener">Open a PR ↗</a></li><li><span class="doc-nav-text">QQ group 429807125</span></li><li><a class="" href="../../../en/compiler/governance/repo-map.html">Code ownership</a></li></ul></div>
+
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="code-of-conduct">Code of conduct</h1>
+<p>This page is a <strong>reading guide</strong> for the repository's <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer"><code>CODE_OF_CONDUCT.md</code></a>, not a copy of it. The original is in English and written as a list of clauses; here it is rewritten into a version you can read at a glance. Where the two differ, the original wins.</p>
+<p>Scope: the repository, issues, PRs, reviews, discussions, the wiki, releases, and <strong>speaking on behalf of this project in public</strong>.</p>
+<hr />
+<h2 id="core-agreements">Core agreements</h2>
+<p>These four are the actual requirements extracted from the original:</p>
+<p><strong>1. Respect + assuming good faith.</strong> Assume the other person is trying to help, even when the result is wrong.</p>
+<p><strong>2. Separate "the work is wrong" from "the person is wrong".</strong> Give and accept constructive technical feedback. This is a compiler project, so almost every disagreement is about the work itself.</p>
+<p><strong>3. Disagreements have to be substantive.</strong> Give reasons, give evidence, and say clearly <strong>what would change your mind</strong>. This is the standard the original states explicitly for technical discussion — "this design is wrong" is always fine, "I want to win this argument" is not.</p>
+<p><strong>4. Report problems precisely and specifically.</strong> The original's judgment is: a vague report costs the maintainer more time than it saves.</p>
+<p>Two more are also written down in the original: take responsibility, apologize to those affected, and learn from the mistake; focus on making the project and its users better rather than on winning an argument.</p>
+<hr />
+<h2 id="unacceptable-behavior">Unacceptable behavior</h2>
+<p>The original lists them briefly; here they are listed faithfully:</p>
+<ul class='md-list'><li>Sexually explicit language or imagery, and any form of sexual attention or advances.</li><li>Trolling, insulting or derogatory remarks, personal or political attacks.</li><li>Public or private harassment.</li><li>Publishing others' private information without explicit permission — for example their address or email.</li><li>Other conduct deemed inappropriate in a professional setting.</li></ul>
+<blockquote class="callout"><p>This is not a "community manifesto". It is a <strong>minimum agreement</strong>: the five items above are all of it, there are no further hidden clauses.</p></blockquote>
+<hr />
+<h2 id="how-to-report">How to report</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Channel</th><th>Use</th></tr></thead><tbody><tr><td>Email <strong>15901598712@163.com</strong></td><td>Preferred. Write down what happened, where it happened (issue / PR / group chat), and how you would like it handled</td></tr><tr><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/security/advisories/new" target="_blank" rel="noopener noreferrer">Private advisory</a></td><td>Shares the same private channel with security reports; only you and the maintainer can see it</td></tr></tbody></table></div>
+<p>The maintainer is obliged to <strong>protect the reporter's privacy and safety</strong>.</p>
+<h3 id="enforcement-ladder">Enforcement ladder</h3>
+<p>The original gives four levels, which the maintainer picks from depending on the situation:</p>
+<ol class='md-list'><li><strong>Correction</strong> — a private written warning that explains the nature of the behaviour and why it was inappropriate; it may also request a public apology.</li><li><strong>Warning</strong> — a warning that spells out the consequences of continuing, including a period of not interacting with the people involved.</li><li><strong>Temporary ban</strong> — a temporary ban on any form of interaction or public communication.</li><li><strong>Permanent ban</strong> — a permanent ban on any public interaction within this project.</li></ol>
+<hr />
+<h2 id="the-maintainers-response-commitments">The maintainer's response commitments</h2>
+<p><strong>What is written down</strong>: every report will be "reviewed and investigated promptly and fairly" (original wording: reviewed and investigated promptly and fairly), and the reporter's privacy is protected.</p>
+<p><strong>What is not yet written down</strong>:</p>
+<ul class='md-list'><li>The handling time limit. The original uses qualitative wording and <strong>gives no specific number of days</strong>. This differs from the <a href="../../../en/compiler/community/security.html">security disclosure</a> page — that one has explicit 7-day / 14-day targets. There is no matching number on the code of conduct side at the moment; we are working on it.</li><li>Whether the outcome of a report is communicated back to the reporter, and in what form.</li><li>Whether a second person (an arbiter / a committee) will be set up to handle reports aimed at the maintainer themselves.</li></ul>
+<hr />
+<h2 id="the-limits-of-a-single-maintainer-the-original-states-this-plainly">The limits of a single maintainer (the original states this plainly)</h2>
+<p>This project has <strong>only one maintainer</strong>, so the person who enforces the code of conduct is the same person who is asked to handle the report — if the subject of the report happens to be the maintainer themselves.</p>
+<p>The original does not dodge this point, and neither does this website. The way out the original gives is: use GitHub's own <a href="https://support.github.com/contact/report-abuse" target="_blank" rel="noopener noreferrer">abuse reporting channel</a>, or simply stop corresponding.</p>
+<p>We put this here because hiding it would only hurt the reporter at the moment it is actually needed.</p>
+<hr />
+<h2 id="relation-to-the-upstream-standard">Relation to the upstream standard</h2>
+<p>The repository's <code>CODE_OF_CONDUCT.md</code> is <strong>adapted from <a href="https://www.contributor-covenant.org/version/2/1/code_of_conduct.html" target="_blank" rel="noopener noreferrer">Contributor Covenant</a> version 2.1</strong>, and the idea behind the enforcement ladder comes from <a href="https://github.com/mozilla/diversity" target="_blank" rel="noopener noreferrer">Mozilla's code of conduct enforcement ladder</a>.</p>
+<p>This is an <strong>adaptation</strong>, not a verbatim adoption. Going clause by clause, there are two substantive differences and one minor one:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th></th><th>Contributor Covenant 2.1</th><th>The repository original</th></tr></thead><tbody><tr><td>The <strong>Enforcement Responsibilities</strong> section (community leaders are obliged to clarify the standards, remove or edit non-compliant content, and explain the reasons for handling it)</td><td>Present</td><td><strong>Absent</strong> — it jumps straight from Scope to Enforcement</td></tr><tr><td>A dedicated section on technical disagreements</td><td>Absent</td><td><strong>Present</strong> — a whole paragraph on "disagreements have to give reasons, give evidence, and make clear what would change your mind"</td></tr><tr><td>The list of "behaviours that contribute to a healthy community"</td><td>5 items</td><td>The same 5 items, but item 1 adds "assuming good faith", and item 5 <strong>newly adds</strong> "report problems precisely and specifically"</td></tr></tbody></table></div>
+<p>One more minor difference: in the "Our pledge" section, CC 2.1 lists <code>caste</code> and <code>color</code>; the repository original has neither.</p>
+<p>Where the two disagree, the repository original wins.</p>
+<hr />
+<h2 id="next">Next</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/community/contributing.html">Contributing guide</a> — the concrete path for filing an issue and a PR.</li><li><a href="../../../en/compiler/community/security.html">Security disclosure</a> — security issues go through the private channel, separately from here.</li><li>Original: <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer"><code>CODE_OF_CONDUCT.md</code></a></li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/community/conduct.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#code-of-conduct">Code of conduct</a><a class="anchor-l2" href="#core-agreements">Core agreements</a><a class="anchor-l2" href="#unacceptable-behavior">Unacceptable behavior</a><a class="anchor-l2" href="#how-to-report">How to report</a><a class="anchor-l3" href="#enforcement-ladder">Enforcement ladder</a><a class="anchor-l2" href="#the-maintainers-response-commitments">The maintainer&#x27;s response commitments</a><a class="anchor-l2" href="#the-limits-of-a-single-maintainer-the-original-states-this-plainly">The limits of a single maintainer (the original states this plainly)</a><a class="anchor-l2" href="#relation-to-the-upstream-standard">Relation to the upstream standard</a><a class="anchor-l2" href="#next">Next</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

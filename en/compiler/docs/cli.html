@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>CLI reference</title>
+  <meta name="description" content="The jhyy compiler&#x27;s commands, subcommands, options, and exit codes" />
+  <meta property="og:title" content="CLI reference" />
+  <meta property="og:description" content="The jhyy compiler&#x27;s commands, subcommands, options, and exit codes" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/docs/cli.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="is-active" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/docs/cli.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/docs/cli.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Getting started</h4><ul><li><a class="" href="../../../en/compiler/docs/getting-started.html">Getting started</a></li><li><a class="" href="../../../en/compiler/docs/tour.html">Language tour</a></li></ul></div><div class="doc-nav-group"><h4>Language reference</h4><ul><li><a class="" href="../../../en/compiler/docs/reference.html">Reference overview</a></li><li><a class="" href="../../../en/compiler/docs/spec.html">Language spec v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/stdlib.html">Standard library</a></li></ul></div><div class="doc-nav-group"><h4>Deep dives</h4><ul><li><a class="" href="../../../en/compiler/docs/arena.html">Arena memory management</a></li><li><a class="" href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a></li></ul></div><div class="doc-nav-group"><h4>Tools and internals</h4><ul><li><a class="is-active" href="../../../en/compiler/docs/cli.html">CLI reference</a></li><li><a class="" href="../../../en/compiler/docs/compiler.html">How the compiler works</a></li><li><a class="" href="../../../en/compiler/docs/build-and-test.html">Build and test</a></li><li><a class="" href="../../../en/compiler/docs/faq.html">FAQ</a></li></ul></div>
+
+    <div class="doc-nav-group doc-nav-external">
+      <h4>Spec sources</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">Language spec v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">Workaround ledger ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <p><code>jhyy</code> has exactly one binary, four subcommands, and two global options. Below is a behavior table verified item by item — including artifact names and exit codes — plus three command-line quirks that bite.</p>
+<hr />
+<h2 id="1-command-table">1. Command table</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Command</th><th>Purpose</th><th>Artifact</th></tr></thead><tbody><tr><td><code>jhyy compile &lt;file.jhyy&gt; [-o output]</code></td><td>Compile + link</td><td><code>&lt;output&gt;.exe</code>; the intermediate assembly (<code>&lt;output&gt;</code> + <code>.s</code>) is left on disk too</td></tr><tr><td><code>jhyy build &lt;file.jhyy&gt; [-o base]</code></td><td>Compile only, <strong>no</strong> link</td><td><code>&lt;base&gt;.s</code></td></tr><tr><td><code>jhyy run &lt;file.jhyy&gt;</code></td><td>Compile + link + execute</td><td>A temporary artifact <code>&lt;name&gt;_run.exe</code> (left on disk after the run)</td></tr><tr><td><code>jhyy dump &lt;file.jhyy&gt;</code></td><td>Parse only, print the AST tree</td><td>Printed to stdout</td></tr></tbody></table></div>
+<p>Without <code>-o</code>, the output name is the base name of the input file: <code>jhyy compile hello.jhyy</code> ⇒ <code>hello.exe</code>, <code>jhyy build hello.jhyy</code> ⇒ <code>hello.s</code>.</p>
+<p><code>-o</code> is a <strong>base name</strong>; the suffix is appended automatically: <code>-o foo</code> ⇒ <code>foo.s</code> / <code>foo.exe</code>; <code>-o foo.s</code> ⇒ still <code>foo.s</code> (it does not become <code>foo.s.s</code>), <code>-o foo.exe</code> ⇒ <code>foo.exe</code> (the assembly next to it is <code>foo.exe.s</code>).</p>
+<hr />
+<h2 id="2-the-difference-between-the-three-subcommands-key-point">2. The difference between the three subcommands (key point)</h2>
+<p><code>compile</code> / <code>build</code> / <code>run</code> are three cut points on the same pipeline:</p>
+<pre><code class="language-text">.jhyy → lex → parse → sema → IL → self-written amd64 backend → .s → gcc + ld → .exe
+                             └── build   = stops at .s
+                                        └── compile = goes on through gcc + ld
+                                                     └── run = then executes
+</code></pre>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th></th><th><code>build</code></th><th><code>compile</code></th><th><code>run</code></th></tr></thead><tbody><tr><td>Parse + semantic analysis</td><td>yes</td><td>yes</td><td>yes</td></tr><tr><td>Produce <code>.s</code></td><td>yes</td><td>yes</td><td>yes</td></tr><tr><td>Invoke gcc / ld to link</td><td>no</td><td>yes</td><td>yes</td></tr><tr><td>Execute</td><td>no</td><td>no</td><td>yes</td></tr></tbody></table></div>
+<h3 id="two-equivalent-paths">Two equivalent paths</h3>
+<pre><code class="language-bash">jhyy build   x.jhyy -o out            # ⇒ out.s
+jhyy compile --no-link x.jhyy -o out  # ⇒ out.s
+</code></pre>
+<p>The <code>.s</code> files the two paths produce are <strong>byte-identical</strong> — including the <code>.section</code> directives generated by <code>#[link_section]</code> (both paths apply the same section handling). The repository has an artifact check (<code>link_section_build</code>) that pins this equivalence down.</p>
+<p>Measured: for a file that carries both <code>#[link_section]</code> and <code>#[naked]</code>, <code>cmp</code> on the <code>.s</code> files from the two paths is an exact match.</p>
+<h3 id="one-place-that-disagrees-with-the-help-text">One place that disagrees with the help text</h3>
+<p><code>jhyy --help</code> says <code>compile ... (a lib without main is compiled only)</code>. Measured: running <code>jhyy compile</code> on a file <strong>without <code>main_jhyy</code></strong> does produce the <code>.s</code>, but the link step still runs and fails (<code>collect2.exe: error: ld returned 1 exit status</code>), exit code 1. ⇒ To get only the assembly, use <code>jhyy build</code> or <code>jhyy compile --no-link</code>.</p>
+<hr />
+<h2 id="3-options">3. Options</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Option</th><th>Effect</th></tr></thead><tbody><tr><td><code>--target=&lt;triple&gt;</code></td><td>Select the target, default <code>amd64_win</code>. <strong>Anywhere</strong> (before or after the subcommand); when several are given, <strong>the last one wins</strong></td></tr><tr><td><code>--no-link</code></td><td>Produce <code>.s</code> only, skip the link step. <strong>Anywhere</strong> (before or after the subcommand)</td></tr><tr><td><code>--help</code></td><td>Print the full help and exit 0. It can be triggered at <strong>any position</strong> — <code>jhyy --help</code> and <code>jhyy compile --help</code> print the same thing</td></tr></tbody></table></div>
+<p>Running <code>jhyy</code> with no arguments at all prints the <strong>same</strong> full help.</p>
+<h3 id="the-four-targets">The four targets</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Triple</th><th>Calling convention</th><th>Runtime</th><th>Can this build link it</th></tr></thead><tbody><tr><td><code>amd64_win</code></td><td>MS x64</td><td>hosted (links the C runtime)</td><td>yes (the only one it can link)</td></tr><tr><td><code>amd64_sysv</code></td><td>SysV AMD64</td><td>hosted</td><td>no, <code>--no-link</code> is required</td></tr><tr><td><code>amd64_win_freestanding</code></td><td>MS x64</td><td>freestanding (UEFI)</td><td>no, <code>--no-link</code> is required</td></tr><tr><td><code>amd64_sysv_freestanding</code></td><td>SysV AMD64</td><td>freestanding</td><td>no, <code>--no-link</code> is required</td></tr></tbody></table></div>
+<p>Three things about freestanding:</p>
+<ol class='md-list'><li><strong>Freestanding only switches "calling-convention ownership + entry hook"; it does not switch the linking mode.</strong> The link line is decided by whether the source file has <code>#[no_std]</code> — see <a href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a>.</li><li><strong>Cross targets deliberately refuse to link.</strong> Without <code>--no-link</code> they error out immediately, exit 1:</li></ol>
+<pre><code class="language-text">   jhyy: refusing to link a cross target - this build's linker always emits a Windows .exe (via the bundled toolchain).
+         Use --no-link, then link the .s with a toolchain that matches the target.
+</code></pre>
+<ol class='md-list'><li><code>--target</code> <strong>does not switch between PE / ELF output</strong> — the container format is decided by the host <code>ld</code> (ABI § 12.9).</li></ol>
+<h3 id="the-full-three-step-cross-compilation">The full three-step cross-compilation</h3>
+<pre><code class="language-bash"># 1. on Windows, emit the .s (a cross target must pass --no-link)
+jhyy compile --target=amd64_sysv_freestanding --no-link prog.jhyy -o prog
+#    ⇒ prog.s
+
+# 2. on Linux, link it into a static ELF
+gcc -nostdlib -static -T runtime/linux_elf/link.ld -o prog.elf \
+    runtime/linux_elf/crt0.S prog.s
+
+# 3. run it
+./prog.elf
+</code></pre>
+<hr />
+<h2 id="4-three-quirks-you-have-to-know">4. Three quirks you have to know</h2>
+<h3 id="41-there-is-no-jhyy---version">4.1 There is no <code>jhyy --version</code></h3>
+<p>It never existed. Running it prints:</p>
+<pre><code class="language-text">jhyy: unknown option --version
+(try `jhyy --help`)
+</code></pre>
+<p>Then it <strong>exits with 1</strong>. The version banner is on <strong>the first line of <code>jhyy --help</code></strong> — running <code>jhyy</code> with no arguments prints the same help, and the banner is on the first line there too.</p>
+<h3 id="42-the-command-line-accepts-only-one-input-file">4.2 The command line accepts only one input file</h3>
+<p>Extra <code>.jhyy</code> arguments are <strong>silently ignored</strong> — no error, no warning. Measured: <code>jhyy compile --no-link main.jhyy lib.jhyy -o multi</code> exits with 0, and the <code>multi.s</code> it produces contains only the symbol of <code>main_jhyy</code>; not a single character of the <code>lib_helper</code> that <code>lib.jhyy</code> defines.</p>
+<p>To combine multiple files, use <code>import</code>: write <code>import lib;</code> in <code>main.jhyy</code>, and the compiler compiles <code>lib.jhyy</code> in along the import graph.</p>
+<h3 id="43-unrecognized-options-are-rejected">4.3 Unrecognized options are rejected</h3>
+<pre><code class="language-text">$ jhyy compile --foo main.jhyy
+compile: unknown option --foo
+(try `jhyy --help`)
+</code></pre>
+<p>Exit 1. It <strong>does not</strong> treat the flag as a file name and try to open it. <code>build</code> and <code>run</code> each have their own prefix (<code>build: unknown option --foo</code> / <code>run: unknown option --foo</code>).</p>
+<hr />
+<h2 id="5-exit-codes">5. Exit codes</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Situation</th><th>Exit code</th></tr></thead><tbody><tr><td><code>--help</code> / no arguments</td><td>0</td></tr><tr><td><code>build</code> / <code>compile</code> succeeded</td><td>0</td></tr><tr><td><code>run</code> succeeded</td><td><strong>the exit code of the program that ran</strong></td></tr><tr><td>Unknown option / unknown command / unknown target</td><td>1</td></tr><tr><td>Syntax error / semantic error</td><td>1 (diagnostics go to stderr, with <code>file:line:col</code>)</td></tr><tr><td>The file cannot be opened</td><td>1</td></tr><tr><td>The cross target refuses to link</td><td>1</td></tr><tr><td>The link fails</td><td>1</td></tr></tbody></table></div>
+<p><code>jhyy run</code> passes the exit code of the program it ran through unchanged: the program does <code>return 42</code> ⇒ <code>jhyy run</code> exits with 42.</p>
+<p>Diagnostics look like this:</p>
+<pre><code class="language-text">bad.jhyy:1:33: error: unexpected token ';' in expression
+bad.jhyy:1:29: error: expected ;, got return
+parse errors
+</code></pre>
+<p>The wording of two other error paths:</p>
+<pre><code class="language-text">$ jhyy compile                        # no input file
+usage: jhyy compile &lt;file.jhyy&gt; [-o output] [--no-link]
+
+$ jhyy frobnicate x.jhyy             # unknown subcommand
+jhyy: unknown command 'frobnicate'
+(commands: compile / build / run / dump - try `jhyy --help`)
+</code></pre>
+<blockquote class="callout"><p><strong>On "the exit codes match clang"</strong>: neither the README, README.zh-CN, the CHANGELOG, nor the two specs <strong>ever</strong> make that statement. The measured semantics are exactly the table above — 0 on success, 1 on failure, and <code>run</code> additionally passes through the exit code of the program it ran.</p>
+<p><strong>Be careful reading exit codes in MSYS2 bash</strong>: bash truncates the exit code to 8 bits (<code>value &amp; 0xFF</code>). For an exact exit code, use a harness or Python <code>subprocess</code> instead of reading <code>$?</code>.</p></blockquote>
+<hr />
+<h2 id="6-quick-reference">6. Quick reference</h2>
+<pre><code class="language-bash"># Compile and link into an exe
+jhyy compile hello.jhyy
+
+# Emit assembly only (a cross target has to take this route)
+jhyy build hello.jhyy -o hello
+jhyy compile --no-link --target=amd64_sysv_freestanding hello.jhyy -o hello
+
+# Compile + link + run
+jhyy run hello.jhyy
+
+# Just look at the syntax tree
+jhyy dump hello.jhyy
+
+# The compiler's own help (the version banner is on the first line)
+jhyy --help
+</code></pre>
+<hr />
+<h2 id="7-related-pages">7. Related pages</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/docs/getting-started.html">Getting started</a> — the first program after installing.</li><li><a href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a> — the four values of <code>--target=</code>, <code>#[no_std]</code>, and freestanding.</li><li><a href="../../../en/compiler/download/targets.html">Targets and cross-compilation</a> — the artifact shape of the four targets.</li><li><a href="../../../en/compiler/docs/compiler.html">How the compiler works</a> — how the compiler itself is built, after the command line.</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">Language spec v4.0.0</a> — § 16 is the authoritative definition of the command line.</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/docs/cli.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l2" href="#1-command-table">1. Command table</a><a class="anchor-l2" href="#2-the-difference-between-the-three-subcommands-key-point">2. The difference between the three subcommands (key point)</a><a class="anchor-l3" href="#two-equivalent-paths">Two equivalent paths</a><a class="anchor-l3" href="#one-place-that-disagrees-with-the-help-text">One place that disagrees with the help text</a><a class="anchor-l2" href="#3-options">3. Options</a><a class="anchor-l3" href="#the-four-targets">The four targets</a><a class="anchor-l3" href="#the-full-three-step-cross-compilation">The full three-step cross-compilation</a><a class="anchor-l2" href="#4-three-quirks-you-have-to-know">4. Three quirks you have to know</a><a class="anchor-l3" href="#41-there-is-no-jhyy---version">4.1 There is no jhyy --version</a><a class="anchor-l3" href="#42-the-command-line-accepts-only-one-input-file">4.2 The command line accepts only one input file</a><a class="anchor-l3" href="#43-unrecognized-options-are-rejected">4.3 Unrecognized options are rejected</a><a class="anchor-l2" href="#5-exit-codes">5. Exit codes</a><a class="anchor-l2" href="#6-quick-reference">6. Quick reference</a><a class="anchor-l2" href="#7-related-pages">7. Related pages</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

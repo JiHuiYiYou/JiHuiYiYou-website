@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Download</title>
+  <meta name="description" content="The artifact matrix of the latest stable release, how to verify it, and the package manager entry points" />
+  <meta property="og:title" content="Download" />
+  <meta property="og:description" content="The artifact matrix of the latest stable release, how to verify it, and the package manager entry points" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/download/index.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="" href="../../../en/compiler/docs/index.html">Docs</a><a class="is-active" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/download/index.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/download/index.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Download</h4><ul><li><a class="is-active" href="../../../en/compiler/download/index.html">Download home</a></li><li><a class="" href="../../../en/compiler/download/targets.html">Targets and cross-compilation</a></li><li><a class="" href="../../../en/compiler/download/bootstrap.html">Build from source and bootstrap</a></li><li><a class="" href="../../../en/compiler/download/verify.html">Verification and signing</a></li></ul></div><div class="doc-nav-group"><h4>Artifacts</h4><ul><li><a class="is-active" href="../../../en/compiler/download/index.html">Installer (GUI)</a></li><li><a class="is-active" href="../../../en/compiler/download/index.html">MSI (enterprise)</a></li><li><a class="is-active" href="../../../en/compiler/download/index.html">VS Code extension</a></li><li><a class="is-active" href="../../../en/compiler/download/index.html">Package managers</a></li></ul></div><div class="doc-nav-group"><h4>Versions</h4><ul><li><a class="is-active" href="../../../en/compiler/download/index.html">v4.1.5 (current stable)</a></li><li><a class="is-active" href="../../../en/compiler/download/index.html">Archive</a></li></ul></div>
+
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="download">Download</h1>
+<p>This page is the artifact matrix of the current stable release: three downloadable files, two distribution channels, and one signing note that every user runs into first. The version number on this page is authoritative; for historical releases see <a href="#archive">archive</a>.</p>
+<blockquote class="callout warn"><p>The installer and the MSI <strong>have no code signature</strong>. On the first run, Windows SmartScreen shows "Windows protected your PC" — click "More info → Run anyway". Unsigned binaries are also more easily blocked by third-party antivirus. Enterprise distribution policies may reject unsigned MSIs outright.</p></blockquote>
+<p>Verify the hash right after downloading — the method is in <a href="../../../en/compiler/download/verify.html">Verification and signing</a>.</p>
+<hr />
+<h2 id="current">Current stable release</h2>
+<p><strong>Current stable release v4.1.5</strong>, released on 2026-11-09.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Artifact</th><th>Size</th><th>What it is</th></tr></thead><tbody><tr><td><code>jhyy-installer-4.1.5.exe</code></td><td>~55 MB</td><td>GUI installer: compiler + <code>.jhyy</code> file association + VS Code extension + PATH + bundled ucrt64 toolchain</td></tr><tr><td><code>jhyy-compiler-4.1.5.msi</code></td><td>~28 MB</td><td>MSI (enterprise distribution): the same payload, without the GUI wizard</td></tr><tr><td><code>jhyy-lang-4.1.5.vsix</code></td><td>~11 KB</td><td>VS Code extension</td></tr></tbody></table></div>
+<p>The sizes are measured values (taken from the artifacts in <code>installer/build-artifacts/</code> after packaging), not estimates.</p>
+<p>Every release also ships a <code>SHA256.txt</code> asset whose contents are a manifest in <code>sha256sum</code> format. <strong>Verify before you run it</strong> — the full commands are in <a href="../../../en/compiler/download/verify.html">Verification and signing</a>.</p>
+<h3 id="download">Download</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>File</th><th>GitHub Releases</th><th>Local mirror</th></tr></thead><tbody><tr><td>Installer</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v4.1.5/jhyy-installer-4.1.5.exe" target="_blank" rel="noopener noreferrer">jhyy-installer-4.1.5.exe</a></td><td><a href="../../../downloads/jhyy-installer-4.1.5.exe" title="Chinese only">/downloads/jhyy-installer-4.1.5.exe</a></td></tr><tr><td>MSI</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v4.1.5/jhyy-compiler-4.1.5.msi" target="_blank" rel="noopener noreferrer">jhyy-compiler-4.1.5.msi</a></td><td><a href="../../../downloads/jhyy-compiler-4.1.5.msi" title="Chinese only">/downloads/jhyy-compiler-4.1.5.msi</a></td></tr><tr><td>VS Code extension</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v4.1.5/jhyy-lang-4.1.5.vsix" target="_blank" rel="noopener noreferrer">jhyy-lang-4.1.5.vsix</a></td><td><a href="../../../downloads/jhyy-lang-4.1.5.vsix" title="Chinese only">/downloads/jhyy-lang-4.1.5.vsix</a></td></tr><tr><td>Checksum manifest</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v4.1.5/SHA256.txt" target="_blank" rel="noopener noreferrer">SHA256.txt</a></td><td><a href="../../../downloads/SHA256SUMS.txt" title="Chinese only">SHA256SUMS.txt</a></td></tr></tbody></table></div>
+<blockquote class="callout"><p>The compiler binary itself, <code>jhyy.exe</code>, is <strong>not</strong> a release asset — the installer puts it into <code>C:\Program Files\JHYY\bin\</code>, and in the repository it is <code>compiler/build/bin/jhyy.exe</code>.</p></blockquote>
+<hr />
+<h2 id="installer">Installer (GUI)</h2>
+<p><code>jhyy-installer-4.1.5.exe</code> (~55 MB) is the one for individual users: a <strong>WiX 4 Burn bundle</strong>, double-clicked to walk through a graphical wizard.</p>
+<p>It installs these things:</p>
+<ul class='md-list'><li><strong>The compiler</strong> <code>jhyy.exe</code>;</li><li><strong>The <code>.jhyy</code> file association</strong> — double-clicking a <code>.jhyy</code> file hands it straight to the compiler;</li><li><strong>The VS Code extension</strong> — installed into the user's VS Code;</li><li><strong>PATH</strong> — written into the system environment variable, so <code>jhyy</code> works in any terminal once the install is done;</li><li><strong>A bundled minimal native ucrt64 toolchain</strong> (gcc + binutils + CRT + headers), installed under <code>&lt;安装目录&gt;\toolchain\</code>.</li></ul>
+<p>The last one is the change as of v4.1.0: <strong>MSYS2 is not needed after installing.</strong> The toolchain manifest records gcc 15.2.0 / <code>x86_64-w64-mingw32</code>, 379 files; the compiler uses this bundled one by default and does not read the <code>gcc</code> on the user's PATH (the repository's build documentation has the search order).</p>
+<p>The installer also ships desktop and Start menu shortcuts, documentation links, and a <code>jhyy-bash.cmd</code> — it finds bash on its own, puts <code>JHYY\bin</code> on PATH, and launches it.</p>
+<p>Silent install (for scripts or bulk deployment):</p>
+<pre><code class="language-powershell">jhyy-installer-4.1.5.exe /quiet
+</code></pre>
+<p><code>/passive</code> means "a progress bar but no interaction"; both are standard Burn switches.</p>
+<blockquote class="callout warn"><p>The installer <strong>has no code signature</strong>. SmartScreen stops it on the first run — you have to click "More info → Run anyway"; the publisher field shows an unknown publisher. Third-party antivirus false positives are also more likely than for a signed binary.</p></blockquote>
+<hr />
+<h2 id="msi">MSI (enterprise distribution)</h2>
+<p><code>jhyy-compiler-4.1.5.msi</code> (~28 MB) installs <strong>exactly the same things</strong> as the installer — the same payload packed into the same WiX MSI. There are only two differences: <strong>no GUI wizard</strong>, and it is <strong>aimed at automated distribution</strong>.</p>
+<p>The reason it exists is software distribution policy: SCCM, Intune and group policy can push an MSI without anyone clicking "Next".</p>
+<pre><code class="language-powershell">msiexec /i jhyy-compiler-4.1.5.msi /qn
+</code></pre>
+<p><code>/qn</code> is msiexec's silent install switch. The MSI is a <strong>per-machine install</strong>: it writes <code>C:\Program Files\JHYY</code> and the PATH under HKLM.</p>
+<blockquote class="callout warn"><p>The MSI <strong>also has no code signature</strong>. Some organizations' software distribution policies reject unsigned MSIs outright — this is not "it won't open", it is a policy-level block. In such an environment use <a href="#pkgmgr">pkgmgr</a> or your own mirror, and talk to IT in advance.</p>
+<p>[!NOTE] The installer is bigger than the MSI because it additionally carries a copy of the .NET 8 Desktop Runtime (the Burn bootstrap and <code>jhyy-setuc.exe</code> need it). The compiler payload and the bundled toolchain are the same in both. The sizes are measured after packaging and the numbers change with the version — the table on this page is authoritative.</p></blockquote>
+<hr />
+<h2 id="vsix">VS Code extension</h2>
+<p><code>jhyy-lang-4.1.5.vsix</code> (~11 KB) is the VS Code extension. Once it is installed:</p>
+<ul class='md-list'><li><code>.jhyy</code> files get syntax highlighting (TextMate grammar, scope <code>source.jhyy</code>);</li><li>the editor title bar shows <strong>Run JHYY File</strong> (shortcut <code>Ctrl+F5</code>) and <strong>Compile JHYY File (no run)</strong>;</li><li>four settings control which executable it calls, which integrated terminal it runs in, and whether it saves automatically before running.</li></ul>
+<p>It does <strong>not</strong> include a debugger, an LSP server, IntelliSense or hover documentation.</p>
+<p>The extension is installed together with the installer or the MSI. To install it on its own:</p>
+<pre><code class="language-powershell">code --install-extension jhyy-lang-4.1.5.vsix
+</code></pre>
+<p>You can also do it inside VS Code via "Extensions → ⋯ in the top right corner → Install from VSIX".</p>
+<p>The extension's version number is aligned with the compiler version at packaging time (<code>installer/vscode-ext/package.ps1</code> in the repository changes the <code>version</code> field of <code>package.json</code>), and the file name carries the same version number.</p>
+<hr />
+<h2 id="pkgmgr">Package managers</h2>
+<p>Two package manager channels are available as of v4.1.4. <strong>Both install the same Burn bundle</strong>, and <strong>both check the SHA-256 before running it</strong>.</p>
+<h3 id="winget">winget</h3>
+<p>The package identifier is <strong><code>JiHuiYiYou.JHYY</code></strong>:</p>
+<pre><code class="language-powershell">winget install JiHuiYiYou.JHYY
+</code></pre>
+<blockquote class="callout warn"><p><strong>Upstream has not merged it yet.</strong> The manifest was submitted to <code>microsoft/winget-pkgs</code> on 2026-11-07 (the PR is on the <code>jh-4.1.5</code> branch of <code>JiHuiYiYou/winget-pkgs</code>), but upstream's automatic validation and CLA signing process is not finished — as of writing this page, <code>manifests/j/JiHuiYiYou/JHYY</code> still <strong>does not exist</strong> in the upstream repository. So <code>winget install</code> will most likely report "no package found" for now. The command only takes effect after the merge.</p></blockquote>
+<p>The in-repo manifest is at <code>installer/distribution/winget/manifests/j/JiHuiYiYou/JHYY/&lt;版本&gt;/</code> (the three pieces: version / installer / locale).</p>
+<h3 id="scoop">scoop</h3>
+<p>It uses a <strong>personal bucket</strong> (getting into the Main bucket is a separate decision, not made yet):</p>
+<pre><code class="language-bash">scoop bucket add jhyy https://github.com/JiHuiYiYou/scoop-bucket
+scoop install jhyy --global
+</code></pre>
+<p><code>--global</code> is mandatory: the installer is a per-machine install (it writes <code>C:\Program Files\JHYY</code> and the PATH under HKLM), while scoop installs into the user directory by default. Run it from an elevated shell, or accept the UAC prompt during the install.</p>
+<p>The manifest is at <code>installer/distribution/scoop/jhyy.json</code> in the repository.</p>
+<hr />
+<h2 id="archive">Release archive</h2>
+<p>All historical releases stay on GitHub Releases:</p>
+<ul class='md-list'><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases" target="_blank" rel="noopener noreferrer">JiHuiYiYou-compiler · Releases</a></li></ul>
+<p>Every release carries the <code>SHA256.txt</code> of its own version. <strong>Checksums travel with the version</strong> — running an old version's checksum against a new version's artifact will never match.</p>
+<blockquote class="callout"><p>The assets of the v1.5.5 / v1.5.6 releases in the archive already return 404: they are historical placeholders (those version numbers were never actually released). The other versions are available.</p></blockquote>
+<hr />
+<h2 id="next">Next</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/download/targets.html">Targets and cross-compilation</a> — what each of the four targets produces, and what freestanding actually changes.</li><li><a href="../../../en/compiler/download/bootstrap.html">Build from source and bootstrap</a> — building the compiler from source, and what the self-hosted closure proves and does not prove.</li><li><a href="../../../en/compiler/download/verify.html">Verification and signing</a> — how to check the SHA256, and what "no signature" means for users.</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/download/index.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#download">Download</a><a class="anchor-l2" href="#current">Current stable release</a><a class="anchor-l3" href="#download">Download</a><a class="anchor-l2" href="#installer">Installer (GUI)</a><a class="anchor-l2" href="#msi">MSI (enterprise distribution)</a><a class="anchor-l2" href="#vsix">VS Code extension</a><a class="anchor-l2" href="#pkgmgr">Package managers</a><a class="anchor-l3" href="#winget">winget</a><a class="anchor-l3" href="#scoop">scoop</a><a class="anchor-l2" href="#archive">Release archive</a><a class="anchor-l2" href="#next">Next</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

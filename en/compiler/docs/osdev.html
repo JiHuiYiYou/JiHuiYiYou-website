@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Bare metal and kernel development</title>
+  <meta name="description" content="freestanding targets, no_std, inline assembly, and the minimal kernel boot path" />
+  <meta property="og:title" content="Bare metal and kernel development" />
+  <meta property="og:description" content="freestanding targets, no_std, inline assembly, and the minimal kernel boot path" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/docs/osdev.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="is-active" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/docs/osdev.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/docs/osdev.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Getting started</h4><ul><li><a class="" href="../../../en/compiler/docs/getting-started.html">Getting started</a></li><li><a class="" href="../../../en/compiler/docs/tour.html">Language tour</a></li></ul></div><div class="doc-nav-group"><h4>Language reference</h4><ul><li><a class="" href="../../../en/compiler/docs/reference.html">Reference overview</a></li><li><a class="" href="../../../en/compiler/docs/spec.html">Language spec v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/stdlib.html">Standard library</a></li></ul></div><div class="doc-nav-group"><h4>Deep dives</h4><ul><li><a class="" href="../../../en/compiler/docs/arena.html">Arena memory management</a></li><li><a class="is-active" href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a></li></ul></div><div class="doc-nav-group"><h4>Tools and internals</h4><ul><li><a class="" href="../../../en/compiler/docs/cli.html">CLI reference</a></li><li><a class="" href="../../../en/compiler/docs/compiler.html">How the compiler works</a></li><li><a class="" href="../../../en/compiler/docs/build-and-test.html">Build and test</a></li><li><a class="" href="../../../en/compiler/docs/faq.html">FAQ</a></li></ul></div>
+
+    <div class="doc-nav-group doc-nav-external">
+      <h4>Spec sources</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">Language spec v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">Workaround ledger ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <p>The question "can I use it to write a kernel" has to be split into three layers for JHYY: the <strong>language layer</strong>, the <strong>runtime layer</strong>, and the <strong>ABI layer</strong>. Each layer handles its own business; collapsing them into a single phrase like "no standard library" leads to the wrong conclusion. This page keeps the three layers apart, then goes through the "minimal kernel boot path" item by item to check what really works and what is still empty.</p>
+<p>One-line preview: <strong>the parts of the language layer are basically all there; the runtime layer and the link layer are not wired up yet.</strong></p>
+<hr />
+<h2 id="1-three-layers-to-keep-apart">1. Three layers to keep apart</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Layer</th><th>Switch</th><th>What it governs</th><th>What it explicitly does not govern</th></tr></thead><tbody><tr><td><strong>Language layer</strong></td><td>The <code>#[no_std]</code> attribute in the source file</td><td>Declares "this module does not want the C runtime", and swaps the entry symbol to <code>main</code></td><td>It does not decide the calling convention, and it does not decide the linker</td></tr><tr><td><strong>Runtime layer</strong></td><td>The <code>_freestanding</code> suffix in the target name</td><td>The target shape of "no operating system runtime"</td><td><strong>It does not switch the linking mode</strong></td></tr><tr><td><strong>ABI layer</strong></td><td><code>--target=&lt;triple&gt;</code></td><td>Which calling convention to use (MS x64 / SysV AMD64)</td><td>It does not switch PE / ELF output (that is decided by the host <code>ld</code>)</td></tr></tbody></table></div>
+<p>ABI § 1 says it outright: <strong>the two freestanding targets only switch "calling-convention ownership + entry hook"; they do not switch the linking mode.</strong> In other words, <code>--target=amd64_win_freestanding</code> has a register convention <strong>byte-identical</strong> to <code>amd64_win</code>; the difference lies elsewhere (see section 2).</p>
+<hr />
+<h2 id="2-the-link-line-is-decided-by-no-std-not-by---target">2. The link line is decided by <code>#[no_std]</code>, not by <code>--target</code></h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Does the source file have <code>#[no_std]</code>?</th><th>Link line</th></tr></thead><tbody><tr><td>No</td><td>Links <code>runtime.o</code> + <code>helpers.o</code>, then unconditionally appends <code>-lm -lkernel32 -luser32 -lshell32 -ladvapi32</code></td></tr><tr><td>Yes</td><td><code>-nostartfiles -nodefaultlibs -Wl,--entry=main -lgcc</code>, and <strong>does not</strong> link the runtime / helpers</td></tr></tbody></table></div>
+<p>The <code>--entry=main</code> in the second row is there because codegen emits symbols <strong>verbatim</strong> by function name — the user's <code>fn main</code> is <code>main</code>. A <code>#[no_std]</code> module must define <code>fn main</code>, otherwise sema reports <code>error: #[no_std] module must define &#x27;fn main()&#x27;</code>.</p>
+<p>Note that the second row <strong>still unconditionally appends</strong> <code>-lm -lkernel32 -luser32 -lshell32 -ladvapi32</code> at the end. ⇒ A real UEFI / bare metal image <strong>cannot</strong> use this link line; you have to do it yourself with lld-link (<code>/SUBSYSTEM:EFI_APPLICATION /ENTRY:efi_main</code>) or with a custom link line.</p>
+<h3 id="a-pitfall-that-was-once-measured-fixed-in-v415">A pitfall that was once measured (fixed in v4.1.5)</h3>
+<p>The <code>#[no_std]</code> link-line branch is passed down through a side-file flag, and <strong>the path of that flag file used to be relative to the current working directory</strong>:</p>
+<ul class='md-list'><li>Running <code>jhyy compile ns.jhyy</code> at the root of the compiler repository ⇒ takes the no_std link line ⇒ the link succeeds, the program returns 42, and the process exit code is 42.</li><li>Running the same command anywhere that has no <code>compiler/build/obj/</code> subdirectory ⇒ the flag file cannot be written ⇒ <strong>it falls back to the hosted link line</strong> ⇒ the link fails (<code>collect2.exe: error: ld returned 5 exit status</code>), exit code 1.</li></ul>
+<p>This is not by design; it is a side effect of the path being relative to the CWD. It is written down here because it is easy to misread as "<code>#[no_std]</code> does not compile".</p>
+<p><strong>v4.1.5 fixed it</strong>: the side-file became an <strong>absolute path under the operating system's temp directory</strong> ⇒ it can be written from any working directory, and no temporary files are dropped into the user's source tree anymore. A failure on the write side is now <strong>loud</strong> (the compiler no longer produces an artifact whose "feature silently stopped working"). Ledger entry W-224 also added an artifact check, <code>no_std_any_cwd</code> — it <strong>runs from a different CWD</strong>: this bug was already invisible to every existing gate, because they all "run at the repository root".</p>
+<hr />
+<h2 id="3-known-gaps-honest-disclosure">3. Known gaps (honest disclosure)</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Gap</th><th>Status</th></tr></thead><tbody><tr><td><strong>The UEFI EFIAPI wrapper is not implemented</strong> (ABI § 12.8)</td><td>The <code>emit_entry_point</code> / <code>no_crt_init</code> hooks are <strong>both empty implementations</strong> ⇒ the compiler generates no wrapper and does not automatically suppress the CRT / runtime linking. The entry symbol is supplied by the user</td></tr><tr><td><strong>A real bare metal link line</strong></td><td>Cannot be done — see section 2 (the Windows system libraries are appended unconditionally)</td></tr><tr><td><strong>Linking cross targets</strong></td><td><strong>Deliberately refused</strong>: a target other than <code>amd64_win</code> without <code>--no-link</code> errors out immediately, exit 1</td></tr><tr><td><strong>panic handler</strong></td><td>The language <strong>has no panic concept</strong>. <code>compiler/runtime/no_std_core/panic_handler.jhyy</code> is an M0 stub (an infinite loop), and it <strong>is not wired into the build</strong> — it is not on the link line</td></tr><tr><td><strong>Serial output</strong></td><td>The repository has no UART / COM1 / <code>0x3f8</code> code at all. The comment in <code>std/io.jhyy</code> says to swap in the syscall implementation "after the OS kernel M11 launch"</td></tr><tr><td><strong><code>.bss</code> zeroing / the initial stack</strong></td><td>There is no CRT startup code ⇒ neither of them exists (see section 6)</td></tr></tbody></table></div>
+<p>These are not "not written yet" — they are boundaries <strong>explicitly on record</strong>. The deviation table in ABI § 12 is the authoritative list.</p>
+<hr />
+<h2 id="4-the-bare-metal-language-surface-that-is-available">4. The bare metal language surface that is available</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Feature</th><th>Status</th><th>Limitation</th></tr></thead><tbody><tr><td><code>#[no_std]</code></td><td>Available</td><td>A module-level attribute; it must define <code>fn main</code></td></tr><tr><td><code>#[link_section(&quot;...&quot;)]</code></td><td>Available</td><td>It only changes which section a symbol lands in, <strong>it does not change the calling convention</strong>. The section name must be printable ASCII</td></tr><tr><td><code>volatile T</code></td><td>Available</td><td>It only qualifies <strong>primitive types</strong> (qualifying a struct / pointer / array is a compile error); the layout is exactly the same as <code>T</code>; every access within a single thread is guaranteed to hit memory and not be reordered. Across threads you need <code>fence_*</code></td></tr><tr><td><code>asm!(&quot;...&quot;)</code></td><td>Available but limited</td><td>A single string literal; <strong>no operand constraints, no clobber declarations</strong>; AT&T syntax; x86-64 only. The return-value semantics are undefined ⇒ the convention is to write it in statement position</td></tr><tr><td><code>fence_seq_cst()</code> / <code>fence_acquire()</code> / <code>fence_release()</code></td><td>Available</td><td>They emit <code>mfence</code> / <code>lfence</code> / <code>sfence</code> respectively; only x86-64 is covered</td></tr><tr><td><code>#[naked]</code></td><td>Available (since v4.1.5)</td><td>The label and the function body go through the same channel, and the first instruction is <code>iret</code>; the function <strong>must not take parameters</strong> (parameters once made the compiler segfault itself; that is fixed)</td></tr><tr><td><code>defer</code></td><td>Available</td><td>It only covers <strong>explicit <code>return</code></strong> paths; the <strong>implicit return</strong> of the trailing expression in a function body <strong>does not trigger</strong> defer</td></tr></tbody></table></div>
+<p>Measured artifact (<code>volatile</code> + <code>asm!</code> + <code>fence</code> used together):</p>
+<pre><code class="language-asm">	movl %eax, (%r8)      # volatile store — really writes memory, does not go through the register cache
+nop                    # asm!("nop") — inlined at this position
+mfence                 # fence_seq_cst() — inlined at the call site
+	movl (%r8), %eax      # volatile load
+</code></pre>
+<p>Both <code>asm!</code> and <code>fence_*</code> are <strong>inlined at their position in the function body</strong> (ABI § 8). This is not a convenience matter — the early implementation appended them to the end of the <code>.s</code>, where they landed outside all functions as dead bytes, and <strong>the memory barrier never executed</strong>. That is fixed now.</p>
+<hr />
+<h2 id="5-naked-the-label-and-the-function-body-once-took-two-different-channels-fixed-in-v415">5. <code>#[naked]</code>: the label and the function body once took two different channels (fixed in v4.1.5)</h2>
+<p>The <code>#[naked]</code> contract: no prologue / epilogue, full control over the registers and the stack; the function body may contain <strong>only</strong> <code>asm!(...)</code> statements (local variables / control flow / <code>return</code> are compile errors).</p>
+<p><strong>v4.1.4 and earlier</strong>: the label went through a side file while the function body went through the top level of the IL ⇒ the two never met. Measured, the <code>.s</code> that <code>jhyy build</code> produced:</p>
+<pre><code class="language-asm">pushq %r15
+iret
+.text
+.balign 16
+.globl main_jhyy
+main_jhyy:
+	...
+</code></pre>
+<p>The label <code>irq_entry:</code> <strong>does not appear</strong> — the function body lands in <strong>file scope</strong>, before <code>.text</code>. In the linked exe, <code>&lt;irq_entry&gt;</code> points at a stretch of alignment padding (<code>nop</code>), not at the function body.</p>
+<p>⇒ Back then <code>#[naked]</code> compiled, but a <strong>bare interrupt entry point could not be reached</strong>. The regression case <code>compiler/tests/examples/naked_interrupt_entry.jhyy</code> only asserts a process exit code of 0 — the harness cannot see where a symbol landed, so no gate caught this.</p>
+<p><strong>From v4.1.5 on</strong>: both ends of naked are merged <strong>onto the same channel</strong> (the function body goes through the side file too) ⇒ the first instruction is <code>iret</code>. The artifact check <code>naked_symbol</code> registered in ledger entry W-223 used to be a KNOWN-FAIL; this release <strong>removes that line from KNOWN_FAIL</strong> ⇒ it is automatically promoted to a real gate. It is now one of the artifact checks that have to pass.</p>
+<p>The same release also fixed another problem of the same origin: <strong>a <code>#[naked]</code> function with parameters made the compiler segfault itself</strong> (naked's IR is empty, and codegen emitted the parameter moves as usual, turning those instructions into top-level instructions and corrupting the IL). Naked functions no longer register parameters and no longer emit the sret moves — which is also semantically right: naked has no prologue, so the parameters stay in registers as the ABI prescribes.</p>
+<hr />
+<h2 id="6-the-minimal-kernel-boot-path-checked-item-by-item">6. The minimal kernel boot path: checked item by item</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Step</th><th>Status</th><th>Evidence</th></tr></thead><tbody><tr><td>Entry symbol</td><td><strong>Supplied by the user</strong>. In the UEFI scenario <code>efi_main</code>, in the bare metal / Linux ELF scenario <code>_start</code></td><td>Language spec § 17.6</td></tr><tr><td>Entry under <code>#[no_std]</code></td><td><code>main</code> (the link line has <code>-Wl,--entry=main</code>); sema strictly requires <code>fn main</code></td><td>ABI § 7</td></tr><tr><td>Stack setup</td><td><strong>To be filled in</strong>. There is no CRT startup code ⇒ there is no initial stack. <code>fn main</code> itself generates the standard prologue (<code>pushq %rbp</code> / <code>movq %rsp, %rbp</code> / <code>subq $N, %rsp</code>), but the <strong>initial stack</strong> has to be provided by the firmware or by user code</td><td>The link line <code>-nostartfiles</code></td></tr><tr><td>panic handler</td><td><strong>Not implemented</strong>. See section 3</td><td><code>no_std_core/panic_handler.jhyy</code> is not wired into the build</td></tr><tr><td>Serial output</td><td><strong>Not implemented</strong>. See section 3</td><td>There is no UART code in the repository</td></tr><tr><td><code>.bss</code> zeroing</td><td><strong>To be filled in</strong>. For the same reason: there is no CRT startup code</td><td>—</td></tr><tr><td>Interrupts / IDT / page tables</td><td><strong>To be filled in</strong>. The language layer has no such facilities</td><td>—</td></tr></tbody></table></div>
+<hr />
+<h2 id="7-evidence-the-uefi-x64-boot-spike">7. Evidence: the UEFI x64 boot spike</h2>
+<p><code>JiHuiYiYou-OS/spike/boot.s</code> is a <strong>hand-written GNU assembly</strong> file (<code>.intel_syntax noprefix</code>); it is <strong>not</strong> JHYY code. Its value is that it pins down the real register convention of the UEFI x64 entry point:</p>
+<pre><code class="language-asm">efi_main:
+    # RCX = EFI_HANDLE ImageHandle
+    # RDX = EFI_SYSTEM_TABLE *SystemTable
+    mov     r12, rdx                   # r12 = ST
+    mov     rax, [r12 + 64]            # ConOut (NOT StdErr at 80)
+    ...
+    call    [r13 + 8]                  # OutputString
+</code></pre>
+<ul class='md-list'><li><strong>Entry convention</strong>: RCX = ImageHandle, RDX = SystemTable — it matches the MS x64 convention of <code>amd64_win_freestanding</code>.</li><li><strong>Build line</strong>: <code>x86_64-w64-mingw32-gcc -nostdlib -Wl,--subsystem,10 -Wl,-e,efi_main -Wl,--image-base=0x10000 -o BOOTX64.EFI boot.s</code>.</li><li><strong>Exit code</strong>: <code>out 0xf4, al</code> (isa-debug-exit) passes the status to QEMU.</li><li><strong>Stack</strong>: the spike builds its own frame with <code>push rbp / mov rbp, rsp</code>; <strong>nobody builds an initial stack for it</strong>.</li></ul>
+<p>On the JHYY side: the compiler <strong>does not</strong> generate EFIAPI wrapper code (ABI § 12.8), so the step from <code>.s</code> to <code>.efi</code> still has to be written by hand.</p>
+<hr />
+<h2 id="8-status-table-of-os-embedded-capabilities">8. Status table of OS / embedded capabilities</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Capability</th><th>Status</th></tr></thead><tbody><tr><td>Compiling + linking a <code>#[no_std]</code> module</td><td><strong>Available</strong> (measured: the link succeeds, exit code 42)</td></tr><tr><td>A custom entry symbol (<code>efi_main</code> / <code>_start</code>)</td><td><strong>Available</strong> — the user writes it, the compiler does not generate it</td></tr><tr><td>Putting startup code in <code>#[link_section]</code></td><td><strong>Available</strong> (measured: <code>.section .text.boot</code> appears in the <code>.s</code>)</td></tr><tr><td>Accessing MMIO with <code>volatile</code></td><td><strong>Available</strong> (measured: it really does go through memory reads and writes)</td></tr><tr><td>Inline <code>asm!</code></td><td><strong>Available</strong>, limited to a single string literal</td></tr><tr><td>Memory barriers</td><td><strong>Available</strong> (<code>mfence</code> / <code>lfence</code> / <code>sfence</code> inlined at the call site)</td></tr><tr><td>A <code>#[naked]</code> interrupt entry</td><td><strong>Available</strong> (since v4.1.5: the label and the function body go through the same channel, the first instruction is <code>iret</code>)</td></tr><tr><td>panic / assertions / stack backtraces</td><td><strong>Not implemented</strong></td></tr><tr><td>Serial / UART output</td><td><strong>Not implemented</strong></td></tr><tr><td>Interrupt controller / IDT / page tables</td><td><strong>Not implemented</strong></td></tr><tr><td>Multicore / SMP</td><td><strong>Not implemented</strong></td></tr><tr><td>aarch64 / riscv64 bare metal</td><td><strong>Not implemented</strong> (x86-64 only)</td></tr><tr><td>Automatic UEFI image output</td><td><strong>Not implemented</strong> (the entry path is not finished, ABI § 12.8)</td></tr></tbody></table></div>
+<hr />
+<h2 id="9-related-pages">9. Related pages</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/docs/cli.html">CLI reference</a> — the four values of <code>--target=</code> and the use of <code>--no-link</code> for cross targets.</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener noreferrer">ABI v4.0.0</a> — § 7 covers the entry point and linking, § 8 the low-level extensions, § 12 the deviation table.</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">Language spec v4.0.0</a> — § 17 is <code>volatile</code> / <code>asm!</code> / <code>#[naked]</code> / <code>#[link_section]</code> / <code>#[no_std]</code> / the memory barriers / the freestanding entry.</li><li><a href="../../../en/compiler/download/targets.html">Targets and cross-compilation</a> — the artifact shape of the four targets.</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/docs/osdev.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l2" href="#1-three-layers-to-keep-apart">1. Three layers to keep apart</a><a class="anchor-l2" href="#2-the-link-line-is-decided-by-no-std-not-by---target">2. The link line is decided by #[no_std], not by --target</a><a class="anchor-l3" href="#a-pitfall-that-was-once-measured-fixed-in-v415">A pitfall that was once measured (fixed in v4.1.5)</a><a class="anchor-l2" href="#3-known-gaps-honest-disclosure">3. Known gaps (honest disclosure)</a><a class="anchor-l2" href="#4-the-bare-metal-language-surface-that-is-available">4. The bare metal language surface that is available</a><a class="anchor-l2" href="#5-naked-the-label-and-the-function-body-once-took-two-different-channels-fixed-in-v415">5. #[naked]: the label and the function body once took two different channels (fixed in v4.1.5)</a><a class="anchor-l2" href="#6-the-minimal-kernel-boot-path-checked-item-by-item">6. The minimal kernel boot path: checked item by item</a><a class="anchor-l2" href="#7-evidence-the-uefi-x64-boot-spike">7. Evidence: the UEFI x64 boot spike</a><a class="anchor-l2" href="#8-status-table-of-os-embedded-capabilities">8. Status table of OS / embedded capabilities</a><a class="anchor-l2" href="#9-related-pages">9. Related pages</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

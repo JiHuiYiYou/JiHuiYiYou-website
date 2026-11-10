@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Verification and signing</title>
+  <meta name="description" content="How to check the SHA256, the state of signing, and how to verify where a released artifact comes from" />
+  <meta property="og:title" content="Verification and signing" />
+  <meta property="og:description" content="How to check the SHA256, the state of signing, and how to verify where a released artifact comes from" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/download/verify.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="" href="../../../en/compiler/docs/index.html">Docs</a><a class="is-active" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/download/verify.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/download/verify.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Download</h4><ul><li><a class="" href="../../../en/compiler/download/index.html">Download home</a></li><li><a class="" href="../../../en/compiler/download/targets.html">Targets and cross-compilation</a></li><li><a class="" href="../../../en/compiler/download/bootstrap.html">Build from source and bootstrap</a></li><li><a class="is-active" href="../../../en/compiler/download/verify.html">Verification and signing</a></li></ul></div><div class="doc-nav-group"><h4>Artifacts</h4><ul><li><a class="" href="../../../en/compiler/download/index.html">Installer (GUI)</a></li><li><a class="" href="../../../en/compiler/download/index.html">MSI (enterprise)</a></li><li><a class="" href="../../../en/compiler/download/index.html">VS Code extension</a></li><li><a class="" href="../../../en/compiler/download/index.html">Package managers</a></li></ul></div><div class="doc-nav-group"><h4>Versions</h4><ul><li><a class="" href="../../../en/compiler/download/index.html">v4.1.5 (current stable)</a></li><li><a class="" href="../../../en/compiler/download/index.html">Archive</a></li></ul></div>
+
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="verification-and-signing">Verification and signing</h1>
+<p>This page answers three questions: <strong>whether the bytes you downloaded are intact</strong>, <strong>whether the publisher is the publisher you expected</strong>, and <strong>whether the compiler in your hands is this version</strong>.</p>
+<p>The answer to the second question is not a pretty one, so it comes first.</p>
+<hr />
+<h2 id="the-state-of-signing-no-signature">The state of signing: no signature</h2>
+<blockquote class="callout warn"><p>The installer and the MSI <strong>have no code signature</strong>. On the first run Windows SmartScreen shows "Windows protected your PC" — click "More info → Run anyway". Unsigned binaries are also more easily blocked by third-party antivirus. Enterprise distribution policies may reject unsigned MSIs outright.</p></blockquote>
+<p>Here is what you actually run into:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Scenario</th><th>What happens</th></tr></thead><tbody><tr><td>An individual user on the first run</td><td>SmartScreen's blue-background prompt gets in the way; you have to click "More info → Run anyway" by hand, and the "Publisher" field shows an unknown publisher</td></tr><tr><td>Third-party antivirus</td><td>The heuristic false positive rate for unsigned binaries is noticeably higher; the file may be quarantined, or a whitelist entry may be requested</td></tr><tr><td>Enterprise distribution</td><td>Many organizations' software distribution policies reject unsigned MSIs outright — not that it fails to install, but that the policy blacklists it</td></tr><tr><td>Environments that enforce signing</td><td>It does not install, unless IT gives a separate exemption</td></tr></tbody></table></div>
+<p>There are <strong>no</strong> detached signatures from minisign, sigstore, cosign or GPG; <strong>no</strong> SLSA provenance, SBOM or attestation. The only verification-related asset the release process produces is: <code>SHA256.txt</code>.</p>
+<p>So this page will not give you a signature verification procedure — because there is none. That is deliberate: <strong>spending a procedure that does not exist on talking around the fact that nothing is signed is worse than just saying nothing is signed.</strong></p>
+<h3 id="what-sha256-can-and-cannot-prove">What SHA256 can and cannot prove</h3>
+<p><code>SHA256.txt</code> and the artifacts it checks come from <strong>the same publisher</strong>. That decides the limits of what it can do:</p>
+<ul class='md-list'><li>It <strong>can</strong> prove the file was not corrupted or truncated in transit, and that you did not download the wrong version;</li><li>It <strong>cannot</strong> prove that the publisher is trustworthy — if someone can change your download source, they can change <code>SHA256.txt</code> at the same time.</li></ul>
+<p>In other words, this is an <strong>integrity</strong> check, not a <strong>source authentication</strong>. To actually authenticate the source you need a signature or a transparency log — and the project currently has neither.</p>
+<hr />
+<h2 id="how-to-check-the-sha256">How to check the SHA256</h2>
+<p>Every release ships a <code>SHA256.txt</code> asset whose contents are a manifest in <code>sha256sum</code> format:</p>
+<pre><code class="language-text">&lt;64 hex digits&gt;  &lt;file name&gt;
+</code></pre>
+<p>Two spaces separate the two fields, UTF-8 without BOM, <strong>LF line endings</strong> (generated on Windows, but deliberately written as LF — CRLF would make <code>sha256sum -c</code> on Linux treat the <code>\r</code> as part of the file name).</p>
+<h3 id="bash">bash</h3>
+<p>Put the three artifacts and <code>SHA256.txt</code> in the same directory, then:</p>
+<pre><code class="language-bash">sha256sum -c SHA256.txt
+</code></pre>
+<p>The output is one <code>文件名: OK</code> per line; any line that says <code>FAILED</code> means it does not match.</p>
+<p>To check only one file:</p>
+<pre><code class="language-bash">sha256sum jhyy-installer-4.1.5.exe
+</code></pre>
+<p>Compare the hash it prints with the matching line in <code>SHA256.txt</code> (the hashes in the file are lower case).</p>
+<blockquote class="callout"><p>The authoritative manifest is the <code>SHA256.txt</code> on the release. The local mirror under <code>/downloads/</code> on this site stores the same manifest under the name <code>SHA256SUMS.txt</code> — a different file name, the same content format.</p></blockquote>
+<h3 id="powershell">PowerShell</h3>
+<p>To check every file in the manifest at once:</p>
+<pre><code class="language-powershell">Get-Content .\SHA256.txt | ForEach-Object {
+    $p = $_ -split '\s+', 2
+    $actual = (Get-FileHash -Algorithm SHA256 -Path $p[1]).Hash.ToLower()
+    if ($actual -eq $p[0].ToLower()) { "OK   $($p[1])" } else { "FAIL $($p[1])" }
+}
+</code></pre>
+<p>A single file:</p>
+<pre><code class="language-powershell">Get-FileHash -Algorithm SHA256 .\jhyy-installer-4.1.5.exe
+</code></pre>
+<p><code>Get-FileHash</code> prints <strong>upper case</strong> hex, while <code>SHA256.txt</code> is <strong>lower case</strong> — convert to lower case before comparing (the command above already does that).</p>
+<hr />
+<h2 id="what-a-failed-check-usually-means">What a failed check usually means</h2>
+<p>In order of how often it happens:</p>
+<ol class='md-list'><li><strong>The download was truncated.</strong> A network interruption, a proxy cache, or a resumed browser download all leave half a file behind. Download the whole thing again; do not use the half file that came out of a resume.</li><li><strong>The line endings were changed.</strong> <code>SHA256.txt</code> has to be LF. If it was opened in an editor and saved (or converted to CRLF by some tool on Windows), <code>sha256sum -c</code> reports <code>No such file or directory</code> — because it treats the trailing <code>\r</code> as part of the file name. <strong>Do not edit this file</strong>, run the check against the original file.</li><li><strong>What you got is not the original file.</strong> Something saved from the <strong>HTML download page</strong> of a GitHub release is not guaranteed to be the released artifact itself. Use the tag direct link: <code>https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/download/v&lt;版本&gt;/&lt;文件名&gt;</code></li><li><strong>The version number is wrong.</strong> <code>SHA256.txt</code> <strong>travels with the version</strong> — running an old version's checksum against a new version's artifact will never match. On top of that, the v1.5.5 / v1.5.6 releases in the archive are historical placeholders whose assets already return 404, so the hashes in their manifests match no existing download.</li><li><strong>You checked the wrong file.</strong> <code>SHA256.txt</code> lists the three released artifacts: the installer, the MSI and the VSIX. The compiler binary <code>jhyy.exe</code> is <strong>not</strong> a release asset — it is inside the installer and under <code>compiler/build/bin/</code> in the repository.</li></ol>
+<hr />
+<h2 id="how-to-confirm-that-what-you-have-really-is-this-version">How to confirm that what you have really is this version</h2>
+<h3 id="the-version-banner">The version banner</h3>
+<p>The <strong>first line</strong> of <code>jhyy --help</code> is the version banner:</p>
+<pre><code class="language-text">jhyy compiler v4.1.5 (self-hosted)
+</code></pre>
+<p>Running <code>jhyy</code> with no arguments prints the same help text.</p>
+<blockquote class="callout"><p><strong>There is no <code>jhyy --version</code></strong> — that subcommand does not exist. The version banner is only on the first line of <code>--help</code>, so do not go looking for a command that is not there.</p></blockquote>
+<h3 id="the-version-embedded-in-the-compiled-artifact">The version embedded in the compiled artifact</h3>
+<p>The version number is a <strong>string literal</strong> in the compiler source (the line that <code>compiler/src0/main.jhyy</code> <code>printf</code>s out), it goes into the binary at compile time, so you can search for it in the binary directly:</p>
+<pre><code class="language-bash">strings jhyy.exe | grep "jhyy compiler v"
+</code></pre>
+<p>This needs the <code>strings</code> of binutils (MSYS2 and Git Bash both have it).</p>
+<h3 id="after-installing">After installing</h3>
+<pre><code class="language-powershell">where jhyy
+jhyy --help
+</code></pre>
+<p><code>where jhyy</code> is expected to point at <code>C:\Program Files\JHYY\bin\jhyy.exe</code>; the version on the first line of <code>--help</code> should match the current stable release written on this page.</p>
+<p>For the VS Code extension, look at the file name and the version number: the artifact is called <code>jhyy-lang-&lt;版本&gt;.vsix</code>, and the <code>version</code> field inside the extension is aligned with the same version number at packaging time (<code>installer/vscode-ext/package.ps1</code> in the repository is what changes it).</p>
+<hr />
+<h2 id="next">Next</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/download/index.html">Download</a> — the artifact matrix and the download links.</li><li><a href="../../../en/compiler/download/bootstrap.html">Build from source and bootstrap</a> — why the self-hosted closure, the gate where "the thing that was compiled, compiled again, still comes out the same", has to be passed before a release.</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/download/verify.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#verification-and-signing">Verification and signing</a><a class="anchor-l2" href="#the-state-of-signing-no-signature">The state of signing: no signature</a><a class="anchor-l3" href="#what-sha256-can-and-cannot-prove">What SHA256 can and cannot prove</a><a class="anchor-l2" href="#how-to-check-the-sha256">How to check the SHA256</a><a class="anchor-l3" href="#bash">bash</a><a class="anchor-l3" href="#powershell">PowerShell</a><a class="anchor-l2" href="#what-a-failed-check-usually-means">What a failed check usually means</a><a class="anchor-l2" href="#how-to-confirm-that-what-you-have-really-is-this-version">How to confirm that what you have really is this version</a><a class="anchor-l3" href="#the-version-banner">The version banner</a><a class="anchor-l3" href="#the-version-embedded-in-the-compiled-artifact">The version embedded in the compiled artifact</a><a class="anchor-l3" href="#after-installing">After installing</a><a class="anchor-l2" href="#next">Next</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

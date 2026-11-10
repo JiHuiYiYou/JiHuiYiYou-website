@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Security disclosure</title>
+  <meta name="description" content="How to report a security issue, and the known trust boundaries" />
+  <meta property="og:title" content="Security disclosure" />
+  <meta property="og:description" content="How to report a security issue, and the known trust boundaries" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/community/security.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="is-active" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/community/security.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/community/security.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Community</h4><ul><li><a class="" href="../../../en/compiler/community/index.html">Community home</a></li><li><a class="" href="../../../en/compiler/community/conduct.html">Code of conduct</a></li><li><a class="" href="../../../en/compiler/community/contributing.html">Contributing</a></li><li><a class="is-active" href="../../../en/compiler/community/security.html">Security disclosure</a></li></ul></div><div class="doc-nav-group"><h4>How to take part</h4><ul><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues" target="_blank" rel="noopener">Open an issue ↗</a></li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/pulls" target="_blank" rel="noopener">Open a PR ↗</a></li><li><span class="doc-nav-text">QQ group 429807125</span></li><li><a class="" href="../../../en/compiler/governance/repo-map.html">Code ownership</a></li></ul></div>
+
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="security-disclosure">Security disclosure</h1>
+<p>This page covers two things: <strong>how to report a security issue</strong> (without turning it into a public exploit), and <strong>the trust boundaries this project knows about</strong> (where the compiler gives you no guarantees).</p>
+<p>The original is the repository's <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer"><code>SECURITY.md</code></a>, and this page is a reading guide for it.</p>
+<hr />
+<h2 id="the-one-line-version">The one-line version</h2>
+<blockquote class="callout"><p><strong>Do not open a public issue for a suspected vulnerability.</strong> Use the <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/security/advisories/new" target="_blank" rel="noopener noreferrer">private advisory form</a>.</p></blockquote>
+<p>Public issues get indexed, mirrored and cached — <strong>within minutes</strong>. A public report can turn a fix into an exploit before the patch even exists.</p>
+<hr />
+<h2 id="reporting-channels">Reporting channels</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Priority</th><th>Channel</th></tr></thead><tbody><tr><td>Preferred</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/security/advisories/new" target="_blank" rel="noopener noreferrer">GitHub private advisory</a> — only you and the maintainer can see it</td></tr><tr><td>Fallback</td><td>Email <strong>15901598712@163.com</strong>, with the same information, and <strong>ask for an acknowledgement</strong></td></tr></tbody></table></div>
+<h3 id="what-to-include-in-the-report">What to include in the report</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Item</th><th>Why it matters</th></tr></thead><tbody><tr><td><strong>Version</strong> — the <code>VERSION</code> file at the repository root, or the first line of <code>jhyy --help</code></td><td>The fix lands on the latest release first</td></tr><tr><td><strong>Reproduction</strong> — the complete <code>.jhyy</code> source, or the exact command line</td><td>A one-line diff is the difference between "fixed the same day" and "a week of back-and-forth"</td></tr><tr><td><strong>Actual vs expected</strong></td><td>What happened, and what should have happened</td></tr><tr><td><strong>Exit code</strong></td><td>See the trap below</td></tr><tr><td><strong>Origin</strong> — a released binary, or a self-hosted build</td><td>The two may behave differently</td></tr><tr><td><strong>Impact</strong> — what the attacker gets, and what they need first</td><td>It decides severity, and severity decides the deadline</td></tr></tbody></table></div>
+<blockquote class="callout warn"><p><strong>Take the exit code from the harness or Python <code>subprocess</code>, do not read MSYS2 bash's <code>$?</code>.</strong> bash truncates the exit code to 8 bits (<code>value &amp; 0xFF</code>), so expected codes ≥ 256 have to be reduced first: 827 → 59, 501 → 245, 300 → 44, 1000 → 232. A lot of "the exit code is wrong" reports are just this.</p></blockquote>
+<p><strong>You do not need to prove exploitability.</strong> A source-level demonstration is enough — "here is the <code>.jhyy</code> file that makes the compiler write out of bounds" is a complete report.</p>
+<hr />
+<h2 id="what-counts-as-a-vulnerability">What counts as a vulnerability</h2>
+<p><strong>Counts:</strong></p>
+<ul class='md-list'><li><strong>Memory-safety violations in the generated code</strong> — for programs that <strong>do not do these things themselves</strong>: the compiler emits an out-of-bounds write, reads or writes uninitialized memory, corrupts the stack, or computes a wrong address.</li><li><strong>Memory safety inside the compiler</strong> — a crafted <code>.jhyy</code> source file (or any other input file the compiler reads) makes the compiler corrupt its own memory, write out of bounds, or execute attacker-controlled bytes. The compiler parses untrusted input, and that input should not be able to take over the process.</li><li><strong>Code execution through the toolchain</strong> — making the compiler run code the user did not intend to run: an import that resolves to an unexpected file, an argument passed unsanitised to an external program, a build directory whose contents can steer the build elsewhere.</li><li><strong>Path traversal in the installer or the released artifacts</strong> — writing outside the directories it is supposed to touch.</li><li><strong>Release integrity</strong> — the published <code>SHA256.txt</code> does not cover the artifact shipped with it, or the released artifact does not match what the tagged source produces.</li></ul>
+<p><strong>Does not count:</strong></p>
+<ul class='md-list'><li><strong>Misuse of unsafe features the documentation calls out</strong> — unchecked slice indices, an <code>extern fn</code> declared with the wrong C signature, hand-written <code>asm!</code>, <code>#[naked]</code> functions. The documentation makes clear that these are sharp-edged tools.</li><li><strong>Gaps at the language level</strong> — no borrow checking yet, no float formatting, <code>Vec&lt;T&gt;</code> is not element-generic yet. These are recorded in <strong>appendix B</strong> of the language spec and in the public <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener noreferrer">workaround ledger</a>, and are not vulnerabilities.</li><li><strong>Crashing on input you control, with no memory-safety impact</strong> — that is a bug; report it as an issue. (Unless the crash can be triggered from <strong>source files you did not write</strong>.)</li><li><strong>Bugs in the generated program's own logic.</strong></li><li><strong>Vulnerabilities in the third-party toolchain bundled in the Windows installer</strong> — report them upstream; if you think <strong>the act of bundling itself</strong> introduces problems of its own, tell us too.</li></ul>
+<hr />
+<h2 id="which-versions-are-supported">Which versions are supported</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Line</th><th>Support status</th></tr></thead><tbody><tr><td><strong>Latest release</strong></td><td>Security fixes are provided</td></tr><tr><td>Earlier releases</td><td>None — please upgrade to the latest</td></tr><tr><td><code>main</code> (unreleased)</td><td>Best effort, fixes ship with the next release</td></tr></tbody></table></div>
+<p>This page <strong>deliberately carries no version numbers</strong>: only "the latest release" is ever the supported one. The version facts are carried by the <a href="../../../en/compiler/download/index.html">download page</a>.</p>
+<hr />
+<h2 id="what-happens-after-you-report">What happens after you report</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Stage</th><th>Target</th></tr></thead><tbody><tr><td>Acknowledge that the report was received</td><td><strong>7 days</strong></td></tr><tr><td>Triage — is it a vulnerability, and how severe</td><td><strong>14 days</strong></td></tr><tr><td>Release the fix for critical / high severity</td><td>As soon as CI is green — <strong>no fixed date</strong>, but it will not be deliberately withheld</td></tr><tr><td>Release the fix for medium / low severity</td><td>The next release</td></tr></tbody></table></div>
+<p><strong>These are targets, not guarantees</strong> — this is a one-person project, and the other person has a day job. If the window passes with no acknowledgement, <strong>that is itself a defect in this process</strong>: say so in the same thread, and consider that the silence is worth escalating.</p>
+<p><strong>Even if the conclusion is "not a vulnerability", you will still get the triage result</strong> — a reasoned "no" is a real answer, and more useful than silence.</p>
+<h3 id="public-disclosure">Public disclosure</h3>
+<ul class='md-list'><li><strong>Give the maintainer a reasonable window before going public.</strong> The default expectation is <strong>90 days from the first report</strong>. If you need more time it can be negotiated, and an explicit extension is possible.</li><li><strong>If there is a mitigation before the fix</strong> (for example "don't use a build you don't trust to compile <code>.jhyy</code> files you don't trust"), it is published <strong>immediately</strong> in the advisory — <strong>you will not be asked to keep it secret</strong>.</li><li><strong>Attribution</strong> is up to you: any name or handle is fine, and no attribution is fine too.</li><li><strong>If it is already public</strong>, say so in the report — that changes the disclosure timeline, not whether it will be fixed.</li></ul>
+<hr />
+<h2 id="known-trust-boundaries">Known trust boundaries</h2>
+<p>What follows are facts that can be confirmed from the state of the project. Their use is to let you know <strong>what "vulnerable" means in this project</strong>.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Boundary</th><th>Fact</th><th>What it means for the user</th></tr></thead><tbody><tr><td><strong>The installer and the MSI are unsigned</strong></td><td>There is no code signing</td><td>Windows SmartScreen blocks the first run; <strong>supply-chain trust rests on manually checking the SHA256</strong> — see <a href="../../../en/compiler/download/verify.html">Verification and signing</a>. Unsigned binaries are also more likely to be flagged by third-party antivirus</td></tr><tr><td><strong>No GC, no managed runtime</strong></td><td>Memory safety rests on <strong>arena lifetime discipline + limited borrow checking</strong></td><td><strong>Not a Rust-level guarantee</strong>. Borrow checking currently covers only "a repeated <code>&amp;mut</code> on the same variable within the same scope"; full NLL / Polonius borrow checking, lifetime annotations <code>&#x27;a</code>, reborrow and cross-function borrows are all unimplemented (spec appendix B)</td></tr><tr><td><strong>Write protection for immutable bindings is unimplemented</strong></td><td>The compiler does not check whether the object whose address is taken is mutable</td><td><code>&amp;x</code> on an immutable binding is legal; writing through such a pointer <strong>neither errors nor takes effect</strong></td></tr><tr><td><strong>C-side parameter types of <code>extern fn</code> are not checked</strong></td><td>Parameters / return types are unrestricted</td><td>Declaring <code>extern fn takes(s: MyStruct) -&gt; i32;</code> compiles, and <strong>the struct is actually passed by address</strong>, which does not match the C ABI. Argument types are not checked either — <code>f(5)</code> passed to a struct parameter compiles, and at runtime the register is read with the struct layout</td></tr><tr><td><strong>The generated code carries no extra hardening</strong></td><td>The compiler inserts no stack canary and no guard page</td><td>Whatever the linker imposes is what you get</td></tr><tr><td><strong>The compiler has no sandbox</strong></td><td>It runs with your user privileges and parses untrusted input</td><td>A <code>.jhyy</code> source file of unknown origin is untrusted input, exactly as it would be for any other parser</td></tr><tr><td><strong>The compiler shells out to an external C toolchain</strong></td><td>Resolution order: the <code>JHY_GCC</code> environment variable → <code>env.txt</code> → the bundled toolchain → <code>C:\msys64</code> → <code>PATH</code> → bare <code>gcc</code></td><td>Pointing that override at an untrusted binary means running that binary. <strong>Environment variables are part of the trust boundary</strong></td></tr><tr><td><strong><code>jhyy run</code> executes the program it just compiled</strong></td><td>Compiling and running untrusted source = running untrusted code</td><td>The compiler provides no isolation</td></tr><tr><td><strong>No network access, no telemetry</strong></td><td>It opens no socket, sends nothing, and reads no credentials</td><td>It only reads the toolchain path overrides and two debug switches</td></tr><tr><td><strong>The installer bundles a third-party native toolchain</strong></td><td>That is its own supply-chain surface</td><td>It is covered by the checksum shipped with each release, <strong>not</strong> by keeping a vendored copy in the repository</td></tr></tbody></table></div>
+<blockquote class="callout"><p>The arena is <strong>not</strong> "arena only, no free": JHYY's arena provides both <code>arena_reset</code> (reuse the memory, the block is not released) and <code>arena_free</code> (release the whole block). Do not copy another language's arena model.</p></blockquote>
+<hr />
+<h2 id="compiler-bug-or-user-program-bug">Compiler bug or user-program bug?</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Situation</th><th>Where to report it</th></tr></thead><tbody><tr><td><strong>The compiler did the wrong thing</strong> — wrong output, a crash, a diagnostic that makes no sense</td><td>An ordinary issue, written in the reproduction format of the <a href="../../../en/compiler/community/contributing.html">contributing guide</a></td></tr><tr><td><strong>Your own <code>.jhyy</code> program computed the wrong thing</strong></td><td>Not a compiler bug. <strong>The regression suite covers the compiler's own behaviour; it does not mean your program has no undefined behaviour</strong> — check the semantics against the language spec first</td></tr><tr><td><strong>A gap at the language level</strong> (no borrow checking, no float formatting, <code>Vec</code> is not generic)</td><td>Recorded in spec appendix B and in the public ledger — not a security issue</td></tr><tr><td><strong>A known limitation you want to work on</strong></td><td>The roadmap is public, see <code>FACTS.md</code> § 4; open an issue describing your approach</td></tr><tr><td><strong>A workaround that should go into the ledger</strong></td><td>The ledger is maintained in public, <code>docs/internal/workarounds.md</code>, <strong>entries are only added, never removed</strong></td></tr><tr><td><strong>A security issue</strong></td><td>Use the private advisory channel above, <strong>do not</strong> open a public issue</td></tr><tr><td><strong>A vulnerability in a third-party toolchain</strong></td><td>Report it upstream; but if you think <strong>the way it is bundled</strong> is itself a problem, tell us too</td></tr></tbody></table></div>
+<hr />
+<h2 id="what-is-still-missing">What is still missing</h2>
+<ul class='md-list'><li><strong>No written-out archive page for security advisories, no credits page, no security mailing list.</strong> Advisories currently exist only on GitHub, with no second archive. We are working on this.</li><li><strong>No written-out process for CVE numbering.</strong></li><li><strong>No backport commitment for security fixes to older versions</strong> — the policy is "upgrade to the latest release".</li></ul>
+<hr />
+<h2 id="next">Next</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/community/contributing.html">Contributing guide</a> — how to report an ordinary bug.</li><li><a href="../../../en/compiler/community/conduct.html">Code of conduct</a> — the reporting channels and the enforcement ladder.</li><li>Original: <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer"><code>SECURITY.md</code></a></li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/community/security.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#security-disclosure">Security disclosure</a><a class="anchor-l2" href="#the-one-line-version">The one-line version</a><a class="anchor-l2" href="#reporting-channels">Reporting channels</a><a class="anchor-l3" href="#what-to-include-in-the-report">What to include in the report</a><a class="anchor-l2" href="#what-counts-as-a-vulnerability">What counts as a vulnerability</a><a class="anchor-l2" href="#which-versions-are-supported">Which versions are supported</a><a class="anchor-l2" href="#what-happens-after-you-report">What happens after you report</a><a class="anchor-l3" href="#public-disclosure">Public disclosure</a><a class="anchor-l2" href="#known-trust-boundaries">Known trust boundaries</a><a class="anchor-l2" href="#compiler-bug-or-user-program-bug">Compiler bug or user-program bug?</a><a class="anchor-l2" href="#what-is-still-missing">What is still missing</a><a class="anchor-l2" href="#next">Next</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

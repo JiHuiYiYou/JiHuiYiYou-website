@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Governance</title>
+  <meta name="description" content="Who decides, how a change gets proposed, how a version ships — and which parts still have no written rules" />
+  <meta property="og:title" content="Governance" />
+  <meta property="og:description" content="Who decides, how a change gets proposed, how a version ships — and which parts still have no written rules" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/governance/index.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="is-active" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/governance/index.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/governance/index.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Governance</h4><ul><li><a class="is-active" href="../../../en/compiler/governance/index.html">Governance overview</a></li><li><a class="" href="../../../en/compiler/governance/license.html">License</a></li><li><a class="" href="../../../en/compiler/governance/repo-map.html">Repository map</a></li></ul></div><div class="doc-nav-group"><h4>Process</h4><ul><li><a class="is-active" href="../../../en/compiler/governance/index.html">RFC process</a></li><li><a class="is-active" href="../../../en/compiler/governance/index.html">Release cadence</a></li><li><a class="" href="../../../en/compiler/community/contributing.html">Contributing</a></li></ul></div>
+
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="governance">Governance</h1>
+<p>This page answers three questions: who has the final say, how a change gets proposed, how a version ships. The last section lists <strong>the parts that still have no written rules</strong> — for those entries, writing "none" is better than writing a sentence that sounds mature.</p>
+<p>Every rule on this page points at one specific file in the repository. Anything whose source cannot be found goes into the gap table in the last section.</p>
+<hr />
+<h2 id="how-decisions-are-made">How decisions are made</h2>
+<p>JHYY is a <strong>personally maintained pre-1.0 compiler project</strong>. That is a sentence the repository itself writes at the top of <code>SECURITY.md</code>, not rhetoric from this site.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>What is decided</th><th>Who decides</th><th>Source</th></tr></thead><tbody><tr><td>Bug fixes, diagnostic wording, build scripts, toolchain, documentation</td><td>The maintainer</td><td>The PR flow in <code>CONTRIBUTING.md</code></td></tr><tr><td>Language syntax / ABI / memory model / stable standard library API / error code semantics / self-hosting boundary</td><td>The maintainer, but <strong>a written proposal is required first</strong></td><td>These six items are exactly the scope locked down by the three contracts in <code>docs/abis/</code></td></tr><tr><td>Version number and release timing</td><td>The maintainer</td><td>The <code>VERSION</code> file at the repository root + <code>scripts/dev/bump_version.py</code></td></tr></tbody></table></div>
+<p>The only written "proposal format" in the repository is <code>docs/plans/v4/&lt;version&gt;-plan.md</code> — one version slot per cell, with a uniform structure: Context (why this version) · Goal (measurable) · Scope · acceptance gates · a review checklist at kickoff · Critical files · Risks · Out of scope · References. Every plan states at the top that "the version number is a reserved number, reviewed against the actual state at kickoff".</p>
+<p>The cross-project design baseline has one more home: <code>docs/coordination/</code>, one "final version" on the compiler side and one on the OS side.</p>
+<hr />
+<h2 id="rfc">RFC</h2>
+<p><strong>The repository currently has no RFC directory and no RFC template.</strong> Verified: under <code>docs/</code> there is no <code>rfcs/</code>; the string "RFC" appears in only two places across all the markdown in the repository, and both mean something else — Unicode code point ranges cite RFC 3629, and installer GUID generation cites RFC 4122.</p>
+<p>So two things have to be kept apart: <strong>which changes should go through the proposal flow</strong> (that judgement is clear) and <strong>what a proposal should look like</strong> (there is no written template for that yet).</p>
+<h3 id="which-changes-require-a-written-proposal-first">Which changes require a written proposal first</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Change</th><th>Why</th></tr></thead><tbody><tr><td>Language syntax</td><td>Spec v4.0.0 is locked; the syntax is a contract</td></tr><tr><td>ABI (type layout / calling convention / struct passing)</td><td>ABI v4.0.0 is locked; it has to line up across modules and across targets</td></tr><tr><td>Memory model</td><td>The semantics chapter of the spec</td></tr><tr><td>Stable standard library API</td><td>User code depends on it</td></tr><tr><td>Error code semantics</td><td>Diagnostics and exit codes are a user-visible contract</td></tr><tr><td>Self-hosting boundary (which code is allowed to be written in JHYY)</td><td>Decides whether the compiler can keep compiling itself</td></tr></tbody></table></div>
+<p>These six items correspond exactly to the scope covered by the three documents under <code>docs/abis/</code>: the language spec, the ABI, and the binary format. They are <strong>locked</strong> — locking means a change has to ship a contract version, not borrow the toolchain's patch digit.</p>
+<h3 id="which-changes-can-go-straight-to-issue-design-note-pr">Which changes can go straight to issue + design note + PR</h3>
+<p>Bug fixes, diagnostic messages, test cases, build and CI scripts, the installer and the extension, and pure documentation. The "Which area?" dropdown in <code>.github/ISSUE_TEMPLATE/feature_request.yml</code> lists Documentation / Tooling / Standard library / Target support — those areas have no proposal step in the repository's day-to-day flow. Adding a <strong>new API</strong> to the standard library belongs to the previous table; changing the behavioural detail of an existing function belongs here.</p>
+<h3 id="what-a-proposal-should-contain">What a proposal should contain</h3>
+<p>The repository has no template; what follows is a <strong>draft convention</strong> (not the current state):</p>
+<ol class='md-list'><li>Motivation — what problem is being solved, without the solution</li><li>Design goals</li><li>Non-goals (explicitly what will not be done)</li><li>Syntax / semantics draft</li><li>Impact on types and IR</li><li>Impact on ABI and linking</li><li>Impact on arena and bare metal (freestanding)</li><li>Alternatives, and why this one was chosen</li><li>Known defects and limitations</li><li>Migration path (what it means for existing code)</li><li>Stability guarantees (which behaviours never change from here on)</li><li>Implementation staging</li></ol>
+<h3 id="how-it-is-meant-to-be-filled-in">How it is meant to be filled in</h3>
+<p>Add a <code>docs/rfcs/</code> directory to the repository along with a <code>docs/rfcs/_template.md</code> whose body is the twelve items above. The first proposal starts from "the candidate changes for language spec v4.1".</p>
+<hr />
+<h2 id="release">Release</h2>
+<h3 id="how-the-version-number-goes-up">How the version number goes up</h3>
+<p><strong>The single source of truth for the version number is the <code>VERSION</code> file at the repository root</strong>; it is never edited by hand. The current stable release and the historical archive are on the <a href="../../../en/compiler/download/index.html">download page</a>.</p>
+<p>Bumping a version takes five steps, and <strong>the order cannot be reversed</strong> (<code>docs/internal/build.md</code> § version automation). The version number in the commands below is only an example; the real one follows the schedule at the time:</p>
+<pre><code class="language-bash">python scripts/dev/bump_version.py set 4.1.5   # bump VERSION + the version strings across the repo + create the release note stub + insert the CHANGELOG entry
+make                                           # the self-hosted artifact must be recompiled (the version is a string literal in main.jhyy)
+pwsh -File installer/build.ps1 bundle          # build
+python scripts/dev/bump_version.py finalize    # fill in the sha256 + the measured artifact sizes
+python scripts/dev/bump_version.py check       # zero-drift gate
+</code></pre>
+<p>The second step cannot be skipped: <code>make</code> iterates the self-hosted compiler to a fixed point; skip it and the compiler you install reports the previous version number.</p>
+<h3 id="what-a-release-contains">What a release contains</h3>
+<p>A release = a batch of changes landing on some version slot + a tag + a GitHub Release + three artifacts (the GUI installer EXE / the enterprise distribution MSI / the VS Code extension VSIX) + the body of one <code>installer/release-notes/&lt;版本号&gt;.md</code>.</p>
+<p>The change record has two layers, and <strong>this is a convention written down in the repository</strong>:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Layer</th><th>File</th><th>Rule</th></tr></thead><tbody><tr><td>One line per change, for the outside</td><td><code>CHANGELOG.md</code> at the repository root</td><td>One line per version; plus one release table (with a tag) and one change slot table (without a tag)</td></tr><tr><td>Per-version details</td><td><code>docs/archive/logs/v4/changelog-v4.0.0.md</code></td><td><strong>One version axis has exactly one umbrella changelog</strong>; patch versions add a section to the same file and <strong>do not open a new file</strong></td></tr></tbody></table></div>
+<p>The umbrella for the v4 axis is already laid out section by section as <code>## v4.0.1</code>, <code>## v4.0.2</code>, <code>## v4.1.4</code>. The IDE repository's <code>CHANGELOG.md</code> opens with the same convention.</p>
+<h3 id="the-gates-a-release-has-to-pass">The gates a release has to pass</h3>
+<p>Every release gate in <code>release.yml</code> carries a <code># gate:</code> marker:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Gate</th><th>What it checks</th></tr></thead><tbody><tr><td><code>release-version</code></td><td>The <code>VERSION</code> file does not match the tag ⇒ refuse to release</td></tr><tr><td><code>release-ci-green</code></td><td>On the manual release path, the CI run for that tag has to be a success</td></tr><tr><td><code>release-anchor</code></td><td>The artifacts from that release build and the one committed into the repository produce byte-identical assembly from the same source</td></tr><tr><td><code>release-build</code></td><td>Burn bundle + MSI + VSIX build successfully</td></tr><tr><td><code>release-sha256</code></td><td><code>SHA256.txt</code> matches the artifacts one by one</td></tr><tr><td><code>release-notes</code></td><td>A placeholder is unfilled ⇒ refuse to release; a missing <code>installer/release-notes/&lt;版本号&gt;.md</code> ⇒ fail outright</td></tr><tr><td><code>release-msi</code></td><td><code>wix msi validate</code></td></tr><tr><td><code>release-artifacts</code></td><td>Not one expected artifact may be missing</td></tr></tbody></table></div>
+<p>Before that, the CI side still has to pass the self-hosting closure, the committed artifact sync, the full regression, assertion strength, artifact-level assertions, the SysV ABI cross-implementation differential testing, and other gates — the list is in <code>docs/internal/FACTS.md</code> § 2.</p>
+<p><strong>The enforcement point is in the workflow's <code>needs:</code>, not in the repository settings.</strong> On the tag path the release job only starts once the three jobs <code>build-and-test + vscode-ext + sysv</code> are all green; the required status check on <code>main</code> is a repository setting on the GitHub side, and <code>enforce_admins</code> is off — administrators can bypass it.</p>
+<h3 id="there-are-no-three-channels">There are no three channels</h3>
+<p>The repository has <strong>no nightly / beta / stable release channels</strong>, and no automated pre-release builds. There are only two kinds of thing: <strong>released releases</strong> (with a tag, with a GitHub Release, with artifacts) and <strong>change slots</strong> (in the tree, but carrying neither a tag nor artifacts of their own; their content goes out with the release that follows).</p>
+<p>The only "pre-release" form is the RC: the release flow marks an RC tag as a GitHub prerelease — v4.0.0-rc1 was shipped that way.</p>
+<p>The <code>stable</code> / <code>beta</code> labels on the download page are <strong>target maturity</strong> (how far along a given target triple is), not release channels.</p>
+<hr />
+<h2 id="contract-versions-and-toolchain-versions-are-two-different-things">Contract versions and toolchain versions are two different things</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th></th><th>Contract</th><th>Toolchain</th></tr></thead><tbody><tr><td>What it is</td><td>Language spec / ABI / binary format</td><td>Compiler + standard library + installer</td></tr><tr><td>Version</td><td>Language spec v4.0.0 · ABI v4.0.0 · binary format v1.0.0 (<strong>design draft, not implemented</strong>)</td><td>v4.1.5 (2026-11-09)</td></tr><tr><td>When it changes</td><td>Only when the semantics change</td><td>It changes with every bug fix</td></tr></tbody></table></div>
+<p>Language spec v4.0.0 and ABI v4.0.0 are the contract baseline of the v4 generation, and the lock date noted at the head of the spec documents is <strong>2026-10-24</strong> — on that day <code>jhyy-lang-spec-v1.3.0.md</code> and its 17 v3.x supplements were archived into git history together, because they contradict each other: v1.3.0 documented block expressions that were never implemented, and also documented literals that silently computed the wrong value.</p>
+<p><strong>Why it is split this way</strong>: change a contract once and the compiler, the user code already being written, the OS line and the IDE's block syntax all have to move with it. So contracts use their own version number, and changing a contract ships a contract version; the toolchain's patch digit only carries things that do not change the semantics. The batch fixed in v4.1.4 — arguments past the 16th being dropped, SysV stack arguments overwriting the caller's locals, the floating-point stack argument path trampling callee-saved <code>%xmm15</code> — are all implementation defects; they do not change the semantics, so only the patch digit goes up.</p>
+<p>The body of the spec also has one writing rule: <strong>only write the behaviour the code has actually implemented today</strong>; whatever is not implemented or is restricted goes into appendix B. So the "contract page" writes the promise, and the "toolchain version" writes how far that promise has been fulfilled — two things, two version numbers.</p>
+<p>Incidentally: <code>v4.0.0 final</code> was never promoted (the workaround ledger had not been cleared back then), and the v4 axis starts from <code>v4.0.0-rc1</code>.</p>
+<hr />
+<h2 id="what-still-has-no-written-rules">What still has no written rules</h2>
+<p>This is the section of this page that most deserves to be read. Every entry below has been <strong>verified against the current state of the repository</strong>; none of it is speculation.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>What is missing</th><th>Current state</th><th>How it is meant to be filled in</th></tr></thead><tbody><tr><td>RFC directory and template</td><td>The repository has no <code>docs/rfcs/</code>, and no RFC template at all</td><td>Create the directory + the template; for the body, see the RFC section of this page</td></tr><tr><td>How RFC reviewers are decided</td><td>No rule states "who reviews, how many approvals are needed, how a dissenting opinion is settled"</td><td>Set one minimal rule in <code>docs/rfcs/README.md</code>: a proposal that touches the three contracts needs the maintainer's written consent + one independent review</td></tr><tr><td>CODEOWNERS</td><td><strong>None of the four repositories has a CODEOWNERS file</strong></td><td>Write one per directory: contract documents, the workaround ledger and CI workflows point to the maintainer; the remaining directories point to contributors</td></tr><tr><td>Release owner</td><td>There is no second role. <code>SECURITY.md</code> describes itself as "maintained by one person"</td><td>In the short term the maintainer takes it on; once there is a second person who can run the release chain independently, write down a rotation rule</td></tr><tr><td>Trademark policy</td><td>The repository has <strong>no trademark / logo usage policy file at all</strong></td><td>Write <code>TRADEMARK.md</code>: allow descriptive uses, forbid suggesting official endorsement, forbid modifying the logo</td></tr><tr><td>Branch protection and merge rules</td><td>No written requirement. <code>docs/internal/build.md</code> records one fact: <code>enforce_admins</code> is off, so administrators can bypass the required status check on <code>main</code></td><td>Make "run the gates yourself before merging" a documented requirement, and turn <code>enforce_admins</code> on on the GitHub side</td></tr><tr><td>Cross-repository coverage of the code of conduct</td><td>The compiler repository has <code>CODE_OF_CONDUCT.md</code>; <strong>IDE / OS / for-VEX do not</strong></td><td>Add one to the latter three, or state explicitly "the compiler repository's version governs"</td></tr><tr><td>Cross-repository coverage of security disclosure</td><td>The compiler and IDE repositories have <code>SECURITY.md</code>; <strong>the OS and for-VEX repositories do not</strong></td><td>Add a minimal version to the latter two, or state that they go through the compiler repository's private channel</td></tr><tr><td>for-VEX's license</td><td><strong>The for-VEX repository has no LICENSE file at its root</strong> — the only one of the four</td><td>Add the same MIT as the other three (<code>Copyright (c) 2026 JHYY</code>)</td></tr><tr><td>Contributor agreement (CLA / DCO)</td><td>No requirement</td><td>Do not introduce one for now. If one is introduced, first write down clearly "what happens to historical PRs after it is introduced"</td></tr><tr><td>i18n policy</td><td>None</td><td>The site starts monolingual (Chinese); the English version opens once someone is maintaining it long-term</td></tr></tbody></table></div>
+<p><strong>Why these are written out</strong>: the thing that most often goes wrong in a small team is not "the rules are not strict enough" but "the rules point at a person who does not exist". Every one of the above has to name <strong>who is responsible</strong> when it is filled in — otherwise it goes stale after a few months. Better to let the community page admit what it is missing than to write out a system that looks complete and that nobody actually executes.</p>
+<hr />
+<h2 id="related">Related</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/governance/license.html">License</a> — the exact terms of MIT and the licensing status of each repository</li><li><a href="../../../en/compiler/governance/repo-map.html">Repository map</a> — what each of the four repositories is responsible for</li><li><a href="../../../en/compiler/community/contributing.html">Contributing guide</a> — the concrete steps for filing an issue and opening a PR</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/governance/index.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#governance">Governance</a><a class="anchor-l2" href="#how-decisions-are-made">How decisions are made</a><a class="anchor-l2" href="#rfc">RFC</a><a class="anchor-l3" href="#which-changes-require-a-written-proposal-first">Which changes require a written proposal first</a><a class="anchor-l3" href="#which-changes-can-go-straight-to-issue-design-note-pr">Which changes can go straight to issue + design note + PR</a><a class="anchor-l3" href="#what-a-proposal-should-contain">What a proposal should contain</a><a class="anchor-l3" href="#how-it-is-meant-to-be-filled-in">How it is meant to be filled in</a><a class="anchor-l2" href="#release">Release</a><a class="anchor-l3" href="#how-the-version-number-goes-up">How the version number goes up</a><a class="anchor-l3" href="#what-a-release-contains">What a release contains</a><a class="anchor-l3" href="#the-gates-a-release-has-to-pass">The gates a release has to pass</a><a class="anchor-l3" href="#there-are-no-three-channels">There are no three channels</a><a class="anchor-l2" href="#contract-versions-and-toolchain-versions-are-two-different-things">Contract versions and toolchain versions are two different things</a><a class="anchor-l2" href="#what-still-has-no-written-rules">What still has no written rules</a><a class="anchor-l2" href="#related">Related</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

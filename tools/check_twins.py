@@ -11,15 +11,16 @@
 3. 反向：有英文版却没有中文版 ⇒ 同样红
 4. 豁免名单陈旧（豁免的 route 已经有英文版）⇒ 警告，提醒该清名单了
 5. 每个源文件都要有对应的构建产物（源加了没重建 ⇒ 红）
-
-下一轮把文档层也译出来 = 删掉 `i18n.TWIN_EXEMPT_PREFIXES` 那几行，
-门逻辑一行不用动。
+6. **结构对拍**（只查 `.md` 的孪生页）：中英两页的标题层级、代码块行数、
+   表格行数、列表条数、callout、事实占位符必须一致 —— 翻译最怕的不是译错，
+   是**漏译**：少一节、少一行表格、少一段代码，没有任何别的门会红
 
 用法：
     python tools/check_twins.py
 """
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -48,6 +49,70 @@ def output_path(rel: str) -> Path:
     """
     p = Path(rel)
     return ROOT.joinpath(*p.parts[:-1], p.stem + ".html")
+
+
+# ── 结构对拍（规则 6）────────────────────────────────────────────────────
+# 只查 `.md` 的孪生页：门脸页是手写 HTML，两边的屏序本来就可能有意不同
+# （首页与四个项目页就是各自写的），文档层才是「一篇译一篇」的地方。
+_HEADING = re.compile(r"^(#{1,6})\s+(.*)$", re.M)
+_FENCE_BLOCK = re.compile(r"^```[^\n]*\n(.*?)^```", re.M | re.S)
+_LINK = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
+_WIKILINK = re.compile(r"\[\[([^\]]+)\]\]")
+_PLACEHOLDER = re.compile(r"\{\{(\w+)\}\}")
+_CALLOUT = re.compile(r"^>\s*\[!(NOTE|IMPORTANT|WARNING|TIP|CAUTION|DANGER)\]", re.M)
+_LIST_ITEM = re.compile(r"^\s*[-*+]\s+", re.M)
+
+
+def structure(path: Path) -> dict:
+    """一页的「结构指纹」—— 与文字无关，只看骨架。"""
+    text = path.read_text(encoding="utf-8")
+    if text.startswith("---\n"):
+        end = text.find("\n---", 3)
+        if end != -1:
+            text = text[end + 4 :]
+    blocks = _FENCE_BLOCK.findall(text)
+    tables, run = [], 0
+    for line in text.splitlines():
+        if line.strip().startswith("|"):
+            run += 1
+        elif run:
+            tables.append(run)
+            run = 0
+    if run:
+        tables.append(run)
+    return {
+        "标题层级": [len(m.group(1)) for m in _HEADING.finditer(text)],
+        "代码块行数": [len(b.strip().splitlines()) for b in blocks],
+        "表格行数": tables,
+        "列表条数": len(_LIST_ITEM.findall(text)),
+        "callout": sorted(_CALLOUT.findall(text)),
+        "事实占位符": sorted(set(_PLACEHOLDER.findall(text))),
+        "wiki 链接": len(_WIKILINK.findall(text)),
+        "链接": sorted(_LINK.findall(text)),
+    }
+
+
+def compare_structures(routes: dict[str, dict[str, str]]) -> tuple[list[str], list[str]]:
+    """中英两页的结构对拍 ⇒ (错误, 警告)。"""
+    errors: list[str] = []
+    warnings: list[str] = []
+    for route, pair in sorted(routes.items()):
+        if "zh" not in pair or "en" not in pair:
+            continue
+        zh_rel, en_rel = pair["zh"], pair["en"]
+        if not zh_rel.endswith(".md") or not en_rel.endswith(".md"):
+            continue  # 手写 HTML 的门脸页不在此列
+        a, b = structure(CONTENT / zh_rel), structure(CONTENT / en_rel)
+        for key in ("标题层级", "代码块行数", "表格行数", "列表条数", "callout", "事实占位符", "wiki 链接"):
+            if a[key] != b[key]:
+                errors.append(
+                    f"route {route!r}：{key} 对不上 —— 中文 {a[key]} / 英文 {b[key]}"
+                )
+        if a["链接"] != b["链接"]:
+            warnings.append(
+                f"route {route!r}：链接集合不同 —— 中文 {a['链接']} / 英文 {b['链接']}"
+            )
+    return errors, warnings
 
 
 def main() -> int:
@@ -96,6 +161,11 @@ def main() -> int:
             out = output_path(rel)
             if not out.exists():
                 errors.append(f"content/{rel}：没有构建产物（{out.relative_to(ROOT)}）—— 跑 python tools/build.py")
+
+    # 6. 结构对拍 —— 漏译是没有任何别的门能拦的那类错
+    par_err, par_warn = compare_structures(routes)
+    errors.extend(par_err)
+    warnings.extend(par_warn)
 
     print(f"孪生页检查：{len(routes)} 个 route")
     if warnings:

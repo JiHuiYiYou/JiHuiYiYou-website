@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Arena memory management</title>
+  <meta name="description" content="The mental model behind arena, the real API, its lifetime, and common misuse" />
+  <meta property="og:title" content="Arena memory management" />
+  <meta property="og:description" content="The mental model behind arena, the real API, its lifetime, and common misuse" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/docs/arena.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="is-active" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/docs/arena.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/docs/arena.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Getting started</h4><ul><li><a class="" href="../../../en/compiler/docs/getting-started.html">Getting started</a></li><li><a class="" href="../../../en/compiler/docs/tour.html">Language tour</a></li></ul></div><div class="doc-nav-group"><h4>Language reference</h4><ul><li><a class="" href="../../../en/compiler/docs/reference.html">Reference overview</a></li><li><a class="" href="../../../en/compiler/docs/spec.html">Language spec v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/stdlib.html">Standard library</a></li></ul></div><div class="doc-nav-group"><h4>Deep dives</h4><ul><li><a class="is-active" href="../../../en/compiler/docs/arena.html">Arena memory management</a></li><li><a class="" href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a></li></ul></div><div class="doc-nav-group"><h4>Tools and internals</h4><ul><li><a class="" href="../../../en/compiler/docs/cli.html">CLI reference</a></li><li><a class="" href="../../../en/compiler/docs/compiler.html">How the compiler works</a></li><li><a class="" href="../../../en/compiler/docs/build-and-test.html">Build and test</a></li><li><a class="" href="../../../en/compiler/docs/faq.html">FAQ</a></li></ul></div>
+
+    <div class="doc-nav-group doc-nav-external">
+      <h4>Spec sources</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">Language spec v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">Workaround ledger ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <p>JHYY's <code>arena</code> is a <strong>bump allocator</strong>: allocating pushes the cursor forward, and freeing does nothing. But it is <strong>not</strong> the kind of arena that has "only alloc, no free" — the same API offers both a reset (<code>arena_reset</code>, which reuses the memory) and a whole-block free (<code>arena_free</code>). This page lays out its real signatures, its memory layout, its lifetime, and a few places that bite.</p>
+<p>First, the most important thing: <strong>JHYY has two arenas, and the one the compiler uses internally is not the same thing as the one you get from <code>import arena;</code>.</strong> Their APIs are equivalent, their implementations are separate, and neither imports the other. Section 3 explains how to tell them apart.</p>
+<hr />
+<h2 id="1-mental-model">1. Mental model</h2>
+<p>One allocation does three things:</p>
+<ol class='md-list'><li>See whether the current block has enough room left;</li><li>If not, open a new block (libc <code>malloc</code> underneath);</li><li>Push the cursor <code>cur</code> forward and return the aligned pointer.</li></ol>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Operation</th><th>What happens to the memory</th></tr></thead><tbody><tr><td><code>arena_alloc</code> / <code>arena_calloc</code></td><td>The cursor advances; a new block is opened when there is not enough room</td></tr><tr><td><code>arena_reset</code></td><td>The cursor <strong>rewinds</strong>; <strong>no</strong> block is freed, the memory is kept for reuse</td></tr><tr><td><code>arena_free</code></td><td>It walks the list and <strong>frees each block</strong> with <code>free</code>; afterwards the arena's pointer fields are zeroed</td></tr></tbody></table></div>
+<p>No GC, no destructors, no reference counting. <strong>Whoever allocates is responsible for deciding when it becomes invalid.</strong></p>
+<hr />
+<h2 id="2-the-real-api">2. The real API</h2>
+<p>The source of truth is <code>compiler/src0/std/arena.jhyy</code>; the signatures are copied verbatim:</p>
+<pre><code class="language-jhyy">type Arena = struct {
+    start:    *u8,
+    cur:      *u8,
+    end:      *u8,
+    blocks:   *u8,         // *ArenaBlock head (使用处 cast)
+    def_size: i64,
+}
+</code></pre>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Function</th><th>Signature</th><th>Returns</th></tr></thead><tbody><tr><td><code>arena_init</code></td><td><code>fn arena_init(a: *Arena, default_size: i64) -&gt; i32</code></td><td>always <code>1</code></td></tr><tr><td><code>arena_alloc</code></td><td><code>fn arena_alloc(a: *Arena, size: i64) -&gt; *u8</code></td><td>an 8-byte-aligned pointer; <strong>returns <code>0</code> on failure</strong></td></tr><tr><td><code>arena_calloc</code></td><td><code>fn arena_calloc(a: *Arena, size: i64) -&gt; *u8</code></td><td>the same, and <strong>zeroes the whole block</strong></td></tr><tr><td><code>arena_reset</code></td><td><code>fn arena_reset(a: *Arena) -&gt; i32</code></td><td>always <code>1</code></td></tr><tr><td><code>arena_free</code></td><td><code>fn arena_free(a: *Arena) -&gt; i32</code></td><td>always <code>1</code></td></tr></tbody></table></div>
+<p>The same module also has <code>arena_alloc_aligned(a, size, align)</code>, <code>arena_new_block</code>, <code>align_up</code>, <code>ptr_add</code> (the module table in the language spec § 15 lists them under <code>arena</code> as well).</p>
+<p>A few details you have to know:</p>
+<ul class='md-list'><li><strong>Alignment</strong>: internally, <code>arena_alloc</code> is <code>arena_alloc_aligned(a, size, 8)</code> ⇒ guarantees <strong>8-byte alignment</strong>.</li><li><strong>Failure</strong>: when <code>malloc</code> fails, <code>arena_alloc</code> returns the null pointer <code>0</code>. <strong>No panic, no error thrown</strong> — the caller has to check it itself.</li><li><strong><code>size == 0</code></strong>: <code>arena_alloc(a, 0)</code> returns <code>0</code> directly, so <code>arena_calloc(a, 0)</code> returns <code>0</code> too — that is not a valid zero-length block of memory.</li><li><strong><code>arena_init</code>'s <code>default_size</code></strong>: when <code>&lt;= 0</code>, <strong>1 MB (1048576 bytes)</strong> is recorded in <code>def_size</code>.</li><li><strong>The return codes carry almost no information</strong>: <code>init</code> / <code>reset</code> / <code>free</code> always return <code>1</code>. The only thing worth checking is the null pointer from <code>alloc</code> / <code>calloc</code>.</li></ul>
+<p>The byte layout of <code>Arena</code> (as written in the source comment): <code>start</code>(8), <code>cur</code>(8), <code>end</code>(8), <code>blocks</code>(8) and <code>def_size</code>(8) add up to <strong>40 bytes</strong>. <code>blocks</code> is the head of the linked list — JHYY does not support self-referential structs, so in the source it is a placeholder of type <code>*u8</code> and is cast at the use site.</p>
+<hr />
+<h2 id="3-two-arenas-side-by-side">3. Two arenas side by side</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th></th><th>The compiler-internal one</th><th>The user-side standard library one</th></tr></thead><tbody><tr><td>File</td><td><code>compiler/src0/arena.jhyy</code></td><td><code>compiler/src0/std/arena.jhyy</code></td></tr><tr><td>Who uses it</td><td>The compiler itself (AST / IL / codegen nodes all live in it)</td><td>Your program: <code>import arena;</code></td></tr><tr><td>Block header size</td><td>16 bytes</td><td>8 bytes</td></tr><tr><td>Block size</td><td><code>max(def_size, this request + alignment padding)</code></td><td><code>this request + alignment padding</code> (<strong><code>def_size</code> is ignored entirely</strong>)</td></tr><tr><td>Extra functions</td><td>One extra <code>arena_strdup</code></td><td>None</td></tr></tbody></table></div>
+<p><strong>Why they are separate</strong> (the source comment says): the internal jhyy-side implementation does not import <code>src0/arena.jhyy</code>, <strong>to avoid mangle complexity</strong>; two arenas exist side by side — the compiler uses <code>src0/arena.jhyy</code>, the standard library user uses <code>std::Arena</code>.</p>
+<p><strong>How to tell them apart</strong>: the lookup order for <code>import arena;</code> is <strong>next to the main file → the standard library directory</strong> (a two-level fallback).</p>
+<ul class='md-list'><li>During the self-hosted build the main file is <code>compiler/src0/main.jhyy</code>, and there is an <code>arena.jhyy</code> next to it ⇒ the compiler gets the internal one.</li><li>There is no <code>arena.jhyy</code> next to your program ⇒ it falls through to the standard library directory ⇒ you get the <code>std/arena.jhyy</code> one.</li></ul>
+<p>You do not have to distinguish this in your code, but <strong>you have to know that what you got is not the compiler's internal one</strong> — the two have different block-sizing strategies, and that directly affects the behavior of <code>arena_reset</code> (see 5.1).</p>
+<hr />
+<h2 id="4-growth-strategy-the-m0-simplification">4. Growth strategy: the M0 simplification</h2>
+<p>The source comment says:</p>
+<blockquote class="callout"><p>The backend's alloc goes through libc malloc (an M0 simplification; the MMAP backend is left for the end of v3.x)</p></blockquote>
+<p>In other words: <strong>the underlying allocator is libc <code>malloc</code></strong>. No mmap, no page allocation, no huge pages. The MMAP backend is something planned for a later version; it does not exist now.</p>
+<p>This leads to a counterintuitive measured result: <code>arena_init(&amp;a, 65536)</code> <strong>does not preallocate 64 KB</strong>. Measured, the data area of the first block is only <strong>16 bytes</strong> (= an 8-byte request + 8 bytes of alignment padding).</p>
+<p>In the standard library implementation, <code>def_size</code> <strong>is only used by <code>arena_reset</code></strong> — the allocation path never looks at it.</p>
+<hr />
+<h2 id="5-a-complete-lifetime">5. A complete lifetime</h2>
+<pre><code class="language-jhyy">import arena;
+
+fn main_jhyy() -&gt; i32 {
+    // 1. init: only records def_size, does not preallocate memory
+    let mut a: Arena = Arena { start: 0 as *u8, cur: 0 as *u8, end: 0 as *u8,
+                               blocks: 0 as *u8, def_size: 0 as i64 };
+    arena_init(&amp;a, 65536 as i64);
+
+    // 2. alloc: 8-byte aligned; returns 0 on failure, you have to check it
+    let p = arena_alloc(&amp;a, 8 as i64);
+    if p == (0 as *u8) { return 1 as i32; }
+    *(p as *i32) = 42 as i32;
+
+    // 3. calloc: allocate + zero the whole block
+    let z = arena_calloc(&amp;a, 16 as i64);
+    if z == (0 as *u8) { return 2 as i32; }
+
+    // 4. use: the data stays valid until reset / free
+    let v = *(p as *i32);
+
+    // 5. free: releases every block; after that any old pointer is dangling
+    arena_free(&amp;a);
+    return v;
+}
+</code></pre>
+<p>The functions in the module can also be called with a qualified name: <code>arena::arena_init(&amp;a, 65536)</code>, <code>arena::arena_alloc(&amp;a, 8)</code> — the two forms are equivalent.</p>
+<h3 id="51-two-counterintuitive-things-about-reset">5.1 Two counterintuitive things about reset</h3>
+<p><strong>One: reset returns to the start of "the most recent block", not to the start of the arena.</strong> In the source, <code>blocks</code> is a stack-like list (new blocks are pushed onto the head), and <code>arena_reset</code> takes the block at the head. Measured: <code>alloc(8)</code> first, then <code>alloc(4096)</code> (which triggers a new block); after <code>reset</code>, a further <code>alloc(8)</code> gets the address of <strong>the 4096 block</strong>, not the first one. The earlier blocks are still hanging on the list (they are only freed together by <code>arena_free</code>), but after a reset they are never allocated from again.</p>
+<p><strong>Two: the usable window after a reset used to be computed from <code>def_size</code> — fixed in v4.1.5.</strong> <code>arena_reset</code> used to set <code>end</code> to <code>start + def_size</code>, while the actual block size is "request + alignment padding". When <code>def_size</code> is larger, the arena "thinks" it has a big block available.</p>
+<p>The measured consequence (<code>arena_init(&amp;a, 65536)</code> → <code>alloc(8)</code> → <code>reset</code> → <code>alloc(4096)</code> → write all 4096 bytes): the pointer returned by <code>alloc(4096)</code> lands <strong>outside</strong> the actual block; on process exit Windows reports <strong>HEAP_CORRUPTION</strong> (<code>0xC0000374</code>).</p>
+<p><strong>The triggering interval is deterministic</strong>: an allocation size that falls between <code>(the real block size, def_size]</code> overflows, while both ends are safe — so this trap is easy to miss.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Scenario (<code>arena_init(&amp;a, 1024)</code> → <code>alloc(8)</code> → <code>reset</code> → allocate N and write all N bytes)</th><th>Result on v4.1.4 and earlier</th></tr></thead><tbody><tr><td>N = 16 / 32 / 64</td><td>passes (the real block is 16 B and the heap slack is enough)</td></tr><tr><td>N = 128 / 256 / 500 / 1000 / 1024</td><td><strong>out of bounds — segmentation fault / HEAP_CORRUPTION</strong></td></tr><tr><td>N = 2000</td><td>passes (it exceeds <code>def_size</code>, so it takes the new-block path)</td></tr><tr><td>The same program <strong>without</strong> <code>reset</code></td><td>all pass</td></tr></tbody></table></div>
+<p><strong>The v4.1.5 fix</strong>: the block size becomes <code>max(def_size, the requested size)</code> and is <strong>recorded in the block header</strong> (<code>payload_size</code>) ⇒ <code>arena_reset</code> reads the real size back from the block header and no longer overflows. Ledger entry W-222.</p>
+<p>The same release also added <strong>test coverage</strong> for this: <code>std::arena</code> previously had <strong>zero test coverage</strong> — <code>compiler/tests/examples/arena_reset.jhyy</code> is an inline copy, and it has a simpler implementation (it only resets <code>cur</code> and does not touch <code>end</code>) ⇒ the real thing was never tested. There is now <code>compiler/tests/examples/std_arena_reset/std_arena_reset.jhyy</code>, and it <strong>must</strong> stay in a directory with "no local <code>arena.jhyy</code>", otherwise <code>import arena;</code> will hit that copy.</p>
+<h3 id="52-safe-usage">5.2 Safe usage</h3>
+<ul class='md-list'><li><code>arena_reset</code> is only safe when <strong>every subsequent allocation is no larger than the actual size of the block before the reset</strong>.</li><li>If you want "start the whole round over", the least-effort approach is <strong><code>arena_free</code> + <code>arena_init</code></strong>, which does not depend on the window semantics of reset.</li><li>After <code>arena_free</code> all four pointer fields of the arena are zeroed (<code>def_size</code> is kept). <strong>Using an old pointer after free = a dangling pointer</strong> — JHYY has neither a GC nor automatic destructors to save you.</li></ul>
+<h3 id="53-when-to-reset-when-to-free">5.3 When to reset, when to free</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Scenario</th><th>Use</th></tr></thead><tbody><tr><td>One-off temporary data (parsing, compiler intermediate state)</td><td><code>arena_free</code></td></tr><tr><td>Reusing the same memory each round (mind the window constraint in 5.1)</td><td><code>arena_reset</code></td></tr><tr><td>Process exit</td><td><code>arena_free</code></td></tr><tr><td>Data that has to survive across phases</td><td><strong>do not put it in an arena</strong> — use <code>malloc</code> or <code>Vec</code></td></tr></tbody></table></div>
+<h3 id="54-choosing-between-arena-vec-and-malloc">5.4 Choosing between arena, Vec, and malloc</h3>
+<p>The standard library offers two other options: <code>import vec;</code> (<code>Vec&lt;T&gt;</code>, 24 bytes <code>{data, len, cap}</code>, with <code>std_vec_new</code> / <code>std_vec_push</code> / <code>std_vec_get</code> / <code>std_vec_free</code>) and <code>extern fn malloc</code> / <code>free</code>.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th></th><th>arena</th><th><code>Vec&lt;T&gt;</code></th><th><code>malloc</code> / <code>free</code></th></tr></thead><tbody><tr><td>Allocation unit</td><td>whole-block bump advance</td><td>element by element via push, growing automatically</td><td>one at a time</td></tr><tr><td>Release granularity</td><td>the whole block (<code>arena_free</code>) or reuse (<code>arena_reset</code>)</td><td>the whole Vec (<code>std_vec_free</code>)</td><td>each allocation is yours to manage</td></tr><tr><td>Bounds checking</td><td>none</td><td><code>std_vec_get</code> returns a null pointer when out of bounds</td><td>none</td></tr><tr><td>Good for</td><td>one-off, batched temporary objects</td><td>sequences whose length changes</td><td>single objects, buffers handed to C</td></tr></tbody></table></div>
+<p>JHYY has no GC, no destructors, and no <code>drop</code>. <strong>Picking the wrong one does not raise an error — it just reads garbage at some point or crashes.</strong></p>
+<hr />
+<h2 id="6-relationship-to-inline-assembly-dma-mmio">6. Relationship to inline assembly / DMA / MMIO</h2>
+<p>The source and the ABI have <strong>no</strong> dedicated convention relating arena to these three. What follows is an <strong>inference</strong> from the fact that "the arena's underlying allocator is libc <code>malloc</code>"; it is marked as such so you know where the boundary lies.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Scenario</th><th>Conclusion</th></tr></thead><tbody><tr><td>Using an arena pointer in inline assembly</td><td>Allowed. The pointer is an ordinary memory address with 8-byte alignment. But <code>asm!</code> accepts only a single string literal, with no operand constraints and no clobber declarations ⇒ you can only pass it through a <code>volatile</code> variable or a fixed address</td></tr><tr><td>MMIO registers</td><td><strong>Not allowed.</strong> What the arena gives you is ordinary memory in the process's virtual address space, whereas MMIO needs a device address. Use a <code>volatile i32</code> with a fixed address (a symbol declared <code>extern</code>)</td></tr><tr><td>DMA buffers</td><td><strong>Not allowed</strong> (currently). DMA needs a device-visible physical address / pinned memory; the arena gives you ordinary pageable heap memory that the kernel may move. Doing DMA means writing your own allocator</td></tr></tbody></table></div>
+<hr />
+<h2 id="7-anti-patterns">7. Anti-patterns</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Anti-pattern</th><th>Consequence</th></tr></thead><tbody><tr><td><strong>Cross-arena reference</strong>: a struct in arena A holds a pointer into arena B</td><td>After <code>arena_free(B)</code> the pointer in A dangles. There is no shared lifetime convention between the two arenas</td></tr><tr><td><strong>Use after the arena is destroyed</strong></td><td>A dangling pointer. JHYY does not report it; it crashes at runtime</td></tr><tr><td><strong>Allocating long-lived data in an arena that is about to be reset</strong></td><td>After the reset that data is all overwritten — the arena has <strong>no</strong> marking of "which data is long-lived"</td></tr><tr><td><strong>Using an arena handle inside a closure</strong></td><td><strong>The compiler rejects it outright</strong>: JHYY closures do not support capture; capturing is a compile error. The variant that does compile is to store a <code>*Arena</code> in a struct or a global and use it elsewhere — that is still an escape</td></tr></tbody></table></div>
+<hr />
+<h2 id="8-related-pages">8. Related pages</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/docs/stdlib.html">Standard library</a> — the API summary of the eight modules.</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">Language spec v4.0.0</a> — § 15 is the module API table, Appendix B lists the unimplemented items.</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener noreferrer">ABI v4.0.0</a> — § 4.3 explains that "the compiler itself does not implement a heap".</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/docs/arena.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l2" href="#1-mental-model">1. Mental model</a><a class="anchor-l2" href="#2-the-real-api">2. The real API</a><a class="anchor-l2" href="#3-two-arenas-side-by-side">3. Two arenas side by side</a><a class="anchor-l2" href="#4-growth-strategy-the-m0-simplification">4. Growth strategy: the M0 simplification</a><a class="anchor-l2" href="#5-a-complete-lifetime">5. A complete lifetime</a><a class="anchor-l3" href="#51-two-counterintuitive-things-about-reset">5.1 Two counterintuitive things about reset</a><a class="anchor-l3" href="#52-safe-usage">5.2 Safe usage</a><a class="anchor-l3" href="#53-when-to-reset-when-to-free">5.3 When to reset, when to free</a><a class="anchor-l3" href="#54-choosing-between-arena-vec-and-malloc">5.4 Choosing between arena, Vec, and malloc</a><a class="anchor-l2" href="#6-relationship-to-inline-assembly-dma-mmio">6. Relationship to inline assembly / DMA / MMIO</a><a class="anchor-l2" href="#7-anti-patterns">7. Anti-patterns</a><a class="anchor-l2" href="#8-related-pages">8. Related pages</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

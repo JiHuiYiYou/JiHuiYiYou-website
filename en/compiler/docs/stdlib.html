@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Standard Library</title>
+  <meta name="description" content="The real API of the eight modules: arena, mem, string, vec, fmt, io, math, os" />
+  <meta property="og:title" content="Standard Library" />
+  <meta property="og:description" content="The real API of the eight modules: arena, mem, string, vec, fmt, io, math, os" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/docs/stdlib.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="is-active" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/docs/stdlib.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/docs/stdlib.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Getting started</h4><ul><li><a class="" href="../../../en/compiler/docs/getting-started.html">Getting started</a></li><li><a class="" href="../../../en/compiler/docs/tour.html">Language tour</a></li></ul></div><div class="doc-nav-group"><h4>Language reference</h4><ul><li><a class="" href="../../../en/compiler/docs/reference.html">Reference overview</a></li><li><a class="" href="../../../en/compiler/docs/spec.html">Language spec v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="is-active" href="../../../en/compiler/docs/stdlib.html">Standard library</a></li></ul></div><div class="doc-nav-group"><h4>Deep dives</h4><ul><li><a class="" href="../../../en/compiler/docs/arena.html">Arena memory management</a></li><li><a class="" href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a></li></ul></div><div class="doc-nav-group"><h4>Tools and internals</h4><ul><li><a class="" href="../../../en/compiler/docs/cli.html">CLI reference</a></li><li><a class="" href="../../../en/compiler/docs/compiler.html">How the compiler works</a></li><li><a class="" href="../../../en/compiler/docs/build-and-test.html">Build and test</a></li><li><a class="" href="../../../en/compiler/docs/faq.html">FAQ</a></li></ul></div>
+
+    <div class="doc-nav-group doc-nav-external">
+      <h4>Spec sources</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">Language spec v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">Workaround ledger ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="standard-library">Standard Library</h1>
+<p>JHYY ships with a small standard library of <strong>8 modules</strong>, installed together with the compiler. Every signature on this page is copied verbatim from the source — <code>compiler/src0/std/*.jhyy</code> — nothing rewritten, and no function filled in that does not exist in the source.</p>
+<blockquote class="callout"><p><strong>The source is the only source of truth</strong>: <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/src0/std" target="_blank" rel="noopener noreferrer"><code>compiler/src0/std/</code></a></p></blockquote>
+<hr />
+<h2 id="how-to-use-it">How to use it</h2>
+<p><code>import</code> pulls in a <strong>module</strong>, <strong>without the <code>std::</code> prefix</strong> — <code>import std::vec;</code> is a parse error:</p>
+<pre><code class="language-jhyy">import io;
+import vec;
+
+fn main_jhyy() -&gt; i32 {
+    io::std_io_print("hello from the JHYY stdlib\n");
+    0
+}
+</code></pre>
+<p>Both calling styles have been verified to compile:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Style</th><th>Where it comes from</th></tr></thead><tbody><tr><td><code>io::std_io_print(...)</code></td><td>This is the form the repository README and <code>compiler/tests/examples/std_io_import.jhyy</code> use</td></tr><tr><td><code>std_io_print(...)</code></td><td>The form the spec § 15 prescribes (writing the function name from the source directly)</td></tr></tbody></table></div>
+<p>⚠ The spec § 15 only acknowledges the second one — it explicitly says "not <code>io::std_io_print(...)</code>"; but the qualified form works in the implementation, and the repository's own README and regression cases take that route. Neither of them reports <code>undefined variable</code>. <strong>The qualified form is recommended</strong> — names like <code>ptr_add</code> exist in several modules (see the table below), and without qualification it is easy to point at the wrong one.</p>
+<p>The naming style is <strong>historically inconsistent</strong>:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Style</th><th>Modules</th><th>Examples</th></tr></thead><tbody><tr><td><code>&lt;mod&gt;_&lt;fn&gt;</code></td><td><code>mem</code> / <code>fmt</code> / <code>string</code> / <code>arena</code></td><td><code>mem_copy</code>, <code>fmt_i32</code>, <code>str_concat</code>, <code>arena_alloc</code></td></tr><tr><td><code>std_&lt;mod&gt;_&lt;fn&gt;</code></td><td><code>io</code> / <code>os</code> / <code>vec</code> / <code>math</code></td><td><code>std_io_print</code>, <code>std_os_exit</code>, <code>std_vec_new</code>, <code>std_math_sin</code></td></tr></tbody></table></div>
+<p>A wrong name is reported as <code>undefined variable</code> — there is <strong>no</strong> "did you mean …" hint. The first time you use a module, copy the names from the table below.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Module</th><th>What problem it solves</th></tr></thead><tbody><tr><td><a href="#mem"><code>mem</code></a></td><td>Copying, zeroing, comparing and searching raw memory</td></tr><tr><td><a href="#fmt"><code>fmt</code></a></td><td>Formatting integers / strings into a byte buffer</td></tr><tr><td><a href="#string"><code>string</code></a></td><td>Length-prefixed UTF-8 strings</td></tr><tr><td><a href="#vec"><code>vec</code></a></td><td>Dynamic byte arrays</td></tr><tr><td><a href="#arena"><code>arena</code></a></td><td>bump allocator — request in one go, reuse as a whole</td></tr><tr><td><a href="#io"><code>io</code></a></td><td>File handles and read/write, standard output / error output</td></tr><tr><td><a href="#os"><code>os</code></a></td><td>Raw file descriptors, process exit, environment variables</td></tr><tr><td><a href="#math"><code>math</code></a></td><td>Trigonometry, square root, power (<strong>f64 only</strong>)</td></tr></tbody></table></div>
+<hr />
+<h2 id="mem">mem</h2>
+<p><strong>What problem it solves</strong>: raw memory operations. Everything is a hand-written byte loop — it <strong>does not call libc</strong>, so the standard library itself does not depend on the libc runtime.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Signature</th><th>What it does</th></tr></thead><tbody><tr><td><code>fn ptr_add(p: *u8, off: i64) -&gt; *u8</code></td><td>Local pointer arithmetic helper</td></tr><tr><td><code>fn mem_copy(dst: *u8, src: *u8, n: i64) -&gt; *u8</code></td><td>Copies n bytes; returns <code>dst</code></td></tr><tr><td><code>fn mem_compare(a: *u8, b: *u8, n: i64) -&gt; i32</code></td><td>Compares n bytes: <code>0</code> equal / <code>&lt;0</code> a<b / <code>&gt;0</code> a>b</td></tr><tr><td><code>fn mem_set(dst: *u8, val: i32, n: i64) -&gt; *u8</code></td><td>Sets n bytes to <code>val</code> (low 8 bits); returns <code>dst</code></td></tr><tr><td><code>fn mem_find_byte(p: *u8, n: i64, val: i32) -&gt; i64</code></td><td>Finds the first byte <code>== val</code>; returns the index / <code>-1</code></td></tr><tr><td><code>fn mem_zero(dst: *u8, n: i64) -&gt; *u8</code></td><td>Zeroes n bytes; returns <code>dst</code></td></tr></tbody></table></div>
+<p><strong>Traps</strong></p>
+<ul class='md-list'><li>⚠️ <strong><code>mem_copy</code> does not handle overlap</strong> — its semantics match libc <code>memcpy</code>. For an overlapping region you need <code>memmove</code>, which <strong>this module does not implement</strong>.</li><li>Failure semantics: a length <code>&lt; 0</code> returns <code>0</code> / null (not allowed); a length <code>0</code> is a no-op.</li><li>⚠️ <strong><code>mem_set</code> assumes <code>dst</code> is 8-byte aligned.</strong> <code>arena_alloc</code> in <code>std::arena</code> guarantees that, but an <strong>external caller does not</strong> — a <code>dst</code> that is not 8-aligned triggers the <code>#GP</code> of the i64 store.</li><li><code>mem_set</code> writes in i64-store batches plus an i32-store tail (W-075 really fixed). Earlier versions used a loop of <code>*i32</code>-width stores stepping 1 byte at a time, so <strong>asking for n bytes actually wrote 4n bytes</strong>, and the extra part ran over the caller's buffer (W-139 fixed).</li></ul>
+<hr />
+<h2 id="fmt">fmt</h2>
+<p><strong>What problem it solves</strong>: formatting values into bytes. Hand-written; it does not go through the variadic ABI of libc <code>printf</code>.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Signature</th><th>What it does</th></tr></thead><tbody><tr><td><code>fn ptr_add(p: *u8, off: i64) -&gt; *u8</code></td><td>Local pointer arithmetic helper</td></tr><tr><td><code>fn digit_char(d: i32) -&gt; i32</code></td><td>0–9 → ASCII code</td></tr><tr><td><code>fn hex_char(d: i32, upper: i32) -&gt; i32</code></td><td>0–15 → ASCII code; uses uppercase <code>A</code>–<code>F</code> when <code>upper != 0</code></td></tr><tr><td><code>fn fmt_i32(out_buf: *u8, val: i32) -&gt; i64</code></td><td>Writes an i32 in decimal; returns the number of bytes written (excluding <code>\0</code>)</td></tr><tr><td><code>fn fmt_i64(out_buf: *u8, val: i64) -&gt; i64</code></td><td>Writes an i64 in decimal; returns the byte count</td></tr><tr><td><code>fn fmt_str(out_buf: *u8, s: *u8) -&gt; i64</code></td><td>Copies a cstr into <code>out_buf</code>; returns the byte count</td></tr><tr><td><code>fn fmt_hex_u32(out_buf: *u8, val: i32, upper: i32) -&gt; i64</code></td><td>Writes a u32 in hexadecimal (no <code>0x</code> prefix); returns the byte count</td></tr></tbody></table></div>
+<p><strong>Traps</strong></p>
+<ul class='md-list'><li>⚠️ <strong><code>out_buf</code> must be ≥ 32 bytes.</strong> An i32 needs at most 11 digits + sign + <code>\0</code>, an i64 at most 20 digits + sign + <code>\0</code>, and a hex u32 at most 10 digits + <code>\0</code>.</li><li>⚠️ <strong>There is no float formatting.</strong> <code>fmt</code> has no formatting function for <code>f32</code> / <code>f64</code>.</li><li>⚠️ <strong>The <code>val</code> of <code>fmt_hex_u32</code> is the bit pattern of a u32, passed in as an <code>i32</code>.</strong> When the value is ≥ <code>0x80000000</code> it is <strong>negative</strong> — the function converts it by hand into an unsigned <code>i64</code> before computing.</li><li><code>fmt_i32</code> / <code>fmt_i64</code> use division that <strong>truncates toward zero</strong> and do not take the absolute value, so <code>i32::MIN</code> / <code>i64::MIN</code> work out of the box (W-195 really fixed). Earlier versions took the absolute value first, and negating <code>MIN</code> wrapped back to itself ⇒ only a single <code>-</code> was printed.</li></ul>
+<hr />
+<h2 id="string">string</h2>
+<p><strong>What problem it solves</strong>: length-prefixed UTF-8 strings. A string is represented by a <strong>raw <code>*u8</code> + a length</strong> (the same as the <code>CapTable</code> path), and it is <strong>not</strong> a borrow (<code>&amp;str</code> is not done yet).</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Signature</th><th>What it does</th></tr></thead><tbody><tr><td><code>fn ptr_add(p: *u8, off: i64) -&gt; *u8</code></td><td>Local pointer arithmetic helper</td></tr><tr><td><code>fn strlen_local(s: *u8) -&gt; i64</code></td><td>Length of a cstr</td></tr><tr><td><code>fn str_from_cstr(a: *u8, s: *u8) -&gt; *u8</code></td><td>Copies a cstr into the arena; returns <code>*StringHeader</code></td></tr><tr><td><code>fn str_from_bytes(a: *u8, p: *u8, n: i64) -&gt; *u8</code></td><td>Copies n bytes; returns <code>*StringHeader</code></td></tr><tr><td><code>fn str_len(s: *u8) -&gt; i64</code></td><td>Length</td></tr><tr><td><code>fn str_data(s: *u8) -&gt; *u8</code></td><td>The data pointer (<strong>not guaranteed to be NUL-terminated</strong>)</td></tr><tr><td><code>fn str_concat(a: *u8, x: *u8, y: *u8) -&gt; *u8</code></td><td>Concatenates x + y into a new arena buffer; returns <code>*StringHeader</code></td></tr><tr><td><code>fn str_equals(x: *u8, y: *u8) -&gt; i32</code></td><td><code>1</code> equal / <code>0</code></td></tr><tr><td><code>fn str_compare(x: *u8, y: *u8) -&gt; i32</code></td><td>Lexicographic: <code>0</code> equal / <code>&lt;0</code> x<y / <code>&gt;0</code> x>y</td></tr><tr><td><code>fn str_find(s: *u8, needle: *u8) -&gt; i64</code></td><td>Finds a substring (the needle must be a cstr); index / <code>-1</code></td></tr><tr><td><code>fn STR_HEADER_SIZE() -&gt; i64</code></td><td>The byte size of <code>StringHeader</code> (16)</td></tr></tbody></table></div>
+<p>The layout of <code>StringHeader</code> is <code>data: *u8</code> + <code>len: i64</code>, 16 bytes in total.</p>
+<p><strong>Traps</strong></p>
+<ul class='md-list'><li>⚠️ <strong>The buffer is not forced to be NUL-terminated</strong> (an M0 simplification). When you need it, write <code>*(data + len) = 0</code> yourself.</li><li>⚠️ <strong>Every string buffer is allocated from a mini-arena inside the module</strong> — the caller is responsible for <code>reset</code> / <code>free</code>. This mini-arena is <strong>embedded</strong> in <code>string.jhyy</code>; it does not reuse the <code>std::arena</code> module.</li><li>⚠️ <strong>The module has 4 more functions of the same name</strong>: <code>arena_init</code> / <code>arena_alloc</code> / <code>arena_reset</code> / <code>arena_free</code>, all with the signature <code>*u8</code> (not <code>*Arena</code>). They <strong>coexist with the functions of the same name in the <code>std::arena</code> module, and do not report a redefinition error</strong> — an unqualified call resolves to one of them. To be sure which one you are calling, qualify with <code>string::</code> / <code>arena::</code>.</li><li>The <code>needle</code> of <code>str_find</code> must be a <strong>cstr</strong> (its length is measured internally with <code>strlen_local</code>).</li><li>A historical trap: the block layout used to be <code>[next(8B)][payload...]</code>, with the start of the payload sitting exactly on top of the next pointer's slot ⇒ the bytes of the first allocation overwrite the block's next pointer, the linked list is corrupted on the spot, and the bump pointer does not advance ⇒ allocating more than two strings in a row gives you an ACCESS_VIOLATION (W-141 fixed it to <code>[next(8B)][payload_size(8B)][payload...]</code>).</li></ul>
+<hr />
+<h2 id="vec">vec</h2>
+<p><strong>What problem it solves</strong>: dynamic arrays.</p>
+<p>⚠️ <strong>One thing first: <code>Vec</code> is not a generic container.</strong> Its <code>elem_size</code> is a <strong>runtime parameter</strong>, not a type parameter.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Signature</th><th>What it does</th></tr></thead><tbody><tr><td><code>fn std_vec_new(elem_size: i64) -&gt; Vec</code></td><td>An empty Vec (<code>data</code>/<code>len</code>/<code>cap</code> all 0)</td></tr><tr><td><code>fn std_vec_with_cap(elem_size: i64, cap: i64) -&gt; Vec</code></td><td>Pre-allocates cap slots; <code>elem_size ≤ 0</code> or <code>cap ≤ 0</code> returns an empty Vec</td></tr><tr><td><code>fn std_vec_push(v: *Vec, elem_size: i64, src: *u8) -&gt; i32</code></td><td>Appends 1 element (copies <code>elem_size</code> bytes from <code>src</code>); returns 1 on success / 0 on OOM</td></tr><tr><td><code>fn std_vec_get(v: *Vec, elem_size: i64, idx: i64) -&gt; *u8</code></td><td>The element pointer; <strong>returns NULL when out of bounds</strong></td></tr><tr><td><code>fn std_vec_len(v: *Vec) -&gt; i64</code></td><td>Number of elements</td></tr><tr><td><code>fn std_vec_cap(v: *Vec) -&gt; i64</code></td><td>Number of allocated slots (<strong>not bytes</strong>)</td></tr><tr><td><code>fn std_vec_free(v: *Vec) -&gt; i32</code></td><td>Frees the data buffer and resets</td></tr><tr><td><code>fn std_vec_grow(v: *Vec, elem_size: i64, new_cap: i64) -&gt; i32</code></td><td>Private helper: doubles cap until ≥ <code>new_cap</code></td></tr><tr><td><code>fn std_vec_byte_copy(dst: *u8, src: *u8, n: i64) -&gt; *u8</code></td><td>Private helper: copies n bytes</td></tr><tr><td><code>fn VEC_SIZE() -&gt; i64</code></td><td>The byte size of <code>Vec</code> (24)</td></tr><tr><td><code>fn ptr_add(p: *u8, off: i64) -&gt; *u8</code></td><td>Local pointer arithmetic helper</td></tr></tbody></table></div>
+<p>The layout of <code>Vec</code> is <code>data: *u8</code> + <code>len: i64</code> + <code>cap: i64</code>, 24 bytes in total.</p>
+<p><strong>Traps</strong></p>
+<ul class='md-list'><li>⚠️ <strong><code>std_vec_get</code> returns a pointer, not the element value</strong> — because <code>elem_size</code> is a runtime parameter, the caller dereferences the pointer itself.</li><li>⚠️ <strong><code>std_vec_push</code> does not check whether <code>src</code> is NULL</strong> — it reads <code>elem_size</code> bytes from <code>src</code>. Passing a null pointer in means reading from a null address.</li><li><code>std_vec_new</code> returns a <strong>24-byte struct value</strong> (not a pointer) — the source comments say this is to avoid the ABI complexity of sret.</li><li><strong>It does not rely on full drop semantics</strong> (leak-OK): there is no automatic destructor, and <code>std_vec_free</code> has to be called by hand.</li><li>The <code>malloc</code> failure check in <code>std_vec_with_cap</code> was added on 2026-11-07 — before that it would return a Vec with <code>data=NULL</code>, and the caller would then write into it ⇒ writing to a NULL address ⇒ the process crashes outright.</li></ul>
+<hr />
+<h2 id="arena">arena</h2>
+<p><strong>What problem it solves</strong>: a bump allocator. It requests memory block by block, advances a pointer linearly inside a block, and can reuse or release a whole block when needed.</p>
+<blockquote class="callout"><p><strong>Read more</strong>: <a href="../../../en/compiler/docs/arena.html">Arena memory management</a> — the allocator model, the trade-off against a GC, and when to use it.</p></blockquote>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Signature</th><th>What it does</th></tr></thead><tbody><tr><td><code>fn arena_init(a: *Arena, default_size: i64) -&gt; i32</code></td><td>Initializes; uses 1 MB when <code>default_size ≤ 0</code>. Returns 1</td></tr><tr><td><code>fn arena_alloc(a: *Arena, size: i64) -&gt; *u8</code></td><td>8-byte aligned allocation; returns 0 on failure</td></tr><tr><td><code>fn arena_alloc_aligned(a: *Arena, size: i64, align: i64) -&gt; *u8</code></td><td>Allocation with a given alignment; returns 0 when <code>size == 0</code></td></tr><tr><td><code>fn arena_calloc(a: *Arena, size: i64) -&gt; *u8</code></td><td>Allocates and zeroes</td></tr><tr><td><code>fn arena_reset(a: *Arena) -&gt; i32</code></td><td>Resets the cursor to the start, <strong>without freeing blocks</strong></td></tr><tr><td><code>fn arena_free(a: *Arena) -&gt; i32</code></td><td>Frees every block</td></tr><tr><td><code>fn arena_new_block(a: *Arena, size: i64) -&gt; i32</code></td><td>Private: creates a block and hangs it at the head of the list</td></tr><tr><td><code>fn align_up(x: i64, align: i64) -&gt; i64</code></td><td>Rounds x up to a multiple of align (align must be a power of 2)</td></tr><tr><td><code>fn ptr_add(p: *u8, off: i64) -&gt; *u8</code></td><td>Local pointer arithmetic helper</td></tr><tr><td><code>fn ARENA_SIZE() -&gt; i64</code></td><td>The byte size of <code>Arena</code> (40)</td></tr><tr><td><code>fn ARENA_BLOCK_HEADER() -&gt; i64</code></td><td>The byte size of the block header (8)</td></tr></tbody></table></div>
+<p>The layout of <code>Arena</code> is <code>start</code> / <code>cur</code> / <code>end</code> / <code>blocks</code> (all <code>*u8</code>) + <code>def_size: i64</code>, 40 bytes in total.</p>
+<p><strong>Traps</strong></p>
+<ul class='md-list'><li>⚠️ <strong><code>arena_reset</code> computes the usable space as <code>def_size</code> (1 MB by default), but the actual block is not that big.</strong> <code>arena_init</code> only records <code>def_size</code> and <strong>allocates no block at all</strong>; the real block is triggered by <code>arena_alloc</code>, and its size is <code>size + align</code>, <strong>not</strong> <code>def_size</code>. <code>arena_reset</code> nevertheless sets <code>end</code> to <code>start + def_size</code> ⇒ the arena thinks it has 1 MB available, while under its feet there are only a few dozen bytes ⇒ <strong>later allocations write straight through the malloc'd block</strong>.</li></ul>
+<p><strong>The trigger is an allocation size that lands in the <code>(real block size, def_size]</code> interval.</strong> Measured (2026-11-08, v4.1.4 self-hosted compiler, local machine):</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Scenario</th><th>Result</th></tr></thead><tbody><tr><td><code>alloc(8)</code> → <code>reset</code> → <code>alloc(16/32/64)</code></td><td>Passes (the real 16B block + heap slack is enough)</td></tr><tr><td><code>alloc(8)</code> → <code>reset</code> → <code>alloc(128/256/500/1000/1024)</code></td><td><strong>ACCESS_VIOLATION (segmentation fault)</strong></td></tr><tr><td><code>alloc(8)</code> → <code>reset</code> → <code>alloc(2000)</code></td><td>Passes (over <code>def_size</code>, so it takes the new-block path)</td></tr><tr><td>The same program <strong>without</strong> <code>reset</code></td><td>All pass</td></tr></tbody></table></div>
+<pre><code class="language-jhyy">  import arena;
+
+  fn main_jhyy() -&gt; i32 {
+      let mut a: Arena = Arena {
+          start: 0 as *u8, cur: 0 as *u8, end: 0 as *u8,
+          blocks: 0 as *u8, def_size: 0 as i64,
+      };
+      arena_init(&amp;a, 1024);
+      let p = arena_alloc(&amp;a, 8);
+      arena_reset(&amp;a);                    // ← end is set to start + 1024
+      let big = arena_alloc(&amp;a, 500);     // ← it thinks there is 1 MB, but only 16 B underfoot
+      let mut i: i32 = 0;
+      while i &lt; 500 { *(big + i as i64) = 1 as u8; i = i + 1; }   // ← writes straight through
+      0
+  }
+</code></pre>
+<p>Both ends are safe, so this trap is easy to miss: small allocations fit, huge allocations open another block, and only the "medium size + after a reset" band blows up. (The arena the compiler uses itself — <code>compiler/src0/arena.jhyy</code> — takes the block size as <code>max(def_size, min_size)</code> and does not have this problem; <strong>the two implementations behave differently</strong>.) <strong>This one is not in the workaround ledger yet.</strong></p>
+<ul class='md-list'><li>The <code>blocks</code> field uses a <code>*u8</code> placeholder (JHYY has no self-referential struct), so at the use site it has to be cast to <code>*ArenaBlock</code>.</li><li><code>arena_alloc_aligned</code> and <code>arena_new_block</code> are marked as <strong>private API</strong> in the source comments — they are <code>fn</code> (so publicly visible), but you are not meant to call them directly.</li><li>The bottom layer uses libc <code>malloc</code> (an M0 simplification; the MMAP backend was left to the end of v3.x).</li><li><strong>How to get an <code>Arena</code> instance</strong>: a <strong>qualified</strong> struct literal like <code>arena::Arena { ... }</code> <strong>does not parse</strong>. The workable approach is to declare a local struct with the same layout and cast the pointer (<code>&amp;local as *arena::Arena</code>), or to <code>malloc</code> 40 bytes yourself, zero them, and cast.</li></ul>
+<hr />
+<h2 id="io">io</h2>
+<p><strong>What problem it solves</strong>: file handles and read/write, plus standard output / error output. The backend goes through libc's <code>fopen</code> / <code>fread</code> / <code>fwrite</code> / <code>fclose</code>.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Signature</th><th>What it does</th></tr></thead><tbody><tr><td><code>fn std_io_open(path: *u8, mode: *u8) -&gt; *u8</code></td><td>Opens a file (<code>mode</code> is a cstr: <code>&quot;r&quot;</code> / <code>&quot;w&quot;</code> / <code>&quot;wb&quot;</code> / <code>&quot;rb&quot;</code> / <code>&quot;a&quot;</code> …); returns <code>FILE*</code> / returns 0 on failure</td></tr><tr><td><code>fn std_io_close(f: *u8) -&gt; i32</code></td><td>Closes; returns <code>-1</code> when <code>f == 0</code>, otherwise the result of <code>fclose</code></td></tr><tr><td><code>fn std_io_read(f: *u8, buf: *u8, n: i64) -&gt; i64</code></td><td>Reads n bytes into <code>buf</code>; returns the actual byte count (<code>&lt; n</code> means EOF / error)</td></tr><tr><td><code>fn std_io_write(f: *u8, buf: *u8, n: i64) -&gt; i64</code></td><td>Writes n bytes; returns the number of bytes actually written</td></tr><tr><td><code>fn std_io_print(s: *u8) -&gt; i32</code></td><td>Writes to stdout (cstr); returns <code>-1</code> when <code>s == 0</code></td></tr><tr><td><code>fn std_io_print_err(s: *u8) -&gt; i32</code></td><td>Writes to stderr (cstr); returns <code>-1</code> when <code>s == 0</code></td></tr><tr><td><code>fn std_io_eprint(s: *u8) -&gt; i32</code></td><td>An alias of <code>std_io_print_err</code></td></tr></tbody></table></div>
+<p><strong>Traps</strong></p>
+<ul class='md-list'><li>⚠️ <strong><code>std_io_print</code> / <code>std_io_print_err</code> depend on libc's <code>stdout</code> / <code>stderr</code> handle access</strong> (through the C-side <code>jh_fputs_stdout</code> / <code>jh_fputs_stderr</code> bridges). That means using them <strong>depends on the C runtime</strong> — which conflicts with the <code>no_std</code> direction.</li><li><code>std_io_read</code> / <code>std_io_write</code> return <code>-1</code> when <code>f == 0</code>, and <code>0</code> when <code>n &lt;= 0</code>.</li><li>The source comments say: after the OS kernel M11 launch they have to be swapped for a syscall implementation (change the <code>jh_fputs_*</code> in <code>jhyy_helpers.c</code>), and <strong>not a single line of <code>std/io.jhyy</code> has to change</strong>.</li></ul>
+<hr />
+<h2 id="os">os</h2>
+<p><strong>What problem it solves</strong>: raw file descriptors, process exit, environment variables.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Signature</th><th>What it does</th></tr></thead><tbody><tr><td><code>fn std_os_open(path: *u8, flags: i32, mode: i32) -&gt; i64</code></td><td><code>open(2)</code> wrapper; returns the fd / returns <code>-1</code> on failure</td></tr><tr><td><code>fn std_os_close(fd: i64) -&gt; i32</code></td><td><code>close(2)</code> wrapper; <code>0</code> ok / <code>-1</code> fail</td></tr><tr><td><code>fn std_os_read(fd: i64, buf: *u8, n: i64) -&gt; i64</code></td><td><code>read(2)</code> wrapper; returns the byte count, 0 at EOF, <code>-1</code> on error</td></tr><tr><td><code>fn std_os_write(fd: i64, buf: *u8, n: i64) -&gt; i64</code></td><td><code>write(2)</code> wrapper; returns the number of bytes written, <code>-1</code> on error</td></tr><tr><td><code>fn std_os_exit(code: i32)</code></td><td>Terminates the process (<strong>a real exit</strong>, never returns)</td></tr><tr><td><code>fn std_os_getenv(name: *u8) -&gt; *u8</code></td><td>Reads an environment variable; returns the value as a cstr / returns 0 when not found</td></tr><tr><td><code>fn OS_O_RDONLY() -&gt; i32</code></td><td><code>0</code></td></tr><tr><td><code>fn OS_O_WRONLY() -&gt; i32</code></td><td><code>1</code></td></tr><tr><td><code>fn OS_O_RDWR() -&gt; i32</code></td><td><code>2</code></td></tr><tr><td><code>fn OS_O_CREAT() -&gt; i32</code></td><td><code>64</code> (<code>0x40</code>)</td></tr><tr><td><code>fn OS_O_TRUNC() -&gt; i32</code></td><td><code>512</code> (<code>0x200</code>)</td></tr><tr><td><code>fn OS_O_APPEND() -&gt; i32</code></td><td><code>1024</code> (<code>0x400</code>)</td></tr><tr><td><code>fn OS_MODE_RW_R() -&gt; i32</code></td><td><code>420</code> (<code>0644</code>)</td></tr></tbody></table></div>
+<p><strong>Traps</strong></p>
+<ul class='md-list'><li>⚠️ <strong><code>OS_O_*</code> / <code>OS_MODE_RW_R</code> are zero-argument functions, not constants.</strong> The usage is <code>os::OS_O_CREAT()</code> — leaving off the parentheses gives you <code>expected (, got ;</code>.</li><li>⚠️ <strong>The <code>O_*</code> values are POSIX values</strong> (<code>O_CREAT = 0x40</code>), which differ from Windows' <code>_O_*</code> (<code>O_CREAT = 0x100</code>). The platform difference is translated at the C bridge layer; the jhyy side keeps POSIX semantics.</li><li>⚠️ <strong><code>std_os_*</code> go through the 5 libc bridges in <code>jhyy_helpers.c</code></strong>, so they <strong>depend on the C runtime again</strong> — the opposite of the "drop the C runtime / zero-C closed loop" direction (W-103 registered this trade-off). For a genuine zero-C setup, what has to be replaced is the <strong>implementation</strong> of the bridges; not a single line of <code>std/os.jhyy</code> has to change.</li><li><code>std_os_open</code> validates its input: <code>path == 0</code>, <code>flags &lt; 0</code>, <code>mode &lt; 0</code> and <code>mode &gt; 0777</code> all return <code>-1</code> (aligned with the error semantics of libc <code>open()</code>).</li></ul>
+<hr />
+<h2 id="math">math</h2>
+<p><strong>What problem it solves</strong>: trigonometric functions, square root, power. <strong>f64 only</strong>.</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Signature</th><th>What it does</th></tr></thead><tbody><tr><td><code>fn std_math_sin(x: f64) -&gt; f64</code></td><td><code>sin(x)</code>, with x in radians</td></tr><tr><td><code>fn std_math_cos(x: f64) -&gt; f64</code></td><td><code>cos(x)</code>, with x in radians</td></tr><tr><td><code>fn std_math_sqrt(x: f64) -&gt; f64</code></td><td><code>√x</code>; <code>x &lt; 0</code> → NaN, <code>x = +∞</code> → <code>+∞</code></td></tr><tr><td><code>fn std_math_pow(base: f64, exp: f64) -&gt; f64</code></td><td><code>base^exp</code>, with libm C99 semantics</td></tr></tbody></table></div>
+<p><strong>Traps</strong></p>
+<ul class='md-list'><li>⚠️ <strong>There is an f64 version only.</strong> No f32, and no <code>tan</code> / <code>log</code> / <code>exp</code> / <code>floor</code> / <code>ceil</code>.</li><li>It talks to libm directly through FFI (Windows goes through MSVCRT, POSIX through libc + libm) — <code>-lm</code> is already on the link line. It <strong>does not go through the C-side bridge</strong>: the backend's f64 return goes through <code>%xmm0</code> + <code>movsd</code>, so a plain extern is enough.</li><li>The semantics match libm: a finite input returns a finite value, <code>inf</code> / <code>NaN</code> pass through (IEEE 754). <strong>No exceptions, no errno</strong>.</li></ul>
+<hr />
+<h2 id="status">Status</h2>
+<p>The standard library is a <strong>pre-1.0</strong> artifact and <strong>the API will change</strong>. The version comments in the source read <code>v3.2.2 (3l.1)</code> to <code>v3.2.5 (3l.4)</code> — that is the module's own iteration numbering, and it does not represent any compatibility promise.</p>
+<p><strong>This page is maintained by hand.</strong> The ideal state is for the compiler to generate the standard library documentation itself (extracting the signatures from <code>compiler/src0/std/*.jhyy</code>), but that pipeline does not exist yet — so the signatures may drift from the source. <strong>If they do not match, the source wins</strong>, and then file an issue.</p>
+<p>The related trap ledger is in <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener noreferrer"><code>docs/internal/workarounds.md</code></a>, and the language-level limitations are in appendix B of the <a href="../../../en/compiler/docs/spec.html">language spec v4.0.0</a>.</p>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/docs/stdlib.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#standard-library">Standard Library</a><a class="anchor-l2" href="#how-to-use-it">How to use it</a><a class="anchor-l2" href="#mem">mem</a><a class="anchor-l2" href="#fmt">fmt</a><a class="anchor-l2" href="#string">string</a><a class="anchor-l2" href="#vec">vec</a><a class="anchor-l2" href="#arena">arena</a><a class="anchor-l2" href="#io">io</a><a class="anchor-l2" href="#os">os</a><a class="anchor-l2" href="#math">math</a><a class="anchor-l2" href="#status">Status</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

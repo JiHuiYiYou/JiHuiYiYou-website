@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>ABI v4.0.0</title>
+  <meta name="description" content="Type layout, calling convention and linking rules — the contract by which artifacts recognize each other" />
+  <meta property="og:title" content="ABI v4.0.0" />
+  <meta property="og:description" content="Type layout, calling convention and linking rules — the contract by which artifacts recognize each other" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/docs/abi.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="is-active" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/docs/abi.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/docs/abi.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Getting started</h4><ul><li><a class="" href="../../../en/compiler/docs/getting-started.html">Getting started</a></li><li><a class="" href="../../../en/compiler/docs/tour.html">Language tour</a></li></ul></div><div class="doc-nav-group"><h4>Language reference</h4><ul><li><a class="" href="../../../en/compiler/docs/reference.html">Reference overview</a></li><li><a class="" href="../../../en/compiler/docs/spec.html">Language spec v4.0.0</a></li><li><a class="is-active" href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/stdlib.html">Standard library</a></li></ul></div><div class="doc-nav-group"><h4>Deep dives</h4><ul><li><a class="" href="../../../en/compiler/docs/arena.html">Arena memory management</a></li><li><a class="" href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a></li></ul></div><div class="doc-nav-group"><h4>Tools and internals</h4><ul><li><a class="" href="../../../en/compiler/docs/cli.html">CLI reference</a></li><li><a class="" href="../../../en/compiler/docs/compiler.html">How the compiler works</a></li><li><a class="" href="../../../en/compiler/docs/build-and-test.html">Build and test</a></li><li><a class="" href="../../../en/compiler/docs/faq.html">FAQ</a></li></ul></div>
+
+    <div class="doc-nav-group doc-nav-external">
+      <h4>Spec sources</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">Language spec v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">Workaround ledger ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="abi-v400">ABI v4.0.0</h1>
+<p><strong>The original ABI lives in the repository, not here.</strong> Original: <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener noreferrer"><code>docs/abis/jhyy-abi-v4.0.0.md</code></a></p>
+<p>This page is that ABI's <strong>guided reading</strong>: targets and calling convention, type layout, aggregate argument passing, linking rules, and a summary of the <strong>known deviations and unimplemented items</strong>. <strong>Where they conflict, the original in the repository wins.</strong></p>
+<p>The ABI is locked at v4.0.0 (2026-10-24, locked together with <code>v4.0.0 final</code>), the same generation as the language spec. The toolchain version is a separate matter, see the <a href="../../../en/compiler/docs/reference.html">reference overview</a>.</p>
+<hr />
+<h2 id="targets-and-calling-convention">Targets and calling convention</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Target triple</th><th>Calling convention</th><th>Runtime</th><th>Status</th></tr></thead><tbody><tr><td><code>amd64_win</code> (default)</td><td>MS x64</td><td>hosted (links the C runtime)</td><td>stable</td></tr><tr><td><code>amd64_sysv</code></td><td>SysV AMD64</td><td>hosted</td><td>stable</td></tr><tr><td><code>amd64_win_freestanding</code></td><td>MS x64</td><td>freestanding</td><td>beta</td></tr><tr><td><code>amd64_sysv_freestanding</code></td><td>SysV AMD64</td><td>freestanding</td><td>beta</td></tr></tbody></table></div>
+<ul class='md-list'><li><strong>The architecture is x86-64 only.</strong> aarch64 / riscv64 are not implemented (ABI § 12.10).</li><li>All four targets go through the self-hosted amd64 backend; there is no QBE fallback path.</li><li>The <strong>calling conventions of <code>amd64_win</code> and <code>amd64_win_freestanding</code> are byte-identical</strong>; likewise for <code>amd64_sysv</code> and <code>amd64_sysv_freestanding</code>.</li></ul>
+<h3 id="ms-x64-amd64-win-amd64-win-freestanding">MS x64 (<code>amd64_win</code> / <code>amd64_win_freestanding</code>)</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Rule</th><th>Content</th></tr></thead><tbody><tr><td>Integer / pointer arguments</td><td>The first 4 go in <code>RCX</code> <code>RDX</code> <code>R8</code> <code>R9</code>, the rest go on the stack</td></tr><tr><td>Floating-point arguments</td><td>The first 4 go in <code>XMM0</code>–<code>XMM3</code>, the rest go on the stack</td></tr><tr><td>Return value</td><td>Integer / pointer → <code>RAX</code>; float → <code>XMM0</code></td></tr><tr><td>Shadow space</td><td>The caller reserves 32 bytes on the stack</td></tr><tr><td>Stack alignment</td><td>16-byte aligned before the <code>call</code></td></tr></tbody></table></div>
+<p><strong>Integer and floating-point arguments share the same position counter</strong> — this is the core rule of MS x64:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Slot</th><th>Integer register</th><th>Floating-point register</th></tr></thead><tbody><tr><td>1</td><td><code>RCX</code></td><td><code>XMM0</code></td></tr><tr><td>2</td><td><code>RDX</code></td><td><code>XMM1</code></td></tr><tr><td>3</td><td><code>R8</code></td><td><code>XMM2</code></td></tr><tr><td>4</td><td><code>R9</code></td><td><code>XMM3</code></td></tr><tr><td>≥ 5</td><td>stack</td><td>stack</td></tr></tbody></table></div>
+<p>⇒ In <code>fn f(a: f64, b: i32)</code>, <code>a</code> is in <code>XMM0</code> and <code>b</code> is in <strong><code>EDX</code></strong> (not <code>ECX</code>).</p>
+<h3 id="sysv-amd64-amd64-sysv-amd64-sysv-freestanding">SysV AMD64 (<code>amd64_sysv</code> / <code>amd64_sysv_freestanding</code>)</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Rule</th><th>Content</th></tr></thead><tbody><tr><td>Integer / pointer arguments</td><td>The first 6 go in <code>RDI</code> <code>RSI</code> <code>RDX</code> <code>RCX</code> <code>R8</code> <code>R9</code>, the rest go on the stack</td></tr><tr><td>Floating-point arguments</td><td>The first 8 go in <code>XMM0</code>–<code>XMM7</code>, the rest go on the stack</td></tr><tr><td>Shadow space</td><td><strong>None</strong></td></tr><tr><td>Stack alignment</td><td>16-byte aligned before the <code>call</code></td></tr></tbody></table></div>
+<p><strong>Integers and floats are two independent banks</strong> — integers take <code>rdi</code>/<code>rsi</code>/… in order of appearance, floats take <code>xmm0</code>–<code>xmm7</code> in order of appearance, each numbered on its own and neither affecting the other. This is <strong>exactly the opposite</strong> of the shared counter in MS x64: the same <code>fn f(a: f64, b: i32)</code> puts <code>b</code> in <strong><code>RDI</code></strong> under SysV.</p>
+<blockquote class="callout"><p>When you write a function with mixed int / float arguments, this difference is the easiest thing to get wrong — pure JHYY code behaves the same across targets (the return value rules are identical), but <strong>hand-written assembly interfacing</strong> will trip on it.</p></blockquote>
+<hr />
+<h2 id="type-layout">Type layout</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Type</th><th>sizeof</th><th>alignof</th><th>Remarks</th></tr></thead><tbody><tr><td><code>i8</code> / <code>u8</code></td><td>1</td><td>1</td><td>Sign / zero extended after loading into 32 bits</td></tr><tr><td><code>i16</code> / <code>u16</code></td><td>2</td><td>2</td><td>Same</td></tr><tr><td><code>i32</code> / <code>u32</code></td><td>4</td><td>4</td><td></td></tr><tr><td><code>i64</code> / <code>u64</code></td><td>8</td><td>8</td><td></td></tr><tr><td><code>f32</code></td><td>4</td><td>4</td><td>IEEE 754 binary32</td></tr><tr><td><code>f64</code></td><td>8</td><td>8</td><td>IEEE 754 binary64</td></tr><tr><td><code>bool</code></td><td>1</td><td>1</td><td>⚠️ the compiler <strong>does not normalize to 0/1</strong></td></tr><tr><td><code>()</code></td><td>0</td><td>1</td><td>Zero-sized type</td></tr><tr><td><code>*T</code></td><td>8</td><td>8</td><td>A null pointer is the integer 0; the step is <code>sizeof(T)</code></td></tr><tr><td><code>fn(...)</code> function pointer</td><td>8</td><td>8</td><td>⚠️ the type position does not accept this syntax (appendix B of the language spec)</td></tr><tr><td><code>[*]T</code> slice</td><td>16</td><td>8</td><td><code>{ data: *T @0, len: i64 @8 }</code></td></tr><tr><td><code>[T; N]</code></td><td><code>N × sizeof(T)</code></td><td><code>alignof(T)</code></td><td>Elements are contiguous, no padding</td></tr><tr><td><code>&amp;T</code> / <code>&amp;mut T</code></td><td>8</td><td>8</td><td>Single pointer; <code>is_mut</code> is a compile-time marker</td></tr><tr><td><code>Cap&lt;T&gt;</code></td><td>8</td><td>8</td><td></td></tr><tr><td><code>PhantomData&lt;T&gt;</code></td><td>0</td><td>1</td><td>ZST, takes no slot in a struct</td></tr></tbody></table></div>
+<ul class='md-list'><li><strong>Signed integer overflow is defined behaviour</strong>: two's-complement wraparound, no runtime check.</li><li><strong>There is no separate <code>char</code> type</strong> — the type of a character literal is <code>i32</code>, and the value is the Unicode codepoint.</li><li><code>struct</code> is laid out in declaration order with <strong>natural alignment</strong>; nested structs are inlined into a single-level layout.</li><li>The tag of an <code>enum</code> is <code>i32</code> at offset 0; the payload starts at <code>align_up(4, max_payload_align)</code>.</li><li>⚠️ <code>alignof(enum)</code> hardcodes <strong>4</strong>, which does not match the natural alignment computed from the enum layout (ABI § 12.2).</li></ul>
+<hr />
+<h2 id="aggregate-argument-passing">Aggregate argument passing</h2>
+<h3 id="win">Win</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Argument type</th><th>How it is passed</th></tr></thead><tbody><tr><td><code>struct</code></td><td>The caller <strong>builds a copy</strong> on the stack, copying field by field (recursively for nested structs), and passes the address of the copy (one <code>l</code> argument)</td></tr><tr><td><code>enum</code></td><td><strong>One <code>l</code></strong> (the address of the enum value's own slot), <strong>no copy is built</strong></td></tr><tr><td><code>[T; N]</code></td><td><strong>One <code>l</code></strong> (the address of the array itself), <strong>no copy is built</strong> (effectively by reference)</td></tr><tr><td><code>[*]T</code> slice</td><td>A 16-byte slot <code>{data, len}</code>, but <strong>only one <code>l</code> pointer</strong> is passed, pointing at that slot</td></tr></tbody></table></div>
+<p>⚠️ <strong>Only <code>struct</code> really builds a copy.</strong> <code>enum</code> / <code>[T; N]</code> / slices are passed by address — so modifying the array in the callee modifies the caller's array.</p>
+<h3 id="sysv">SysV</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Condition</th><th>How it is passed</th></tr></thead><tbody><tr><td><code>sizeof ≤ 16</code></td><td>Classified by eightbyte splitting (INTEGER / SSE), at most 2 eightbytes go into registers</td></tr><tr><td><code>sizeof &gt; 16</code></td><td><strong>MEMORY class</strong> — the whole thing lands on the stack</td></tr></tbody></table></div>
+<h3 id="return-values">Return values</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Return type</th><th>Convention</th></tr></thead><tbody><tr><td>Integer / pointer / <code>&amp;T</code></td><td><code>RAX</code></td></tr><tr><td><code>f32</code> / <code>f64</code></td><td><code>XMM0</code></td></tr><tr><td><code>struct</code> / <code>enum</code></td><td><strong>Implicit sret</strong>: the caller allocates the return slot and passes it as a <strong>hidden 0th argument</strong> in a register (Win <code>%rcx</code> / SysV <code>%rdi</code>)</td></tr><tr><td><code>[T; N]</code></td><td>⚠️ <strong>Does not use sret</strong>: the callee builds its own 16-byte slot, and <code>RAX</code> returns its address</td></tr><tr><td><code>()</code></td><td>No return value, a bare <code>ret</code> at the end of the function</td></tr></tbody></table></div>
+<h3 id="name-mangling">Name mangling</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Case</th><th>Symbol form</th></tr></thead><tbody><tr><td>Ordinary function</td><td><code>&lt;name&gt;</code></td></tr><tr><td>Function in a module</td><td><code>&lt;mod&gt;__&lt;name&gt;</code> (the call site writes <code>mod::fn()</code>)</td></tr><tr><td>Generic instance</td><td><code>&lt;Base&gt;$&lt;T1&gt;$&lt;T2&gt;</code> (e.g. <code>max$i32</code>)</td></tr><tr><td>Generic instance in a module</td><td><code>&lt;mod&gt;__&lt;Base&gt;$&lt;T1&gt;$&lt;T2&gt;</code> (the module prefix wins)</td></tr><tr><td>Closure</td><td><code>__closure_&lt;N&gt;</code> (a synthesized name, N increases monotonically on every compilation ⇒ the artifact is reproducible)</td></tr><tr><td><code>extern fn</code></td><td><strong>As written</strong>, no prefix, no mangling</td></tr></tbody></table></div>
+<p>The mangled name of a generic is assembled by the parser in source order, and <strong>contains no pointer address or hash</strong> ⇒ deterministic. No overloading is supported.</p>
+<hr />
+<h2 id="program-entry-and-linking">Program entry and linking</h2>
+<p><strong>This section is the easiest thing to get wrong.</strong></p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Mode</th><th>Entry symbol</th><th>Explanation</th></tr></thead><tbody><tr><td>hosted</td><td><code>main_jhyy</code></td><td>The C runtime's <code>main</code> calls <code>main_jhyy(argc, argv)</code>, and its return value becomes the process exit code</td></tr><tr><td><code>#[no_std]</code></td><td><code>main</code></td><td>Link line <code>-nostartfiles -nodefaultlibs -Wl,--entry=main -lgcc</code></td></tr></tbody></table></div>
+<ul class='md-list'><li><code>#[no_std]</code> <strong>does not link the C runtime startup file</strong>; <code>-lgcc</code> only provides compiler builtins such as <code>___chkstk_ms</code>.</li><li>In <code>#[no_std]</code> mode <code>fn main</code> <strong>must exist</strong>, otherwise it is a compile error: <code>error: #[no_std] module must define &#x27;fn main()&#x27;</code>.</li></ul>
+<h3 id="freestanding-does-not-switch-the-linking-mode">freestanding does not switch the linking mode</h3>
+<blockquote class="callout"><p>⚠️ <strong>The two freestanding targets only switch "calling convention ownership + the entry hook", not the linking mode.</strong></p>
+<p><strong>The link line branches on whether the source file has <code>#[no_std]</code>, and has nothing to do with <code>--target</code>.</strong></p></blockquote>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Is there <code>#[no_std]</code> in the source file?</th><th>Link line</th></tr></thead><tbody><tr><td><strong>No</strong></td><td>Links <code>runtime.o</code> + <code>helpers.o</code> (the C runtime bridge) + the Windows system libraries + <code>-lm</code></td></tr><tr><td><strong>Yes</strong></td><td><strong>Does not</strong> link the two above, and instead adds <code>-nostartfiles -nodefaultlibs -Wl,--entry=main -lgcc</code></td></tr></tbody></table></div>
+<p>In other words: <code>--target=amd64_win_freestanding</code> by itself <strong>does not</strong> stop you from linking the C runtime. To get a purely freestanding artifact, <strong>the source file also has to say <code>#[no_std]</code></strong>.</p>
+<p>Both branches carry <code>-g0 -Wl,--build-id=none -Wl,--stack,67108864 … -lm -lkernel32 -luser32 -lshell32 -ladvapi32</code> — <strong>the Windows system libraries and <code>-lm</code> are added unconditionally</strong> (also under <code>#[no_std]</code>). A genuine UEFI / bare metal image has to be produced with lld-link (<code>/SUBSYSTEM:EFI_APPLICATION /ENTRY:efi_main</code>) or with a custom link line.</p>
+<h3 id="target-abi-linking-mode">Target → ABI → linking mode</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Target</th><th>ABI (calling convention)</th><th>Entry symbol</th><th>Linking mode</th></tr></thead><tbody><tr><td><code>amd64_win</code></td><td>MS x64</td><td><code>main_jhyy</code></td><td>hosted: links the C runtime + the Windows system libraries</td></tr><tr><td><code>amd64_sysv</code></td><td>SysV AMD64</td><td><code>main_jhyy</code></td><td>hosted (same as above; cross targets require <code>--no-link</code>)</td></tr><tr><td><code>amd64_win_freestanding</code></td><td>MS x64 (byte-identical to <code>amd64_win</code>)</td><td>User-supplied (<code>efi_main</code> / <code>_start</code>)</td><td><strong>Depends on whether the source file has <code>#[no_std]</code></strong>, not on <code>--target</code></td></tr><tr><td><code>amd64_sysv_freestanding</code></td><td>SysV AMD64 (byte-identical to <code>amd64_sysv</code>)</td><td>User-supplied (<code>efi_main</code> / <code>_start</code>)</td><td>Same</td></tr></tbody></table></div>
+<blockquote class="callout"><p>⚠️ <strong>The output container format is not decided by <code>--target</code></strong>, but by the host toolchain's <code>ld</code> (<code>link_with_gcc</code> has no target parameter). The PE / ELF output of the various targets is only <strong>convention</strong> (ABI § 12.9).</p>
+<p>Corollary: <strong>every target except <code>amd64_win</code> can only be built with <code>--no-link</code></strong>, and you take the <code>.s</code> to a toolchain that matches the target.</p></blockquote>
+<hr />
+<h2 id="ffi">FFI</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Direction</th><th>Supported argument / return types</th></tr></thead><tbody><tr><td>JHYY → C</td><td>All primitive types, <code>*T</code>, <code>bool</code></td></tr><tr><td>C → JHYY</td><td>The same</td></tr></tbody></table></div>
+<ul class='md-list'><li><code>extern fn</code> only declares, it does not generate a function body; the symbol is resolved by <code>ld</code> at link time.</li><li><strong>Not supported</strong>: struct / enum by value across the FFI boundary, variadic functions (the JHYY side has to list each argument), callback functions.</li><li>⚠️ The parameter / return types of <code>extern fn</code> are <strong>not restricted at compile time</strong> — declaring a struct parameter compiles, but it is actually passed by address, which does not match the C ABI (silently mismatched, no error).</li><li>A string literal is a UTF-8 byte sequence stored in the <strong><code>.data</code></strong> section, NUL-terminated, and passed to C as a <code>*u8</code>, compatible with C's <code>char*</code>.</li></ul>
+<hr />
+<h2 id="known-deviations-and-unimplemented-items">Known deviations and unimplemented items</h2>
+<p>ABI § 12 is <strong>deliberately recorded, gated or registered</strong> facts, not omissions.</p>
+<blockquote class="callout"><p>The table in § 12 <strong>only lists the items that are still open</strong> — fixed deviations are removed from the table and <strong>the numbering shifts accordingly</strong> ⇒ when you cite, go by the content of the entry rather than by its number. Summary:</p></blockquote>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>#</th><th>Item</th><th>Nature</th></tr></thead><tbody><tr><td>12.1</td><td><strong>struct / enum return values unconditionally use sret on all targets</strong>, with no size threshold — the SysV standard would put aggregate types of ≤16 bytes into <code>RAX:RDX</code> / <code>XMM0:XMM1</code></td><td>Deviation from SysV</td></tr><tr><td>12.2</td><td><strong><code>alignof(enum)</code> hardcodes 4</strong>, which does not match the <code>max(4, max_payload_align)</code> used to compute the enum layout</td><td>Internal inconsistency</td></tr><tr><td>12.3</td><td>Non-struct scalar arguments under SysV still borrow the Win classifier to decide the IR letter — currently not wrong, but it is an implicit dependency</td><td>Latent risk</td></tr><tr><td>12.4</td><td><strong>Under SysV, mixing MEMORY class arguments with register-spilled arguments → compile-time error</strong>; some legal SysV usages currently do not compile</td><td>Capability boundary</td></tr><tr><td>12.5</td><td>The sret slot size <code>max(4, sizeof(T))</code> and the enum copy written by <code>total_size</code> — a theoretical boundary, in practice always identical</td><td>Theoretical boundary</td></tr><tr><td>12.6</td><td><strong>Stack slots are only guaranteed to be 8-byte aligned</strong>; there is currently no 16-byte-aligned type, so it is never triggered</td><td>Capability boundary</td></tr><tr><td>12.7</td><td><strong>Everything spills, only <code>RBP</code> is saved</strong>, so the stack frame is significantly larger, compensated by the 64 MB stack reservation</td><td>Implementation characteristic</td></tr><tr><td><strong>12.8</strong></td><td><strong>The UEFI EFIAPI wrapper is not implemented</strong>: the two freestanding hooks (<code>emit_entry_point</code> / <code>no_crt_init</code>) are <strong>both empty implementations</strong> — the compiler emits no EFIAPI wrapper and does not automatically suppress the CRT / runtime linking. The entry symbol is supplied by the user</td><td><strong>Not implemented</strong></td></tr><tr><td>12.9</td><td><strong>No cross-compilation container backend</strong>: <code>--target</code> does not switch between PE / ELF output</td><td>Capability boundary</td></tr><tr><td>12.10</td><td><strong>No aarch64 / riscv64</strong>; the <code>.jhyynb</code> native binary format is still a design draft, not implemented</td><td>Not implemented</td></tr><tr><td>12.11</td><td>The SysV eightbyte width rule <strong>only holds for the 0th eightbyte</strong> — the 1st and later ones are always 8 bytes</td><td>Deviation from SysV</td></tr><tr><td>12.12</td><td>Spilled <code>f64</code> stack arguments under SysV lack 16-byte alignment</td><td>Deviation from SysV</td></tr><tr><td>12.14</td><td><strong>The Windows console UTF-8 is set by the runtime</strong>: the <code>main</code> in <code>runtime.c</code> calls <code>SetConsoleOutputCP(CP_UTF8)</code> + <code>SetConsoleCP(CP_UTF8)</code> <strong>when stdout is a console</strong>; with a pipe / redirection the code page is left alone</td><td>Implementation characteristic</td></tr></tbody></table></div>
+<blockquote class="callout"><p>§ 12.14 is the only item in this group that the <strong>user can see directly</strong>: the default OEM code page on Chinese Windows is CP936 / GBK, so the UTF-8 bytes a program <code>printf</code>s out get interpreted as GBK ⇒ the screen is full of mojibake. The runtime only switches the code page when stdout is a console, precisely to avoid this trap.</p>
+<p><strong>§ 12.8 is currently the biggest gap</strong>: the freestanding targets are marked beta not because the convention is undefined, but because <strong>the entry path is not wired up yet</strong>. The user has to supply <code>efi_main</code> or <code>_start</code> themselves.</p></blockquote>
+<hr />
+<h2 id="stability-promise">Stability promise</h2>
+<p>ABI § 9 explicitly splits into two columns:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th><strong>Locked</strong> in this version (does not change with minor / patch)</th><th><strong>May</strong> change in later versions</th></tr></thead><tbody><tr><td>The sizeof / alignof of the primitive types</td><td>The sret handling of struct / enum return values on SysV</td></tr><tr><td>The pointer width (64-bit)</td><td>The value of <code>alignof(enum)</code></td></tr><tr><td>The struct field alignment and ordering algorithm</td><td>The name mangling scheme (introducing type encoding / overload encoding)</td></tr><tr><td>The layout of the enum tag (<code>i32</code>, offset 0)</td><td>How the SysV classifier handles non-struct scalars</td></tr><tr><td>The calling convention ownership of the four targets (which target uses which convention)</td><td>The granularity of stack slot alignment</td></tr><tr><td>The basic shape of the name mangling scheme (<code>&lt;mod&gt;__&lt;name&gt;</code> / <code>&lt;Base&gt;$&lt;T&gt;</code>)</td><td></td></tr></tbody></table></div>
+<hr />
+<h2 id="the-original">The original</h2>
+<ul class='md-list'><li>ABI v4.0.0 (locked) — <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener noreferrer"><code>docs/abis/jhyy-abi-v4.0.0.md</code></a></li><li>Companion language spec v4.0.0 (locked) — <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer"><code>docs/abis/jhyy-lang-spec-v4.0.0.md</code></a></li><li>Known limitation ledger — <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener noreferrer"><code>docs/internal/workarounds.md</code></a></li><li>Binary format (design draft, not implemented) — <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md" target="_blank" rel="noopener noreferrer"><code>docs/abis/jhyy-binary-format-v1.0.0.md</code></a></li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/docs/abi.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#abi-v400">ABI v4.0.0</a><a class="anchor-l2" href="#targets-and-calling-convention">Targets and calling convention</a><a class="anchor-l3" href="#ms-x64-amd64-win-amd64-win-freestanding">MS x64 (amd64_win / amd64_win_freestanding)</a><a class="anchor-l3" href="#sysv-amd64-amd64-sysv-amd64-sysv-freestanding">SysV AMD64 (amd64_sysv / amd64_sysv_freestanding)</a><a class="anchor-l2" href="#type-layout">Type layout</a><a class="anchor-l2" href="#aggregate-argument-passing">Aggregate argument passing</a><a class="anchor-l3" href="#win">Win</a><a class="anchor-l3" href="#sysv">SysV</a><a class="anchor-l3" href="#return-values">Return values</a><a class="anchor-l3" href="#name-mangling">Name mangling</a><a class="anchor-l2" href="#program-entry-and-linking">Program entry and linking</a><a class="anchor-l3" href="#freestanding-does-not-switch-the-linking-mode">freestanding does not switch the linking mode</a><a class="anchor-l3" href="#target-abi-linking-mode">Target → ABI → linking mode</a><a class="anchor-l2" href="#ffi">FFI</a><a class="anchor-l2" href="#known-deviations-and-unimplemented-items">Known deviations and unimplemented items</a><a class="anchor-l2" href="#stability-promise">Stability promise</a><a class="anchor-l2" href="#the-original">The original</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

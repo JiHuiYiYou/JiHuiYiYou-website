@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Getting Started</title>
+  <meta name="description" content="Set up the compiler in 5 minutes and run your first program" />
+  <meta property="og:title" content="Getting Started" />
+  <meta property="og:description" content="Set up the compiler in 5 minutes and run your first program" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/docs/getting-started.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="is-active" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/docs/getting-started.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/docs/getting-started.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Getting started</h4><ul><li><a class="is-active" href="../../../en/compiler/docs/getting-started.html">Getting started</a></li><li><a class="" href="../../../en/compiler/docs/tour.html">Language tour</a></li></ul></div><div class="doc-nav-group"><h4>Language reference</h4><ul><li><a class="" href="../../../en/compiler/docs/reference.html">Reference overview</a></li><li><a class="" href="../../../en/compiler/docs/spec.html">Language spec v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/stdlib.html">Standard library</a></li></ul></div><div class="doc-nav-group"><h4>Deep dives</h4><ul><li><a class="" href="../../../en/compiler/docs/arena.html">Arena memory management</a></li><li><a class="" href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a></li></ul></div><div class="doc-nav-group"><h4>Tools and internals</h4><ul><li><a class="" href="../../../en/compiler/docs/cli.html">CLI reference</a></li><li><a class="" href="../../../en/compiler/docs/compiler.html">How the compiler works</a></li><li><a class="" href="../../../en/compiler/docs/build-and-test.html">Build and test</a></li><li><a class="" href="../../../en/compiler/docs/faq.html">FAQ</a></li></ul></div>
+
+    <div class="doc-nav-group doc-nav-external">
+      <h4>Spec sources</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">Language spec v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">Workaround ledger ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="getting-started">Getting Started</h1>
+<p>Everything below uses the <strong>release</strong> compiler. To build the compiler yourself, see <a href="../../../en/compiler/docs/build-and-test.html">Build-and-Test</a>.</p>
+<hr />
+<h2 id="1-install">1. Install</h2>
+<p><strong>The compiler runs on Windows x64.</strong> The host must be Windows (or Wine) — this is a design decision, not a flaw. But the <strong>artifacts</strong> are not limited to Windows: the SysV target produces Linux ELF.</p>
+<p>Go to <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/releases/latest" target="_blank" rel="noopener noreferrer">GitHub Releases</a> and grab the latest version:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Artifact</th><th>What it is</th></tr></thead><tbody><tr><td><code>jhyy-installer-*.exe</code></td><td>GUI installer — the compiler, <code>.jhyy</code> file association, VS Code extension, PATH</td></tr><tr><td><code>jhyy-compiler-*.msi</code></td><td>The same payload, without the GUI — for enterprise / SCCM distribution</td></tr><tr><td><code>jhyy-lang-*.vsix</code></td><td>The VS Code extension on its own</td></tr></tbody></table></div>
+<blockquote class="callout"><p><strong>Using the compiler does not require MSYS2.</strong> The toolchain now ships with it, so the installer bundles a minimal native ucrt64 toolchain. MSYS2 is only needed if you want to <strong>build the compiler from source</strong>.</p></blockquote>
+<p>Every artifact has a <code>SHA256.txt</code> checksum next to it.</p>
+<hr />
+<h2 id="2-confirm-the-install">2. Confirm the install</h2>
+<pre><code class="language-bash">jhyy --help
+</code></pre>
+<p><strong>The first line of the output is the version banner</strong> — this is how you confirm which compiler you are holding.</p>
+<blockquote class="callout"><p><strong>There is no <code>jhyy --version</code> option.</strong> It never existed. Writing it prints <code>jhyy: unknown option --version</code> (plus a <code>try jhyy --help</code> hint), then exits with code 1.</p></blockquote>
+<hr />
+<h2 id="3-your-first-program">3. Your first program</h2>
+<pre><code class="language-jhyy">// hello.jhyy
+extern fn puts(s: *u8) -&gt; i32;
+
+fn main_jhyy() -&gt; i32 {
+    puts("Hello, world!");
+    0
+}
+</code></pre>
+<pre><code class="language-bash">jhyy run hello.jhyy
+# =&gt; Hello, world!
+</code></pre>
+<blockquote class="callout warn"><p><strong>The entry point is <code>main_jhyy</code>, not <code>main</code>.</strong> A hosted program must define <code>main_jhyy</code>; its real signature is <code>main_jhyy(argc: i32, argv: *u8) -&gt; i32</code>, and <code>argc</code> / <code>argv</code> may be omitted. The C runtime's <code>main</code> does the bridging.</p></blockquote>
+<hr />
+<h2 id="4-command-line">4. Command line</h2>
+<p>Below is the <strong>verbatim output</strong> of <code>jhyy --help</code> (the help the compiler prints is in English — this is the only version of it):</p>
+<pre><code class="language-text">jhyy compiler v4.1.5 (self-hosted)
+
+usage: jhyy [--target=&lt;triple&gt;] [--no-link] &lt;command&gt; [args]
+
+commands:
+  compile &lt;file.jhyy&gt; [-o output]   compile + link -&gt; .exe (a lib without main is compiled only)
+  build   &lt;file.jhyy&gt; [-o base]     compile only -&gt; .s (no link; -o is a base name, .s appended)
+  run     &lt;file.jhyy&gt;              compile + link + execute
+  dump    &lt;file.jhyy&gt;              print the parsed AST tree (parse only; no sema/codegen)
+
+flags:
+  --target=&lt;triple&gt;  select target (default amd64_win); see targets below
+  --no-link          compile to .s only, skip the link step (required for cross targets)
+  --help             show this message and exit
+</code></pre>
+<p>In plain terms: <code>compile</code> compiles and links to a <code>.exe</code> (a library file without <code>main</code> is only compiled, not linked), <code>build</code> only compiles to <code>.s</code> (<code>-o</code> is a base name, the <code>.s</code> suffix is appended automatically), <code>run</code> compiles, links and executes, and <code>dump</code> only parses and prints the AST tree (no semantic analysis, no code generation).</p>
+<blockquote class="callout"><p><strong>These are two different "build"s.</strong> <code>jhyy build</code> means "compile one <code>.jhyy</code> into assembly"; <code>make all</code> means "build the compiler". The two are unrelated — renaming either one is a breaking change.</p></blockquote>
+<p><code>jhyy dump</code> prints the <strong>parsed AST</strong> — one node per line, children indented, every line tagged with <code>@file:line:col</code>. It stops right after parsing, so what you see is the <strong>syntax</strong>, not the compiled form.</p>
+<h3 id="target-triples">Target triples</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Triple</th><th>What it produces</th></tr></thead><tbody><tr><td><code>amd64_win</code></td><td>Hosted Windows PE/COFF — the default, and the only target this build links</td></tr><tr><td><code>amd64_win_freestanding</code></td><td>UEFI, no operating system</td></tr><tr><td><code>amd64_sysv</code></td><td>Linux SysV ABI</td></tr><tr><td><code>amd64_sysv_freestanding</code></td><td>Linux, no libc</td></tr></tbody></table></div>
+<p>The last three produce only <code>.s</code> — link them with a toolchain that matches the target. The exact steps are in <a href="../../../en/compiler/docs/build-and-test.html">Build-and-Test</a>.</p>
+<hr />
+<h2 id="5-the-traps-newcomers-hit-first">5. The traps newcomers hit first</h2>
+<p>Every item below has a full explanation in <a href="../../../en/compiler/docs/faq.html">FAQ</a>.</p>
+<ul class='md-list'><li><strong>The exit code looks wrong.</strong> MSYS2 bash truncates the exit code to 8 bits (<code>value &amp; 0xFF</code>). Use the harness or Python <code>subprocess</code> to get the exit code; don't read <code>$?</code>.</li><li><strong>Only one input file is accepted.</strong> <code>jhyy compile main.jhyy lib.jhyy</code> compiles <strong>only</strong> <code>main.jhyy</code>, and the second argument is silently ignored. For several files use <code>import lib;</code>.</li><li><strong>Cross targets refuse to link.</strong> Add <code>--no-link</code> and link the <code>.s</code> yourself.</li><li><strong>There is no <code>std::</code> prefix.</strong> <code>import std::vec;</code> is a compile error — the correct form is <code>import vec;</code>.</li><li><strong>A string literal is already a <code>*u8</code>.</strong> No conversion is needed; <code>let s: [*]u8 = &quot;x&quot;;</code> is a type error.</li></ul>
+<hr />
+<h2 id="6-whats-next">6. What's next</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/docs/tour.html">Language-Tour</a> — the whole language in one pass.</li><li><a href="../../../en/compiler/docs/build-and-test.html">Build-and-Test</a> — build the compiler, run the tests, the gates.</li><li><a href="../../../en/compiler/docs/compiler.html">Architecture</a> — how the compiler is put together internally.</li><li><a href="../../../en/compiler/docs/faq.html">FAQ</a> — frequently asked questions.</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">Language spec</a> — the authoritative definition (locked; the known limitations are in its appendix B).</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/docs/getting-started.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#getting-started">Getting Started</a><a class="anchor-l2" href="#1-install">1. Install</a><a class="anchor-l2" href="#2-confirm-the-install">2. Confirm the install</a><a class="anchor-l2" href="#3-your-first-program">3. Your first program</a><a class="anchor-l2" href="#4-command-line">4. Command line</a><a class="anchor-l3" href="#target-triples">Target triples</a><a class="anchor-l2" href="#5-the-traps-newcomers-hit-first">5. The traps newcomers hit first</a><a class="anchor-l2" href="#6-whats-next">6. What&#x27;s next</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

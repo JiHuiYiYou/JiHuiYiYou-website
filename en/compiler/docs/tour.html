@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Language Tour</title>
+  <meta name="description" content="A quick look at the shape of the language: types, procedures, modules, FFI" />
+  <meta property="og:title" content="Language Tour" />
+  <meta property="og:description" content="A quick look at the shape of the language: types, procedures, modules, FFI" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/docs/tour.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="is-active" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/docs/tour.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/docs/tour.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Getting started</h4><ul><li><a class="" href="../../../en/compiler/docs/getting-started.html">Getting started</a></li><li><a class="is-active" href="../../../en/compiler/docs/tour.html">Language tour</a></li></ul></div><div class="doc-nav-group"><h4>Language reference</h4><ul><li><a class="" href="../../../en/compiler/docs/reference.html">Reference overview</a></li><li><a class="" href="../../../en/compiler/docs/spec.html">Language spec v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/stdlib.html">Standard library</a></li></ul></div><div class="doc-nav-group"><h4>Deep dives</h4><ul><li><a class="" href="../../../en/compiler/docs/arena.html">Arena memory management</a></li><li><a class="" href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a></li></ul></div><div class="doc-nav-group"><h4>Tools and internals</h4><ul><li><a class="" href="../../../en/compiler/docs/cli.html">CLI reference</a></li><li><a class="" href="../../../en/compiler/docs/compiler.html">How the compiler works</a></li><li><a class="" href="../../../en/compiler/docs/build-and-test.html">Build and test</a></li><li><a class="" href="../../../en/compiler/docs/faq.html">FAQ</a></li></ul></div>
+
+    <div class="doc-nav-group doc-nav-external">
+      <h4>Spec sources</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">Language spec v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">Workaround ledger ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="language-tour">Language Tour</h1>
+<p>This is a tour, not the spec. The <strong>language spec</strong> is the authority — it is locked, and the known limitations are collected in its appendix B: <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">spec</a>.</p>
+<hr />
+<h2 id="the-overall-shape-of-the-language">The overall shape of the language</h2>
+<p><strong>Statically typed. Expression-oriented. Compiled to native code.</strong></p>
+<pre><code class="language-jhyy">type Point = struct { x: i32, y: i32 }
+
+fn dist_sq(a: Point, b: Point) -&gt; i32 {
+    let dx = a.x - b.x;
+    let dy = a.y - b.y;
+    dx * dx + dy * dy
+}
+
+fn classify(n: i32) -&gt; *u8 {
+    match n {
+        0        =&gt; "zero",
+        1..10    =&gt; "single digit",
+        10 | 20  =&gt; "round number",
+        _        =&gt; "other",
+    }
+}
+
+extern fn printf(fmt: *u8, val: i32) -&gt; i32;
+
+fn main_jhyy() -&gt; i32 {
+    let p = Point { x: 3, y: 4 };
+    let q = Point { x: 0, y: 0 };
+    printf("d² = %d\n", dist_sq(p, q));
+    printf("%s\n", classify(42));
+    0
+}
+</code></pre>
+<p>Three things are worth noting:</p>
+<ul class='md-list'><li>A function body is an <strong>expression</strong> — the last expression is the return value.</li><li><code>if</code>, <code>match</code> and blocks are values themselves, not just statements.</li><li>A string literal <strong>is</strong> a <code>*u8</code> (NUL-terminated UTF-8 bytes in the <code>.data</code> section); no conversion is needed.</li></ul>
+<hr />
+<h2 id="what-is-supported">What is supported</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Category</th><th>Supported</th></tr></thead><tbody><tr><td><strong>Types</strong></td><td><code>i8/i16/i32/i64</code>, <code>u8/u16/u32/u64</code>, <code>f32/f64</code>, <code>bool</code>, <code>*T</code>, <code>[T; N]</code>, <code>[*]T</code> (slices), <code>struct</code>, <code>enum</code>, <code>Cap&lt;T&gt;</code>, <code>PhantomData&lt;T&gt;</code></td></tr><tr><td><strong>Size</strong></td><td><code>sizeof(T)</code> / <code>alignof(T)</code> — compile-time constants</td></tr><tr><td><strong>Conversion</strong></td><td><code>as</code> — integer/float conversion, widening/narrowing, <code>*T ↔ i64/u64</code></td></tr><tr><td><strong>Control flow</strong></td><td><code>if</code>/<code>else</code> (with a value), <code>while</code>, <code>for i in start..end</code>, <code>break</code>, <code>continue</code>, <code>match</code> (literal/range/enum/wildcard, with exhaustiveness checking)</td></tr><tr><td><strong>Cleanup</strong></td><td><code>defer</code> — runs LIFO on scope exit; does not run on an implicit tail return</td></tr><tr><td><strong>Top-level constants</strong></td><td><code>const NAME: [T; N] = [...]</code> — emitted into the <code>.data</code> section at compile time</td></tr><tr><td><strong>Logic</strong></td><td><code>&amp;&amp;</code> / `\</td></tr><tr><td><strong>Functions</strong></td><td>first-class functions, recursion, compound assignment (<code>+=</code> <code>-=</code> <code>*=</code> <code>/=</code> <code>%=</code>), block-expression closures (they cannot capture — capturing is a compile error)</td></tr><tr><td><strong>Modules</strong></td><td><code>import</code> + transitive imports, multi-file CLI, <code>mod::fn()</code> namespace</td></tr><tr><td><strong>FFI</strong></td><td><code>extern fn</code> calling into C (printf, file I/O, multiple arguments)</td></tr><tr><td><strong>OS / embedded</strong></td><td><code>#[no_std]</code>, <code>#[naked]</code>, <code>#[link_section]</code>, <code>volatile</code>, inline <code>asm!</code>, memory barriers</td></tr><tr><td><strong>Standard library</strong></td><td><code>import mem;</code> / <code>fmt</code> / <code>io</code> / <code>math</code> / <code>string</code> / <code>vec</code> / <code>os</code> / <code>arena</code> — <strong>note: no <code>std::</code> prefix</strong></td></tr></tbody></table></div>
+<h3 id="four-capabilities-that-are-most-often-misread">Four capabilities that are most often misread</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Capability</th><th>Status</th><th>What it actually means</th></tr></thead><tbody><tr><td><code>[*]T</code> (slice)</td><td>Available</td><td>It is a <strong>view</strong> over an array — writes go back to the original array, and indexing <strong>is not bounds-checked</strong></td></tr><tr><td><code>PhantomData&lt;T&gt;</code></td><td>Type level only</td><td>Legal as a struct field; but instantiating it is a compile error</td></tr><tr><td><code>asm!</code></td><td>Restricted</td><td><strong>It must be a string literal</strong> — no operand constraints, no clobbers; AT&T syntax, x86-64 only</td></tr><tr><td><code>Cap&lt;T&gt;</code></td><td>Layout only</td><td>The 8-byte layout is fixed and testable, but you cannot construct a value yet — real capability semantics are on the roadmap</td></tr></tbody></table></div>
+<hr />
+<h2 id="modules-and-the-standard-library">Modules and the standard library</h2>
+<p><code>import</code> pulls in a module. <strong>There is no <code>std::</code> prefix</strong> — <code>import std::vec;</code> is a compile error.</p>
+<pre><code class="language-jhyy">import io;
+
+extern fn puts(s: *u8) -&gt; i32;
+
+fn main_jhyy() -&gt; i32 {
+    io::std_io_print("hello from the JHYY stdlib\n");
+    puts("and from libc, through extern fn");
+    0
+}
+</code></pre>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Module</th><th>What it provides</th></tr></thead><tbody><tr><td><code>mem</code></td><td><code>mem_copy</code> / <code>mem_set</code> / <code>mem_zero</code> / <code>mem_compare</code> / <code>mem_find_byte</code></td></tr><tr><td><code>fmt</code></td><td><code>fmt_i32</code> / <code>fmt_i64</code> / <code>fmt_str</code> / <code>fmt_hex_u32</code> — format into a byte buffer</td></tr><tr><td><code>io</code></td><td>file I/O (<code>std_io_open</code> / <code>std_io_read</code> / <code>std_io_write</code> / <code>std_io_close</code>) + <code>std_io_print</code> / <code>std_io_print_err</code></td></tr><tr><td><code>math</code></td><td><code>std_math_sin</code> / <code>std_math_cos</code> / <code>std_math_sqrt</code> / <code>std_math_pow</code></td></tr><tr><td><code>string</code></td><td>length-prefixed strings: <code>str_from_cstr</code> / <code>str_concat</code> / <code>str_find</code> / <code>str_len</code></td></tr><tr><td><code>vec</code></td><td><code>std_vec_new</code> / <code>std_vec_push</code> / <code>std_vec_get</code> — a byte vector, <strong>generic elements are not possible yet</strong></td></tr><tr><td><code>os</code></td><td>raw POSIX / Win32 file descriptors + <code>getenv</code></td></tr><tr><td><code>arena</code></td><td>bump allocator: <code>arena_init</code> / <code>arena_alloc</code> / <code>arena_reset</code></td></tr></tbody></table></div>
+<hr />
+<h2 id="talking-to-c">Talking to C</h2>
+<pre><code class="language-jhyy">extern fn printf(fmt: *u8, val: i32) -&gt; i32;
+</code></pre>
+<p><code>extern fn</code> calls C functions under the C ABI. Two things to remember:</p>
+<ul class='md-list'><li><strong>There is no variadic form.</strong> Every C argument has to be written out one by one.</li><li><strong>Argument types are not checked against the C signature.</strong> Write it wrong and it still compiles; the problem only shows up at runtime.</li></ul>
+<p>For struct layout and calling convention see the <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener noreferrer">ABI whitepaper</a>.</p>
+<hr />
+<h2 id="memory">Memory</h2>
+<p><strong>There is no garbage collection and no RAII.</strong> Memory is yours to manage:</p>
+<ul class='md-list'><li>explicit pointers (<code>*T</code>), and manual allocation through the runtime's arena or your own allocator;</li><li>if you want, <code>defer</code> for scope-exit cleanup — it runs LIFO (but not on an implicit tail return);</li><li>the standard library has <code>arena</code>; use it directly where it fits.</li></ul>
+<p>This is a deliberate choice: the language targets systems work, where a predictable memory model matters more than convenience.</p>
+<hr />
+<h2 id="what-is-not-there-yet">What is <strong>not</strong> there yet</h2>
+<p>Listed honestly — the project is pre-1.0 and says so itself:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>You want to…</th><th>Today</th></tr></thead><tbody><tr><td>Use generics with traits</td><td>Not yet — queued behind the OS line</td></tr><tr><td>Use closures that capture variables</td><td>Not yet — capturing is a compile error today</td></tr><tr><td>Print floating-point numbers</td><td>Not yet — <code>fmt</code> has no float formatting</td></tr><tr><td>Target aarch64 / riscv64</td><td>Not yet — x86-64 only</td></tr><tr><td>Put it into production</td><td>Not yet — the spec is still moving</td></tr></tbody></table></div>
+<p>The authoritative list (with versions) is in the repository's <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer">FACTS.md</a>; the item-by-item limitations are in appendix B of the spec.</p>
+<hr />
+<h2 id="whats-next">What's next</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/docs/build-and-test.html">Build-and-Test</a> — write something and verify it.</li><li><a href="../../../en/compiler/docs/faq.html">FAQ</a> — frequently asked questions about the language.</li><li><a href="../../../en/compiler/docs/compiler.html">Architecture</a> — where the source goes after the parser.</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/docs/tour.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#language-tour">Language Tour</a><a class="anchor-l2" href="#the-overall-shape-of-the-language">The overall shape of the language</a><a class="anchor-l2" href="#what-is-supported">What is supported</a><a class="anchor-l3" href="#four-capabilities-that-are-most-often-misread">Four capabilities that are most often misread</a><a class="anchor-l2" href="#modules-and-the-standard-library">Modules and the standard library</a><a class="anchor-l2" href="#talking-to-c">Talking to C</a><a class="anchor-l2" href="#memory">Memory</a><a class="anchor-l2" href="#what-is-not-there-yet">What is not there yet</a><a class="anchor-l2" href="#whats-next">What&#x27;s next</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>How the compiler works</title>
+  <meta name="description" content="How the compiler is put together: frontend → IL → amd64 backend → the self-hosting closed loop" />
+  <meta property="og:title" content="How the compiler works" />
+  <meta property="og:description" content="How the compiler is put together: frontend → IL → amd64 backend → the self-hosting closed loop" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/docs/compiler.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="is-active" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/docs/compiler.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/docs/compiler.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Getting started</h4><ul><li><a class="" href="../../../en/compiler/docs/getting-started.html">Getting started</a></li><li><a class="" href="../../../en/compiler/docs/tour.html">Language tour</a></li></ul></div><div class="doc-nav-group"><h4>Language reference</h4><ul><li><a class="" href="../../../en/compiler/docs/reference.html">Reference overview</a></li><li><a class="" href="../../../en/compiler/docs/spec.html">Language spec v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/stdlib.html">Standard library</a></li></ul></div><div class="doc-nav-group"><h4>Deep dives</h4><ul><li><a class="" href="../../../en/compiler/docs/arena.html">Arena memory management</a></li><li><a class="" href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a></li></ul></div><div class="doc-nav-group"><h4>Tools and internals</h4><ul><li><a class="" href="../../../en/compiler/docs/cli.html">CLI reference</a></li><li><a class="is-active" href="../../../en/compiler/docs/compiler.html">How the compiler works</a></li><li><a class="" href="../../../en/compiler/docs/build-and-test.html">Build and test</a></li><li><a class="" href="../../../en/compiler/docs/faq.html">FAQ</a></li></ul></div>
+
+    <div class="doc-nav-group doc-nav-external">
+      <h4>Spec sources</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">Language spec v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">Workaround ledger ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="architecture">Architecture</h1>
+<p>How the compiler is put together, and why the self-hosted closed loop sits at the center of the whole design.</p>
+<p>The in-repository document is <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/architecture.md" target="_blank" rel="noopener noreferrer">docs/internal/architecture.md</a>; this page is the guided tour version.</p>
+<hr />
+<h2 id="pipeline">Pipeline</h2>
+<pre class="mermaid">flowchart TB
+    src[".jhyy source"] --&gt; lex["Lexer → token stream"]
+    lex --&gt; parse["Parser → AST"]
+    parse --&gt; sema["Sema → annotated AST"]
+    sema --&gt; il["codegen.jhyy&lt;br/&gt;generates the IL text into memory&lt;br/&gt;(JHYY's own format, QBE-style syntax)"]
+    il --&gt; sb["codegen_amd64_inmem&lt;br/&gt;lex → parse → emit → peephole"]
+    sb --&gt; asm[".s (amd64)"]
+    asm --&gt; ln["as + ld (gcc)&lt;br/&gt;(Windows host only)"]
+    ln --&gt; exe[".exe (PE/COFF) / ELF"]
+</pre>
+<p>Every stage is written in JHYY. There is no C bootstrap compiler in the tree — the compiler that compiles the compiler is the compiler itself.</p>
+<hr />
+<h2 id="the-self-hosting-closed-loop">The self-hosting closed loop</h2>
+<p>This is the most unusual part of the project, so it is worth stating precisely <strong>what it proves</strong> and <strong>what it does not prove</strong>.</p>
+<pre><code>   src0/*.jhyy  ──compiled──▶  jhyy.exe  (generation 1)
+                                   │
+                                   └──compiled──▶  jhyy.exe  (generation 2)
+                                                        │
+                                                        └── .s byte-identical? ──▶ yes ⇒ fixed point
+</code></pre>
+<p><code>make</code> keeps iterating this loop until two consecutive generations produce <strong>byte-identical</strong> assembly. Three consequences have to be kept apart:</p>
+<ul class='md-list'><li><strong>The fixed point is run, not assumed.</strong> The build keeps iterating; it does not stop at generation 2 and then hope for the best.</li><li><strong>What it proves is determinism, not correctness.</strong> A deterministic <strong>wrong</strong> compiler can close the loop perfectly. This is the classic "trusting trust" gap. Semantic correctness is covered by a different gate: the regression suite.</li><li><strong>This is a release-grade property.</strong> Changing compiler source shifts module-level temporary numbering and makes the self-hosted build drift — so such a change has to pull the whole release process along (regression suite, closed-loop refresh, artifact refresh), not just a recompile.</li></ul>
+<hr />
+<h2 id="intermediate-representation">Intermediate representation</h2>
+<p>The IL is <strong>JHYY's own format</strong>. It borrowed QBE's <strong>syntax</strong> as a starting point, but no QBE code is vendored, linked, or executed — QBE was removed from the project entirely, and the self-written backend is the only code generation path.</p>
+<p>The IL is generated into <strong>memory</strong> rather than into a file, and deliberately keeps a textual shape: readable, diffable, and easy to look at directly when something goes wrong. (<code>jhyy dump</code> prints the parsed AST for the same reason — during development, being able to look at the intermediate shape directly is worth a lot.)</p>
+<hr />
+<h2 id="backend">Backend</h2>
+<p>The amd64 backend is made of a set of single-responsibility modules:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Module</th><th>Responsibility</th></tr></thead><tbody><tr><td><code>codegen_amd64_lexer</code></td><td>Lex the IL text</td></tr><tr><td><code>codegen_amd64_state</code></td><td>The emitter's state machine</td></tr><tr><td><code>codegen_amd64_emit_call</code></td><td>Calls, arguments, register classes</td></tr><tr><td><code>codegen_amd64_emit_ctrl</code></td><td>Branches, comparisons, control flow</td></tr><tr><td><code>codegen_amd64_emit_mem</code></td><td>Loads, stores, addressing modes</td></tr><tr><td><code>codegen_amd64_emit_sse</code></td><td>Floating point and SSE</td></tr><tr><td><code>codegen_amd64_peephole</code></td><td>Peephole optimization over the already emitted assembly</td></tr><tr><td><code>codegen_amd64_rcache</code></td><td>Register cache</td></tr><tr><td><code>codegen_amd64_regalloc</code></td><td>Register allocation</td></tr><tr><td><code>codegen_amd64_xmm_argalloc</code></td><td>Argument passing in vector registers</td></tr><tr><td><code>codegen_amd64_inmem</code></td><td>The driver that ties all of the above together</td></tr></tbody></table></div>
+<p>Register allocation is the current main line of work, and it lands at the <strong>emit layer</strong>: the emitter consumes registers directly, while the allocator's output is required to keep the generated code byte-identical as it is brought in.</p>
+<hr />
+<h2 id="target-triples">Target triples</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Triple</th><th>ABI</th><th>Notes</th></tr></thead><tbody><tr><td><code>amd64_win</code></td><td>x86-64-w64-mingw32</td><td>hosted Windows — the default</td></tr><tr><td><code>amd64_win_freestanding</code></td><td>x86-64-w64-none</td><td>UEFI, no operating system</td></tr><tr><td><code>amd64_sysv</code></td><td>x86-64-linux-none</td><td>Linux SysV ABI</td></tr><tr><td><code>amd64_sysv_freestanding</code></td><td>x86-64-linux-none-freestanding</td><td>static, no libc</td></tr></tbody></table></div>
+<p>The three non-default targets only produce <code>.s</code> — the bundled linker is the Windows linker, and using it to link a foreign ABI produces a binary that crashes on its first libc call. So the compiler now <strong>refuses</strong> to link cross targets: add <code>--no-link</code> and link it yourself with a matching toolchain.</p>
+<hr />
+<h2 id="runtime">Runtime</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Piece</th><th>Responsibility</th></tr></thead><tbody><tr><td><code>compiler/runtime/runtime.c</code></td><td>C support library — the arena allocator, and the <code>main</code> → <code>main_jhyy</code> bridge</td></tr><tr><td><code>compiler/runtime/no_std_core/</code></td><td>The freestanding core for <code>no_std</code> targets</td></tr><tr><td><code>runtime/linux_elf/</code></td><td><code>crt0.S</code> + <code>link.ld</code> — a static, libc-free Linux ELF runtime</td></tr></tbody></table></div>
+<p>The runtime is deliberately tiny: a language that ships with a large managed runtime is not a systems language. The plan is to replace the remaining part of the C support library with pure JHYY.</p>
+<hr />
+<h2 id="source-layout">Source layout</h2>
+<pre><code>compiler/
+├── src0/                     the compiler — the only implementation
+│   ├── std/                  standard library (mem / fmt / io / math / string / vec / os / arena)
+│   └── codegen_amd64_*.jhyy  self-written backend
+├── runtime/                  C support library + freestanding core
+├── tests/
+│   ├── examples/             regression cases, driven by regress.py
+│   └── bootstrap/            closure / fixed point / artifact check scripts
+└── build/bin/                the compiled compiler and its self-hosted copy
+
+runtime/linux_elf/            Linux ELF runtime (crt0.S + link.ld)
+bench/                        benchmark suite and measurement methodology
+regress.py                    the regression driver (repository root)
+mcp-jhyy/                     the MCP service for AI coding assistants
+vscode-ext/                   VS Code extension
+installer/                    Windows installer and bundled toolchain
+docs/                         specs, in-repo documents, plans, changelog
+</code></pre>
+<hr />
+<h2 id="next">Next</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/docs/build-and-test.html">Build-and-Test</a> — building, testing, and the gates.</li><li><a href="../../../en/compiler/docs/faq.html">FAQ</a> — questions about the design.</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/architecture.md" target="_blank" rel="noopener noreferrer">Architecture overview (in the repository)</a> — the detailed version, with a module dependency graph.</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/docs/compiler.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#architecture">Architecture</a><a class="anchor-l2" href="#pipeline">Pipeline</a><a class="anchor-l2" href="#the-self-hosting-closed-loop">The self-hosting closed loop</a><a class="anchor-l2" href="#intermediate-representation">Intermediate representation</a><a class="anchor-l2" href="#backend">Backend</a><a class="anchor-l2" href="#target-triples">Target triples</a><a class="anchor-l2" href="#runtime">Runtime</a><a class="anchor-l2" href="#source-layout">Source layout</a><a class="anchor-l2" href="#next">Next</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

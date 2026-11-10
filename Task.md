@@ -9,22 +9,17 @@
 
 ---
 
-## 下一轮（i18n 第二阶段）
+## 下一轮
 
-### 1. 文档层 24 页的英文版
+**队列是空的。** 上一轮的四项都已完成：
 
-- **要做什么**：`content/en/compiler/{docs,download,community,governance}/**` 逐页译；
-  译完删掉 `tools/i18n.py` 的 `TWIN_EXEMPT_PREFIXES` 四行。
-- **归属**：官网仓（`content/en/**`）。
-- **判据**：`python tools/check_twins.py` 在豁免名单清空后仍全绿；
-  `python tools/check_i18n.py` 无 CJK 报错；中英逐页字段对拍一致。
+- 三个项目页（IDE / OS / for-VEX）的门脸结构重做 —— 已完成（中英同构）；
+- 编译器落地页 12 屏按「一屏一主题」收一遍 —— 已完成；
+- 文档层 24 页的英文版 —— 已完成，**28 个 route 全部双语**，
+  `i18n.TWIN_EXEMPT_PREFIXES` 已清空；
+- 仓库 `README.md` 改英文 + `README.zh-CN.md` —— 已完成。
 
-### 2. 仓库 `README.md` 改英文 + 补 `README.zh-CN.md`
-
-- **要做什么**：家族规约要求对外门面用英文，本仓 `README.md` 现在是中文。
-- **归属**：官网仓。
-- **判据**：`README.md` 全文英文；`README.zh-CN.md` 与之同步；
-  两份是互译关系，不是互补关系。
+下一个候选在下面「二期候选」里；**要开始新的一轮，先在这里写下要做什么。**
 
 ---
 
@@ -33,7 +28,7 @@
 > 事实门（`tools/check_facts.py`）会在编译器仓发版后**当场变红** —— 它比编译器仓
 > 的 main 慢一步的那一次，就是官网还没跟上的证据。
 
-### 3. 刷版本、镜像产物、改掉「已修却仍写成缺口」的表述
+### 1. 刷版本、镜像产物、改掉「已修却仍写成缺口」的表述
 
 - **要做什么**（每次发版照这个单子走）：
   1. `tools/siteconfig.py` 的 `SITE_VERSION` / `SITE_VERSION_DATE` ——
@@ -51,7 +46,7 @@
 - **顺带**：版本耦合的位置（下载页的文件名与 URL、校验页的命令、参考页的版本句）
   已改成 `{{site_version}}` 占位符 ⇒ 下次发版这几页不用再动。
 
-### 4. 跨仓发版后：人工核 IDE / OS / for-VEX 的事实（**没有门对拍**）
+### 2. 跨仓发版后：人工核 IDE / OS / for-VEX 的事实（**没有门对拍**）
 
 - **要做什么**：事实门只对拍**编译器仓**的 `FACTS.md`；`ide_version` /
   `ide_gate_*` / `os_spike_measured` / `vex_baseline_*` 这几条来自**另外三个仓**，

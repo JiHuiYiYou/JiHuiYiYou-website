@@ -165,14 +165,12 @@ TWIN_REQUIRED = [
     "vex/index",
 ]
 
-# 豁免前缀 —— 这些 route 目前只有中文。**下一轮删掉这四行**，
-# 门逻辑一行不用动（规则是前缀驱动的）。
-TWIN_EXEMPT_PREFIXES = [
-    "compiler/docs/",
-    "compiler/download/",
-    "compiler/community/",
-    "compiler/governance/",
-]
+# 豁免前缀 —— **空**。文档层 24 页已全部译出（2026-11-10），
+# 以前那四行（compiler/docs/ download/ community/ governance/）在这里，
+# 现在删掉了 ⇒ **全站每一页都必须有中英两版**，加新页面没有豁免可钻。
+#
+# 规则是前缀驱动的：将来若真要豁免某一段，加回前缀即可，门逻辑一行不用动。
+TWIN_EXEMPT_PREFIXES: list[str] = []
 
 # ── 字面量事实 lint 的契约 ────────────────────────────────────────────────
 # 这些字符串在本站没有别的含义 ⇒ 出现在正文里几乎一定是「手写了事实」。

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Docs home</title>
+  <meta name="description" content="JHYY docs home — start here" />
+  <meta property="og:title" content="Docs home" />
+  <meta property="og:description" content="JHYY docs home — start here" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/docs/index.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="is-active" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/docs/index.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/docs/index.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Getting started</h4><ul><li><a class="" href="../../../en/compiler/docs/getting-started.html">Getting started</a></li><li><a class="" href="../../../en/compiler/docs/tour.html">Language tour</a></li></ul></div><div class="doc-nav-group"><h4>Language reference</h4><ul><li><a class="" href="../../../en/compiler/docs/reference.html">Reference overview</a></li><li><a class="" href="../../../en/compiler/docs/spec.html">Language spec v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/stdlib.html">Standard library</a></li></ul></div><div class="doc-nav-group"><h4>Deep dives</h4><ul><li><a class="" href="../../../en/compiler/docs/arena.html">Arena memory management</a></li><li><a class="" href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a></li></ul></div><div class="doc-nav-group"><h4>Tools and internals</h4><ul><li><a class="" href="../../../en/compiler/docs/cli.html">CLI reference</a></li><li><a class="" href="../../../en/compiler/docs/compiler.html">How the compiler works</a></li><li><a class="" href="../../../en/compiler/docs/build-and-test.html">Build and test</a></li><li><a class="" href="../../../en/compiler/docs/faq.html">FAQ</a></li></ul></div>
+
+    <div class="doc-nav-group doc-nav-external">
+      <h4>Spec sources</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">Language spec v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">Workaround ledger ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="jhyy-机会翼游-wiki">JHYY (机会翼游) — Wiki</h1>
+<p><strong>A self-hosted, statically typed, expression-oriented systems programming language.</strong></p>
+<p>This wiki is the long-form version of the repository README: guides, a tour, and the answers to the questions that keep coming back. The README is the map; this is the walkthrough.</p>
+<blockquote class="callout"><p><strong>Nothing here is the source of truth — the repository is.</strong> Numbers, schedules, and known limitations change; this wiki is only <strong>a guide to where the truth lives</strong>. Every page points at the document that actually owns that fact. If a wiki page conflicts with a repository document, <strong>the document wins</strong> — please open an issue and we will fix the page.</p></blockquote>
+<hr />
+<h2 id="start-here">Start here</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>You want to…</th><th>Go to</th></tr></thead><tbody><tr><td>Install the compiler and run your first program</td><td><a href="../../../en/compiler/docs/getting-started.html">Getting-Started</a></td></tr><tr><td>Learn the language</td><td><a href="../../../en/compiler/docs/tour.html">Language-Tour</a></td></tr><tr><td>Build the compiler from source and run the tests</td><td><a href="../../../en/compiler/docs/build-and-test.html">Build-and-Test</a></td></tr><tr><td>Understand how the compiler is put together</td><td><a href="../../../en/compiler/docs/compiler.html">Architecture</a></td></tr><tr><td>Find the answer to a recurring question</td><td><a href="../../../en/compiler/docs/faq.html">FAQ</a></td></tr><tr><td>Contribute a fix or a feature</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">CONTRIBUTING.md</a></td></tr><tr><td>Report a security issue</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">SECURITY.md</a></td></tr></tbody></table></div>
+<hr />
+<h2 id="the-project-in-one-paragraph">The project in one paragraph</h2>
+<p>JHYY is a systems programming language <strong>written in itself</strong>. <code>compiler/src0/*.jhyy</code> is the compiler's only implementation — there is no bootstrap C compiler in the tree, and no vendored backend. The compiler compiles itself first, then lets the compiler it produced compile itself again, and the gate requires that the assembly the two generations produce is <strong>byte-identical</strong>. The fixed point is <strong>run</strong>, not assumed.</p>
+<p>The backend is a <strong>self-written amd64 code generator</strong>. It emits PE/COFF on Windows and ELF on Linux. There is no LLVM, no QBE, no garbage collection, and no managed runtime; the bundled runtime is only a very small C support library.</p>
+<p>For the full version, read the <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/README.md" target="_blank" rel="noopener noreferrer">README</a> (the Chinese version is <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/README.zh-CN.md" target="_blank" rel="noopener noreferrer">README.zh-CN.md</a>).</p>
+<hr />
+<h2 id="three-things-that-are-different">Three things that are different</h2>
+<ol class='md-list'><li><strong>The self-hosting is verified.</strong> Not "the compiler can compile itself", but "the second generation is byte-identical to the first" — checked on every build, and the result is published along with every release.</li><li><strong>No vendored backend.</strong> The amd64 code generator is JHYY's own code. The intermediate representation it consumes is also JHYY's own format: it borrowed QBE's <strong>syntax</strong> as a starting point, but no QBE code is vendored, linked, or executed.</li><li><strong>No GC, no managed runtime.</strong> Explicit pointers, a predictable C-like ABI, and a <code>no_std</code> mode for freestanding targets.</li></ol>
+<hr />
+<h2 id="where-the-truth-lives">Where the truth lives</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Question</th><th>Document</th></tr></thead><tbody><tr><td>Current version, regression baseline, schedule</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer"><code>docs/internal/FACTS.md</code></a> — the single source of truth for every number that changes</td></tr><tr><td>How to write <code>.jhyy</code></td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">Language spec</a> (locked)</td></tr><tr><td>FFI, struct layout, calling convention</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener noreferrer">ABI whitepaper</a> (locked)</td></tr><tr><td>Known compiler defects and workarounds</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener noreferrer">workaround ledger</a></td></tr><tr><td>How the compiler is put together</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/architecture.md" target="_blank" rel="noopener noreferrer">Architecture overview</a></td></tr><tr><td>How to build, test, and release</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/build.md" target="_blank" rel="noopener noreferrer">Build and run</a></td></tr><tr><td>What changed in each version</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md" target="_blank" rel="noopener noreferrer">CHANGELOG.md</a></td></tr><tr><td>The current plan, laid out by version</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/docs/plans/v4" target="_blank" rel="noopener noreferrer"><code>docs/plans/v4/</code></a></td></tr></tbody></table></div>
+<hr />
+<h2 id="how-this-wiki-is-maintained">How this wiki is maintained</h2>
+<p>The wiki is a <strong>hand-written companion document</strong>, not a generated artifact — its order of explanation differs from the repository's, and it is allowed to be more conversational. Three rules keep it honest:</p>
+<ol class='md-list'><li><strong>It does not repeat numbers.</strong> A wiki page that copies down a version, a count, or a size is wrong the day after it is written. The page instead points at the document that owns that number.</li><li><strong>It does not repeat the ledger.</strong> Known limitations live in Appendix B of the language spec and in the public workaround ledger; the wiki only points the way.</li><li><strong>Corrections are welcome.</strong> If a page conflicts with the repository, the repository is right — open an issue and say which page is out of date.</li></ol>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/docs/index.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#jhyy-机会翼游-wiki">JHYY (机会翼游) — Wiki</a><a class="anchor-l2" href="#start-here">Start here</a><a class="anchor-l2" href="#the-project-in-one-paragraph">The project in one paragraph</a><a class="anchor-l2" href="#three-things-that-are-different">Three things that are different</a><a class="anchor-l2" href="#where-the-truth-lives">Where the truth lives</a><a class="anchor-l2" href="#how-this-wiki-is-maintained">How this wiki is maintained</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

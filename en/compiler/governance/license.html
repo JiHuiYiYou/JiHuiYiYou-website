@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>License</title>
+  <meta name="description" content="The exact terms of the MIT license, and the licensing status of each repository" />
+  <meta property="og:title" content="License" />
+  <meta property="og:description" content="The exact terms of the MIT license, and the licensing status of each repository" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/governance/license.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="is-active" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/governance/license.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/governance/license.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Governance</h4><ul><li><a class="" href="../../../en/compiler/governance/index.html">Governance overview</a></li><li><a class="is-active" href="../../../en/compiler/governance/license.html">License</a></li><li><a class="" href="../../../en/compiler/governance/repo-map.html">Repository map</a></li></ul></div><div class="doc-nav-group"><h4>Process</h4><ul><li><a class="" href="../../../en/compiler/governance/index.html">RFC process</a></li><li><a class="" href="../../../en/compiler/governance/index.html">Release cadence</a></li><li><a class="" href="../../../en/compiler/community/contributing.html">Contributing</a></li></ul></div>
+
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="license">License</h1>
+<p>Three of the four repositories use MIT; one still has no license file. This page covers two things: what the exact terms of MIT are, and what state each repository is actually in.</p>
+<hr />
+<h2 id="the-terms-of-mit">The terms of MIT</h2>
+<p>All of them use the official MIT template, and the copyright line is <code>Copyright (c) 2026 JHYY</code> — the attribution holder is the project name, not an individual.</p>
+<h3 id="what-is-allowed">What is allowed</h3>
+<p>Whoever obtains a copy of the software and the documentation may <strong>freely</strong> use, copy, modify, merge, publish, distribute, sublicense, and sell those copies, <strong>without any restriction</strong> ("without restriction"). Those seven verbs are the scope of the grant; there are no additional conditions.</p>
+<h3 id="what-is-required">What is required</h3>
+<p><strong>The one and only requirement</strong>: the above copyright notice and this permission notice must be included in all copies or substantial portions of the Software ("The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software").</p>
+<p>In other words: you may change the code, you may change file names, you may distribute closed source, you may use it commercially — as long as that copyright notice and permission notice <strong>travel with it</strong>.</p>
+<h3 id="what-is-not-guaranteed">What is not guaranteed</h3>
+<p>The software is provided "as is", <strong>without warranty of any kind</strong>, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and non-infringement; the author or copyright holder shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages.</p>
+<h3 id="what-mit-does-not-cover">What MIT does not cover</h3>
+<ul class='md-list'><li>No requirement to declare which modifications you made</li><li>No express patent grant</li><li>No interoperability exception (unlike GPL, which spells out which licenses it is compatible with)</li><li><strong>No trademark rights are granted</strong> (see the last section)</li></ul>
+<hr />
+<h2 id="licensing-status-of-the-four-repositories">Licensing status of the four repositories</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Repository</th><th>License file</th><th>Copyright line</th><th>Status</th></tr></thead><tbody><tr><td>Compiler (<code>JiHuiYiYou-compiler</code>)</td><td><code>LICENSE</code> at the root</td><td>Copyright (c) 2026 JHYY</td><td>MIT, identical to the official template</td></tr><tr><td>IDE (<code>JiHuiYiYou-IDE</code>)</td><td><code>LICENSE</code> at the root</td><td>Copyright (c) 2026 JHYY</td><td>MIT, <strong>byte-identical</strong> to the Compiler one</td></tr><tr><td>OS (<code>JiHuiYiYou-OS</code>)</td><td><code>LICENSE</code> at the root</td><td>Copyright (c) 2026 JHYY</td><td>MIT, byte-identical to the Compiler one; the only difference is that the file has no trailing newline</td></tr><tr><td>for-VEX (<code>JiHuiYiYou-for-VEX</code>)</td><td><strong>None</strong></td><td>—</td><td>The repository root only has <code>.gitignore</code> / <code>CLAUDE.md</code> / <code>README.md</code> / <code>docs/</code> / <code>scripts/</code> / <code>spike/</code> ⇒ the current default status is "all rights reserved", not MIT</td></tr></tbody></table></div>
+<p>The compiler repository also carries a <code>vscode-ext/LICENSE</code>, the same MIT, shipped together with the extension.</p>
+<p><strong>for-VEX is the only gap, and it is a hard one</strong>: having no LICENSE file means the default copyright rules apply, not "permissive". The plan for closing it is in the gap table of the <a href="../../../en/compiler/governance/index.html">governance overview</a>.</p>
+<hr />
+<h2 id="dependencies-and-third-party-code">Dependencies and third-party code</h2>
+<p>MIT covers only the code JHYY wrote itself. The parts the repository owns are clean:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Component</th><th>What it is</th><th>License</th></tr></thead><tbody><tr><td><code>compiler/src0/*.jhyy</code></td><td>The compiler's only implementation</td><td>MIT (explicit)</td></tr><tr><td><code>compiler/runtime/runtime.c</code> / <code>runtime.h</code></td><td>The C support runtime — the one user programs link against (the hosted-mode <code>main → main_jhyy</code> bridge)</td><td>MIT (explicit)</td></tr><tr><td><code>compiler/src0/jhyy_helpers.c</code></td><td>The C bridge between the compiler and libc</td><td>MIT (explicit)</td></tr><tr><td><code>compiler/runtime/no_std_core/*.jhyy</code></td><td>The substitute implementation for <code>#[no_std]</code> (memcpy / memset / panic_handler / <code>__start_kernel</code>) — <strong>written in JHYY, not copied over from a C library</strong></td><td>MIT (explicit)</td></tr></tbody></table></div>
+<p>None of these four pieces of code carries third-party copyright headers, and none of them is an implementation carried over from elsewhere.</p>
+<h3 id="what-really-needs-to-be-inventoried-is-what-ships-with-the-package">What really needs to be inventoried is what ships with the package</h3>
+<p>The installer ships two pieces of external code, and the two are handled differently:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Component</th><th>Purpose</th><th>Distributed with the artifacts</th><th>Licensing status</th></tr></thead><tbody><tr><td>MSYS2 ucrt64 toolchain (gcc / binutils / CRT / headers)</td><td>Assembling and linking; so that installed users do not need MSYS2</td><td>Yes</td><td><strong>Documented</strong>: the toolchain directory has a <code>SOURCES.txt</code> listing, one by one, the MSYS2 packages, their SPDX license identifiers and the source tarball URLs, plus <code>LICENSES/&lt;包名&gt;/</code> holding the license texts; the end of the file states "how to obtain the corresponding source"</td></tr><tr><td>.NET 8 Desktop Runtime</td><td>Needed by <code>jhyy-setuc</code> in the installer (writes UserChoice)</td><td>Yes — the installer bundles the official <code>dotnet-runtime-8.0.30-win-x64.exe</code> from the dotnetcli image, with both the version and the sha256 pinned in <code>installer/build.ps1</code></td><td>The .NET runtime itself is MIT; the components it bundles in turn (ICU and the like) follow Microsoft's own distribution terms. <strong>The installer's manifest does not list this one separately</strong> ⇒ it needs to be added</td></tr></tbody></table></div>
+<p>Build-time dependencies (MSYS2 / GCC / binutils / WiX / Node.js / Electron) do not ship with the artifacts; they are only used on the development machine. But <strong>as soon as one of them is copied into the installer package, it enters the redistribution scope</strong> and has to be on the manifest.</p>
+<h3 id="what-needs-to-be-inventoried-item-by-item">What needs to be inventoried item by item</h3>
+<ul class='md-list'><li>The Node.js / Electron dependency trees of the IDE and the VS Code extension — <code>node_modules</code> holds hundreds of packages, each with its own license, and <strong>there is currently no written manifest</strong></li><li>for-VEX route B has to link the official VEX SDK (<code>libv5rt.a</code> / <code>stdlib_0.lib</code> / <code>lscript.ld</code>), which is VEX Robotics' own property, and <strong>its redistribution terms are unknown</strong></li><li>The kernel images the OS repository produces in the future, if they embed third-party code, need the same manifest</li></ul>
+<p>⇒ The fix can copy the style of the toolchain's <code>SOURCES.txt</code> directly: one package per line, license + source origin.</p>
+<hr />
+<h2 id="trademarks">Trademarks</h2>
+<p><strong>There is no written trademark policy in the repository.</strong> There is no <code>TRADEMARK.md</code>, and no file states the usage boundaries of the logo or of the name "机会翼游 / JHYY".</p>
+<p>Where the logo and the calligraphic lettering actually live: <code>vscode-ext/icon.png</code> / <code>icon.svg</code> / <code>icon-animated.svg</code> / <code>jhyy-calligraphy.png</code>, <code>installer/assets/icons/</code>, and the IDE repository's <code>assets/</code>.</p>
+<p>MIT itself <strong>grants no trademark rights</strong> — what it grants is copyright and permission to use; trade names are not covered. So until there is a written policy, work by the following boundaries (the common practice under MIT):</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Allowed</th><th>Not allowed</th></tr></thead><tbody><tr><td>Use the logo and the "机会翼游 / JHYY" wording in descriptive uses (saying "this is a tool written for JHYY" / "this is JHYY's compiler")</td><td>Suggesting official endorsement, authorization, or certification</td></tr><tr><td>Use them as-is in released artifacts</td><td>Modifying the logo (changing the proportions, the colors, adding effects)</td></tr><tr><td>Using wording such as "based on JHYY" / "for JHYY"</td><td>Registering "JHYY" as a trademark or a domain name</td></tr></tbody></table></div>
+<p><strong>How it is meant to be filled in</strong>: write a <code>TRADEMARK.md</code>, freeze the table above into formal terms, and say who is responsible for maintaining it — a trademark policy without an owner is worse than no policy at all.</p>
+<hr />
+<h2 id="related">Related</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/governance/index.html">Governance overview</a> — how decisions are made and the release cadence</li><li><a href="../../../en/compiler/governance/repo-map.html">Repository map</a> — what each of the four repositories is responsible for</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/governance/license.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#license">License</a><a class="anchor-l2" href="#the-terms-of-mit">The terms of MIT</a><a class="anchor-l3" href="#what-is-allowed">What is allowed</a><a class="anchor-l3" href="#what-is-required">What is required</a><a class="anchor-l3" href="#what-is-not-guaranteed">What is not guaranteed</a><a class="anchor-l3" href="#what-mit-does-not-cover">What MIT does not cover</a><a class="anchor-l2" href="#licensing-status-of-the-four-repositories">Licensing status of the four repositories</a><a class="anchor-l2" href="#dependencies-and-third-party-code">Dependencies and third-party code</a><a class="anchor-l3" href="#what-really-needs-to-be-inventoried-is-what-ships-with-the-package">What really needs to be inventoried is what ships with the package</a><a class="anchor-l3" href="#what-needs-to-be-inventoried-item-by-item">What needs to be inventoried item by item</a><a class="anchor-l2" href="#trademarks">Trademarks</a><a class="anchor-l2" href="#related">Related</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

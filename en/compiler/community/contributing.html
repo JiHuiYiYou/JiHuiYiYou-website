@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Contributing</title>
+  <meta name="description" content="The full path from filing an issue to merging a PR" />
+  <meta property="og:title" content="Contributing" />
+  <meta property="og:description" content="The full path from filing an issue to merging a PR" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/community/contributing.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="is-active" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/community/contributing.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/community/contributing.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Community</h4><ul><li><a class="" href="../../../en/compiler/community/index.html">Community home</a></li><li><a class="" href="../../../en/compiler/community/conduct.html">Code of conduct</a></li><li><a class="is-active" href="../../../en/compiler/community/contributing.html">Contributing</a></li><li><a class="" href="../../../en/compiler/community/security.html">Security disclosure</a></li></ul></div><div class="doc-nav-group"><h4>How to take part</h4><ul><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues" target="_blank" rel="noopener">Open an issue ↗</a></li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/pulls" target="_blank" rel="noopener">Open a PR ↗</a></li><li><span class="doc-nav-text">QQ group 429807125</span></li><li><a class="" href="../../../en/compiler/governance/repo-map.html">Code ownership</a></li></ul></div>
+
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="contributing">Contributing</h1>
+<p>This page is the full-path version of the repository's <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer"><code>CONTRIBUTING.md</code></a>: filing issues, running the gates, writing the PR. <strong>Before you start, work out which tier your change falls into.</strong></p>
+<hr />
+<h2 id="repository-map-short-version">Repository map (short version)</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>What you want to change</th><th>Where</th></tr></thead><tbody><tr><td>Compiler source + the C bridge</td><td><code>compiler/src0/</code> (31 <code>.jhyy</code> modules + <code>jhyy_helpers.c</code>) — <strong>the only implementation</strong>, there is no second copy</td></tr><tr><td>Backend</td><td><code>compiler/src0/codegen_amd64_*.jhyy</code> (the self-written amd64 emitter)</td></tr><tr><td>Standard library</td><td><code>compiler/src0/std/</code> (8 modules: <code>mem</code> / <code>fmt</code> / <code>io</code> / <code>math</code> / <code>string</code> / <code>vec</code> / <code>os</code> / <code>arena</code>)</td></tr><tr><td>Tests</td><td><code>compiler/tests/examples/</code> + <code>regress.py</code> at the repository root</td></tr><tr><td>Self-hosting and gate scripts</td><td><code>compiler/tests/bootstrap/</code></td></tr><tr><td>Language / ABI / binary format contracts</td><td><code>docs/abis/</code></td></tr><tr><td>Workaround ledger</td><td><code>docs/internal/workarounds.md</code> (<strong>never archived</strong>, entries are closed but never deleted)</td></tr><tr><td>The numbers that change</td><td><code>docs/internal/FACTS.md</code> (<strong>the single source of truth</strong>)</td></tr><tr><td>Plan line</td><td><code>docs/plans/v4/</code> (one plan per cell)</td></tr><tr><td>Cross-project design baseline</td><td><code>docs/coordination/</code> (one final version each on the compiler side and the OS side)</td></tr></tbody></table></div>
+<p>The full version is in the <a href="../../../en/compiler/governance/repo-map.html">repository map</a>.</p>
+<hr />
+<h2 id="build-and-test">Build and test</h2>
+<p>The host is <strong>Windows 10 + MSYS2</strong> (<code>C:\msys64\mingw64\bin\bash.exe</code>).</p>
+<pre><code class="language-bash"># Dependencies
+pacman -S --needed mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-binutils
+
+# Build the compiler (jhyy compiles itself; make iterates the self-hosted closure to a fixed point)
+make all           # → compiler/build/bin/jhyy.exe
+
+# Regression suite
+python regress.py                       # full suite
+python regress.py --tests=hello.jhyy    # a single case
+python regress.py --all                 # includes the gated cases
+</code></pre>
+<blockquote class="callout warn"><p><strong>Do not</strong> use the MinGW <code>gcc</code> that comes with Git Bash — it does not support PE+ linking and fails at the link stage. <strong>Run all the gates from the repository root</strong>: the scripts resolve paths against the current directory, and running them in a subdirectory reports every file as missing, which looks like drift but is not.</p></blockquote>
+<h3 id="what-each-gate-covers">What each gate covers</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Gate</th><th>What it covers</th><th>When to run it</th></tr></thead><tbody><tr><td><code>make</code> (the self-hosted closure)</td><td>The <code>.s</code> produced across generations is <strong>byte-identical</strong></td><td>After changing <code>compiler/src0/*.jhyy</code></td></tr><tr><td><code>python regress.py</code></td><td>The exit code / stdout assertions of every test case</td><td>After any behavioural change</td></tr><tr><td><code>python scripts/dev/audit_test_assertions.py --strict</code></td><td>Every test case has an assertion that <strong>can fail</strong> (zero signal is red) + an instruction-vs-read-point cross-check</td><td>After changing tests</td></tr><tr><td><code>bash compiler/tests/bootstrap/artifact_checks.sh</code></td><td>20 <strong>artifact checks</strong> — the failure mode lives in the byte layout, not in the program's return value, and a <code>.jhyy</code> test cannot catch it</td><td>After touching codegen</td></tr><tr><td><code>bash compiler/tests/bootstrap/closure_check.sh</code></td><td>The <code>.s</code> of Stage 2 == the <code>.s</code> of Stage 3 (<strong>local gate</strong>, not wired into CI)</td><td>After changing <code>src0</code></td></tr><tr><td><code>python regress.py --fixed-point</code></td><td>N=10 cross-generation <code>.il</code> + <code>.s</code> are byte-identical (<strong>local gate</strong>)</td><td>Release-grade process</td></tr><tr><td><code>bash compiler/tests/bootstrap/artifact_fresh_check.sh</code></td><td>The <code>jhyy.exe</code> committed to the repository behaves the same as the current build</td><td>After changing <code>src0</code> — otherwise it goes red</td></tr><tr><td><code>python scripts/dev/bump_version.py check</code></td><td><code>VERSION</code> == every version string in the repository</td><td>When you touched the version number or a version string</td></tr></tbody></table></div>
+<h3 id="which-one-to-run-before-committing">Which one to run before committing</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>What you changed</th><th>At least run</th></tr></thead><tbody><tr><td>Docs only / tests only</td><td>Docs need fact-checking (is the limitation still there? did the sprint that fixes it ship?), CI runs the facts gate; tests need <code>python regress.py</code> + the assertion strength audit</td></tr><tr><td>Changed <code>compiler/src0/*.jhyy</code></td><td><code>make</code> + <code>python regress.py</code> + <code>artifact_checks.sh</code>, and update the self-hosted artifact committed to the repository; add <code>--fixed-point</code> if you touched the version number or the release process</td></tr></tbody></table></div>
+<p>Details are in <a href="../../../en/compiler/docs/build-and-test.html">Build and test</a> and <a href="../../../en/compiler/download/bootstrap.html">Build from source and bootstrap</a>.</p>
+<hr />
+<h2 id="change-classification-and-the-matching-thresholds">Change classification and the matching thresholds</h2>
+<h3 id="these-must-be-designed-first-then-implemented">These must be designed first, then implemented</h3>
+<p><strong>Language syntax / semantics · ABI and memory layout · Memory model · Stable standard library API · Error code semantics · The self-hosting boundary.</strong></p>
+<p>Rationale: the language spec v4.0.0 and the ABI whitepaper v4.0.0 are both <strong>locked</strong> contracts, appendix B is the formal list of known limitations, and the diagnostic codes are tabulated in the spec — changing any of them affects every program that has already shipped.</p>
+<blockquote class="callout"><p><strong>There is no written-out RFC process yet.</strong> The repository has no RFC template, no numbering rules and no review period — the word <code>RFC</code> appears in the repository only in two internet standards (RFC 3629, RFC 4122). The existing substitutes are: the locked-in spec + appendix B, <code>docs/plans/v4/</code> with one plan per cell (fixed structure, containing Goal / Scope / acceptance gate / review checklist / Risks), and <code>FACTS.md</code> § 4 as the source of truth for scheduling. The <a href="../../../en/compiler/governance/index.html">RFC process</a> section of this website is the place where this rule is being filled in.</p>
+<p><strong>What to actually do until the rules are complete</strong>: open an issue first to explain the motivation, the scope and the impact on existing code, and wait for the maintainer to decide before you start; do not edit the spec text directly. Which cell of <code>docs/plans/v4/</code> it lands in, and what the acceptance gate is, gets written in the plan.</p></blockquote>
+<h3 id="small-changes">Small changes</h3>
+<p>An issue (explaining the problem) + a design note + a PR, with the <strong>design note self-contained in the PR</strong> — do not make the reviewer go and dig through the issue themselves.</p>
+<hr />
+<h2 id="commit-and-pr-conventions">Commit and PR conventions</h2>
+<p>The following four are the original requirements from <code>CONTRIBUTING.md</code>:</p>
+<ol class='md-list'><li><strong>One PR does one thing.</strong> When the description needs the word "and", it is probably two PRs.</li><li><strong>The gates must run.</strong> <strong>A gate that never ran is a gate that never passed.</strong> Every CI job on the PR has to be green — including the <strong>SysV ABI</strong> job: it is the only runner that can actually <strong>execute</strong> those six test cases (<code>windows-latest</code> skips them), so it being green does not mean they are covered.</li><li><strong>Summarise the change in the commit message</strong>; <strong>if any AI assistant took part in writing the code, add a <code>Co-Authored-By</code> trailer</strong>.</li><li><strong>If you touched documentation, keep the facts in sync</strong>.</li></ol>
+<h3 id="changing-compiler-source-a-release-grade-process">Changing compiler source = a release-grade process</h3>
+<p>Changing <code>compiler/src0/*.jhyy</code> costs far more than changing documentation: <strong>adding one local variable shifts the module-level temp numbering</strong>, and the self-hosted build drifts with it. So you have to:</p>
+<ul class='md-list'><li>run the full regression suite;</li><li>refresh the self-hosted anchor (<code>make</code>, which iterates to the fixed point and installs the new binary);</li><li><strong>commit the new <code>compiler/build/bin/jhyy.exe</code></strong> — it is a git-tracked artifact, and CI's <code>artifact-fresh</code> gate compares it against the current build; a stale one gets caught.</li></ul>
+<p><strong>Changing comments only is free</strong>: the lexer strips comments before codegen, and the compiler binary stays byte-identical.</p>
+<h3 id="code-style">Code style</h3>
+<ul class='md-list'><li><code>.editorconfig</code>: UTF-8 / LF / final newline / trim trailing whitespace; indentation <strong>4 spaces</strong> (<code>.jhyy</code> / <code>.c</code> / <code>.h</code> / <code>.py</code> / <code>.sh</code> / <code>.ps1</code>), <strong>2 spaces</strong> (<code>.md</code> / <code>.json</code> / <code>.yml</code>), <strong>Makefile uses tabs</strong>.</li><li>On the C side, <code>-Wall -Wextra</code> with <strong>zero warnings</strong>.</li><li><strong>One language per document</strong>: the outward-facing front doors (<code>README.md</code> / <code>CONTRIBUTING.md</code> / <code>CHANGELOG.md</code>) are in English, the only Chinese front door is <code>README.zh-CN.md</code>, and <code>docs/**</code> inside the repository is in Chinese; no mixing Chinese and English within one document. Chinese uses simplified characters only.</li><li><strong>The two READMEs have to be changed together</strong> — a forked front door is worse than a stale front door.</li><li>Path references in documentation are written relative to the current file; after changing them, run <code>python scripts/dev/docs_facts_check.py</code> (it includes broken-link checking).</li></ul>
+<h3 id="test-layering">Test layering</h3>
+<p>The regression suite has 299 cases in total, split into three layers by <strong>signal source</strong>:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Layer</th><th>How it is decided</th><th>Cases</th></tr></thead><tbody><tr><td>Real assertions</td><td>The assertion is written in the test case source</td><td>215</td></tr><tr><td>harness-decided · expected compile error</td><td>The case declares <code>// EXPECT-ERROR: &quot;...&quot;</code></td><td>56</td></tr><tr><td>harness-decided · exit code comparison</td><td>The case declares <code>// EXPECT: N</code></td><td>8</td></tr><tr><td>SKIP · the case skips itself</td><td>The case carries a <code>// SKIP:</code> directive</td><td>6</td></tr><tr><td>SKIP · library module</td><td>A library module with no entry point</td><td>14</td></tr></tbody></table></div>
+<p>215 + 56 + 8 = <strong>279</strong> (runnable), plus 6 + 14 = <strong>299</strong> (total).</p>
+<p>The test directive set is a fixed group: <code>EXPECT</code> / <code>EXPECT-ERROR</code> / <code>EXPECT-OUT</code> / <code>XFAIL</code> / <code>SKIP</code> / <code>SETENV</code>; new cases use only these.</p>
+<p>The assertion strength audit reports the <strong>number of zero-signal cases</strong> — a test that cannot fail is worse than no test at all: it checks nothing yet reports success.</p>
+<h3 id="signature-requirements-and-backporting">Signature requirements and backporting</h3>
+<ul class='md-list'><li><strong>Signature requirement: none.</strong> The repository has no DCO and no GPG signing requirement, and GitHub's <code>web_commit_signoff_required</code> is off too.</li><li><strong>Backport rules: not yet written down.</strong> The repository has a single mainline (<code>main</code>), no release branch matrix and no backport policy.</li></ul>
+<hr />
+<h2 id="two-contribution-templates">Two contribution templates</h2>
+<blockquote class="callout"><p><strong>These two tables are not yet in the repository's <code>CONTRIBUTING.md</code></strong> — the original only specifies the PR process and the gates. The requirements in the tables are the project's current practice, published here on the website as templates first; writing them back into the in-repo documentation is under way.</p></blockquote>
+<h3 id="teaching-contributions-tutorials-lecture-notes-samples">Teaching contributions (tutorials / lecture notes / samples)</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Required</th><th>Notes</th></tr></thead><tbody><tr><td><strong>A complete, runnable <code>.jhyy</code> file</strong></td><td>Not a fragment; the imports and <code>main_jhyy</code> cannot be left out</td></tr><tr><td><strong>Expected output</strong></td><td>stdout <strong>and</strong> the exit code, both of them</td></tr></tbody></table></div>
+<p>The best samples are the ones that fit into <code>compiler/tests/examples/</code> — then the sample is both teaching material and a regression case.</p>
+<blockquote class="callout"><p><strong>There is no written-out "teaching material directory" yet.</strong> The repository has no place such as <code>docs/tutorials/</code>; long-form material currently goes into the Wiki. "Teaching material must ship a runnable sample" is inferred from the regression suite's existing discipline, not a written clause — we are working on it.</p></blockquote>
+<h3 id="compiler-contributions">Compiler contributions</h3>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Required</th><th>Notes</th></tr></thead><tbody><tr><td><strong>An IR sample</strong></td><td>The <code>JHY_WRITE_IL=1</code> <code>.il</code> output, so the reviewer can read the intermediate representation instead of guessing</td></tr><tr><td><strong>A regression test</strong></td><td>New <code>.jhyy</code> cases go into <code>compiler/tests/examples/</code>; when fixing a bug, <strong>write the reproducing case first</strong></td></tr><tr><td><strong>Performance / correctness impact</strong></td><td>Static metrics such as frame size, memory accesses and instruction count, plus "could this change existing behaviour"</td></tr></tbody></table></div>
+<p>If you changed <code>compiler/src0/*.jhyy</code> you must additionally declare that <strong>this is a release-grade change</strong> — the PR template has one field that asks exactly this.</p>
+<hr />
+<h2 id="issue-format">Issue format</h2>
+<p>Two issue templates (<em>Compiler bug report</em> / <em>Feature request</em>), and blank issues are allowed too. When reporting a bug, all four of these are required:</p>
+<ol class='md-list'><li><strong>A minimal reproducer</strong> — the complete <code>.jhyy</code> source;</li><li><strong>Actual vs expected output</strong>, <strong>including the exit code</strong>;</li><li><strong>The version</strong> — the first line of <code>jhyy --help</code> (<strong>there is no <code>jhyy --version</code> flag</strong>, it never existed);</li><li><strong>The compiler's origin</strong> — a released binary, or a self-hosted build?</li></ol>
+<blockquote class="callout warn"><p><strong>Take the exit code from the harness or Python <code>subprocess</code>, do not read MSYS2 bash's <code>$?</code>.</strong> bash truncates the exit code to 8 bits (<code>value &amp; 0xFF</code>), so expected codes >= 256 have to be reduced first: 827 → 59, 501 → 245, 300 → 44, 1000 → 232. A lot of "the exit code is wrong" reports are just this.</p></blockquote>
+<hr />
+<h2 id="the-issue-label-system">The issue label system</h2>
+<p>The labels that <strong>actually exist</strong> in the repository are these thirteen:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Label</th><th>Meaning</th><th>Source</th></tr></thead><tbody><tr><td><code>bug</code></td><td>The compiler did the wrong thing</td><td>Default in the <em>Compiler bug report</em> template</td></tr><tr><td><code>enhancement</code></td><td>Feature request</td><td>Default in the <em>Feature request</em> template</td></tr><tr><td><code>documentation</code></td><td>Documentation change</td><td>Manual</td></tr><tr><td><code>question</code></td><td>A question</td><td>Manual</td></tr><tr><td><code>good first issue</code></td><td>Good for newcomers</td><td>Manual</td></tr><tr><td><code>help wanted</code></td><td>Needs extra attention</td><td>Manual</td></tr><tr><td><code>duplicate</code></td><td>Duplicate</td><td>GitHub default</td></tr><tr><td><code>invalid</code></td><td>Not valid</td><td>GitHub default</td></tr><tr><td><code>wontfix</code></td><td>Will not be done</td><td>GitHub default</td></tr><tr><td><code>roadmap</code></td><td>Already on the roadmap</td><td>Manual</td></tr><tr><td><code>短期</code> / <code>中期</code> / <code>长期</code></td><td>Scheduling tier</td><td>Manual, corresponding to the timeline in <code>FACTS.md</code> § 4</td></tr></tbody></table></div>
+<blockquote class="callout"><p><strong>There are no <code>RFC</code>, <code>OS</code>, <code>backend</code>, <code>arena</code>, <code>breaking</code>, <code>needs-decision</code> labels yet</strong> — they do not exist in the repository. The planned per-domain label system is being filled in. Two more facts about the current state: the <code>good first issue</code> label exists, but there are currently <strong>no open tasks carrying it</strong> (the number of open issues is 0); and on the Discussions side there is <strong>no separate label system</strong>.</p></blockquote>
+<hr />
+<h2 id="next">Next</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/community/index.html">Community home</a> — the channels and the current numbers.</li><li><a href="../../../en/compiler/community/conduct.html">Code of conduct</a> — the minimum agreement for taking part in this project.</li><li><a href="../../../en/compiler/community/security.html">Security disclosure</a> — do not post security issues to a public issue.</li><li>Original: <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer"><code>CONTRIBUTING.md</code></a></li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/community/contributing.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#contributing">Contributing</a><a class="anchor-l2" href="#repository-map-short-version">Repository map (short version)</a><a class="anchor-l2" href="#build-and-test">Build and test</a><a class="anchor-l3" href="#what-each-gate-covers">What each gate covers</a><a class="anchor-l3" href="#which-one-to-run-before-committing">Which one to run before committing</a><a class="anchor-l2" href="#change-classification-and-the-matching-thresholds">Change classification and the matching thresholds</a><a class="anchor-l3" href="#these-must-be-designed-first-then-implemented">These must be designed first, then implemented</a><a class="anchor-l3" href="#small-changes">Small changes</a><a class="anchor-l2" href="#commit-and-pr-conventions">Commit and PR conventions</a><a class="anchor-l3" href="#changing-compiler-source-a-release-grade-process">Changing compiler source = a release-grade process</a><a class="anchor-l3" href="#code-style">Code style</a><a class="anchor-l3" href="#test-layering">Test layering</a><a class="anchor-l3" href="#signature-requirements-and-backporting">Signature requirements and backporting</a><a class="anchor-l2" href="#two-contribution-templates">Two contribution templates</a><a class="anchor-l3" href="#teaching-contributions-tutorials-lecture-notes-samples">Teaching contributions (tutorials / lecture notes / samples)</a><a class="anchor-l3" href="#compiler-contributions">Compiler contributions</a><a class="anchor-l2" href="#issue-format">Issue format</a><a class="anchor-l2" href="#the-issue-label-system">The issue label system</a><a class="anchor-l2" href="#next">Next</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

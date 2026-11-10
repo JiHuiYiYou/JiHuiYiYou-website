@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Reference Overview</title>
+  <meta name="description" content="The entry points to the three kinds of reference — language, contracts, toolchain — and what each one guarantees" />
+  <meta property="og:title" content="Reference Overview" />
+  <meta property="og:description" content="The entry points to the three kinds of reference — language, contracts, toolchain — and what each one guarantees" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/docs/reference.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="is-active" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/docs/reference.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/docs/reference.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Getting started</h4><ul><li><a class="" href="../../../en/compiler/docs/getting-started.html">Getting started</a></li><li><a class="" href="../../../en/compiler/docs/tour.html">Language tour</a></li></ul></div><div class="doc-nav-group"><h4>Language reference</h4><ul><li><a class="is-active" href="../../../en/compiler/docs/reference.html">Reference overview</a></li><li><a class="" href="../../../en/compiler/docs/spec.html">Language spec v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/stdlib.html">Standard library</a></li></ul></div><div class="doc-nav-group"><h4>Deep dives</h4><ul><li><a class="" href="../../../en/compiler/docs/arena.html">Arena memory management</a></li><li><a class="" href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a></li></ul></div><div class="doc-nav-group"><h4>Tools and internals</h4><ul><li><a class="" href="../../../en/compiler/docs/cli.html">CLI reference</a></li><li><a class="" href="../../../en/compiler/docs/compiler.html">How the compiler works</a></li><li><a class="" href="../../../en/compiler/docs/build-and-test.html">Build and test</a></li><li><a class="" href="../../../en/compiler/docs/faq.html">FAQ</a></li></ul></div>
+
+    <div class="doc-nav-group doc-nav-external">
+      <h4>Spec sources</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">Language spec v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">Workaround ledger ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="reference-overview">Reference Overview</h1>
+<p>This page is the index of the "language reference" group. JHYY's reference material comes in three layers, and each layer guarantees something different — read them mixed together and it is easy to confuse "how do you write this language" with "how do two artifacts recognize each other".</p>
+<h2 id="the-three-layers-of-reference">The three layers of reference</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Layer</th><th>What question it answers</th><th>What it guarantees</th><th>Version nature</th></tr></thead><tbody><tr><td><strong>Language spec</strong></td><td>Syntax and semantics</td><td>What a legal program is, what each expression means, which behaviours are defined</td><td><strong>A locked contract</strong></td></tr><tr><td><strong>ABI</strong></td><td>Type layout, calling convention, linking rules</td><td>How the compiler, artifacts and external libraries recognize each other</td><td><strong>A locked contract</strong></td></tr><tr><td><strong>CLI / standard library</strong></td><td>How to use the concrete tools and APIs</td><td>How the commands are typed, what the functions are called, what they return</td><td>Follows the toolchain version</td></tr></tbody></table></div>
+<p>The first two layers are <strong>contracts</strong>: an implementation must obey them, and only then is it "JHYY". The third layer is <strong>usage</strong> — it evolves with the toolchain and carries no stability promise.</p>
+<hr />
+<h2 id="contract-version-toolchain-version">Contract version ≠ toolchain version</h2>
+<p>This is the thing people get most easily tangled up in.</p>
+<p><strong>Language spec v4.0.0</strong> and <strong>ABI v4.0.0</strong> were each locked on 2026-10-24, together with <code>v4.0.0 final</code>. The toolchain is a separate line — the current stable version is v4.1.5 (the version changes; the <a href="../../../en/compiler/download/index.html">download page</a> is authoritative).</p>
+<p>In other words:</p>
+<blockquote class="callout"><p><strong>v4.1.x is an evolution of the implementation of the v4.0.0 contract, not a modification of the contract.</strong></p></blockquote>
+<p>A newer compiler may support one more syntactic sugar or fix one more bug, but as long as the spec and the ABI are still v4.0.0, the rules by which artifacts recognize each other have not changed by a single word. Conversely, the day the spec goes to v5.0.0 that is a <strong>new contract</strong>, and the compatibility of old artifacts has to be assessed separately.</p>
+<p>One corollary: <strong>which document you should cite while writing code depends on who you need to be recognized by.</strong> Recognized by another JHYY artifact → look at ABI v4.0.0. Recognized by a C library → also look at ABI v4.0.0. Just want to know "how to write it" → look at spec v4.0.0.</p>
+<hr />
+<h2 id="the-four-references">The four references</h2>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Reference</th><th>What it covers</th><th>Authoritative original</th></tr></thead><tbody><tr><td><a href="../../../en/compiler/docs/spec.html">Language spec v4.0.0</a></td><td>Syntax, type system, semantic boundaries</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer"><code>docs/abis/jhyy-lang-spec-v4.0.0.md</code></a></td></tr><tr><td><a href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a></td><td>Type layout, calling convention, linking rules</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener noreferrer"><code>docs/abis/jhyy-abi-v4.0.0.md</code></a></td></tr><tr><td><a href="../../../en/compiler/docs/stdlib.html">Standard library</a></td><td>The real API of the eight modules</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/src0/std" target="_blank" rel="noopener noreferrer"><code>compiler/src0/std/</code></a></td></tr><tr><td><a href="../../../en/compiler/docs/cli.html">CLI reference</a></td><td>Commands, arguments, exit codes</td><td>The CLI section of the repository's <code>README.md</code></td></tr></tbody></table></div>
+<p>If you have not read the spec yet, starting from the <a href="../../../en/compiler/docs/tour.html">language tour</a> is faster; to get your first program running, see <a href="../../../en/compiler/docs/getting-started.html">getting started</a>.</p>
+<hr />
+<h2 id="the-docs-are-not-the-source-of-truth-the-repository-is">The docs are not the source of truth — the repository is</h2>
+<p>This page, this group of references, and the whole site wiki are <strong>hand-written companion documentation</strong>. Their job is to tell you "which file the fact lives in", not to restate the fact.</p>
+<p>The reason is simple: numbers that change (version numbers, regression baselines, the list of limitations) copied into a second document mean that the next day there are two numbers that contradict each other, and the reader has no way to know which one to believe.</p>
+<p>So every assertion has to be traceable to a file:</p>
+<div class="table-wrap"><table class="ref-table"><thead><tr><th>Kind of fact</th><th>Where it lives</th></tr></thead><tbody><tr><td>Numbers and schedules that change</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer"><code>docs/internal/FACTS.md</code></a></td></tr><tr><td>Known limitations and workarounds</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener noreferrer"><code>docs/internal/workarounds.md</code></a></td></tr><tr><td>What each version changed</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md" target="_blank" rel="noopener noreferrer"><code>CHANGELOG.md</code></a></td></tr><tr><td>How the compiler is put together</td><td><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/architecture.md" target="_blank" rel="noopener noreferrer"><code>docs/internal/architecture.md</code></a></td></tr></tbody></table></div>
+<p>Repository: <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" target="_blank" rel="noopener noreferrer">github.com/JiHuiYiYou/JiHuiYiYou-compiler</a></p>
+<p>If the wiki and the repository disagree — <strong>the repository wins</strong>, then file an issue so we can fix the page.</p>
+<hr />
+<h2 id="one-document-outside-this-group">One document outside this group</h2>
+<p><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md" target="_blank" rel="noopener noreferrer"><code>docs/abis/jhyy-binary-format-v1.0.0.md</code></a> — the design draft of the JHYY native binary format (<code>.jhyynb</code>), <strong>not implemented yet</strong> (ABI § 12.10). No artifact has implemented it so far, so it carries no compatibility promise at all.</p>
+<hr />
+<h2 id="whats-next">What's next</h2>
+<ul class='md-list'><li><a href="../../../en/compiler/docs/spec.html">Language spec v4.0.0</a> — what you must obey when writing JHYY code.</li><li><a href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a> — how artifacts recognize each other.</li><li><a href="../../../en/compiler/docs/stdlib.html">Standard library</a> — the function signatures and traps of the eight modules.</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/docs/reference.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#reference-overview">Reference Overview</a><a class="anchor-l2" href="#the-three-layers-of-reference">The three layers of reference</a><a class="anchor-l2" href="#contract-version-toolchain-version">Contract version ≠ toolchain version</a><a class="anchor-l2" href="#the-four-references">The four references</a><a class="anchor-l2" href="#the-docs-are-not-the-source-of-truth-the-repository-is">The docs are not the source of truth — the repository is</a><a class="anchor-l2" href="#one-document-outside-this-group">One document outside this group</a><a class="anchor-l2" href="#whats-next">What&#x27;s next</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>

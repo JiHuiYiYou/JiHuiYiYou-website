@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>FAQ</title>
+  <meta name="description" content="Questions that keep coming back, and their answers" />
+  <meta property="og:title" content="FAQ" />
+  <meta property="og:description" content="Questions that keep coming back, and their answers" />
+  <meta property="og:type" content="website" />
+  <link rel="alternate" hreflang="zh-CN" href="../../../compiler/docs/faq.html" />
+  <link rel="stylesheet" href="../../../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../../../assets/css/docs.css" />
+  <link rel="stylesheet" href="../../../assets/css/main.css" />
+  <link rel="icon" type="image/png" sizes="any" href="../../../assets/img/jhyy-icon.png" />
+  <noscript><style>
+    /* reveal 系列的初始态是 opacity:0，靠 JS 加 .in 才显形 ——
+       没有 JS 时整页会是一片黑。这里补一条兜底。 */
+    .reveal, .reveal-card, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    .reveal-line .line-inner { transform: none !important; }
+  </style></noscript>
+</head>
+
+<body class="doc-body">
+
+  <header class="doc-topbar">
+    <div class="doc-topbar-inner">
+      <a href="../../../index.html" class="doc-brand" aria-label="机会翼游 · JHYY home">
+        <img src="../../../assets/img/jhyy-logo.png" alt="机会翼游 · JHYY" />
+        <span class="doc-brand-name">JHYY</span>
+      </a>
+      <details class="proj-switch"><summary class="proj-summary"><span class="proj-dot" aria-hidden="true"></span>Compiler<span class="proj-caret" aria-hidden="true">▾</span></summary><div class="proj-menu" role="navigation" aria-label="The JHYY family"><a class="proj-item is-active" href="../../../en/compiler/index.html"><span class="proj-item-name">Compiler</span><span class="proj-item-en">编译器</span><span class="proj-item-tag">The self-hosted systems language compiler</span></a><a class="proj-item" href="../../../en/ide/index.html"><span class="proj-item-name">IDE</span><span class="proj-item-en">IDE</span><span class="proj-item-tag">Block programming + text editing + Claude Code</span></a><a class="proj-item" href="../../../en/os/index.html"><span class="proj-item-name">OS</span><span class="proj-item-en">OS</span><span class="proj-item-tag">An operating system written in JHYY</span></a><a class="proj-item" href="../../../en/vex/index.html"><span class="proj-item-name">for-VEX</span><span class="proj-item-en">for-VEX</span><span class="proj-item-tag">Compiling JHYY to the VEX V5 Brain</span></a></div></details>
+      <nav class="doc-zones" aria-label="Primary"><a class="" href="../../../en/compiler/index.html">Home</a><a class="is-active" href="../../../en/compiler/docs/index.html">Docs</a><a class="" href="../../../en/compiler/download/index.html">Download</a><a class="" href="../../../en/compiler/community/index.html">Community</a><a class="" href="../../../en/compiler/governance/index.html">Governance</a></nav>
+      <div class="doc-topbar-right">
+        <button class="doc-search-btn" type="button" data-search-open data-search-index="../../../search-index.json" data-search-lang="en" aria-label="Search docs">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>Search docs</span><kbd>/</kbd>
+        </button>
+        <span class="doc-version" title="Latest stable">v4.1.5</span>
+        <div class="lang-switch" role="navigation" aria-label="Language"><a class="lang-opt" href="../../../compiler/docs/faq.html" hreflang="zh">中文</a><a class="lang-opt is-active" href="../../../en/compiler/docs/faq.html" hreflang="en" aria-current="true">English</a></div>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler" class="doc-gh" aria-label="GitHub"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+<div class="doc-shell">
+  <aside class="doc-sidebar" aria-label="Table of contents">
+    <div class="doc-nav-group"><h4>Getting started</h4><ul><li><a class="" href="../../../en/compiler/docs/getting-started.html">Getting started</a></li><li><a class="" href="../../../en/compiler/docs/tour.html">Language tour</a></li></ul></div><div class="doc-nav-group"><h4>Language reference</h4><ul><li><a class="" href="../../../en/compiler/docs/reference.html">Reference overview</a></li><li><a class="" href="../../../en/compiler/docs/spec.html">Language spec v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/abi.html">ABI v4.0.0</a></li><li><a class="" href="../../../en/compiler/docs/stdlib.html">Standard library</a></li></ul></div><div class="doc-nav-group"><h4>Deep dives</h4><ul><li><a class="" href="../../../en/compiler/docs/arena.html">Arena memory management</a></li><li><a class="" href="../../../en/compiler/docs/osdev.html">Bare metal and kernel development</a></li></ul></div><div class="doc-nav-group"><h4>Tools and internals</h4><ul><li><a class="" href="../../../en/compiler/docs/cli.html">CLI reference</a></li><li><a class="" href="../../../en/compiler/docs/compiler.html">How the compiler works</a></li><li><a class="" href="../../../en/compiler/docs/build-and-test.html">Build and test</a></li><li><a class="is-active" href="../../../en/compiler/docs/faq.html">FAQ</a></li></ul></div>
+
+    <div class="doc-nav-group doc-nav-external">
+      <h4>Spec sources</h4>
+      <ul>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener">Language spec v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md" target="_blank" rel="noopener">ABI v4.0.0 ↗</a></li>
+        <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener">Workaround ledger ↗</a></li>
+      </ul>
+    </div>
+  </aside>
+  <main class="doc-main" id="main">
+    <div class="doc-article">
+      <h1 id="faq">FAQ</h1>
+<p>The questions that keep coming back, and the answers that are true right now. When an answer changes, the repository has the final say — see the authoritative versions in the <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">language spec</a> and <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer">FACTS.md</a>.</p>
+<hr />
+<h2 id="using-the-compiler">Using the compiler</h2>
+<h3 id="can-the-compiler-run-on-linux-or-macos">Can the compiler run on Linux or macOS?</h3>
+<p>Not directly. <strong>The compiler is a Windows program</strong> — <code>jhyy.exe</code> is a PE executable, so the host must be Windows (or Wine). This is a deliberate design decision, not an oversight.</p>
+<p><strong>What is portable is the output</strong>: the SysV targets produce Linux ELF assembly, and CI links and runs it on Linux. So "a JHYY program can run on Linux" holds; "the JHYY compiler can run on Linux" does not hold today.</p>
+<h3 id="how-do-i-check-the-version">How do I check the version?</h3>
+<p><strong>The first line of <code>jhyy --help</code></strong> is the version banner. There is no <code>jhyy --version</code> option — it never existed; typing it prints <code>jhyy: unknown option --version</code> and then exits with 1.</p>
+<h3 id="why-is-the-entry-point-main-jhyy-and-not-main">Why is the entry point <code>main_jhyy</code> and not <code>main</code>?</h3>
+<p>Because the hosted entry point has a different signature: <code>main_jhyy(argc: i32, argv: *u8) -&gt; i32</code>, where <code>argc</code> / <code>argv</code> may be omitted. The C runtime's <code>main</code> does the bridging. The freestanding Linux runtime follows the same convention — <code>crt0.S</code> calls <code>main_jhyy</code> and exits with its return value.</p>
+<h3 id="why-does-jhyy-compile-ajhyy-bjhyy-ignore-bjhyy">Why does <code>jhyy compile a.jhyy b.jhyy</code> ignore <code>b.jhyy</code>?</h3>
+<p>Because the compiler <strong>only accepts one input file</strong>; extra <code>.jhyy</code> arguments are silently ignored — no error, no warning. To compile multiple files, use <code>import</code>: write <code>import lib;</code> in <code>main.jhyy</code>, and the compiler pulls <code>lib.jhyy</code> in along the import graph.</p>
+<h3 id="why-does-my-exit-code-look-wrong">Why does my exit code look wrong?</h3>
+<p>If you read <code>$?</code> under MSYS2 bash, it has been truncated to 8 bits (<code>value &amp; 0xFF</code>). Use a harness or Python <code>subprocess</code> to get the exit code instead. An expected 827 comes back as 59, 501 as 245, 300 as 44, 1000 as 232.</p>
+<h3 id="why-doesnt-the-compiler-link-my-linux-program-for-me">Why doesn't the compiler link my Linux program for me?</h3>
+<p><strong>This build cannot link cross targets</strong> — the bundled linker always produces a Windows <code>.exe</code>. Add <code>--no-link</code> and link the <code>.s</code> yourself with a matching toolchain; the three-step procedure is in <a href="../../../en/compiler/docs/build-and-test.html">Build-and-Test</a>.</p>
+<h3 id="do-i-need-msys2-to-use-jhyy">Do I need MSYS2 to use JHYY?</h3>
+<p>No. The installer ships a minimal native toolchain, so an end user only needs Windows. MSYS2 is needed only to <strong>build the compiler from source</strong>.</p>
+<hr />
+<h2 id="language">Language</h2>
+<h3 id="is-there-garbage-collection-allocators-raii">Is there garbage collection? Allocators? RAII?</h3>
+<p><strong>No GC, no automatic ownership, no RAII.</strong> Memory is explicit: raw pointers, manual allocation, and — if you want it — the arena allocator in the standard library, plus <code>defer</code> for scope-exit cleanup. <code>defer</code> runs LIFO on scope exit, but <strong>it does not run on an implicit tail return</strong>.</p>
+<h3 id="why-is-there-no-std-prefix">Why is there no <code>std::</code> prefix?</h3>
+<p>Because <code>import</code> takes the module name directly: <code>import vec;</code>, not <code>import std::vec;</code>. Writing the prefixed form is a compile error.</p>
+<h3 id="can-i-call-c-libraries">Can I call C libraries?</h3>
+<p>Yes — <code>extern fn</code> calls C functions with the C ABI. Two caveats: <strong>there is no variadic form</strong> (every argument has to be written out one by one), and <strong>argument types are not checked against the C signature</strong>, so a mistake still compiles and only shows up at runtime.</p>
+<h3 id="can-i-write-closures-that-capture-variables">Can I write closures that capture variables?</h3>
+<p>Not yet — capturing is a <strong>compile error</strong> today. Block-expression closures exist; they just cannot capture.</p>
+<h3 id="are-generics-and-traits-done">Are generics and traits done?</h3>
+<p>Generics are partly there; <strong>traits are not implemented yet</strong>. Both are on the public roadmap — the current schedule is in <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer">FACTS.md</a>.</p>
+<h3 id="what-about-floating-point">What about floating point?</h3>
+<p><code>f32</code> and <code>f64</code> exist as types, but the standard library <strong>has no floating-point formatter yet</strong> — so today you cannot print a float.</p>
+<h3 id="is-jhyy-production-ready">Is JHYY production-ready?</h3>
+<p><strong>Not yet.</strong> The project is pre-1.0: the self-hosted closed loop runs, the regression suite is green, but the language spec is still moving and no semantic stability across versions is promised. The README has a status table of what works and what does not.</p>
+<hr />
+<h2 id="project">Project</h2>
+<h3 id="if-the-intermediate-representation-is-qbe-style-why-is-there-no-qbe">If the intermediate representation is "QBE-style", why is there no QBE?</h3>
+<p>Because what was borrowed is QBE's <strong>syntax</strong>, which is concise and readable. QBE itself has been removed from the project: the amd64 backend is JHYY's own code, and the IL text is JHYY's own format. No QBE code is vendored, linked, or executed.</p>
+<h3 id="does-the-compiler-compiles-itself-byte-identically-mean-the-compiler-is-correct">Does "the compiler compiles itself byte-identically" mean the compiler is correct?</h3>
+<p><strong>No.</strong> It says the compiler <strong>reproduces itself exactly</strong> — that is a statement about generation determinism. A deterministic wrong compiler can close the loop perfectly. This is the classic "trusting trust" gap, covered by a different gate: the regression suite.</p>
+<h3 id="why-does-the-repository-publicly-maintain-a-ledger-of-known-defects">Why does the repository publicly maintain a ledger of known defects?</h3>
+<p>Because a compiler that quietly works around its own defects is worse than one that publicly admits them. The ledger (<a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md" target="_blank" rel="noopener noreferrer">workarounds.md</a>) is maintained in public: every entry spells out what the problem is, when it triggers, how to work around it, and what can replace that workaround. Entries are only closed, never deleted — it is an audit trail.</p>
+<h3 id="how-do-i-report-a-bug">How do I report a bug?</h3>
+<p>Include a <strong>minimal reproduction</strong>, the expected output and the actual output, the version, and the exit code. Details are in the <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">contributing guide</a>; the issue template asks for exactly these fields.</p>
+<h3 id="how-do-i-report-a-security-issue">How do I report a security issue?</h3>
+<p><strong>Do not open a public issue.</strong> Use the private advisory form instead — the process, the scope, and the response-time table are all in <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">SECURITY.md</a>.</p>
+<h3 id="where-is-the-roadmap">Where is the roadmap?</h3>
+<p>The authoritative schedule is in <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/FACTS.md" target="_blank" rel="noopener noreferrer">FACTS.md</a>, and one plan per version slot is in <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/docs/plans/v4" target="_blank" rel="noopener noreferrer"><code>docs/plans/v4/</code></a>. The numbers on reserved versions are placeholders — every plan carries its own "checklist at kickoff"; when you pick up that slot, re-verify against the situation at that time.</p>
+<hr />
+<h2 id="still-stuck">Still stuck?</h2>
+<ul class='md-list'><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/discussions" target="_blank" rel="noopener noreferrer">Discussions</a> — questions and design discussion.</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues" target="_blank" rel="noopener noreferrer">Issues</a> — bugs and feature requests.</li><li><a href="../../../en/compiler/docs/index.html">Home</a> — back to the start.</li></ul>
+      <div class="doc-foot-row">
+        <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/en/compiler/docs/faq.md" target="_blank" rel="noopener">Edit this page ↗</a>
+        <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </div>
+  </main>
+  <nav class="doc-anchors" aria-label="On this page"><h4>On this page</h4><a class="anchor-l1" href="#faq">FAQ</a><a class="anchor-l2" href="#using-the-compiler">Using the compiler</a><a class="anchor-l3" href="#can-the-compiler-run-on-linux-or-macos">Can the compiler run on Linux or macOS?</a><a class="anchor-l3" href="#how-do-i-check-the-version">How do I check the version?</a><a class="anchor-l3" href="#why-is-the-entry-point-main-jhyy-and-not-main">Why is the entry point main_jhyy and not main?</a><a class="anchor-l3" href="#why-does-jhyy-compile-ajhyy-bjhyy-ignore-bjhyy">Why does jhyy compile a.jhyy b.jhyy ignore b.jhyy?</a><a class="anchor-l3" href="#why-does-my-exit-code-look-wrong">Why does my exit code look wrong?</a><a class="anchor-l3" href="#why-doesnt-the-compiler-link-my-linux-program-for-me">Why doesn&#x27;t the compiler link my Linux program for me?</a><a class="anchor-l3" href="#do-i-need-msys2-to-use-jhyy">Do I need MSYS2 to use JHYY?</a><a class="anchor-l2" href="#language">Language</a><a class="anchor-l3" href="#is-there-garbage-collection-allocators-raii">Is there garbage collection? Allocators? RAII?</a><a class="anchor-l3" href="#why-is-there-no-std-prefix">Why is there no std:: prefix?</a><a class="anchor-l3" href="#can-i-call-c-libraries">Can I call C libraries?</a><a class="anchor-l3" href="#can-i-write-closures-that-capture-variables">Can I write closures that capture variables?</a><a class="anchor-l3" href="#are-generics-and-traits-done">Are generics and traits done?</a><a class="anchor-l3" href="#what-about-floating-point">What about floating point?</a><a class="anchor-l3" href="#is-jhyy-production-ready">Is JHYY production-ready?</a><a class="anchor-l2" href="#project">Project</a><a class="anchor-l3" href="#if-the-intermediate-representation-is-qbe-style-why-is-there-no-qbe">If the intermediate representation is &quot;QBE-style&quot;, why is there no QBE?</a><a class="anchor-l3" href="#does-the-compiler-compiles-itself-byte-identically-mean-the-compiler-is-correct">Does &quot;the compiler compiles itself byte-identically&quot; mean the compiler is correct?</a><a class="anchor-l3" href="#why-does-the-repository-publicly-maintain-a-ledger-of-known-defects">Why does the repository publicly maintain a ledger of known defects?</a><a class="anchor-l3" href="#how-do-i-report-a-bug">How do I report a bug?</a><a class="anchor-l3" href="#how-do-i-report-a-security-issue">How do I report a security issue?</a><a class="anchor-l3" href="#where-is-the-roadmap">Where is the roadmap?</a><a class="anchor-l2" href="#still-stuck">Still stuck?</a></nav>
+</div>
+
+  <footer class="site-foot">
+    <div class="container foot-grid">
+      <div class="foot-brand">
+        <a href="../../../index.html" class="nav-logo foot-logo">
+          <img src="../../../assets/img/jhyy-logo.png" class="logo-img logo-img--foot" alt="机会翼游 · JHYY" />
+        </a>
+        <p class="foot-tag">The JHYY family · Compiler / IDE / OS / for-VEX</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4 class="foot-h">Family</h4>
+          <ul>
+            <li><a href="../../../en/compiler/index.html">编译器<span class="foot-sub">Compiler</span></a></li>
+            <li><a href="../../../en/ide/index.html">IDE<span class="foot-sub">IDE</span></a></li>
+            <li><a href="../../../en/os/index.html">OS<span class="foot-sub">OS</span></a></li>
+            <li><a href="../../../en/vex/index.html">for-VEX<span class="foot-sub">for-VEX</span></a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Compiler</h4>
+          <ul>
+            <li><a href="../../../en/compiler/docs/index.html">Docs</a></li>
+            <li><a href="../../../en/compiler/download/index.html">Download</a></li>
+            <li><a href="../../../en/compiler/community/index.html">Community</a></li>
+            <li><a href="../../../en/compiler/governance/index.html">Governance</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Repositories</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler">Compiler</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-IDE">IDE</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-OS">OS</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-for-VEX">for-VEX</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Specs</h4>
+          <ul>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md">Language spec v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md">ABI v4.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-binary-format-v1.0.0.md">Binary format v1.0.0</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4 class="foot-h">Community</h4>
+          <ul>
+            <li><span class="foot-text-strong">QQ group 429807125</span><button class="ci-copy ci-copy--inline ci-copy--foot" type="button" aria-label="Copy the QQ group number" data-copy-text="429807125"></button></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/issues">Issues</a></li>
+            <li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="../../../en/compiler/community/security.html">Security disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="container foot-bar-row">
+        <span class="foot-copy">© 2026 机会翼游 · MIT License</span>
+        <div class="foot-status">
+          <span class="status-led"></span>
+          <span>v4.1.5 · spec v4.0.0 · main</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="../../../assets/js/docs.js" defer></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+</body>
+</html>
