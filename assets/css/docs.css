@@ -473,6 +473,27 @@ blockquote.callout.danger strong { color: var(--doc-err); }
   .doc-shell { padding: 0 16px; }
 }
 
+/* ⚠️ 390px 下**整页横向溢出**（实测 scrollWidth 414 / clientWidth 390）——
+   根因是顶栏右侧那组是 `flex: none`（永不收缩），而品牌 + 分区导航 +
+   语言切换 + GitHub 按钮在手机上放不下 ⇒ 右侧组被推出视口右边 24px。
+   分区导航自己有 `overflow-x: auto`（能滚），可它被挤成 0 宽 ⇒ 手机上
+   连横向滚动都看不全。
+   ⇒ 手机档按「先砍装饰、再砍当前项」的顺序收：
+     · 版本号胶囊（正文里也有）→ 砍掉；
+     · 品牌名（留 logo）→ 砍掉；
+     · 语言切换里**当前**那项（留下的那项就是「切过去」的目标）→ 砍掉。
+   分区导航因此能拿回 ~168px，横向滚动可用。
+   （2026-11-10 实测：改完 414/390 → 390/390，中英两版都验过。） */
+@media (max-width: 620px) {
+  .doc-topbar-inner { gap: 12px; }
+  .doc-version { display: none; }
+}
+@media (max-width: 480px) {
+  .doc-topbar-inner { padding: 0 16px; }
+  .doc-brand-name { display: none; }
+  .lang-opt.is-active { display: none; }
+}
+
 /* ── 文档层项目切换器（浅色变体） ─────────────────────────── */
 
 .doc-body .proj-summary {
