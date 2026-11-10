@@ -253,6 +253,9 @@ LITERAL_FACT_PATTERNS = [
     ("ide_gate_pass", "/"),
     ("stdlib_modules", " 个模块"),
     ("stdlib_modules", " modules"),
+    ("targets_count", " 个目标"),
+    ("targets_count", " 个 target "),
+    ("targets_count", " targets"),
 ]
 
 # ── 路由工具 ──────────────────────────────────────────────────────────────

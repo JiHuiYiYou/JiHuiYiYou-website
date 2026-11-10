@@ -29,7 +29,7 @@ ABI 锁在 v{{abi_version}}（2026-10-24 随 `v4.0.0 final` 一同锁版），�
 | `amd64_sysv_freestanding` | SysV AMD64 | freestanding | beta |
 
 - **架构只有 x86-64。** aarch64 / riscv64 未实装（ABI § 12.10）。
-- 四个目标**全部**走自托管 amd64 后端，没有 QBE 回退路径。
+- {{targets_count}} 个目标**全部**走自托管 amd64 后端，没有 QBE 回退路径。
 - `amd64_win` 与 `amd64_win_freestanding` 的**调用约定逐字节相同**；
   `amd64_sysv` 与 `amd64_sysv_freestanding` 同理。
 
@@ -255,7 +255,7 @@ ABI § 9 明确分成两栏：
 | 指针宽度（64 位） | `alignof(enum)` 的取值 |
 | struct 字段对齐与排列算法 | 名称修饰方案（引入类型编码 / 重载编码） |
 | enum 的 tag（`i32`，offset 0）布局 | SysV 分类器对非 struct 标量的处理 |
-| 四个目标的调用约定归属（哪个目标用哪套约定） | 栈槽对齐粒度 |
+| {{targets_count}} 个目标的调用约定归属（哪个目标用哪套约定） | 栈槽对齐粒度 |
 | 名称修饰方案的基本形状（`<mod>__<name>` / `<Base>$<T>`） | |
 
 ---

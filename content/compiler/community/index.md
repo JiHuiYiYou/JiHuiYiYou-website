@@ -45,7 +45,7 @@ zone: community
 | 产物级门 | {{artifact_checks}} 道 | FACTS § 2 |
 | 问题台账 | {{workarounds_total}} 条：**ACTIVE {{workarounds_active}}** / DEFERRED {{workarounds_deferred}} / RESOLVED {{workarounds_resolved}} / SUPERSEDED {{workarounds_superseded}} / INVALID {{workarounds_invalid}} | FACTS § 3 |
 | 宿主平台 | **1 个**（Windows x64） | build.md |
-| 目标三元组 | **4 个**（2 个 stable / 2 个 beta） | FACTS § 5 |
+| 目标三元组 | **{{targets_count}} 个**（2 个 stable / 2 个 beta） | FACTS § 5 |
 | 许可证 | MIT | 仓库根 `LICENSE` |
 
 **这些数字各自的边界**，别读过头：

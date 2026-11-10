@@ -454,8 +454,8 @@
     "slug": "3-选项"
    },
    {
-    "text": "四个目标",
-    "slug": "四个目标"
+    "text": "4 个目标",
+    "slug": "4-个目标"
    },
    {
     "text": "完整的交叉编译三步",
@@ -1086,8 +1086,8 @@
   "url": "/compiler/download/targets.html",
   "lang": "zh",
   "title": "目标与交叉编译",
-  "desc": "四个 target 的取舍、freestanding 的含义与裸机工具链最小组合",
-  "text": " 目标与交叉编译 这一页回答四个问题： 目标只有哪几个 、每个目标产出什么、 freestanding 到底 改了什么 、以及裸机构建最少需要哪些工具。 --- 目标边界：只有 amd64 当前只有四个目标，全部是 x86-64。 没有 aarch64、没有 riscv64、没有 wasm。 目标三元组 ABI 产物 状态 说明 --- --- --- --- --- amd64_win MS x64 PE/COFF 可执行文件（ .exe ） 稳定 宿主默认目标。编译器自身就跑在这个目标上 amd64_sysv SysV AMD64 SysV 汇编（ .s ）→ 外部 ld 链成 ELF 稳定 产物是汇编文本，链接由外部 linker 完成 amd64_win_freestanding MS x64 UEFI 可执行映像（ .efi ） 测试中 调用约定与 amd64_win 逐字节相同；UEFI 入口路径尚未完工（ABI § 12.8） amd64_sysv_freestanding SysV AMD64 freestanding 汇编（ .s ） 测试中 裸机内核的主要入口目标；同样存在 UEFI 入口缺口 四个目标 全部 走自研的 amd64 后端（ target_backend_mode 一律返回 BACKEND_SELF ），没有 QBE 回退路径——QBE 早已从构建",
+  "desc": "4 个 target 的取舍、freestanding 的含义与裸机工具链最小组合",
+  "text": " 目标与交叉编译 这一页回答四个问题： 目标只有哪几个 、每个目标产出什么、 freestanding 到底 改了什么 、以及裸机构建最少需要哪些工具。 --- 目标边界：只有 amd64 当前只有4 个目标，全部是 x86-64。 没有 aarch64、没有 riscv64、没有 wasm。 目标三元组 ABI 产物 状态 说明 --- --- --- --- --- amd64_win MS x64 PE/COFF 可执行文件（ .exe ） 稳定 宿主默认目标。编译器自身就跑在这个目标上 amd64_sysv SysV AMD64 SysV 汇编（ .s ）→ 外部 ld 链成 ELF 稳定 产物是汇编文本，链接由外部 linker 完成 amd64_win_freestanding MS x64 UEFI 可执行映像（ .efi ） 测试中 调用约定与 amd64_win 逐字节相同；UEFI 入口路径尚未完工（ABI § 12.8） amd64_sysv_freestanding SysV AMD64 freestanding 汇编（ .s ） 测试中 裸机内核的主要入口目标；同样存在 UEFI 入口缺口 4 个目标 全部 走自研的 amd64 后端（ target_backend_mode 一律返回 BACKEND_SELF ），没有 QBE 回退路径——QBE 早已从",
   "headings": [
    {
     "text": "目标与交叉编译",
@@ -1814,8 +1814,8 @@
     "slug": "3-options"
    },
    {
-    "text": "The four targets",
-    "slug": "the-four-targets"
+    "text": "The 4 targets",
+    "slug": "the-4-targets"
    },
    {
     "text": "The full three-step cross-compilation",
@@ -2446,8 +2446,8 @@
   "url": "/en/compiler/download/targets.html",
   "lang": "en",
   "title": "Targets and cross-compilation",
-  "desc": "The trade-offs of the four targets, what freestanding means, and the minimal bare metal toolchain",
-  "text": " Targets and cross-compilation This page answers four questions: which targets exist , what each target produces, what freestanding actually changes , and which tools a bare metal build minimally needs. --- Target boundary: amd64 only There are currently four targets, all of them x86-64. No aarch64, no riscv64, no wasm. Target triple ABI Artifact Status Explanation --- --- --- --- --- amd64_win MS x64 PE/COFF executable ( .exe ) Stable The host's default target. The compiler itself runs on this target amd64_sysv SysV AMD64 SysV assembly ( .s ) → linked into an ELF by an external ld Stable The ",
+  "desc": "The trade-offs of the 4 targets, what freestanding means, and the minimal bare metal toolchain",
+  "text": " Targets and cross-compilation This page answers four questions: which targets exist , what each target produces, what freestanding actually changes , and which tools a bare metal build minimally needs. --- Target boundary: amd64 only There are currently 4 targets, all of them x86-64. No aarch64, no riscv64, no wasm. Target triple ABI Artifact Status Explanation --- --- --- --- --- amd64_win MS x64 PE/COFF executable ( .exe ) Stable The host's default target. The compiler itself runs on this target amd64_sysv SysV AMD64 SysV assembly ( .s ) → linked into an ELF by an external ld Stable The art",
   "headings": [
    {
     "text": "Targets and cross-compilation",

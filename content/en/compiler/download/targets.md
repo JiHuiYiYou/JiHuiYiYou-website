@@ -1,6 +1,6 @@
 ---
 title: Targets and cross-compilation
-description: The trade-offs of the four targets, what freestanding means, and the minimal bare metal toolchain
+description: The trade-offs of the {{targets_count}} targets, what freestanding means, and the minimal bare metal toolchain
 layout: docs
 project: compiler
 zone: download
@@ -15,7 +15,7 @@ changes**, and which tools a bare metal build minimally needs.
 
 ## Target boundary: amd64 only
 
-There are currently four targets, all of them x86-64. **No aarch64, no riscv64, no wasm.**
+There are currently {{targets_count}} targets, all of them x86-64. **No aarch64, no riscv64, no wasm.**
 
 | Target triple | ABI | Artifact | Status | Explanation |
 |---|---|---|---|---|
@@ -24,7 +24,7 @@ There are currently four targets, all of them x86-64. **No aarch64, no riscv64, 
 | `amd64_win_freestanding` | MS x64 | UEFI executable image (`.efi`) | Under test | The calling convention is byte-identical with `amd64_win`; the UEFI entry path is not finished yet (ABI § 12.8) |
 | `amd64_sysv_freestanding` | SysV AMD64 | freestanding assembly (`.s`) | Under test | The main entry target for bare metal kernels; it has the same UEFI entry gap |
 
-All four targets **go through** the self-written amd64 backend (`target_backend_mode` always returns
+All {{targets_count}} targets **go through** the self-written amd64 backend (`target_backend_mode` always returns
 `BACKEND_SELF`), and there is no QBE fallback path — QBE was removed from the build chain long ago.
 
 > [!IMPORTANT]

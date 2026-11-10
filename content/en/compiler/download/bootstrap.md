@@ -192,5 +192,5 @@ The parts that the repository can actually vouch for:
 ## Next
 
 - [Build and test](/compiler/docs/build-and-test.html) — the complete build and test documentation in the repository.
-- [Targets and cross-compilation](/compiler/download/targets.html) — the four targets and the bare metal toolchain.
+- [Targets and cross-compilation](/compiler/download/targets.html) — the {{targets_count}} targets and the bare metal toolchain.
 - [Verification and signing](/compiler/download/verify.html) — how to check the released artifacts.

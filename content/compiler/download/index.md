@@ -194,7 +194,7 @@ manifest 在仓内的 `installer/distribution/scoop/jhyy.json`。
 
 ## 接下来 {#next}
 
-- [目标与交叉编译](/compiler/download/targets.html)——四个 target 各自的产物，
+- [目标与交叉编译](/compiler/download/targets.html)——{{targets_count}} 个 target 各自的产物，
   以及 freestanding 到底改了什么。
 - [源码构建与自举](/compiler/download/bootstrap.html)——从源码编编译器，
   以及自举闭环证明的是什么、不证明什么。

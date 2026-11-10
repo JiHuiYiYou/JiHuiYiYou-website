@@ -31,7 +31,7 @@ as the language spec. The toolchain version is a separate matter, see the
 | `amd64_sysv_freestanding` | SysV AMD64 | freestanding | beta |
 
 - **The architecture is x86-64 only.** aarch64 / riscv64 are not implemented (ABI § 12.10).
-- All four targets go through the self-hosted amd64 backend; there is no QBE fallback path.
+- All {{targets_count}} targets go through the self-hosted amd64 backend; there is no QBE fallback path.
 - The **calling conventions of `amd64_win` and `amd64_win_freestanding` are byte-identical**;
   likewise for `amd64_sysv` and `amd64_sysv_freestanding`.
 
@@ -273,7 +273,7 @@ ABI § 9 explicitly splits into two columns:
 | The pointer width (64-bit) | The value of `alignof(enum)` |
 | The struct field alignment and ordering algorithm | The name mangling scheme (introducing type encoding / overload encoding) |
 | The layout of the enum tag (`i32`, offset 0) | How the SysV classifier handles non-struct scalars |
-| The calling convention ownership of the four targets (which target uses which convention) | The granularity of stack slot alignment |
+| The calling convention ownership of the {{targets_count}} targets (which target uses which convention) | The granularity of stack slot alignment |
 | The basic shape of the name mangling scheme (`<mod>__<name>` / `<Base>$<T>`) | |
 
 ---

@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0a0a0a" />
   <title>Targets and cross-compilation</title>
-  <meta name="description" content="The trade-offs of the four targets, what freestanding means, and the minimal bare metal toolchain" />
+  <meta name="description" content="The trade-offs of the 4 targets, what freestanding means, and the minimal bare metal toolchain" />
   <meta property="og:title" content="Targets and cross-compilation" />
-  <meta property="og:description" content="The trade-offs of the four targets, what freestanding means, and the minimal bare metal toolchain" />
+  <meta property="og:description" content="The trade-offs of the 4 targets, what freestanding means, and the minimal bare metal toolchain" />
   <meta property="og:type" content="website" />
   <link rel="alternate" hreflang="zh-CN" href="../../../compiler/download/targets.html" />
   <link rel="stylesheet" href="../../../assets/css/fonts.css" />
@@ -55,9 +55,9 @@
 <p>This page answers four questions: <strong>which targets exist</strong>, what each target produces, <strong>what freestanding actually changes</strong>, and which tools a bare metal build minimally needs.</p>
 <hr />
 <h2 id="target-boundary-amd64-only">Target boundary: amd64 only</h2>
-<p>There are currently four targets, all of them x86-64. <strong>No aarch64, no riscv64, no wasm.</strong></p>
+<p>There are currently 4 targets, all of them x86-64. <strong>No aarch64, no riscv64, no wasm.</strong></p>
 <div class="table-wrap"><table class="ref-table"><thead><tr><th>Target triple</th><th>ABI</th><th>Artifact</th><th>Status</th><th>Explanation</th></tr></thead><tbody><tr><td><code>amd64_win</code></td><td>MS x64</td><td>PE/COFF executable (<code>.exe</code>)</td><td>Stable</td><td>The host's default target. The compiler itself runs on this target</td></tr><tr><td><code>amd64_sysv</code></td><td>SysV AMD64</td><td>SysV assembly (<code>.s</code>) → linked into an ELF by an external ld</td><td>Stable</td><td>The artifact is assembly text; the linking is done by the external linker</td></tr><tr><td><code>amd64_win_freestanding</code></td><td>MS x64</td><td>UEFI executable image (<code>.efi</code>)</td><td>Under test</td><td>The calling convention is byte-identical with <code>amd64_win</code>; the UEFI entry path is not finished yet (ABI § 12.8)</td></tr><tr><td><code>amd64_sysv_freestanding</code></td><td>SysV AMD64</td><td>freestanding assembly (<code>.s</code>)</td><td>Under test</td><td>The main entry target for bare metal kernels; it has the same UEFI entry gap</td></tr></tbody></table></div>
-<p>All four targets <strong>go through</strong> the self-written amd64 backend (<code>target_backend_mode</code> always returns <code>BACKEND_SELF</code>), and there is no QBE fallback path — QBE was removed from the build chain long ago.</p>
+<p>All 4 targets <strong>go through</strong> the self-written amd64 backend (<code>target_backend_mode</code> always returns <code>BACKEND_SELF</code>), and there is no QBE fallback path — QBE was removed from the build chain long ago.</p>
 <blockquote class="callout warn"><p>This is <strong>the current boundary</strong>: the compiler itself only has an amd64 backend. The ARM target is being worked on in another project — <a href="../../../en/vex/index.html">for-VEX</a> goes with JHYY emitting ARM machine code (<code>.o</code>) directly and then linking the official SDK into a <code>.bin</code>; that route is currently still at the fact-baseline stage, the ARM backend has not been started. "Multi-architecture ABI" is an unscheduled item after v4.16 in the release plan.</p></blockquote>
 <p>The ABI side registers this explicitly: § 12.10 "no aarch64 / riscv64", and the <code>.jhyynb</code> native binary format is still a design draft.</p>
 <hr />

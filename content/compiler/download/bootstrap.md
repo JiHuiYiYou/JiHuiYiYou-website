@@ -189,5 +189,5 @@ python scripts/dev/audit_test_assertions.py --strict   # 断言强度审计
 ## 接下来
 
 - [构建与测试](/compiler/docs/build-and-test.html)——仓库里的完整构建与测试说明。
-- [目标与交叉编译](/compiler/download/targets.html)——四个 target 与裸机工具链。
+- [目标与交叉编译](/compiler/download/targets.html)——{{targets_count}} 个 target 与裸机工具链。
 - [校验与签名](/compiler/download/verify.html)——发布产物怎么核对。

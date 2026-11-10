@@ -166,7 +166,7 @@ Every release carries the `SHA256.txt` of its own version. **Checksums travel wi
 
 ## Next {#next}
 
-- [Targets and cross-compilation](/compiler/download/targets.html) — what each of the four targets produces,
+- [Targets and cross-compilation](/compiler/download/targets.html) — what each of the {{targets_count}} targets produces,
   and what freestanding actually changes.
 - [Build from source and bootstrap](/compiler/download/bootstrap.html) — building the compiler from source,
   and what the self-hosted closure proves and does not prove.

@@ -82,7 +82,7 @@ code 1. ⇒ To get only the assembly, use `jhyy build` or `jhyy compile --no-lin
 
 Running `jhyy` with no arguments at all prints the **same** full help.
 
-### The four targets
+### The {{targets_count}} targets
 
 | Triple | Calling convention | Runtime | Can this build link it |
 |---|---|---|---|
@@ -235,6 +235,6 @@ jhyy --help
 
 - [Getting started](/compiler/docs/getting-started.html) — the first program after installing.
 - [Bare metal and kernel development](/compiler/docs/osdev.html) — the four values of `--target=`, `#[no_std]`, and freestanding.
-- [Targets and cross-compilation](/compiler/download/targets.html) — the artifact shape of the four targets.
+- [Targets and cross-compilation](/compiler/download/targets.html) — the artifact shape of the {{targets_count}} targets.
 - [How the compiler works](/compiler/docs/compiler.html) — how the compiler itself is built, after the command line.
 - [Language spec v{{spec_version}}](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) — § 16 is the authoritative definition of the command line.

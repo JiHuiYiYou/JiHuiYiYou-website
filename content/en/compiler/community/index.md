@@ -45,7 +45,7 @@ What follows are **numbers that change**. The single source of truth is the repo
 | Artifact checks | {{artifact_checks}} | FACTS § 2 |
 | Workaround ledger | {{workarounds_total}} entries: **ACTIVE {{workarounds_active}}** / DEFERRED {{workarounds_deferred}} / RESOLVED {{workarounds_resolved}} / SUPERSEDED {{workarounds_superseded}} / INVALID {{workarounds_invalid}} | FACTS § 3 |
 | Host platform | **1** (Windows x64) | build.md |
-| Target triple | **4** (2 stable / 2 beta) | FACTS § 5 |
+| Target triple | **{{targets_count}}** (2 stable / 2 beta) | FACTS § 5 |
 | License | MIT | `LICENSE` at the repository root |
 
 **The boundary of each of these numbers** — do not read past it:

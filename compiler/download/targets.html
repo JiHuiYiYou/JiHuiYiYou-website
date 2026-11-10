@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0a0a0a" />
   <title>目标与交叉编译</title>
-  <meta name="description" content="四个 target 的取舍、freestanding 的含义与裸机工具链最小组合" />
+  <meta name="description" content="4 个 target 的取舍、freestanding 的含义与裸机工具链最小组合" />
   <meta property="og:title" content="目标与交叉编译" />
-  <meta property="og:description" content="四个 target 的取舍、freestanding 的含义与裸机工具链最小组合" />
+  <meta property="og:description" content="4 个 target 的取舍、freestanding 的含义与裸机工具链最小组合" />
   <meta property="og:type" content="website" />
   <link rel="alternate" hreflang="en" href="../../en/compiler/download/targets.html" />
   <link rel="stylesheet" href="../../assets/css/fonts.css" />
@@ -55,9 +55,9 @@
 <p>这一页回答四个问题：<strong>目标只有哪几个</strong>、每个目标产出什么、<strong>freestanding 到底 改了什么</strong>、以及裸机构建最少需要哪些工具。</p>
 <hr />
 <h2 id="目标边界只有-amd64">目标边界：只有 amd64</h2>
-<p>当前只有四个目标，全部是 x86-64。<strong>没有 aarch64、没有 riscv64、没有 wasm。</strong></p>
+<p>当前只有4 个目标，全部是 x86-64。<strong>没有 aarch64、没有 riscv64、没有 wasm。</strong></p>
 <div class="table-wrap"><table class="ref-table"><thead><tr><th>目标三元组</th><th>ABI</th><th>产物</th><th>状态</th><th>说明</th></tr></thead><tbody><tr><td><code>amd64_win</code></td><td>MS x64</td><td>PE/COFF 可执行文件（<code>.exe</code>）</td><td>稳定</td><td>宿主默认目标。编译器自身就跑在这个目标上</td></tr><tr><td><code>amd64_sysv</code></td><td>SysV AMD64</td><td>SysV 汇编（<code>.s</code>）→ 外部 ld 链成 ELF</td><td>稳定</td><td>产物是汇编文本，链接由外部 linker 完成</td></tr><tr><td><code>amd64_win_freestanding</code></td><td>MS x64</td><td>UEFI 可执行映像（<code>.efi</code>）</td><td>测试中</td><td>调用约定与 <code>amd64_win</code> 逐字节相同；UEFI 入口路径尚未完工（ABI § 12.8）</td></tr><tr><td><code>amd64_sysv_freestanding</code></td><td>SysV AMD64</td><td>freestanding 汇编（<code>.s</code>）</td><td>测试中</td><td>裸机内核的主要入口目标；同样存在 UEFI 入口缺口</td></tr></tbody></table></div>
-<p>四个目标<strong>全部</strong>走自研的 amd64 后端（<code>target_backend_mode</code> 一律返回 <code>BACKEND_SELF</code>），没有 QBE 回退路径——QBE 早已从构建链里移除。</p>
+<p>4 个目标<strong>全部</strong>走自研的 amd64 后端（<code>target_backend_mode</code> 一律返回 <code>BACKEND_SELF</code>），没有 QBE 回退路径——QBE 早已从构建链里移除。</p>
 <blockquote class="callout warn"><p>这是<strong>当前的边界</strong>：编译器本体只有 amd64 后端。ARM 目标在另一个项目里推进—— <a href="../../vex/index.html">for-VEX</a> 走的是 JHYY 直出 ARM 机器码（<code>.o</code>）再链官方 SDK 出 <code>.bin</code>，那条路线目前停在事实基线阶段，ARM 后端还没动手。 「多架构 ABI」在发行计划里是 v4.16 之后的未排期项。</p></blockquote>
 <p>ABI 侧对此有明确登记：§ 12.10「无 aarch64 / riscv64」，<code>.jhyynb</code> 原生二进制格式 至今仍是设计稿。</p>
 <hr />

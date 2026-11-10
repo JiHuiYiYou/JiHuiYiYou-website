@@ -86,7 +86,7 @@ jhyy compile --no-link x.jhyy -o out  # ⇒ out.s
 <h2 id="3-选项">3. 选项</h2>
 <div class="table-wrap"><table class="ref-table"><thead><tr><th>选项</th><th>作用</th></tr></thead><tbody><tr><td><code>--target=&lt;triple&gt;</code></td><td>选目标，默认 <code>amd64_win</code>。<strong>位置任意</strong>（子命令前后都行）；给多个时<strong>最后一个生效</strong></td></tr><tr><td><code>--no-link</code></td><td>只产出 <code>.s</code>，跳过链接。<strong>位置任意</strong>（子命令前后都行）</td></tr><tr><td><code>--help</code></td><td>打印完整帮助并退出 0。<strong>任意位置</strong>都能触发 —— <code>jhyy --help</code> 和 <code>jhyy compile --help</code> 打的是同一份</td></tr></tbody></table></div>
 <p>不带任何参数跑 <code>jhyy</code> 打的也是<strong>同一份</strong>完整帮助。</p>
-<h3 id="四个目标">四个目标</h3>
+<h3 id="4-个目标">4 个目标</h3>
 <div class="table-wrap"><table class="ref-table"><thead><tr><th>三元组</th><th>调用约定</th><th>运行时</th><th>这份构建能链接吗</th></tr></thead><tbody><tr><td><code>amd64_win</code></td><td>MS x64</td><td>hosted（链 C 运行时）</td><td>能（唯一能链的）</td></tr><tr><td><code>amd64_sysv</code></td><td>SysV AMD64</td><td>hosted</td><td>不能，必须 <code>--no-link</code></td></tr><tr><td><code>amd64_win_freestanding</code></td><td>MS x64</td><td>freestanding（UEFI）</td><td>不能，必须 <code>--no-link</code></td></tr><tr><td><code>amd64_sysv_freestanding</code></td><td>SysV AMD64</td><td>freestanding</td><td>不能，必须 <code>--no-link</code></td></tr></tbody></table></div>
 <p>freestanding 相关的三点：</p>
 <ol class='md-list'><li><strong>freestanding 只切「调用约定归属 + 入口钩子」，不切链接方式。</strong> 链接行由源文件里有没有 <code>#[no_std]</code> 决定 —— 详见 <a href="../../compiler/docs/osdev.html">裸机与内核开发</a>。</li><li><strong>交叉目标故意拒绝链接</strong>。不带 <code>--no-link</code> 直接报错、退出 1：</li></ol>
@@ -162,14 +162,14 @@ jhyy --help
 </code></pre>
 <hr />
 <h2 id="7-相关页面">7. 相关页面</h2>
-<ul class='md-list'><li><a href="../../compiler/docs/getting-started.html">快速上手</a> —— 装好之后的第一个程序。</li><li><a href="../../compiler/docs/osdev.html">裸机与内核开发</a> —— <code>--target=</code> 的四个取值、<code>#[no_std]</code> 与 freestanding。</li><li><a href="../../compiler/download/targets.html">目标与交叉编译</a> —— 四个目标的产物形态。</li><li><a href="../../compiler/docs/compiler.html">编译器实现</a> —— 命令行之后，编译器自己是怎么搭的。</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">语言规范 v4.0.0</a> —— § 16 是命令行的权威定义。</li></ul>
+<ul class='md-list'><li><a href="../../compiler/docs/getting-started.html">快速上手</a> —— 装好之后的第一个程序。</li><li><a href="../../compiler/docs/osdev.html">裸机与内核开发</a> —— <code>--target=</code> 的四个取值、<code>#[no_std]</code> 与 freestanding。</li><li><a href="../../compiler/download/targets.html">目标与交叉编译</a> —— 4 个目标的产物形态。</li><li><a href="../../compiler/docs/compiler.html">编译器实现</a> —— 命令行之后，编译器自己是怎么搭的。</li><li><a href="https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md" target="_blank" rel="noopener noreferrer">语言规范 v4.0.0</a> —— § 16 是命令行的权威定义。</li></ul>
       <div class="doc-foot-row">
         <a class="doc-edit" href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/edit/main/content/compiler/docs/cli.md" target="_blank" rel="noopener">编辑此页 ↗</a>
         <a href="https://github.com/JiHuiYiYou/JiHuiYiYou-website/issues/new" target="_blank" rel="noopener">报告问题 ↗</a>
       </div>
     </div>
   </main>
-  <nav class="doc-anchors" aria-label="本页目录"><h4>本页</h4><a class="anchor-l2" href="#1-命令表">1. 命令表</a><a class="anchor-l2" href="#2-三个子命令的差别重点">2. 三个子命令的差别（重点）</a><a class="anchor-l3" href="#两条等价路径">两条等价路径</a><a class="anchor-l3" href="#一个和帮助文案不一致的地方">一个和帮助文案不一致的地方</a><a class="anchor-l2" href="#3-选项">3. 选项</a><a class="anchor-l3" href="#四个目标">四个目标</a><a class="anchor-l3" href="#完整的交叉编译三步">完整的交叉编译三步</a><a class="anchor-l2" href="#4-三个必须知道的怪癖">4. 三个必须知道的怪癖</a><a class="anchor-l3" href="#41-没有-jhyy---version">4.1 没有 jhyy --version</a><a class="anchor-l3" href="#42-命令行只接受一个输入文件">4.2 命令行只接受一个输入文件</a><a class="anchor-l3" href="#43-不认识的选项会被拒绝">4.3 不认识的选项会被拒绝</a><a class="anchor-l2" href="#5-退出码">5. 退出码</a><a class="anchor-l2" href="#6-速查">6. 速查</a><a class="anchor-l2" href="#7-相关页面">7. 相关页面</a></nav>
+  <nav class="doc-anchors" aria-label="本页目录"><h4>本页</h4><a class="anchor-l2" href="#1-命令表">1. 命令表</a><a class="anchor-l2" href="#2-三个子命令的差别重点">2. 三个子命令的差别（重点）</a><a class="anchor-l3" href="#两条等价路径">两条等价路径</a><a class="anchor-l3" href="#一个和帮助文案不一致的地方">一个和帮助文案不一致的地方</a><a class="anchor-l2" href="#3-选项">3. 选项</a><a class="anchor-l3" href="#4-个目标">4 个目标</a><a class="anchor-l3" href="#完整的交叉编译三步">完整的交叉编译三步</a><a class="anchor-l2" href="#4-三个必须知道的怪癖">4. 三个必须知道的怪癖</a><a class="anchor-l3" href="#41-没有-jhyy---version">4.1 没有 jhyy --version</a><a class="anchor-l3" href="#42-命令行只接受一个输入文件">4.2 命令行只接受一个输入文件</a><a class="anchor-l3" href="#43-不认识的选项会被拒绝">4.3 不认识的选项会被拒绝</a><a class="anchor-l2" href="#5-退出码">5. 退出码</a><a class="anchor-l2" href="#6-速查">6. 速查</a><a class="anchor-l2" href="#7-相关页面">7. 相关页面</a></nav>
 </div>
 
   <footer class="site-foot">

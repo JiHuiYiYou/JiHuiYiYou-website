@@ -1,6 +1,6 @@
 ---
 title: 目标与交叉编译
-description: 四个 target 的取舍、freestanding 的含义与裸机工具链最小组合
+description: {{targets_count}} 个 target 的取舍、freestanding 的含义与裸机工具链最小组合
 layout: docs
 project: compiler
 zone: download
@@ -15,7 +15,7 @@ zone: download
 
 ## 目标边界：只有 amd64
 
-当前只有四个目标，全部是 x86-64。**没有 aarch64、没有 riscv64、没有 wasm。**
+当前只有{{targets_count}} 个目标，全部是 x86-64。**没有 aarch64、没有 riscv64、没有 wasm。**
 
 | 目标三元组 | ABI | 产物 | 状态 | 说明 |
 |---|---|---|---|---|
@@ -24,7 +24,7 @@ zone: download
 | `amd64_win_freestanding` | MS x64 | UEFI 可执行映像（`.efi`） | 测试中 | 调用约定与 `amd64_win` 逐字节相同；UEFI 入口路径尚未完工（ABI § 12.8） |
 | `amd64_sysv_freestanding` | SysV AMD64 | freestanding 汇编（`.s`） | 测试中 | 裸机内核的主要入口目标；同样存在 UEFI 入口缺口 |
 
-四个目标**全部**走自研的 amd64 后端（`target_backend_mode` 一律返回
+{{targets_count}} 个目标**全部**走自研的 amd64 后端（`target_backend_mode` 一律返回
 `BACKEND_SELF`），没有 QBE 回退路径——QBE 早已从构建链里移除。
 
 > [!IMPORTANT]
