@@ -153,7 +153,7 @@ PASS」，编译器仓已经改成 281 了，没有任何门会红）。
 | 门 | 查什么 | 级别 |
 |---|---|---|
 | `tools/check_facts.py` | `siteconfig.FACTS` ↔ 编译器仓 `docs/internal/FACTS.md` 对拍（17 项） | 错误 |
-| `tools/check_twins.py` | 每个页面都要有中英两版 + **中英两页的结构对拍**（标题层级 / 代码块行数 / 表格行数 / 列表条数 / callout / 事实占位符）+ **route 数对拍**（实际 route 数 == `FACTS["site_routes"]`） | 错误 + 警告 |
+| `tools/check_twins.py` | 每个页面都要有中英两版 + **中英两页的结构对拍**（标题层级 / 代码块行数 / 表格行数 / 列表条数 / callout / 事实占位符；手写 HTML 的门脸页对拍**占位符键集**）+ **route 数对拍**（实际 route 数 == `FACTS["site_routes"]`） | 错误 + 警告 |
 | `tools/check_i18n.py` | 正文里不许手写事实（改用 `{{key}}`，**全站**：门脸页 + 文档层，中英各一版）、英文页里不许出现中文、术语说法一致 | 错误 + 警告 |
 | `tools/build.py --check` | 站内链接与锚点不断（两棵树都扫） | 错误 |
 | 同步门（CI 里 `git diff` + `git ls-files --others`） | `content/` 改了要重建；**未跟踪的生成物也算**；范围含 `sitemap.xml` / `robots.txt`（它们也是生成物） | 错误 |

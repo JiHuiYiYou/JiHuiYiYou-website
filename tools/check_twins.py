@@ -104,7 +104,17 @@ def compare_structures(routes: dict[str, dict[str, str]]) -> tuple[list[str], li
             continue
         zh_rel, en_rel = pair["zh"], pair["en"]
         if not zh_rel.endswith(".md") or not en_rel.endswith(".md"):
-            continue  # 手写 HTML 的门脸页不在此列
+            # 手写 HTML 的门脸页：Markdown 那套结构指纹（标题层级 / 表格行数…）
+            # 用不上，但**事实占位符照样要对拍** —— 中英两页引用的键必须一样，
+            # 否则同一件事在两种语言里说的不是同一个数。
+            # （这一条不是假设：门脸页的中英两版是分别写的。）
+            zh_ph = set(_PLACEHOLDER.findall((CONTENT / zh_rel).read_text(encoding="utf-8")))
+            en_ph = set(_PLACEHOLDER.findall((CONTENT / en_rel).read_text(encoding="utf-8")))
+            if zh_ph != en_ph:
+                errors.append(
+                    f"route {route!r}：事实占位符对不上 —— 中文 {sorted(zh_ph)} / 英文 {sorted(en_ph)}"
+                )
+            continue
         a, b = structure(CONTENT / zh_rel), structure(CONTENT / en_rel)
         for key in ("标题层级", "代码块行数", "表格行数", "列表条数", "callout", "事实占位符", "wiki 链接"):
             if a[key] != b[key]:
