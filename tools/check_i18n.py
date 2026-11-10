@@ -68,37 +68,65 @@ def literal_pattern(lit: str) -> re.Pattern:
     return re.compile(r"(?<![\d.])(?:" + re.escape(lit) + r")(?![\d.])")
 
 
-def literal_facts() -> dict[str, str]:
+def literal_facts() -> dict[str, list[str]]:
     """事实字面量 → 占位符键。**值从 siteconfig.FACTS 现算**。
 
     手写这张表会随版本漂 —— 上一版写死了 "4.1.4 / 279 / 299"，
     编译器仓把版本刷到 4.1.5、回归数改成 281 之后，它只抓得到旧数字。
+
+    **一个值可能对应多个键**（语言规范与 ABI 同为 4.0.0）⇒ 值 → 键**列表**，
+    报错时把候选都列出来 —— 只报一个键会误导（规范版本被说成 ABI 版本）。
     """
-    out: dict[str, str] = {}
+    out: dict[str, list[str]] = {}
     for key, suffix in I18N.LITERAL_FACT_PATTERNS:
         value = siteconfig.FACTS.get(key)
         if value is None:
             continue
-        out[f"{value}{suffix}"] = key
+        out.setdefault(f"{value}{suffix}", []).append(key)
     return out
+
+
+def lint_files() -> list[tuple[str, Path]]:
+    """范围里的所有源文件 —— 目录会递归扫（`*.md` / `*.html`）。"""
+    out: list[tuple[str, Path]] = []
+    for rel in I18N.FACT_LINT_SCOPE:
+        path = ROOT / rel
+        if path.is_dir():
+            for sub in sorted(path.rglob("*")):
+                if sub.suffix in (".md", ".html"):
+                    out.append((sub.relative_to(ROOT).as_posix(), sub))
+        elif path.exists():
+            out.append((rel, path))
+    return out
+
+
+def is_historical(rel: str, text: str, pos: int) -> bool:
+    """这个字面量是不是**历史**引用（「v4.1.5 已修」那种）—— 例外表说了算。"""
+    window = text[max(0, pos - 16) : pos + 28]
+    for scope_rel, pattern in getattr(I18N, "FACT_LINT_EXCEPTIONS", ()):
+        if scope_rel != rel:
+            continue
+        if re.search(pattern, window):
+            return True
+    return False
 
 
 def check_literal_facts() -> list[str]:
     """正文里不该手写事实 —— 要写 {{key}}。"""
     problems: list[str] = []
     facts = literal_facts()
-    for rel in I18N.FACT_LINT_SCOPE:
-        path = ROOT / rel
-        if not path.exists():
-            continue  # 还没写的页面 —— 孪生页门管这个
+    for rel, path in lint_files():
         text = path.read_text(encoding="utf-8")
         spans = code_spans(text)
-        for lit, key in facts.items():
+        for lit, keys in facts.items():
+            hint = " / ".join(f"{{{{{k}}}}}" for k in keys)
             for m in literal_pattern(lit).finditer(text):
                 if in_spans(m.start(), spans):
                     continue
+                if is_historical(rel, text, m.start()):
+                    continue
                 problems.append(
-                    f"{rel}:{line_of(text, m.start())}: 手写了 {lit!r} —— 用 {{{{{key}}}}} 占位符"
+                    f"{rel}:{line_of(text, m.start())}: 手写了 {lit!r} —— 用 {hint} 占位符"
                 )
     return problems
 

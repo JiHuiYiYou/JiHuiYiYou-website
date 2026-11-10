@@ -30,25 +30,25 @@ promise.
 
 This is the thing people get most easily tangled up in.
 
-**Language spec v4.0.0** and **ABI v4.0.0** were each locked on 2026-10-24, together with
+**Language spec v{{spec_version}}** and **ABI v{{abi_version}}** were each locked on 2026-10-24, together with
 `v4.0.0 final`. The toolchain is a separate line — the current stable version is
 v{{site_version}} (the version changes; the [download page](/compiler/download/index.html) is
 authoritative).
 
 In other words:
 
-> **v4.1.x is an evolution of the implementation of the v4.0.0 contract, not a modification of the
+> **v4.1.x is an evolution of the implementation of the v{{spec_version}} contract, not a modification of the
 > contract.**
 
 A newer compiler may support one more syntactic sugar or fix one more bug, but as long as the spec
-and the ABI are still v4.0.0, the rules by which artifacts recognize each other have not changed by
+and the ABI are still v{{spec_version}}, the rules by which artifacts recognize each other have not changed by
 a single word. Conversely, the day the spec goes to v5.0.0 that is a **new contract**, and the
 compatibility of old artifacts has to be assessed separately.
 
 One corollary: **which document you should cite while writing code depends on who you need to be
 recognized by.**
-Recognized by another JHYY artifact → look at ABI v4.0.0. Recognized by a C library → also look at
-ABI v4.0.0. Just want to know "how to write it" → look at spec v4.0.0.
+Recognized by another JHYY artifact → look at ABI v{{abi_version}}. Recognized by a C library → also look at
+ABI v{{abi_version}}. Just want to know "how to write it" → look at spec v{{spec_version}}.
 
 ---
 
@@ -56,9 +56,9 @@ ABI v4.0.0. Just want to know "how to write it" → look at spec v4.0.0.
 
 | Reference | What it covers | Authoritative original |
 |---|---|---|
-| [Language spec v4.0.0](/compiler/docs/spec.html) | Syntax, type system, semantic boundaries | [`docs/abis/jhyy-lang-spec-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) |
-| [ABI v4.0.0](/compiler/docs/abi.html) | Type layout, calling convention, linking rules | [`docs/abis/jhyy-abi-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md) |
-| [Standard library](/compiler/docs/stdlib.html) | The real API of the eight modules | [`compiler/src0/std/`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/src0/std) |
+| [Language spec v{{spec_version}}](/compiler/docs/spec.html) | Syntax, type system, semantic boundaries | [`docs/abis/jhyy-lang-spec-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) |
+| [ABI v{{abi_version}}](/compiler/docs/abi.html) | Type layout, calling convention, linking rules | [`docs/abis/jhyy-abi-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md) |
+| [Standard library](/compiler/docs/stdlib.html) | The real API of the {{stdlib_modules}} modules | [`compiler/src0/std/`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/src0/std) |
 | [CLI reference](/compiler/docs/cli.html) | Commands, arguments, exit codes | The CLI section of the repository's `README.md` |
 
 If you have not read the spec yet, starting from the [language tour](/compiler/docs/tour.html) is
@@ -101,7 +101,7 @@ the page.
 
 ## What's next
 
-- [Language spec v4.0.0](/compiler/docs/spec.html) — what you must obey when writing JHYY code.
-- [ABI v4.0.0](/compiler/docs/abi.html) — how artifacts recognize each other.
-- [Standard library](/compiler/docs/stdlib.html) — the function signatures and traps of the eight
+- [Language spec v{{spec_version}}](/compiler/docs/spec.html) — what you must obey when writing JHYY code.
+- [ABI v{{abi_version}}](/compiler/docs/abi.html) — how artifacts recognize each other.
+- [Standard library](/compiler/docs/stdlib.html) — the function signatures and traps of the {{stdlib_modules}}
   modules.

@@ -18,7 +18,7 @@ zone: community
 |---|---|
 | 编译器源码 + C 桥 | `compiler/src0/`（31 个 `.jhyy` 模块 + `jhyy_helpers.c`）——**唯一的实现**，没有第二份 |
 | 后端 | `compiler/src0/codegen_amd64_*.jhyy`（自研 amd64 发射器） |
-| 标准库 | `compiler/src0/std/`（8 个模块：`mem` / `fmt` / `io` / `math` / `string` / `vec` / `os` / `arena`） |
+| 标准库 | `compiler/src0/std/`（{{stdlib_modules}} 个模块：`mem` / `fmt` / `io` / `math` / `string` / `vec` / `os` / `arena`） |
 | 测试 | `compiler/tests/examples/` + 仓库根的 `regress.py` |
 | 自举与门脚本 | `compiler/tests/bootstrap/` |
 | 语言 / ABI / 二进制格式契约 | `docs/abis/` |
@@ -59,7 +59,7 @@ python regress.py --all                 # 带上受门控的用例
 | `make`（自举闭环） | 跨代产出的 `.s` **逐字节相同** | 改了 `compiler/src0/*.jhyy` 之后 |
 | `python regress.py` | 每个用例的退出码 / stdout 断言 | 任何行为改动之后 |
 | `python scripts/dev/audit_test_assertions.py --strict` | 每个用例都有**能失败**的断言（零信号即红）+ 指令与读点对照 | 改测试之后 |
-| `bash compiler/tests/bootstrap/artifact_checks.sh` | 20 道**产物级**断言——失效模式在字节布局里，不在程序返回值里，写 `.jhyy` 测试抓不到 | 动了 codegen 之后 |
+| `bash compiler/tests/bootstrap/artifact_checks.sh` | {{artifact_checks}} 道**产物级**断言——失效模式在字节布局里，不在程序返回值里，写 `.jhyy` 测试抓不到 | 动了 codegen 之后 |
 | `bash compiler/tests/bootstrap/closure_check.sh` | Stage 2 的 `.s` == Stage 3 的 `.s`（**本地门**，不接 CI） | 改了 `src0` 之后 |
 | `python regress.py --fixed-point` | N=10 跨代 `.il` + `.s` 逐字节相同（**本地门**） | 发版级流程 |
 | `bash compiler/tests/bootstrap/artifact_fresh_check.sh` | 提交进仓的那份 `jhyy.exe` 与现编产物行为一致 | 改了 `src0` 之后——否则它会红 |
@@ -82,7 +82,7 @@ python regress.py --all                 # 带上受门控的用例
 
 **语言语法 / 语义 · ABI 与内存布局 · 内存模型 · 标准库稳定 API · 错误码语义 · 自举边界。**
 
-理由：语言规范 v4.0.0 与 ABI 白皮书 v4.0.0 都是**已锁定**的契约，附录 B 是已知限制的正式清单，诊断码也在规范里成表——一动就影响所有已发布的程序。
+理由：语言规范 v{{spec_version}} 与 ABI 白皮书 v{{abi_version}} 都是**已锁定**的契约，附录 B 是已知限制的正式清单，诊断码也在规范里成表——一动就影响所有已发布的程序。
 
 > [!NOTE]
 > **目前还没有明文规定的 RFC 流程。** 仓库里没有 RFC 模板、编号规则或评审期——`RFC` 这个词在仓内只出现在两个互联网标准里（RFC 3629、RFC 4122）。现有的替代物是：锁定中的规范 + 附录 B、`docs/plans/v4/` 一格一份 plan（结构固定，含 Goal / Scope / 验收门 / 复核清单 / Risks）、以及 `FACTS.md` § 4 这份排期真相源。官网的 [RFC 流程](/compiler/governance/index.html#rfc) 一节是这块规则正在补的位置。
@@ -124,17 +124,17 @@ issue（说明问题）+ 设计说明 + PR，**设计说明自包含在 PR 里**
 
 ### 测试分层
 
-回归套件共 299 条，按**信号来源**分三层：
+回归套件共 {{regress_total}} 条，按**信号来源**分三层：
 
 | 层 | 判定方式 | 条数 |
 |---|---|---|
-| 真断言 | 断言写在用例源码里 | 215 |
+| 真断言 | 断言写在用例源码里 | {{assertions}} |
 | harness 判定 · 期望编译错误 | 用例声明 `// EXPECT-ERROR: "..."` | 56 |
 | harness 判定 · 比对退出码 | 用例声明 `// EXPECT: N` | 8 |
 | SKIP · 用例主动跳过 | 用例带 `// SKIP:` 指令 | 6 |
 | SKIP · 库模块 | 没有入口点的库模块 | 14 |
 
-215 + 56 + 8 = **279**（可跑），加 6 + 14 = **299**（总数）。
+{{assertions}} + 56 + 8 = **{{regress_pass}}**（可跑），加 6 + 14 = **{{regress_total}}**（总数）。
 
 测试指令集是固定的一组：`EXPECT` / `EXPECT-ERROR` / `EXPECT-OUT` / `XFAIL` / `SKIP` / `SETENV`，新增用例只用这几个。
 

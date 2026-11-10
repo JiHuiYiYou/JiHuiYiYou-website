@@ -203,6 +203,6 @@ efi_main:
 ## 9. 相关页面
 
 - [CLI 参考](/compiler/docs/cli.html) —— `--target=` 的四个取值与交叉目标的 `--no-link` 用法。
-- [ABI v4.0.0](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md) —— § 7 是入口与链接，§ 8 是底层扩展，§ 12 是偏离表。
-- [语言规范 v4.0.0](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) —— § 17 是 `volatile` / `asm!` / `#[naked]` / `#[link_section]` / `#[no_std]` / 内存屏障 / freestanding entry。
+- [ABI v{{abi_version}}](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md) —— § 7 是入口与链接，§ 8 是底层扩展，§ 12 是偏离表。
+- [语言规范 v{{spec_version}}](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) —— § 17 是 `volatile` / `asm!` / `#[naked]` / `#[link_section]` / `#[no_std]` / 内存屏障 / freestanding entry。
 - [目标与交叉编译](/compiler/download/targets.html) —— 四个目标的产物形态。

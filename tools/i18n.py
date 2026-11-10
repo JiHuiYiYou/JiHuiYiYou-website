@@ -176,19 +176,46 @@ TWIN_EXEMPT_PREFIXES: list[str] = []
 # 这些字符串在本站没有别的含义 ⇒ 出现在正文里几乎一定是「手写了事实」。
 # 扫到就报「用 {{key}} 占位符代替」。
 #
-# 扫描范围：本轮 = 5 页门脸（中英各一版）。文档层下一轮有英文孪生时，
-# 把范围扩到那里 —— 那时这些页面的硬编码事实会一并被逼成占位符。
+# 扫描范围：**全站**（门脸页 + 文档层，中英各一版）。
+#
+# ⚠️ 2026-11-10 修一个自己踩的坑：这一栏原来写的是 `content/ide/index.md` ——
+# 那三个项目页从 .md 改成 .html 之后，路径对不上了，而门里是
+# `if not path.exists(): continue` ⇒ **那三页直接不再被扫**（没人报错，门就空了）。
+# ⇒ 范围改成**目录**（目录会递归扫），路径写错当场就看得出来（扫到 0 个文件）。
 FACT_LINT_SCOPE = [
     "content/index.html",
     "content/en/index.html",
     "content/compiler/index.html",
     "content/en/compiler/index.html",
-    "content/ide/index.md",
-    "content/en/ide/index.md",
-    "content/os/index.md",
-    "content/en/os/index.md",
-    "content/vex/index.md",
-    "content/en/vex/index.md",
+    "content/ide/index.html",
+    "content/en/ide/index.html",
+    "content/os/index.html",
+    "content/en/os/index.html",
+    "content/vex/index.html",
+    "content/en/vex/index.html",
+    # 文档层（中英）
+    "content/compiler/docs",
+    "content/compiler/download",
+    "content/compiler/community",
+    "content/compiler/governance",
+    "content/en/compiler/docs",
+    "content/en/compiler/download",
+    "content/en/compiler/community",
+    "content/en/compiler/governance",
+]
+
+# 字面量事实 lint 的**例外** —— 文档层里的**历史**版本引用。
+#
+# 「v4.1.5 已修」说的是「某个版本修的某件事」：把它换成 {{site_version}} 等于把
+# 历史改成当前（下一个版本发布后那句话就会变成假的）。所以这些地方必须逐字保留。
+# 每条都带理由，且按「文件 + 上下文正则」限定 —— 不是把整个文件的版本号放行。
+FACT_LINT_EXCEPTIONS = [
+    ("content/compiler/docs/arena.md", r"v4\.1\.5"),
+    ("content/en/compiler/docs/arena.md", r"v4\.1\.5"),
+    ("content/compiler/docs/osdev.md", r"v4\.1\.5"),
+    ("content/en/compiler/docs/osdev.md", r"v4\.1\.5"),
+    ("content/compiler/governance/index.md", r"v4\.0\.0-rc1"),
+    ("content/en/compiler/governance/index.md", r"v4\.0\.0-rc1"),
 ]
 
 # 事实字面量 —— **从 siteconfig.FACTS 派生**，这里只声明「哪个事实 +
@@ -201,6 +228,11 @@ FACT_LINT_SCOPE = [
 # 后缀是上下文：裸数字（"20"、"8"）在正文里太常见，只按「数字 + 后缀」匹配。
 LITERAL_FACT_PATTERNS = [
     # (事实键, 正文里的后缀)
+    #
+    # ⚠️ 后缀是**按语言写死**的：中文「281 PASS / 301 条 / 8 个模块」，
+    # 英文「281 PASS / 301 in total / 8 modules」。只写中文后缀 ⇒ 英文页的数字
+    # 事实没人管（2026-11-10 扩到文档层时发现）。所以两种语言的后缀都列，
+    # 写页面时按哪套说法就用哪条。
     ("site_version", ""),
     ("spec_version", ""),
     ("abi_version", ""),
@@ -209,12 +241,18 @@ LITERAL_FACT_PATTERNS = [
     ("regress_pass", " PASS"),
     ("regress_skip", " SKIP"),
     ("regress_total", " 条"),
+    ("regress_total", " in total"),
+    ("regress_total", " cases"),
     ("assertions", " 条"),
+    ("assertions", " assertions"),
     ("artifact_checks", " 道"),
+    ("artifact_checks", " checks"),
     ("artifact_checks", " PASS"),
     ("workarounds_total", " 条"),
+    ("workarounds_total", " entries"),
     ("ide_gate_pass", "/"),
     ("stdlib_modules", " 个模块"),
+    ("stdlib_modules", " modules"),
 ]
 
 # ── 路由工具 ──────────────────────────────────────────────────────────────

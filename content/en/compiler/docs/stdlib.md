@@ -1,6 +1,6 @@
 ---
 title: Standard Library
-description: The real API of the eight modules: arena, mem, string, vec, fmt, io, math, os
+description: The real API of the {{stdlib_modules}} modules: arena, mem, string, vec, fmt, io, math, os
 layout: docs
 project: compiler
 zone: docs
@@ -8,7 +8,7 @@ zone: docs
 
 # Standard Library
 
-JHYY ships with a small standard library of **8 modules**, installed together with the compiler.
+JHYY ships with a small standard library of **{{stdlib_modules}} modules**, installed together with the compiler.
 Every signature on this page is copied verbatim from the source — `compiler/src0/std/*.jhyy` —
 nothing rewritten, and no function filled in that does not exist in the source.
 
@@ -395,4 +395,4 @@ the source wins**, and then file an issue.
 The related trap ledger is in
 [`docs/internal/workarounds.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md),
 and the language-level limitations are in appendix B of the
-[language spec v4.0.0](/compiler/docs/spec.html).
+[language spec v{{spec_version}}](/compiler/docs/spec.html).

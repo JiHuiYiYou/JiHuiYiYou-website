@@ -276,6 +276,6 @@ is libc `malloc`"; it is marked as such so you know where the boundary lies.
 
 ## 8. Related pages
 
-- [Standard library](/compiler/docs/stdlib.html) — the API summary of the eight modules.
-- [Language spec v4.0.0](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) — § 15 is the module API table, Appendix B lists the unimplemented items.
-- [ABI v4.0.0](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md) — § 4.3 explains that "the compiler itself does not implement a heap".
+- [Standard library](/compiler/docs/stdlib.html) — the API summary of the {{stdlib_modules}} modules.
+- [Language spec v{{spec_version}}](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) — § 15 is the module API table, Appendix B lists the unimplemented items.
+- [ABI v{{abi_version}}](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md) — § 4.3 explains that "the compiler itself does not implement a heap".

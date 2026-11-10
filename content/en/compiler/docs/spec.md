@@ -1,12 +1,12 @@
 ---
-title: Language Spec v4.0.0
+title: Language Spec v{{spec_version}}
 description: The locked language contract: syntax, type system, semantic boundaries
 layout: docs
 project: compiler
 zone: docs
 ---
 
-# Language Spec v4.0.0
+# Language Spec v{{spec_version}}
 
 **The full spec lives in the repository, not here.**
 Original: [`docs/abis/jhyy-lang-spec-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md)
@@ -15,7 +15,7 @@ This page is that spec's **guided reading + index + summary of the key conventio
 the body of the spec corresponds to reproducible behaviour in the compiler source; every item on
 this page does too. **Where the two conflict, the original in the repository wins.**
 
-The spec is locked at v4.0.0 (2026-10-24, locked together with `v4.0.0 final`). The toolchain
+The spec is locked at v{{spec_version}} (2026-10-24, locked together with `v4.0.0 final`). The toolchain
 version is a separate matter, see the [reference overview](/compiler/docs/reference.html).
 
 ---
@@ -37,7 +37,7 @@ version is a separate matter, see the [reference overview](/compiler/docs/refere
 | § 12 | Top-level `const` arrays |
 | § 13 | Modules and imports |
 | § 14 | FFI (`extern fn`) |
-| § 15 | Standard library (8 modules) |
+| § 15 | Standard library ({{stdlib_modules}} modules) |
 | § 16 | Command line |
 | § 17 | Low-level and OS extensions: `volatile`, `asm!`, `#[naked]`, `#[link_section]`, `#[no_std]`, memory barriers, freestanding |
 | § 18 | Error codes and diagnostics |
@@ -223,9 +223,9 @@ The spec is a **locked contract** — not a document you edit casually.
 
 ## The original
 
-- Language spec v4.0.0 (locked) —
+- Language spec v{{spec_version}} (locked) —
   [`docs/abis/jhyy-lang-spec-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md)
-- Companion ABI v4.0.0 (locked) —
+- Companion ABI v{{abi_version}} (locked) —
   [`docs/abis/jhyy-abi-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md)
 - The archived old versions (v1.3.0 and its 17 v3.x supplements) exist only in git history:
   `git show <sha>:docs/abis/<name>`

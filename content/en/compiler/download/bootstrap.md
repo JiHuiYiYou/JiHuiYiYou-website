@@ -67,12 +67,12 @@ The compiler compiles `compiler/src0/` **by itself**:
 JiHuiYiYou-compiler/
 ├── compiler/
 │   ├── src0/                   compiler sources (the only implementation, 31 modules)
-│   │   ├── std/                standard library, 8 modules: mem / fmt / io / math / string / vec / os / arena
+│   │   ├── std/                standard library, {{stdlib_modules}} modules: mem / fmt / io / math / string / vec / os / arena
 │   │   └── codegen_amd64_*.jhyy self-written backend: IL lexer / emit_* / peephole / register cache
 │   ├── runtime/runtime.c       C runtime (arena + main entry)
 │   ├── src0/jhyy_helpers.c     C bridge: the extern declarations between the compiler and Win32
 │   ├── tests/
-│   │   ├── examples/           regression cases, 299 in total
+│   │   ├── examples/           regression cases, {{regress_total}} in total
 │   │   └── bootstrap/          fixed_point.sh · closure_check.sh · artifact_checks.sh · byte_equal*.sh
 │   └── build/
 │       ├── obj/                prebuilt _jhyy_runtime.o / _jhyy_helpers.o
@@ -125,13 +125,13 @@ false positives.
 |---|---|---|
 | `compiler/tests/bootstrap/fixed_point.sh` | Cross-generation `.il` + `.s` byte-identical at N=10 (plus a cross-generation exit code of 42 for `cap_test.jhyy`). N=3 is the main gate, N=4..10 are informational | **Local gate**: `python regress.py --fixed-point` |
 | `compiler/tests/bootstrap/closure_check.sh` | `v2.s == v3.s` (Stage 2 and Stage 3 byte-identical) | **Local gate**: `bash compiler/tests/bootstrap/closure_check.sh` |
-| `compiler/tests/bootstrap/artifact_checks.sh` | 20 artifact checks (expected-FAIL model) | **CI gate**: `bash compiler/tests/bootstrap/artifact_checks.sh` |
+| `compiler/tests/bootstrap/artifact_checks.sh` | {{artifact_checks}} artifact checks (expected-FAIL model) | **CI gate**: `bash compiler/tests/bootstrap/artifact_checks.sh` |
 
 > [!NOTE]
 > Neither `fixed_point.sh` nor `closure_check.sh` **is wired into CI**. The former is a release-grade procedure
 > (run it after changing `src0`), the latter was deleted from CI on 2026-11-03 — the closure in CI is already
 > covered by `make` itself, and running it again just restates the same conclusion; a permanently green gate is noise.
-> `artifact_checks.sh` is the CI gate: its 20 artifact checks run in CI.
+> `artifact_checks.sh` is the CI gate: its {{artifact_checks}} artifact checks run in CI.
 
 The value of `artifact_checks.sh` lies in the fact that the failure modes it verifies are **not in the program's return
 value** but in the byte layout of the artifact: a defect like the 1024 cap on the per-fn table passes when written as a
@@ -150,8 +150,8 @@ second generation is byte-identical to the one produced by the first.
 **It does not prove semantic correctness.** A deterministic but wrong compiler closes the loop perfectly — compile `+` into
 `-` and the two generations still agree. This is the classic trusting trust gap.
 
-Semantic correctness is covered by the **regression suite**: **279 PASS / 0 FAIL / 20 SKIP, 299 in total**.
-The assertion strength audit counts separately **215 real assertions**, with 0 zero-signal cases (no case reports a pass
+Semantic correctness is covered by the **regression suite**: **{{regress_pass}} PASS / {{regress_failed}} FAIL / {{regress_skip}} SKIP, {{regress_total}} in total**.
+The assertion strength audit counts separately **{{assertions}} real assertions**, with 0 zero-signal cases (no case reports a pass
 without checking anything at all).
 
 ```bash

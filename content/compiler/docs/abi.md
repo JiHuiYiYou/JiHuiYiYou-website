@@ -1,12 +1,12 @@
 ---
-title: ABI v4.0.0
+title: ABI v{{abi_version}}
 description: 类型布局、调用约定与链接规则——产物之间互认的契约
 layout: docs
 project: compiler
 zone: docs
 ---
 
-# ABI v4.0.0
+# ABI v{{abi_version}}
 
 **ABI 原文在仓库里，不在这里。**
 原文：[`docs/abis/jhyy-abi-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md)
@@ -14,7 +14,7 @@ zone: docs
 本页是那份 ABI 的**导读**：目标与调用约定、类型布局、聚合类型传参、链接规则，
 以及一份**已知偏离与未实装项**的摘要。**冲突时以仓库原文为准。**
 
-ABI 锁在 v4.0.0（2026-10-24 随 `v4.0.0 final` 一同锁版），与语言规范同代。
+ABI 锁在 v{{abi_version}}（2026-10-24 随 `v4.0.0 final` 一同锁版），与语言规范同代。
 工具链版本是另一回事，见[参考总览](/compiler/docs/reference.html)。
 
 ---
@@ -262,9 +262,9 @@ ABI § 9 明确分成两栏：
 
 ## 原文
 
-- ABI v4.0.0（锁定）——
+- ABI v{{abi_version}}（锁定）——
   [`docs/abis/jhyy-abi-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md)
-- 配套语言规范 v4.0.0（锁定）——
+- 配套语言规范 v{{spec_version}}（锁定）——
   [`docs/abis/jhyy-lang-spec-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md)
 - 已知限制台账——
   [`docs/internal/workarounds.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md)

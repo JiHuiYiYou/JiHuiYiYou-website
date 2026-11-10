@@ -228,6 +228,6 @@ so the step from `.s` to `.efi` still has to be written by hand.
 ## 9. Related pages
 
 - [CLI reference](/compiler/docs/cli.html) — the four values of `--target=` and the use of `--no-link` for cross targets.
-- [ABI v4.0.0](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md) — § 7 covers the entry point and linking, § 8 the low-level extensions, § 12 the deviation table.
-- [Language spec v4.0.0](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) — § 17 is `volatile` / `asm!` / `#[naked]` / `#[link_section]` / `#[no_std]` / the memory barriers / the freestanding entry.
+- [ABI v{{abi_version}}](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md) — § 7 covers the entry point and linking, § 8 the low-level extensions, § 12 the deviation table.
+- [Language spec v{{spec_version}}](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) — § 17 is `volatile` / `asm!` / `#[naked]` / `#[link_section]` / `#[no_std]` / the memory barriers / the freestanding entry.
 - [Targets and cross-compilation](/compiler/download/targets.html) — the artifact shape of the four targets.

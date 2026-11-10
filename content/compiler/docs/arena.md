@@ -241,6 +241,6 @@ JHYY 没有 GC、没有析构函数、没有 `drop`。**选错了不会报错，
 
 ## 8. 相关页面
 
-- [标准库](/compiler/docs/stdlib.html) —— 八个模块的 API 总表。
-- [语言规范 v4.0.0](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) —— § 15 是模块 API 表，附录 B 是未实装项。
-- [ABI v4.0.0](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md) —— § 4.3 说明「编译器自身不实现堆」。
+- [标准库](/compiler/docs/stdlib.html) —— {{stdlib_modules}} 个模块的 API 总表。
+- [语言规范 v{{spec_version}}](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) —— § 15 是模块 API 表，附录 B 是未实装项。
+- [ABI v{{abi_version}}](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md) —— § 4.3 说明「编译器自身不实现堆」。

@@ -890,7 +890,7 @@
   "url": "/compiler/docs/stdlib.html",
   "lang": "zh",
   "title": "标准库",
-  "desc": "八个模块的真实 API：arena、mem、string、vec、fmt、io、math、os",
+  "desc": "8 个模块的真实 API：arena、mem、string、vec、fmt、io、math、os",
   "text": " 标准库 JHYY 自带一份小标准库， 8 个模块 ，随编译器一同安装。 本页的每个签名都是从源码逐字抄的—— compiler/src0/std/ .jhyy —— 没有改写，也没有补全源码里不存在的函数。 源码是唯一真相源 ： compiler/src0/std/ (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/src0/std) --- 怎么用 import 拉进来的是 模块 ， 不带 std:: 前缀 —— import std::vec; 是解析错误： jhyy import io; import vec; fn main_jhyy() - i32 { io::std_io_print(\"hello from the JHYY stdlib\\n\"); 0 } 两种调用写法都实测能编过： 写法 出处 --- --- io::std_io_print(...) 仓库 README、 compiler/tests/examples/std_io_import.jhyy 用的就是这一种 std_io_print(...) 规范 § 15 指定的写法（直接写源码里的函数名） ⚠ 规范 § 15 只承认后一种——它明确说「不是 io::std_io_print(...) 」； 但限定写法在实现",
   "headings": [
    {
@@ -2250,7 +2250,7 @@
   "url": "/en/compiler/docs/stdlib.html",
   "lang": "en",
   "title": "Standard Library",
-  "desc": "The real API of the eight modules: arena, mem, string, vec, fmt, io, math, os",
+  "desc": "The real API of the 8 modules: arena, mem, string, vec, fmt, io, math, os",
   "text": " Standard Library JHYY ships with a small standard library of 8 modules , installed together with the compiler. Every signature on this page is copied verbatim from the source — compiler/src0/std/ .jhyy — nothing rewritten, and no function filled in that does not exist in the source. The source is the only source of truth : compiler/src0/std/ (https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/src0/std) --- How to use it import pulls in a module , without the std:: prefix — import std::vec; is a parse error: jhyy import io; import vec; fn main_jhyy() - i32 { io::std_io_print(",
   "headings": [
    {

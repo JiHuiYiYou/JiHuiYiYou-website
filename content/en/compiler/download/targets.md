@@ -167,6 +167,6 @@ The parts of the freestanding side that are not finished are all registered in A
 
 ## Next
 
-- [ABI v4.0.0](/compiler/docs/abi.html) — the contract itself.
+- [ABI v{{abi_version}}](/compiler/docs/abi.html) — the contract itself.
 - [Bare metal and kernel development](/compiler/docs/osdev.html) — what it actually takes to write a bare metal program.
 - [Build from source and bootstrap](/compiler/download/bootstrap.html) — building the compiler from source.

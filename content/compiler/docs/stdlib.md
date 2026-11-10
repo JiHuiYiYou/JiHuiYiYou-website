@@ -1,6 +1,6 @@
 ---
 title: 标准库
-description: 八个模块的真实 API：arena、mem、string、vec、fmt、io、math、os
+description: {{stdlib_modules}} 个模块的真实 API：arena、mem、string、vec、fmt、io、math、os
 layout: docs
 project: compiler
 zone: docs
@@ -8,7 +8,7 @@ zone: docs
 
 # 标准库
 
-JHYY 自带一份小标准库，**8 个模块**，随编译器一同安装。
+JHYY 自带一份小标准库，**{{stdlib_modules}} 个模块**，随编译器一同安装。
 本页的每个签名都是从源码逐字抄的——`compiler/src0/std/*.jhyy`——
 没有改写，也没有补全源码里不存在的函数。
 
@@ -366,4 +366,4 @@ fn main_jhyy() -> i32 {
 相关的坑台账在
 [`docs/internal/workarounds.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md)，
 语言层面的限制在
-[语言规范 v4.0.0](/compiler/docs/spec.html) 的附录 B。
+[语言规范 v{{spec_version}}](/compiler/docs/spec.html) 的附录 B。

@@ -49,8 +49,8 @@ RFC 3629，installer GUID 生成引 RFC 4122。
 
 | 改动 | 为什么 |
 |---|---|
-| 语言语法 | 规范 v4.0.0 已锁版，语法是契约 |
-| ABI（类型布局 / 调用约定 / struct 传参） | ABI v4.0.0 已锁版，跨模块与跨目标都要对齐 |
+| 语言语法 | 规范 v{{spec_version}} 已锁版，语法是契约 |
+| ABI（类型布局 / 调用约定 / struct 传参） | ABI v{{abi_version}} 已锁版，跨模块与跨目标都要对齐 |
 | 内存模型 | 规范里的语义章节 |
 | 标准库的稳定 API | 用户代码依赖它 |
 | 错误码语义 | 诊断与退出码是用户可见契约 |
@@ -168,10 +168,10 @@ check 是 GitHub 侧的仓库设置，而 `enforce_admins` 是关的——管理
 | | 契约 | 工具链 |
 |---|---|---|
 | 是什么 | 语言规范 / ABI / 二进制格式 | 编译器 + 标准库 + 安装器 |
-| 版本 | 语言规范 v4.0.0 · ABI v4.0.0 · 二进制格式 v1.0.0（**设计稿，未实装**） | v{{site_version}}（{{site_version_date}}） |
+| 版本 | 语言规范 v{{spec_version}} · ABI v{{abi_version}} · 二进制格式 v{{binary_format_version}}（**设计稿，未实装**） | v{{site_version}}（{{site_version_date}}） |
 | 什么时候变 | 改语义才动 | 缺陷修复天天动 |
 
-语言规范 v4.0.0 与 ABI v4.0.0 是 v4 世代的契约基线，规范文档头部标注的锁版日是
+语言规范 v{{spec_version}} 与 ABI v{{abi_version}} 是 v4 世代的契约基线，规范文档头部标注的锁版日是
 **2026-10-24**——那一天 `jhyy-lang-spec-v1.3.0.md` 及其 17 份 v3.x supplement
 一并归档进 git 历史，因为它们互相矛盾：v1.3.0 文档化过从未实装的块表达式，
 也文档化过会静默算错的字面量。

@@ -36,7 +36,7 @@ the compiler repository instead of one copy per repository).
 | Directory | What it is responsible for |
 |---|---|
 | `compiler/src0/` | **The compiler's only implementation**, `.jhyy` source. The frontend (`lexer` / `parser` / `ast` / `sema` / `types` / `symtab` / `mono` / `ir` / `ffi`), the backend (`codegen` / `codegen_amd64_*`), the ABI implementation (`abi_amd64_*`) and the CLI (`main.jhyy`) are all here. **There is no C side in the repository** (the old `compiler/src/*.c` has been deleted) ⇒ there is no such thing as "parity between two implementations" |
-| `compiler/src0/std/` | The user-side standard library, **8 modules**: `mem` `fmt` `io` `math` `string` `vec` `os` `arena`. The module name is the module name, **there is no `std::` prefix** |
+| `compiler/src0/std/` | The user-side standard library, **{{stdlib_modules}} modules**: `mem` `fmt` `io` `math` `string` `vec` `os` `arena`. The module name is the module name, **there is no `std::` prefix** |
 | `compiler/src0/jhyy_helpers.c` | The C bridge between the compiler and libc. 4 of the required FFI symbols are defined only inside `#ifdef _WIN32` with no `#else` ⇒ **the host can only be Windows** |
 | `compiler/src0/bootstrap/v1.0/` | Historical material from the early self-hosting stage; not the current path |
 | `compiler/src0/scripts/dev/` | Development scripts inside the source tree |
@@ -64,7 +64,7 @@ the compiler repository instead of one copy per repository).
 
 | Directory | What it is responsible for |
 |---|---|
-| `docs/abis/` | **The three contracts**: language spec v4.0.0 (locked), ABI v4.0.0 (locked), binary format v1.0.0 (**design draft, not implemented**) |
+| `docs/abis/` | **The three contracts**: language spec v{{spec_version}} (locked), ABI v{{abi_version}} (locked), binary format v{{binary_format_version}} (**design draft, not implemented**) |
 | `docs/internal/` | Internal documentation: `FACTS.md` (the single source of truth for facts), `workarounds.md` (the workaround ledger, **never archived**), `architecture.md`, `build.md`, `feedback-codes.md`, `README.md` (the documentation index) |
 | `docs/archive/` | The historical archive: `logs/` (the changelog + sprint logs of each axis), `plans/` (the sprint plans of each axis), `perf/` (performance measurements that have been superseded), `audit/` (a deep review of codegen + RCAs). **The archive is not edited** — it describes the world as it was then |
 | `docs/plans/v4/` | The current plan line; one `vX.Y.Z-plan.md` per version slot |

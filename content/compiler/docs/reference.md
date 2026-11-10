@@ -28,20 +28,20 @@ zone: docs
 
 这是最容易被绕进去的一件事。
 
-**语言规范 v4.0.0** 和 **ABI v4.0.0** 各自锁在 2026-10-24，随 `v4.0.0 final` 一同锁版。
+**语言规范 v{{spec_version}}** 和 **ABI v{{abi_version}}** 各自锁在 2026-10-24，随 `v4.0.0 final` 一同锁版。
 工具链是另一条独立的线——当前稳定版是 v{{site_version}}（版本会变，以[下载页](/compiler/download/index.html)为准）。
 
 也就是说：
 
-> **v4.1.x 是对 v4.0.0 契约的实现演进，不是对契约的修改。**
+> **v4.1.x 是对 v{{spec_version}} 契约的实现演进，不是对契约的修改。**
 
-新版本编译器可能多支持一个语法糖、多修一个 bug，但只要规范和 ABI 还是 v4.0.0，
+新版本编译器可能多支持一个语法糖、多修一个 bug，但只要规范和 ABI 还是 v{{spec_version}}，
 产物的互认规则就一个字没变。反过来，某天规范升到 v5.0.0，那是一份**新的契约**，
 旧产物的兼容性需要单独评估。
 
 一个推论：**写代码时该引哪一份，取决于你要互认的是谁。**
-和另一个 JHYY 产物互认 → 看 ABI v4.0.0。和 C 库互认 → 同样看 ABI v4.0.0。
-只是想知道「怎么写」→ 看规范 v4.0.0。
+和另一个 JHYY 产物互认 → 看 ABI v{{abi_version}}。和 C 库互认 → 同样看 ABI v{{abi_version}}。
+只是想知道「怎么写」→ 看规范 v{{spec_version}}。
 
 ---
 
@@ -49,9 +49,9 @@ zone: docs
 
 | 参考 | 讲什么 | 权威原文 |
 |---|---|---|
-| [语言规范 v4.0.0](/compiler/docs/spec.html) | 语法、类型系统、语义边界 | [`docs/abis/jhyy-lang-spec-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) |
-| [ABI v4.0.0](/compiler/docs/abi.html) | 类型布局、调用约定、链接规则 | [`docs/abis/jhyy-abi-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md) |
-| [标准库](/compiler/docs/stdlib.html) | 八个模块的真实 API | [`compiler/src0/std/`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/src0/std) |
+| [语言规范 v{{spec_version}}](/compiler/docs/spec.html) | 语法、类型系统、语义边界 | [`docs/abis/jhyy-lang-spec-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) |
+| [ABI v{{abi_version}}](/compiler/docs/abi.html) | 类型布局、调用约定、链接规则 | [`docs/abis/jhyy-abi-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md) |
+| [标准库](/compiler/docs/stdlib.html) | {{stdlib_modules}} 个模块的真实 API | [`compiler/src0/std/`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/tree/main/compiler/src0/std) |
 | [CLI 参考](/compiler/docs/cli.html) | 命令、参数、退出码 | 仓库 `README.md` 的 CLI 段 |
 
 还没读过规范的话，从[语言导览](/compiler/docs/tour.html)起步更快；
@@ -92,6 +92,6 @@ zone: docs
 
 ## 接下来
 
-- [语言规范 v4.0.0](/compiler/docs/spec.html) —— 写 JHYY 代码要遵守什么。
-- [ABI v4.0.0](/compiler/docs/abi.html) —— 产物之间怎么互认。
-- [标准库](/compiler/docs/stdlib.html) —— 八个模块的函数签名与坑。
+- [语言规范 v{{spec_version}}](/compiler/docs/spec.html) —— 写 JHYY 代码要遵守什么。
+- [ABI v{{abi_version}}](/compiler/docs/abi.html) —— 产物之间怎么互认。
+- [标准库](/compiler/docs/stdlib.html) —— {{stdlib_modules}} 个模块的函数签名与坑。

@@ -40,10 +40,10 @@ What follows are **numbers that change**. The single source of truth is the repo
 | Metric | Value | Source |
 |---|---|---|
 | Self-hosted closure | `make` iterates to a fixed point; the `.s` produced across generations is **byte-identical** | FACTS § 2 |
-| Regression suite | **279 PASS / 0 FAIL / 20 SKIP** (299 in total) | FACTS § 2 |
-| Assertion strength | 215 real assertions, **zero-signal cases 0** | FACTS § 2 |
-| Artifact checks | 20 | FACTS § 2 |
-| Workaround ledger | 217 entries: **ACTIVE 0** / DEFERRED 1 / RESOLVED 194 / SUPERSEDED 19 / INVALID 3 | FACTS § 3 |
+| Regression suite | **{{regress_pass}} PASS / {{regress_failed}} FAIL / {{regress_skip}} SKIP** ({{regress_total}} in total) | FACTS § 2 |
+| Assertion strength | {{assertions}} real assertions, **zero-signal cases 0** | FACTS § 2 |
+| Artifact checks | {{artifact_checks}} | FACTS § 2 |
+| Workaround ledger | {{workarounds_total}} entries: **ACTIVE {{workarounds_active}}** / DEFERRED {{workarounds_deferred}} / RESOLVED {{workarounds_resolved}} / SUPERSEDED {{workarounds_superseded}} / INVALID {{workarounds_invalid}} | FACTS § 3 |
 | Host platform | **1** (Windows x64) | build.md |
 | Target triple | **4** (2 stable / 2 beta) | FACTS § 5 |
 | License | MIT | `LICENSE` at the repository root |
@@ -52,7 +52,7 @@ What follows are **numbers that change**. The single source of truth is the repo
 
 - "Byte-identical across generations" proves **generation determinism**, not semantic correctness. A deterministic but wrong compiler can close the loop perfectly too — this is the classic trusting trust gap, and the regression suite gate is what covers it.
 - "ACTIVE 0" means there are **no registered** unfixed compiler bugs; it is not proof that "bugs do not exist". The ledger is public and anyone can check it: [`docs/internal/workarounds.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md).
-- The 20 SKIP in "279 PASS / 20 SKIP" are cases carrying a `// SKIP:` directive and library modules with no entry point — not "runs that failed and got skipped".
+- The {{regress_skip}} SKIP in "{{regress_pass}} PASS / {{regress_skip}} SKIP" are cases carrying a `// SKIP:` directive and library modules with no entry point — not "runs that failed and got skipped".
 
 ---
 

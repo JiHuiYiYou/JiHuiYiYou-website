@@ -18,7 +18,7 @@ This page is the full-path version of the repository's [`CONTRIBUTING.md`](https
 |---|---|
 | Compiler source + the C bridge | `compiler/src0/` (31 `.jhyy` modules + `jhyy_helpers.c`) — **the only implementation**, there is no second copy |
 | Backend | `compiler/src0/codegen_amd64_*.jhyy` (the self-written amd64 emitter) |
-| Standard library | `compiler/src0/std/` (8 modules: `mem` / `fmt` / `io` / `math` / `string` / `vec` / `os` / `arena`) |
+| Standard library | `compiler/src0/std/` ({{stdlib_modules}} modules: `mem` / `fmt` / `io` / `math` / `string` / `vec` / `os` / `arena`) |
 | Tests | `compiler/tests/examples/` + `regress.py` at the repository root |
 | Self-hosting and gate scripts | `compiler/tests/bootstrap/` |
 | Language / ABI / binary format contracts | `docs/abis/` |
@@ -59,7 +59,7 @@ python regress.py --all                 # includes the gated cases
 | `make` (the self-hosted closure) | The `.s` produced across generations is **byte-identical** | After changing `compiler/src0/*.jhyy` |
 | `python regress.py` | The exit code / stdout assertions of every test case | After any behavioural change |
 | `python scripts/dev/audit_test_assertions.py --strict` | Every test case has an assertion that **can fail** (zero signal is red) + an instruction-vs-read-point cross-check | After changing tests |
-| `bash compiler/tests/bootstrap/artifact_checks.sh` | 20 **artifact checks** — the failure mode lives in the byte layout, not in the program's return value, and a `.jhyy` test cannot catch it | After touching codegen |
+| `bash compiler/tests/bootstrap/artifact_checks.sh` | {{artifact_checks}} **artifact checks** — the failure mode lives in the byte layout, not in the program's return value, and a `.jhyy` test cannot catch it | After touching codegen |
 | `bash compiler/tests/bootstrap/closure_check.sh` | The `.s` of Stage 2 == the `.s` of Stage 3 (**local gate**, not wired into CI) | After changing `src0` |
 | `python regress.py --fixed-point` | N=10 cross-generation `.il` + `.s` are byte-identical (**local gate**) | Release-grade process |
 | `bash compiler/tests/bootstrap/artifact_fresh_check.sh` | The `jhyy.exe` committed to the repository behaves the same as the current build | After changing `src0` — otherwise it goes red |
@@ -82,7 +82,7 @@ Details are in [Build and test](/compiler/docs/build-and-test.html) and [Build f
 
 **Language syntax / semantics · ABI and memory layout · Memory model · Stable standard library API · Error code semantics · The self-hosting boundary.**
 
-Rationale: the language spec v4.0.0 and the ABI whitepaper v4.0.0 are both **locked** contracts, appendix B is the formal list of known limitations, and the diagnostic codes are tabulated in the spec — changing any of them affects every program that has already shipped.
+Rationale: the language spec v{{spec_version}} and the ABI whitepaper v{{abi_version}} are both **locked** contracts, appendix B is the formal list of known limitations, and the diagnostic codes are tabulated in the spec — changing any of them affects every program that has already shipped.
 
 > [!NOTE]
 > **There is no written-out RFC process yet.** The repository has no RFC template, no numbering rules and no review period — the word `RFC` appears in the repository only in two internet standards (RFC 3629, RFC 4122). The existing substitutes are: the locked-in spec + appendix B, `docs/plans/v4/` with one plan per cell (fixed structure, containing Goal / Scope / acceptance gate / review checklist / Risks), and `FACTS.md` § 4 as the source of truth for scheduling. The [RFC process](/compiler/governance/index.html#rfc) section of this website is the place where this rule is being filled in.
@@ -124,17 +124,17 @@ Changing `compiler/src0/*.jhyy` costs far more than changing documentation: **ad
 
 ### Test layering
 
-The regression suite has 299 cases in total, split into three layers by **signal source**:
+The regression suite has {{regress_total}} cases in total, split into three layers by **signal source**:
 
 | Layer | How it is decided | Cases |
 |---|---|---|
-| Real assertions | The assertion is written in the test case source | 215 |
+| Real assertions | The assertion is written in the test case source | {{assertions}} |
 | harness-decided · expected compile error | The case declares `// EXPECT-ERROR: "..."` | 56 |
 | harness-decided · exit code comparison | The case declares `// EXPECT: N` | 8 |
 | SKIP · the case skips itself | The case carries a `// SKIP:` directive | 6 |
 | SKIP · library module | A library module with no entry point | 14 |
 
-215 + 56 + 8 = **279** (runnable), plus 6 + 14 = **299** (total).
+{{assertions}} + 56 + 8 = **{{regress_pass}}** (runnable), plus 6 + 14 = **{{regress_total}}** (total).
 
 The test directive set is a fixed group: `EXPECT` / `EXPECT-ERROR` / `EXPECT-OUT` / `XFAIL` / `SKIP` / `SETENV`; new cases use only these.
 

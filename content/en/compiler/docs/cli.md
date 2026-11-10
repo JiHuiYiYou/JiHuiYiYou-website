@@ -237,4 +237,4 @@ jhyy --help
 - [Bare metal and kernel development](/compiler/docs/osdev.html) — the four values of `--target=`, `#[no_std]`, and freestanding.
 - [Targets and cross-compilation](/compiler/download/targets.html) — the artifact shape of the four targets.
 - [How the compiler works](/compiler/docs/compiler.html) — how the compiler itself is built, after the command line.
-- [Language spec v4.0.0](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) — § 16 is the authoritative definition of the command line.
+- [Language spec v{{spec_version}}](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) — § 16 is the authoritative definition of the command line.

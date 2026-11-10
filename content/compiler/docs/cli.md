@@ -224,4 +224,4 @@ jhyy --help
 - [裸机与内核开发](/compiler/docs/osdev.html) —— `--target=` 的四个取值、`#[no_std]` 与 freestanding。
 - [目标与交叉编译](/compiler/download/targets.html) —— 四个目标的产物形态。
 - [编译器实现](/compiler/docs/compiler.html) —— 命令行之后，编译器自己是怎么搭的。
-- [语言规范 v4.0.0](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) —— § 16 是命令行的权威定义。
+- [语言规范 v{{spec_version}}](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md) —— § 16 是命令行的权威定义。

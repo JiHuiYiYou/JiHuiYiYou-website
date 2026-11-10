@@ -167,6 +167,6 @@ freestanding 侧还没完工的部分，ABI § 12 都登记着：
 
 ## 接下来
 
-- [ABI v4.0.0](/compiler/docs/abi.html)——契约原文。
+- [ABI v{{abi_version}}](/compiler/docs/abi.html)——契约原文。
 - [裸机与内核开发](/compiler/docs/osdev.html)——写裸机程序时的实际做法。
 - [源码构建与自举](/compiler/download/bootstrap.html)——从源码编编译器。

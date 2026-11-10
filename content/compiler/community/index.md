@@ -40,10 +40,10 @@ zone: community
 | 指标 | 值 | 出处 |
 |---|---|---|
 | 自举闭环 | `make` 迭代到不动点，跨代产出的 `.s` **逐字节相同** | FACTS § 2 |
-| 回归套件 | **279 PASS / 0 FAIL / 20 SKIP**（共 299 条） | FACTS § 2 |
-| 断言强度 | 215 条真断言，**零信号用例 0** | FACTS § 2 |
-| 产物级门 | 20 道 | FACTS § 2 |
-| 问题台账 | 217 条：**ACTIVE 0** / DEFERRED 1 / RESOLVED 194 / SUPERSEDED 19 / INVALID 3 | FACTS § 3 |
+| 回归套件 | **{{regress_pass}} PASS / {{regress_failed}} FAIL / {{regress_skip}} SKIP**（共 {{regress_total}} 条） | FACTS § 2 |
+| 断言强度 | {{assertions}} 条真断言，**零信号用例 0** | FACTS § 2 |
+| 产物级门 | {{artifact_checks}} 道 | FACTS § 2 |
+| 问题台账 | {{workarounds_total}} 条：**ACTIVE {{workarounds_active}}** / DEFERRED {{workarounds_deferred}} / RESOLVED {{workarounds_resolved}} / SUPERSEDED {{workarounds_superseded}} / INVALID {{workarounds_invalid}} | FACTS § 3 |
 | 宿主平台 | **1 个**（Windows x64） | build.md |
 | 目标三元组 | **4 个**（2 个 stable / 2 个 beta） | FACTS § 5 |
 | 许可证 | MIT | 仓库根 `LICENSE` |
@@ -52,7 +52,7 @@ zone: community
 
 - 「跨代逐字节相同」证明的是**生成确定性**，不是语义正确性。一个确定性的错误编译器也能完美闭环——这是经典的 trusting trust 缺口，由回归套件那道门补上。
 - 「ACTIVE 0」的意思是**没有已登记的**未修编译器 bug，不是「不存在 bug」的证明。台账是公开的，任何人都能查：[`docs/internal/workarounds.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md)。
-- 「279 PASS / 20 SKIP」里的 20 条 SKIP 是带 `// SKIP:` 指令的用例和无入口的库模块，不是「跑失败被跳过」。
+- 「{{regress_pass}} PASS / {{regress_skip}} SKIP」里的 {{regress_skip}} 条 SKIP 是带 `// SKIP:` 指令的用例和无入口的库模块，不是「跑失败被跳过」。
 
 ---
 

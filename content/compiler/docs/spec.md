@@ -1,12 +1,12 @@
 ---
-title: 语言规范 v4.0.0
+title: 语言规范 v{{spec_version}}
 description: 锁定的语言契约：语法、类型系统、语义边界
 layout: docs
 project: compiler
 zone: docs
 ---
 
-# 语言规范 v4.0.0
+# 语言规范 v{{spec_version}}
 
 **规范全文在仓库里，不在这里。**
 原文：[`docs/abis/jhyy-lang-spec-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md)
@@ -14,7 +14,7 @@ zone: docs
 本页是那份规范的**导读 + 索引 + 关键约定摘要**。规范正文的每一条都对应编译器源码中
 可复现的行为；本页每一条也一样。**两者冲突时以仓库原文为准。**
 
-规范锁在 v4.0.0（2026-10-24 随 `v4.0.0 final` 一同锁版）。工具链版本是另一回事，
+规范锁在 v{{spec_version}}（2026-10-24 随 `v4.0.0 final` 一同锁版）。工具链版本是另一回事，
 见[参考总览](/compiler/docs/reference.html)。
 
 ---
@@ -36,7 +36,7 @@ zone: docs
 | § 12 | 顶层 `const` 数组 |
 | § 13 | 模块与导入 |
 | § 14 | FFI（`extern fn`） |
-| § 15 | 标准库（8 个模块） |
+| § 15 | 标准库（{{stdlib_modules}} 个模块） |
 | § 16 | 命令行 |
 | § 17 | 底层与 OS 扩展：`volatile`、`asm!`、`#[naked]`、`#[link_section]`、`#[no_std]`、内存屏障、freestanding |
 | § 18 | 错误码与诊断 |
@@ -220,9 +220,9 @@ zone: docs
 
 ## 原文
 
-- 语言规范 v4.0.0（锁定）——
+- 语言规范 v{{spec_version}}（锁定）——
   [`docs/abis/jhyy-lang-spec-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md)
-- 配套 ABI v4.0.0（锁定）——
+- 配套 ABI v{{abi_version}}（锁定）——
   [`docs/abis/jhyy-abi-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md)
 - 已归档的旧版（v1.3.0 及其 17 份 v3.x supplement）只在 git 历史里：
   `git show <sha>:docs/abis/<name>`

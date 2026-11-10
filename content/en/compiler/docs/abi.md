@@ -1,12 +1,12 @@
 ---
-title: ABI v4.0.0
+title: ABI v{{abi_version}}
 description: Type layout, calling convention and linking rules — the contract by which artifacts recognize each other
 layout: docs
 project: compiler
 zone: docs
 ---
 
-# ABI v4.0.0
+# ABI v{{abi_version}}
 
 **The original ABI lives in the repository, not here.**
 Original: [`docs/abis/jhyy-abi-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md)
@@ -15,7 +15,7 @@ This page is that ABI's **guided reading**: targets and calling convention, type
 argument passing, linking rules, and a summary of the **known deviations and unimplemented items**.
 **Where they conflict, the original in the repository wins.**
 
-The ABI is locked at v4.0.0 (2026-10-24, locked together with `v4.0.0 final`), the same generation
+The ABI is locked at v{{abi_version}} (2026-10-24, locked together with `v4.0.0 final`), the same generation
 as the language spec. The toolchain version is a separate matter, see the
 [reference overview](/compiler/docs/reference.html).
 
@@ -280,9 +280,9 @@ ABI § 9 explicitly splits into two columns:
 
 ## The original
 
-- ABI v4.0.0 (locked) —
+- ABI v{{abi_version}} (locked) —
   [`docs/abis/jhyy-abi-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-abi-v4.0.0.md)
-- Companion language spec v4.0.0 (locked) —
+- Companion language spec v{{spec_version}} (locked) —
   [`docs/abis/jhyy-lang-spec-v4.0.0.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/abis/jhyy-lang-spec-v4.0.0.md)
 - Known limitation ledger —
   [`docs/internal/workarounds.md`](https://github.com/JiHuiYiYou/JiHuiYiYou-compiler/blob/main/docs/internal/workarounds.md)

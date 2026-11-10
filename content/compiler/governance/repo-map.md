@@ -34,7 +34,7 @@ zone: governance
 | 目录 | 管什么 |
 |---|---|
 | `compiler/src0/` | **编译器唯一实现**，`.jhyy` 源码。前端（`lexer` / `parser` / `ast` / `sema` / `types` / `symtab` / `mono` / `ir` / `ffi`）到后端（`codegen` / `codegen_amd64_*`）到 ABI 实现（`abi_amd64_*`）到 CLI（`main.jhyy`）都在这里。**仓里没有 C 端**（旧 `compiler/src/*.c` 已删除）⇒ 不存在「双实现 parity」这回事 |
-| `compiler/src0/std/` | 用户侧标准库，**8 个模块**：`mem` `fmt` `io` `math` `string` `vec` `os` `arena`。模块名就是模块名，**没有 `std::` 前缀** |
+| `compiler/src0/std/` | 用户侧标准库，**{{stdlib_modules}} 个模块**：`mem` `fmt` `io` `math` `string` `vec` `os` `arena`。模块名就是模块名，**没有 `std::` 前缀** |
 | `compiler/src0/jhyy_helpers.c` | 编译器与 libc 之间的 C 桥。其中 4 个必需 FFI 符号只在 `#ifdef _WIN32` 内定义且没有 `#else` ⇒ **宿主只能是 Windows** |
 | `compiler/src0/bootstrap/v1.0/` | 早期自举阶段的历史材料，不是当前路径 |
 | `compiler/src0/scripts/dev/` | 源码树内的开发脚本 |
@@ -62,7 +62,7 @@ zone: governance
 
 | 目录 | 管什么 |
 |---|---|
-| `docs/abis/` | **三份契约**：语言规范 v4.0.0（锁定）、ABI v4.0.0（锁定）、二进制格式 v1.0.0（**设计稿，未实装**） |
+| `docs/abis/` | **三份契约**：语言规范 v{{spec_version}}（锁定）、ABI v{{abi_version}}（锁定）、二进制格式 v{{binary_format_version}}（**设计稿，未实装**） |
 | `docs/internal/` | 内部文档：`FACTS.md`（事实单一真相源）、`workarounds.md`（问题台账，**永不归档**）、`architecture.md`、`build.md`、`feedback-codes.md`、`README.md`（文档索引） |
 | `docs/archive/` | 历史归档：`logs/`（各轴 changelog + sprint 日志）、`plans/`（各轴 sprint 计划）、`perf/`（已被取代的性能测量）、`audit/`（codegen 深审 + RCA）。**归档不改** —— 它描述的是当时的世界 |
 | `docs/plans/v4/` | 当前计划线，一格一个版本槽一份 `vX.Y.Z-plan.md` |

@@ -68,12 +68,12 @@ C 端编译器在 v4.0.21 整体删除，`stage0` 随之消失；`selfhost` 与 
 JiHuiYiYou-compiler/
 ├── compiler/
 │   ├── src0/                   编译器源码（唯一实现，31 个模块）
-│   │   ├── std/                标准库 8 个模块：mem / fmt / io / math / string / vec / os / arena
+│   │   ├── std/                标准库 {{stdlib_modules}} 个模块：mem / fmt / io / math / string / vec / os / arena
 │   │   └── codegen_amd64_*.jhyy 自研后端：IL lexer / emit_* / peephole / 寄存器缓存
 │   ├── runtime/runtime.c       C 运行时（arena + main 入口）
 │   ├── src0/jhyy_helpers.c     C 桥：编译器与 Win32 之间的 extern
 │   ├── tests/
-│   │   ├── examples/           回归用例 299 条
+│   │   ├── examples/           回归用例 {{regress_total}} 条
 │   │   └── bootstrap/          fixed_point.sh · closure_check.sh · artifact_checks.sh · byte_equal*.sh
 │   └── build/
 │       ├── obj/                预编 _jhyy_runtime.o / _jhyy_helpers.o
@@ -125,13 +125,13 @@ CI 传 `STRICT_TOOLCHAIN=0`——不是放宽判据，是划清职责：CI 不�
 |---|---|---|
 | `compiler/tests/bootstrap/fixed_point.sh` | N=10 跨代 `.il` + `.s` 逐字节相等（另加 `cap_test.jhyy` 跨代退出码 = 42）。N=3 是主门，N=4..10 是信息项 | **本地门**：`python regress.py --fixed-point` |
 | `compiler/tests/bootstrap/closure_check.sh` | `v2.s == v3.s`（Stage 2 与 Stage 3 逐字节相同） | **本地门**：`bash compiler/tests/bootstrap/closure_check.sh` |
-| `compiler/tests/bootstrap/artifact_checks.sh` | 20 道产物级断言（expected-FAIL 模型） | **CI 门**：`bash compiler/tests/bootstrap/artifact_checks.sh` |
+| `compiler/tests/bootstrap/artifact_checks.sh` | {{artifact_checks}} 道产物级断言（expected-FAIL 模型） | **CI 门**：`bash compiler/tests/bootstrap/artifact_checks.sh` |
 
 > [!NOTE]
 > `fixed_point.sh` 与 `closure_check.sh` **都不接 CI**。前者是发版级流程
 > （改 `src0` 之后跑），后者在 2026-11-03 从 CI 里删掉了——CI 里那道闭环由
 > `make` 自己兜，再单跑一遍只是复述同一个结论，恒绿的门是噪音。
-> `artifact_checks.sh` 才是 CI 门，20 道产物级断言在 CI 里跑。
+> `artifact_checks.sh` 才是 CI 门，{{artifact_checks}} 道产物级断言在 CI 里跑。
 
 `artifact_checks.sh` 的价值在于它验的失效模式**不在程序返回值里**，而在产物
 的字节布局里：per-fn 表 1024 上限那类缺陷，写 `.jhyy` 用例会 PASS（结果全对、
@@ -149,8 +149,8 @@ CI 传 `STRICT_TOOLCHAIN=0`——不是放宽判据，是划清职责：CI 不�
 **它不证明语义正确性。** 一个确定性的错误编译器也能完美闭环——把 `+` 编译成
 `-`，两代照样一致。这是经典的 trusting trust 缺口。
 
-语义正确性由**回归套件**覆盖：**279 PASS / 0 FAIL / 20 SKIP，共 299 条**。
-断言强度审计另外统计了 **215 条真断言**，零信号用例 0 条（没有一个用例在没检查
+语义正确性由**回归套件**覆盖：**{{regress_pass}} PASS / {{regress_failed}} FAIL / {{regress_skip}} SKIP，共 {{regress_total}} 条**。
+断言强度审计另外统计了 **{{assertions}} 条真断言**，零信号用例 0 条（没有一个用例在没检查
 任何东西的情况下报通过）。
 
 ```bash

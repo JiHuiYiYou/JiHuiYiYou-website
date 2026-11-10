@@ -53,8 +53,8 @@ is clear) and **what a proposal should look like** (there is no written template
 
 | Change | Why |
 |---|---|
-| Language syntax | Spec v4.0.0 is locked; the syntax is a contract |
-| ABI (type layout / calling convention / struct passing) | ABI v4.0.0 is locked; it has to line up across modules and across targets |
+| Language syntax | Spec v{{spec_version}} is locked; the syntax is a contract |
+| ABI (type layout / calling convention / struct passing) | ABI v{{abi_version}} is locked; it has to line up across modules and across targets |
 | Memory model | The semantics chapter of the spec |
 | Stable standard library API | User code depends on it |
 | Error code semantics | Diagnostics and exit codes are a user-visible contract |
@@ -179,10 +179,10 @@ triple is), not release channels.
 | | Contract | Toolchain |
 |---|---|---|
 | What it is | Language spec / ABI / binary format | Compiler + standard library + installer |
-| Version | Language spec v4.0.0 · ABI v4.0.0 · binary format v1.0.0 (**design draft, not implemented**) | v{{site_version}} ({{site_version_date}}) |
+| Version | Language spec v{{spec_version}} · ABI v{{abi_version}} · binary format v{{binary_format_version}} (**design draft, not implemented**) | v{{site_version}} ({{site_version_date}}) |
 | When it changes | Only when the semantics change | It changes with every bug fix |
 
-Language spec v4.0.0 and ABI v4.0.0 are the contract baseline of the v4 generation, and the lock date
+Language spec v{{spec_version}} and ABI v{{abi_version}} are the contract baseline of the v4 generation, and the lock date
 noted at the head of the spec documents is **2026-10-24** — on that day `jhyy-lang-spec-v1.3.0.md` and its
 17 v3.x supplements were archived into git history together, because they contradict each other: v1.3.0
 documented block expressions that were never implemented, and also documented literals that silently
