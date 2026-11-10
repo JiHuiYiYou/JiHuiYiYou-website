@@ -1,0 +1,10 @@
+# JHYY 家族官网
+#
+# ⚠️ GitHub Pages 的 project site 只在**域名根**读 robots.txt
+#    (https://jihuiyiyou.github.io/robots.txt) —— 那是所有 project site
+#    共用的一个文件，仓里改不了 ⇒ 这份对当前域名不生效。
+#    它是给「以后绑自定义域名」准备的：那天这份就落在域名根上了。
+User-agent: *
+Allow: /
+
+Sitemap: https://jihuiyiyou.github.io/JiHuiYiYou-website/sitemap.xml

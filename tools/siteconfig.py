@@ -27,6 +27,11 @@ IDE_VERSION_DATE = "2026-10-30"
 ORG = "JiHuiYiYou"
 ORG_SITE = "https://github.com/JiHuiYiYou"
 
+# 站点对外的**绝对**地址 —— sitemap 与 robots.txt 里要用绝对 URL
+# （搜索引擎的 sitemap 协议不接受相对路径）。
+# 站点挂在 GitHub Pages 的 project 路径下（不是自定义域名）。
+SITE_URL = "https://jihuiyiyou.github.io/JiHuiYiYou-website"
+
 # 本仓（官网）自己的仓库 —— 文档页的「编辑此页」链接指向它。
 SITE_REPO = f"{ORG_SITE}/JiHuiYiYou-website"
 

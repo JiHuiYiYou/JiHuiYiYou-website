@@ -92,6 +92,8 @@ content/**/*.html   ──┤
 tools/siteconfig.py ──┘         │
 tools/i18n.py ──────────────────┤
                                 ├─→ search-index.json
+                                ├─→ sitemap.xml / robots.txt / 404.html
+                                │     （**从 route 映射生成** ⇒ 不会跟页面脱节）
                                 └─→ tools/build.py --check（链接与锚点检查）
 ```
 
@@ -101,7 +103,8 @@ tools/i18n.py ──────────────────┤
   （`KEEP_CJK`）、孪生页契约（`TWIN_REQUIRED` / `TWIN_EXEMPT_PREFIXES`）。
 - `tools/mdrender.py` —— 零依赖 Markdown 渲染器（CommonMark 子集 +
   callout + mermaid + `[[Wiki 链接]]`）。
-- `tools/build.py` —— 站点生成器 + 链接检查 + **双语双树**。
+- `tools/build.py` —— 站点生成器 + 链接检查 + **双语双树** +
+  sitemap / robots / 404。
 - `tools/check_examples.py` —— 把文档里的 `.jhyy` 代码块抽出来交给真编译器验。
 - `tools/CONTENT_GUIDE.md` —— 内容写作规约（文风 / 方言 / 事实来源 / 常见坑）。
 
@@ -153,7 +156,11 @@ PASS」，编译器仓已经改成 281 了，没有任何门会红）。
 | `tools/check_twins.py` | 每个页面都要有中英两版 + **中英两页的结构对拍**（标题层级 / 代码块行数 / 表格行数 / 列表条数 / callout / 事实占位符）+ **route 数对拍**（实际 route 数 == `FACTS["site_routes"]`） | 错误 + 警告 |
 | `tools/check_i18n.py` | 正文里不许手写事实（改用 `{{key}}`，**全站**：门脸页 + 文档层，中英各一版）、英文页里不许出现中文、术语说法一致 | 错误 + 警告 |
 | `tools/build.py --check` | 站内链接与锚点不断（两棵树都扫） | 错误 |
-| 同步门（CI 里 `git diff` + `git ls-files --others`） | `content/` 改了要重建；**未跟踪的生成物也算** | 错误 |
+| 同步门（CI 里 `git diff` + `git ls-files --others`） | `content/` 改了要重建；**未跟踪的生成物也算**；范围含 `sitemap.xml` / `robots.txt`（它们也是生成物） | 错误 |
+
+**CI 的 job 依赖**：`deploy` 的 `needs` 是 `[build, twins, examples]` ——
+**「文档示例真编译」那道门红了不许上线**（原来只挂 `[build, twins]`，
+workflow 自己的注释写着「守六件事」，实际第六件拦不住部署）。
 
 事实门上线以来抓到过两次真漂移：产物级门数从 19 漂到 21，以及编译器仓发 v4.1.5
 之后官网的版本号没跟上。**它不是空门。**
@@ -212,7 +219,9 @@ for-VEX 那一组已经这样漂过**三次**：官网先后写着「消息泵 t
 **双语地基**（构建期双树、语言切换器、术语表、事实占位符）；
 **全站双语**（2026-11-10 起文档层 24 页也译完 ⇒ **每个 route 都有中英两版**，
 豁免名单清空）；**四道新门**（事实对拍 / 孪生页（含结构对拍）/ i18n 一致性 /
-同步门补未跟踪产物）。
+同步门补未跟踪产物）；
+**站点三件套**（`sitemap.xml` / `robots.txt` / `404.html`，**从 route 映射生成**
+⇒ 加页面不会跟 sitemap 脱节；404 复用门脸层已有的类，不新增 CSS）。
 
 **四个门脸页统一了屏语法**：首页、编译器、IDE、OS、for-VEX 现在是同一套版式
 （Hero → 分屏 → 现状与边界 → 看数字 → 文档与仓库 → CTA），中英同构。

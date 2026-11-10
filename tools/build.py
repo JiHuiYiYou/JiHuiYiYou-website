@@ -743,6 +743,130 @@ def check_links() -> int:
     return 0
 
 
+def pretty_url(url: str) -> str:
+    """产物路径 → 对外的**规范**地址。
+
+    `/compiler/index.html` → `/compiler/`；`/index.html` → `/`。
+    sitemap 里要写规范地址（`/compiler/`），不是文件名。
+    """
+    if url.endswith("index.html"):
+        return url[: -len("index.html")]
+    return url
+
+
+def write_sitemap(routes: dict[str, dict[str, str]]) -> None:
+    """从 route 映射生成 sitemap.xml —— **所以它不可能跟实际页面脱节**。
+
+    手写一份 sitemap 是下一个漂移源：加页面忘了加，搜索引擎就再也找不到它。
+    每个 URL 带一条 `xhtml:link` alternate，把中英两版互指 ⇒ 搜索引擎知道
+    同一页有中文与英文两种。
+    """
+    base = C.SITE_URL.rstrip("/")
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+        'xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    ]
+    for _route, pair in sorted(routes.items()):
+        urls = {lg: base + pretty_url(u) for lg, u in pair.items()}
+        for lang in ("zh", "en"):
+            if lang not in urls:
+                continue
+            lines.append("  <url>")
+            lines.append(f"    <loc>{urls[lang]}</loc>")
+            for other in ("zh", "en"):
+                if other in urls:
+                    hreflang = "zh-CN" if other == "zh" else "en"
+                    lines.append(
+                        f'    <xhtml:link rel="alternate" hreflang="{hreflang}" '
+                        f'href="{urls[other]}" />'
+                    )
+            lines.append("  </url>")
+    lines.append("</urlset>")
+    (ROOT / "sitemap.xml").write_text(
+        "\n".join(lines) + "\n", encoding="utf-8", newline="\n"
+    )
+
+
+def write_robots() -> None:
+    """robots.txt —— 指向 sitemap。
+
+    ⚠️ **GitHub Pages 的 project site 只在域名根读 robots.txt**
+    （`https://jihuiyiyou.github.io/robots.txt`，那是所有 project site 共用的
+    一个文件，仓里管不了）⇒ 仓里这份**对当前域名不生效**，它是给
+    「以后绑自定义域名」准备的。写它是为了那天的 sitemap 有人跟。
+    """
+    base = C.SITE_URL.rstrip("/")
+    text = (
+        "# JHYY 家族官网\n"
+        "#\n"
+        "# ⚠️ GitHub Pages 的 project site 只在**域名根**读 robots.txt\n"
+        "#    (https://jihuiyiyou.github.io/robots.txt) —— 那是所有 project site\n"
+        "#    共用的一个文件，仓里改不了 ⇒ 这份对当前域名不生效。\n"
+        "#    它是给「以后绑自定义域名」准备的：那天这份就落在域名根上了。\n"
+        "User-agent: *\n"
+        "Allow: /\n"
+        f"\n"
+        f"Sitemap: {base}/sitemap.xml\n"
+    )
+    (ROOT / "robots.txt").write_text(text, encoding="utf-8", newline="\n")
+
+
+def write_not_found(routes: dict[str, dict[str, str]]) -> None:
+    """404.html —— GitHub Pages 在路径不存在时用它兜底。
+
+    一个文件服务两种语言（Pages 只会取站点根那一个），所以文案中英并列。
+    复用门脸层已有的类（`hero` / `cta-row` / `btn-*`）⇒ **不新增任何 CSS**。
+    """
+    ctx = {"lang": "zh", "route": "404", "routes": routes, "langs": {"zh", "en"}}
+    body = (
+        '<main id="top">\n'
+        '  <section class="hero" aria-label="404">\n'
+        '    <div class="container hero-inner">\n'
+        '      <h1 class="hero-title">\n'
+        '        <span class="reveal-line"><span class="line-inner">这页不存在。</span></span>\n'
+        '        <span class="reveal-line"><span class="line-inner accent">404</span></span>\n'
+        '      </h1>\n'
+        '      <p class="hero-sub reveal">\n'
+        '        <span class="hero-sub-en">链接可能变了，或者地址里有个错字。'
+        '<strong>这个文件不存在。</strong></span>\n'
+        '      </p>\n'
+        '      <p class="hero-sub reveal">\n'
+        '        <span class="hero-sub-en">The link may have moved, or the address has a typo. '
+        '<strong>This file does not exist.</strong></span>\n'
+        '      </p>\n'
+        '      <div class="cta-row reveal">\n'
+        '        <a href="index.html" class="btn-primary magnetic" data-magnetic>\n'
+        '          <span class="btn-label">家族首页</span>\n'
+        '          <span class="btn-icon-wrap">' + ARROW_ICON + '</span>\n'
+        '        </a>\n'
+        '        <a href="compiler/index.html" class="btn-ghost magnetic" data-magnetic>\n'
+        '          <span class="btn-label">编译器</span>\n'
+        '          <span class="btn-icon-wrap">' + ARROW_ICON + '</span>\n'
+        '        </a>\n'
+        '        <a href="compiler/docs/index.html" class="btn-ghost magnetic" data-magnetic>\n'
+        '          <span class="btn-label">文档</span>\n'
+        '          <span class="btn-icon-wrap">' + ARROW_ICON + '</span>\n'
+        '        </a>\n'
+        '        <a href="en/index.html" class="btn-ghost magnetic" data-magnetic>\n'
+        '          <span class="btn-label">English</span>\n'
+        '          <span class="btn-icon-wrap">' + ARROW_ICON + '</span>\n'
+        '        </a>\n'
+        '      </div>\n'
+        '    </div>\n'
+        '  </section>\n'
+        '</main>\n'
+    )
+    meta = {
+        "title": "404 · 这页不存在 — 机会翼游 · JHYY",
+        "description": "这一页不存在。链接可能变了，或者地址里有个错字。",
+    }
+    page = render_page_layout(meta, body, "", "home", "home", ctx)
+    page = rewrite_links(page, "")
+    page = "\n".join(line.rstrip() for line in page.split("\n"))
+    (ROOT / "404.html").write_text(page, encoding="utf-8", newline="\n")
+
+
 def build() -> int:
     pages = discover()
     if not pages:
@@ -853,7 +977,12 @@ def build() -> int:
         json.dumps(search_index, ensure_ascii=False, indent=1), encoding="utf-8", newline="\n"
     )
 
-    print(f"✓ 生成 {len(written)} 页 + search-index.json")
+    # sitemap / robots / 404 —— 全部**从 route 映射生成**，所以不会跟页面脱节
+    write_sitemap(routes)
+    write_robots()
+    write_not_found(routes)
+
+    print(f"✓ 生成 {len(written)} 页 + search-index.json + sitemap.xml + robots.txt + 404.html")
     for w in sorted(written):
         print("   ", w.relative_to(ROOT).as_posix())
     return 0

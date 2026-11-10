@@ -33,14 +33,16 @@ jobs:
 
       - name: 检查生成的 HTML 是否与 content/ 同步
         run: |
-          if ! git diff --quiet -- '*.html' search-index.json; then
+          # sitemap.xml / robots.txt 也是生成物（从 route 映射生成）⇒ 一并对拍，
+          # 否则「加页面忘了重生成 sitemap」会从缝里溜过去。
+          if ! git diff --quiet -- '*.html' search-index.json sitemap.xml robots.txt; then
             echo "::error::content/ 改了但 HTML 没重新生成。跑 python tools/build.py 再提交。"
-            git --no-pager diff --stat -- '*.html' search-index.json
+            git --no-pager diff --stat -- '*.html' search-index.json sitemap.xml robots.txt
             exit 1
           fi
           # git diff 看不见**未跟踪**的文件 ⇒ 新加的 content/en/** 页面
           # 若产物从未提交，会从这道门的缝里溜过去。
-          untracked=$(git ls-files --others --exclude-standard -- '*.html' 'search-index.json')
+          untracked=$(git ls-files --others --exclude-standard -- '*.html' 'search-index.json' 'sitemap.xml' 'robots.txt')
           if [ -n "$untracked" ]; then
             echo "::error::有生成物未提交。跑 python tools/build.py 再提交。"
             echo "$untracked"
@@ -152,7 +154,10 @@ jobs:
           exit $rc
 
   deploy:
-    needs: [build, twins]
+    # ⚠️ `examples` 必须在 needs 里 —— 原来只挂 [build, twins]，
+    #    那道「文档示例真编译」的红**拦不住部署**（workflow 自己的注释
+    #    写着「守六件事」，实际第六件是空的）。它只跑 1 分钟。
+    needs: [build, twins, examples]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
